@@ -569,6 +569,7 @@ function renderRecent() {
   });
   if (state.recent.length > 1) chips.push(`<button type="button" class="rclear" data-clear="1">${pendingClear ? "確認清除" : "清除全部"}</button>`);
   $("stocks").innerHTML = chips.join("");
+  btRenderPicked();   // 回測頁的快速選擇和分析頁共用同一份搜尋紀錄，兩邊一起更新
 }
 function removeRecent(code) {
   state.recent = state.recent.filter(r => r.code !== code);
@@ -1325,10 +1326,19 @@ function btRenderPicked() {
   $("btPicked").innerHTML = bt.code ? `目前選擇：<b>${esc(bt.code)}${bt.name ? " " + esc(bt.name) : ""}</b>` : "";
   const seen = new Set([bt.code]), chips = [];
   const add = (c, n) => { if (c && !seen.has(c) && chips.length < 8) { seen.add(c); chips.push([c, n]); } };
-  if (cur) add(cur.code, cur.name);
   state.recent.forEach(r => add(r.code, r.name));
+  if (cur) add(cur.code, cur.name);
   watch.forEach(w => add(w.code, w.name));
-  $("btChips").innerHTML = chips.map(([c, n]) => `<button type="button" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button>`).join("");
+  const inHistory = new Set(state.recent.map(r => r.code));
+  const html = chips.map(([c, n]) => {
+    const main = `<button type="button" class="rmain" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button>`;
+    // 只有「搜尋紀錄」可以移除；來自自選股的股票沒有 ×，要到自選股頁移除
+    return inHistory.has(c)
+      ? `<span class="rchip">${main}<button type="button" class="rx" data-rm="${esc(c)}" aria-label="移除 ${esc(c)} 的搜尋紀錄">×</button></span>`
+      : `<span class="rchip">${main}</span>`;
+  });
+  if (state.recent.length > 1) html.push(`<button type="button" class="rclear" data-clear="1">${pendingClear ? "確認清除" : "清除全部"}</button>`);
+  $("btChips").innerHTML = html.join("");
 }
 function btPick(code, name) {
   code = String(code).trim().toUpperCase();
@@ -1562,7 +1572,12 @@ function btInit() {
   q.addEventListener("focus", show);
   document.addEventListener("click", e => { if (!q.closest(".searchBox").contains(e.target)) sugg.hidden = true; });
   sugg.addEventListener("click", e => { const b = e.target.closest("button"); if (b) btPick(b.dataset.code, b.dataset.name); });
-  $("btChips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) btPick(b.dataset.code, b.dataset.name); });
+  $("btChips").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.rm) removeRecent(b.dataset.rm);
+    else if (b.dataset.clear) clearRecent();
+    else if (b.dataset.code) btPick(b.dataset.code, b.dataset.name);
+  });
   $("btSearchForm").addEventListener("submit", e => {
     e.preventDefault();
     const v = q.value.trim();
