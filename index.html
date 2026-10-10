@@ -102,6 +102,29 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .rngSl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 22px; height: 22px; margin-top: 7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); cursor: grab; }
 .rngSl input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); cursor: grab; }
 .rngSl input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--profit); outline-offset: 2px; }
+.chk { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: .86rem; color: var(--ink); }
+.chk input, .fld .chk input { width: 22px; min-width: 22px; height: 22px; min-height: 22px; padding: 0; margin: 0; accent-color: var(--profit); flex: none; }
+.chk span { min-width: 0; }
+.scrProg { display: flex; flex-direction: column; gap: 6px; }
+.scrProg .bar { height: 8px; border-radius: 4px; background: var(--grid); overflow: hidden; }
+.scrProg .bar i { display: block; height: 100%; width: 0; background: var(--profit); transition: width .2s; }
+.scrProg .txt { font: 400 .76rem var(--font-num); color: var(--muted); }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
+.pick + .pick { margin-top: 2px; }
+.pkHead { display: grid; grid-template-columns: 2em minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+.pkHead .rk { font: 700 1.3rem var(--font-num); color: var(--trapped); text-align: center; }
+.pkName .c { font: 700 1.02rem var(--font-ui); overflow-wrap: anywhere; }
+.pkName .p { font: 400 .76rem var(--font-num); color: var(--muted); margin-top: 1px; }
+.pkRR { text-align: right; }
+.pkRR b { display: block; font: 700 1.35rem var(--font-num); }
+.pkRR small { font: 400 .66rem var(--font-ui); color: var(--muted); }
+.why { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; font-size: .84rem; line-height: 1.6; }
+.why li { padding-left: 1.5em; position: relative; }
+.why li::before { content: "✓"; position: absolute; left: 0; font-weight: 700; color: var(--profit); }
+.why li.no::before { content: "✕"; color: var(--bull); }
+.pkAct { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.pkAct .btn { margin: 0; min-height: 44px; }
+.rkS { font: 700 .95rem var(--font-num); color: var(--muted); text-align: center; }
 .tabs { overflow-x: auto; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
 .tabs button { flex: 1 0 auto; padding: 0 8px; }
@@ -431,6 +454,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
     <button type="button" role="tab" data-tab="guide" aria-selected="false">新手專區</button>
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
+    <button type="button" role="tab" data-tab="screen" aria-selected="false">選股</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
     <button type="button" role="tab" data-tab="sim" aria-selected="false" hidden>模擬交易</button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
@@ -598,6 +622,42 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <section id="pgWatch" class="page" hidden>
     <h2>自選股</h2>
     <div id="watchBody"></div>
+  </section>
+
+  <section id="pgScreen" class="page" hidden>
+    <h2>條件選股：從候選名單裡，找出最符合你條件的前 3 檔</h2>
+    <div class="card gWarn" style="padding:12px 14px">
+      <div class="gName">先說清楚</div>
+      <ul style="margin-top:6px">
+        <li>這是<b>條件篩選器</b>，不是預測，也不是買賣建議。沒有任何方法能保證哪一檔會漲。</li>
+        <li>排名依「<b>往上到壓力的空間 ÷ 跌破支撐要承擔的風險</b>」計算，空間越大、風險越小，排名越前面。</li>
+        <li>想知道這套條件過去的表現，到「回測」頁驗證。<button type="button" class="info" data-term="screenRules" aria-label="條件選股的說明">i</button></li>
+      </ul>
+    </div>
+    <div class="card btForm">
+      <div class="fld">
+        <span class="step"><i>1</i>選候選範圍</span>
+        <div id="scrPool" class="seg" role="group" aria-label="候選範圍">
+          <button type="button" data-p="big" aria-pressed="true">大型股</button>
+          <button type="button" data-p="watch" aria-pressed="false">我的自選股</button>
+          <button type="button" data-p="recent" aria-pressed="false">最近查過</button>
+        </div>
+        <div id="scrPoolInfo" class="picked"></div>
+      </div>
+      <div class="fld">
+        <span class="step"><i>2</i>設定條件（調整後結果會立刻更新）</span>
+        <div class="two">
+          <label class="fld" for="scrNear"><span>離支撐不超過 %<button type="button" class="info" data-term="btNear" aria-label="靠近支撐的說明">i</button></span><input id="scrNear" type="number" inputmode="decimal" min="0.5" max="30" step="0.5" value="5"></label>
+          <label class="fld" for="scrStr"><span>支撐籌碼占比至少 %<button type="button" class="info" data-term="chipShare" aria-label="籌碼占比的說明">i</button></span><input id="scrStr" type="number" inputmode="decimal" min="0" max="50" step="1" value="5"></label>
+          <label class="fld" for="scrRR"><span>風險報酬比至少<button type="button" class="info" data-term="rr" aria-label="風險報酬比的說明">i</button></span><input id="scrRR" type="number" inputmode="decimal" min="0.5" max="10" step="0.1" value="1.5"></label>
+          <label class="fld" for="scrCov"><span>模型涵蓋率至少 %<button type="button" class="info" data-term="coverage" aria-label="模型涵蓋率的說明">i</button></span><input id="scrCov" type="number" inputmode="decimal" min="0" max="100" step="5" value="60"></label>
+        </div>
+        <label class="chk" for="scrBull"><input id="scrBull" type="checkbox" checked><span>趨勢要偏多（SuperTrend 多頭）<button type="button" class="info" data-term="supertrend" aria-label="SuperTrend 的說明">i</button></span></label>
+      </div>
+      <button id="scrRun" type="button" class="btn">開始篩選</button>
+      <div id="scrProg" class="scrProg" hidden><div class="bar"><i></i></div><div class="txt"></div><button type="button" id="scrStop" class="info-link">停止</button></div>
+    </div>
+    <div id="scrOut"></div>
   </section>
 
   <section id="pgSim" class="page" hidden>
@@ -1082,6 +1142,14 @@ const GLOSS = {
     read: ["長條越長，代表這段期間有越多的量在這個價位成交，也就是主要的換手區。", "藍色是成交價在現價以下的量，橘色是在現價以上的量。", "切換成「籌碼分布」，右側會改成這個區間算出來的籌碼（舊成本會隨成交逐日被取代）。", "平均成本、獲利比例、支撐壓力、SuperTrend 等數字，也都是依這個區間重新計算的。"],
     calc: "把每天的成交量依三角分布分到當天最高價與最低價之間的各個價位，再把所選區間內每天的結果加總（不衰減）。",
     live: R => `目前區間：<b>${R.rows[0].d} ～ ${R.rows[R.rows.length - 1].d}</b>（${R.rows.length} 個交易日）。` },
+  rr: { t: "風險報酬比",
+    def: "「往上有多少空間」除以「跌破支撐要承擔多少風險」。數字越大，代表賺的空間比賠的風險大得越多。",
+    read: ["往上空間：到最近壓力峰值的距離；沒有壓力，或壓力不到 2% 時，用固定的 10%。", "停損風險：從現價到「支撐區下緣再往下 1%」的距離。", "例如空間 +9%、風險 −3%，風險報酬比就是 3。1 以下代表空間還沒有風險大。", "它描述的是「位置的條件」，不是對上漲的預測。"],
+    calc: "風險報酬比 = (目標價 ÷ 現價 − 1) ÷ (1 − 停損價 ÷ 現價)。算法和回測頁一致。" },
+  screenRules: { t: "條件選股怎麼運作",
+    def: "從你選的候選範圍裡，逐檔算出支撐與壓力，保留同時符合你設定的所有條件的股票，再依風險報酬比由高到低排序，取前 3 檔。",
+    read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「位置合不合你的條件」整理出來。", "候選範圍是內建的大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "每一檔入選都會列出每個條件的實際數字，沒有黑箱。", "想知道「靠近支撐買、到壓力賣」這套想法過去有沒有用，按「回測這檔」去驗證；很多時候結果並不如預期，這是正常的。", "條件越嚴格，符合的越少；沒有任何一檔符合時，會告訴你是哪些條件擋下了大部分股票。"],
+    calc: "每檔股票用載入的全部歷史資料（最多 6 年）計算，停損緩衝與無壓力時的停利和回測頁的預設值相同。" },
   simRules: { t: "模擬交易規則",
     def: "用虛擬資金、真實的開盤價，練習照支撐壓力買賣，並和其他會員比報酬率。這裡沒有真的錢。",
     read: ["<b>領資金</b>：每週可以領一次 NT$ 1,000,000（以台灣時間的週一為一週的開始）。沒領的週數不能補領，領到的錢和持股都會累積。",
@@ -1470,6 +1538,7 @@ function buildControls() {
     $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showTab(b.dataset.tab); });
     btInit();
     guideInit();
+    scrInit();
     let seenGuide = false;
     try { seenGuide = !!localStorage.getItem("chipGuideSeen"); } catch (e) {}
     if (!seenGuide) showTab("guide");          // 第一次來的人先看新手專區
@@ -1670,10 +1739,12 @@ function showTab(t) {
   $("pgWatch").hidden = t !== "watch";
   $("pgBt").hidden = t !== "backtest";
   $("pgSim").hidden = t !== "sim";
+  $("pgScreen").hidden = t !== "screen";
   [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
   if (t === "watch") { renderWatch(); if (user) fetchQuotes(); }
   if (t === "backtest") btOpen();
   if (t === "sim") simOpen();
+  if (t === "screen") scrOpen();
   window.scrollTo(0, 0);
 }
 async function initMember() {
@@ -2399,6 +2470,121 @@ function simInit() {
       catch (err) { m.hidden = false; m.className = "status err"; m.textContent = err.code === "permission-denied" ? "加入失敗：請確認 Firestore 規則已依設定教學發佈。" : (err.message || "加入失敗"); b.disabled = false; }
     }
   });
+}
+
+/* ---------- 條件選股：不預測，只依你設的條件排序 ---------- */
+// 內建的大型股候選名單（代碼）。名稱由 FinMind 股票清單帶入；查不到資料的會自動略過
+const BIG_POOL = ["2330", "2317", "2454", "2308", "2881", "2882", "2891", "2412", "2303", "2886", "1301", "1303", "2002", "2884", "2892", "3711", "2382", "3034", "2357", "2603", "2609", "5871", "2885", "2880", "2883", "2890", "5880", "1216", "2207", "1101", "2327", "3008", "2379", "3037", "2345", "6505", "4938", "2301", "2395", "1326", "2912", "3045", "4904", "2801", "2887"];
+const scr = { pool: "big", running: false, stop: false, metrics: new Map(), failed: 0, limited: false };
+
+function scrCodes() {
+  if (scr.pool === "watch") return [...watch.keys()];
+  if (scr.pool === "recent") return state.recent.map(r => r.code);
+  return BIG_POOL;
+}
+function scrCond() {
+  const n = (id, d) => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : d; };
+  return { near: n("scrNear", 5), str: n("scrStr", 5) / 100, rr: n("scrRR", 1.5), cov: n("scrCov", 60) / 100, bull: $("scrBull").checked, stopBuf: 1, tp: 10 };   // 停損緩衝與無壓力停利和回測預設相同
+}
+// 每檔股票只需要算一次（用載入的全部歷史資料），之後調整條件不用再連網
+async function scrMetrics(code) {
+  const st = await loadStock(code, 6);
+  if (!st.shares) return null;
+  const rows = allRowsOf(st), price = rows[rows.length - 1].c;
+  let lo = price, hi = price;
+  for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
+  const { edges, centers } = makeBins(lo, hi, BIN);
+  const m = runModel(rows, edges, st.shares, state.decay);
+  const a = analyze(centers, m.p, price, state.gap, m.vol);
+  const sf = superTrend(rows, state.stN, state.stM), S = stSummary(rows, sf, price);
+  return { code, name: st.name || (info.find(s => s[0] === code) || [])[1] || "", price, date: st.d[st.d.length - 1], cov: m.coverage,
+    s1: a.sup[0] || null, r1: a.res[0] || null, bull: !!S && S.dir > 0, stDays: S ? S.days : 0 };
+}
+function scrEval(m, c) {
+  const s1 = m.s1, checks = [];
+  const near = !!s1 && m.price >= s1.low && (m.price / s1.peak - 1) <= c.near / 100;
+  checks.push({ key: "near", ok: near, text: s1 ? `離最近的支撐 ${fmt(s1.peak)} 有 ${spct(m.price / s1.peak - 1)}（上限 ${c.near}%）` : "下方沒有明顯的支撐" });
+  checks.push({ key: "str", ok: !!s1 && s1.strength >= c.str, text: s1 ? `這個支撐的籌碼占比 ${pct(s1.strength)}（至少 ${Math.round(c.str * 100)}%）` : "沒有支撐可以評估強度" });
+  if (c.bull) checks.push({ key: "bull", ok: m.bull, text: m.bull ? `SuperTrend 多頭，已持續 ${m.stDays} 個交易日` : "SuperTrend 不是多頭" });
+  checks.push({ key: "cov", ok: m.cov >= c.cov, text: `模型涵蓋率 ${pct(m.cov, 0)}（至少 ${Math.round(c.cov * 100)}%）` });
+  let rr = null, reward = null, risk = null, target = null, stop = null;
+  if (s1) {
+    target = m.r1 && m.r1.peak >= m.price * 1.02 ? m.r1.peak : m.price * (1 + c.tp / 100);
+    stop = s1.low * (1 - c.stopBuf / 100);
+    reward = target / m.price - 1; risk = 1 - stop / m.price;
+    rr = risk > 0 ? reward / risk : null;
+    checks.push({ key: "rr", ok: rr != null && rr >= c.rr, text: `往上空間 ${spct(reward)}，停損風險 −${(risk * 100).toFixed(1)}%，風險報酬比 ${rr == null ? "—" : rr.toFixed(2)}（至少 ${c.rr}）` });
+  } else checks.push({ key: "rr", ok: false, text: "沒有支撐，無法計算風險報酬比" });
+  return { checks, pass: checks.every(x => x.ok), rr, reward, risk, target, stop };
+}
+function scrPoolInfo() {
+  const n = scrCodes().length;
+  $("scrPoolInfo").textContent = scr.pool === "big" ? `內建大型股 ${n} 檔，第一次篩選約需 ${n * 3} 次資料查詢。`
+    : scr.pool === "watch" ? (memberOn && user ? `你的自選股 ${n} 檔。` : "登入會員後才有自選股。") : `你最近查過的 ${n} 檔。`;
+  [...$("scrPool").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.p === scr.pool));
+}
+function renderScreen() {
+  const el = $("scrOut"), c = scrCond(), codes = scrCodes();
+  const all = codes.map(k => scr.metrics.get(k)).filter(Boolean).map(m => ({ m, ev: scrEval(m, c) }));
+  if (!all.length) { el.innerHTML = `<div class="empty">${scr.running ? "分析中…" : "按「開始篩選」，系統會逐檔載入資料並計算支撐與壓力。"}</div>`; return; }
+  const pass = all.filter(x => x.ev.pass).sort((a, b) => b.ev.rr - a.ev.rr || b.m.s1.strength - a.m.s1.strength);
+  let h = `<div class="status">已分析 ${all.length} / ${codes.length} 檔${scr.failed ? `，${scr.failed} 檔略過（查不到資料或股數）` : ""}${scr.limited ? "。查詢次數已達上限，先顯示已分析的部分，稍後再按一次會接著做，也可以在「進階參數」填入 FinMind token" : ""}。</div>`;
+  if (!pass.length) {
+    const cnt = {}; all.forEach(x => x.ev.checks.forEach(k => { if (!k.ok) cnt[k.key] = (cnt[k.key] || 0) + 1; }));
+    const NAME = { near: "離支撐太遠或沒有支撐", str: "支撐太弱", bull: "趨勢不是多頭", cov: "涵蓋率不夠", rr: "風險報酬比不夠" };
+    h += `<div class="empty"><b>沒有任何一檔同時符合全部條件。</b><br>被擋下的原因（可複選）：${Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${NAME[k]} ${v} 檔`).join("、")}。<br>可以放寬條件再試，條件越多、越嚴格，符合的就越少。</div>`;
+  } else {
+    h += `<h2>符合你條件的前 ${Math.min(3, pass.length)} 檔（共 ${pass.length} 檔符合）</h2>` + pass.slice(0, 3).map((x, i) => scrCard(x, i + 1)).join("");
+    if (pass.length > 3) h += `<h2>其他符合條件的</h2>` + pass.slice(3, 10).map((x, i) => `<div class="orow" style="grid-template-columns:2em minmax(0,1fr) auto"><span class="rkS">${i + 4}</span><div><div class="t">${esc(x.m.code)} ${esc(x.m.name)}</div><div class="s">${fmt(x.m.price)}　距支撐 ${spct(x.m.price / x.m.s1.peak - 1)}　風險報酬比 ${x.ev.rr.toFixed(2)}</div></div><button type="button" class="x" data-act="scr-analyze" data-code="${esc(x.m.code)}" data-name="${esc(x.m.name)}">看分析</button></div>`).join("");
+  }
+  h += `<p class="advnote" style="padding-top:8px">風險報酬比 = 往上到壓力的空間 ÷ 跌破支撐的停損風險。這只是依條件排序，不代表會漲；過去的結果不代表未來，也不是買賣建議。</p>`;
+  el.innerHTML = h;
+}
+function scrCard(x, rank) {
+  const m = x.m, ev = x.ev;
+  return `<div class="pick"><div class="pkHead"><span class="rk">${rank}</span>
+    <div class="pkName"><div class="c">${esc(m.code)}　${esc(m.name)}</div><div class="p">${fmt(m.price)}　（資料到 ${m.date}）</div></div>
+    <div class="pkRR"><b>${ev.rr.toFixed(2)}</b><small>風險報酬比</small></div></div>
+    <ul class="why">${ev.checks.map(k => `<li class="${k.ok ? "ok" : "no"}">${esc(k.text)}</li>`).join("")}</ul>
+    <div class="s" style="font:400 .74rem var(--font-num);color:var(--muted);padding:2px 2px 8px">停利目標 ${fmt(ev.target)}　停損價 ${fmt(ev.stop)}（算法和回測相同）</div>
+    <div class="pkAct"><button type="button" class="btn ghost" data-act="scr-analyze" data-code="${esc(m.code)}" data-name="${esc(m.name)}">看分析</button>
+    <button type="button" class="btn ghost" data-act="scr-bt" data-code="${esc(m.code)}" data-name="${esc(m.name)}">回測這檔</button></div></div>`;
+}
+async function scrRun() {
+  if (scr.running) return;
+  const codes = scrCodes();
+  if (!codes.length) { $("scrOut").innerHTML = `<div class="empty">這個範圍裡還沒有股票。</div>`; return; }
+  scr.running = true; scr.stop = false; scr.failed = 0; scr.limited = false;
+  const queue = codes.filter(k => !scr.metrics.has(k)), total = queue.length;
+  const prog = $("scrProg"), bar = prog.querySelector("i"), txt = prog.querySelector(".txt");
+  let done = 0;
+  $("scrRun").disabled = true; prog.hidden = !total;
+  const tick = () => { bar.style.width = (total ? done / total * 100 : 100) + "%"; txt.textContent = `載入並分析中… ${done} / ${total}`; };
+  tick(); renderScreen();
+  const worker = async () => {
+    while (queue.length && !scr.stop && !scr.limited) {
+      const code = queue.shift();
+      try { const m = await scrMetrics(code); if (m) scr.metrics.set(code, m); else scr.failed++; }
+      catch (e) { if (/上限/.test(e.message)) { scr.limited = true; queue.unshift(code); } else scr.failed++; }
+      done++; tick();
+    }
+  };
+  await Promise.all([worker(), worker(), worker()]);
+  scr.running = false; $("scrRun").disabled = false; prog.hidden = true;
+  renderScreen();
+}
+function scrOpen() { scrPoolInfo(); renderScreen(); }
+function scrInit() {
+  $("scrPool").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { scr.pool = b.dataset.p; scrPoolInfo(); renderScreen(); } });
+  ["scrNear", "scrStr", "scrRR", "scrCov", "scrBull"].forEach(id => $(id).addEventListener("input", renderScreen));
+  $("scrRun").addEventListener("click", scrRun);
+  $("scrStop").addEventListener("click", () => { scr.stop = true; });
+  $("scrOut").addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    if (b.dataset.act === "scr-analyze") { showTab("analyze"); selectStock(b.dataset.code, b.dataset.name); }
+    else if (b.dataset.act === "scr-bt") { btPick(b.dataset.code, b.dataset.name); showTab("backtest"); }
+  });
+  scrPoolInfo();
 }
 
 /* ---------- 頁面縮放（A− / 100% / A+） ---------- */
