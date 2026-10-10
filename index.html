@@ -51,6 +51,13 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); }
 .app { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 32px; display: flex; flex-direction: column; gap: 14px; }
 :root[data-theme="light"] { color-scheme: light; }
 header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.app, .sheet { zoom: var(--zoom, 1); }
+.zoomBar { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: -6px; }
+.zoomBar .zl { font-size: .72rem; color: var(--muted); margin-right: 2px; }
+.zoomBar button { min-width: 44px; min-height: 34px; padding: 0 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 .95rem var(--font-ui); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.zoomBar button small { font-size: .7rem; margin-left: 1px; }
+.zoomBar button.zv { min-width: 56px; font-size: .78rem; color: var(--muted); }
+.zoomBar button:disabled { opacity: .4; cursor: default; }
 .hl { min-width: 0; }
 .hr { display: flex; align-items: center; gap: 8px; flex: none; }
 .page { display: flex; flex-direction: column; gap: 14px; }
@@ -358,8 +365,15 @@ footer { font-size: .7rem; color: var(--muted); line-height: 1.7; }
 footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: anywhere; }
 </style>
 
-<script>try { var t = localStorage.getItem("chipTheme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}</script>
+<script>try { var t = localStorage.getItem("chipTheme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <= 1.6) document.documentElement.style.setProperty("--zoom", z); } catch (e) {}</script>
 <main class="app">
+  <div id="zoomBar" class="zoomBar" role="group" aria-label="頁面大小" hidden>
+    <span class="zl">頁面大小</span>
+    <button id="zOut" type="button" aria-label="縮小頁面">A<small>−</small></button>
+    <button id="zReset" type="button" aria-label="回到 100%" class="zv num">100%</button>
+    <button id="zIn" type="button" aria-label="放大頁面">A<small>+</small></button>
+  </div>
   <header>
     <div class="hl">
       <h1>籌碼成本分布</h1>
@@ -1927,6 +1941,33 @@ function guideDemo() {
   draw();
 }
 
+/* ---------- 頁面縮放（A− / 100% / A+） ---------- */
+const ZOOMS = [0.85, 1, 1.15, 1.3, 1.5];
+function setZoom(z, persist) {
+  const i = Math.max(0, ZOOMS.findIndex(v => Math.abs(v - z) < 0.01));
+  z = ZOOMS[i];
+  document.documentElement.style.setProperty("--zoom", z);
+  $("zReset").textContent = Math.round(z * 100) + "%";
+  $("zOut").disabled = i === 0; $("zIn").disabled = i === ZOOMS.length - 1;
+  if (persist) { try { localStorage.setItem("chipZoom", String(z)); } catch (e) {} }
+  // 圖表依容器寬度重畫，縮放後立刻更新
+  requestAnimationFrame(() => {
+    if (window.__R && !$("pgAnalyze").hidden) drawChart(window.__R);
+    if (bt.last && $("btChart") && !$("pgBt").hidden) drawBtChart(bt.last, $("btChart"));
+  });
+  return i;
+}
+function zoomInit() {
+  if (!(window.CSS && CSS.supports && CSS.supports("zoom", "1.2"))) return;   // 不支援 CSS zoom 的舊瀏覽器就不顯示
+  $("zoomBar").hidden = false;
+  let z = 1;
+  try { const s = parseFloat(localStorage.getItem("chipZoom")); if (s) z = s; } catch (e) {}
+  let i = setZoom(z, false);
+  $("zOut").addEventListener("click", () => { i = setZoom(ZOOMS[Math.max(0, i - 1)], true); });
+  $("zIn").addEventListener("click", () => { i = setZoom(ZOOMS[Math.min(ZOOMS.length - 1, i + 1)], true); });
+  $("zReset").addEventListener("click", () => { i = setZoom(1, true); });
+}
+
 function setTheme(mode, persist) {
   const root = document.documentElement;
   if (mode === "light" || mode === "dark") root.setAttribute("data-theme", mode); else { mode = "auto"; root.removeAttribute("data-theme"); }
@@ -1936,6 +1977,7 @@ function setTheme(mode, persist) {
 $("themeSeg").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setTheme(b.dataset.mode, true); });
 setTheme(document.documentElement.getAttribute("data-theme") || "auto", false);
 buildControls();
+zoomInit();
 $("rightMode").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   state.rightMode = b.dataset.m; state.probe = null;
