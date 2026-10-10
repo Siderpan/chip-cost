@@ -76,6 +76,23 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .me .av img { width: 100%; height: 100%; object-fit: cover; }
 .me .nm { font-weight: 700; overflow-wrap: anywhere; }
 .me .em { font-size: .8rem; color: var(--muted); overflow-wrap: anywhere; }
+.rmode { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 6px 8px; font-size: .78rem; color: var(--muted); }
+.rmode .seg button { min-height: 34px; padding: 0 12px; font-size: .76rem; }
+.rng { padding: 10px 6px 0; display: flex; flex-direction: column; gap: 6px; }
+.rngTop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 10px; }
+.rngLbl { font: 400 .74rem var(--font-num); color: var(--muted); }
+.rngPre { display: flex; gap: 4px; flex-wrap: wrap; }
+.rngPre button { min-height: 32px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--muted); font: 500 .74rem var(--font-ui); cursor: pointer; }
+.rngPre button[aria-pressed="true"] { background: var(--profit); border-color: var(--profit); color: var(--surface); }
+.rngSl { position: relative; height: 36px; }
+.rngTrack { position: absolute; left: 11px; right: 11px; top: 16px; height: 4px; border-radius: 2px; background: var(--grid); }
+.rngFill { position: absolute; top: 0; bottom: 0; background: var(--profit); border-radius: 2px; }
+.rngSl input[type="range"] { position: absolute; left: 0; top: 0; width: 100%; height: 36px; margin: 0; padding: 0; border: 0; background: transparent; -webkit-appearance: none; appearance: none; pointer-events: none; }
+.rngSl input[type="range"]::-webkit-slider-runnable-track { background: transparent; height: 36px; }
+.rngSl input[type="range"]::-moz-range-track { background: transparent; }
+.rngSl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 22px; height: 22px; margin-top: 7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); cursor: grab; }
+.rngSl input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); cursor: grab; }
+.rngSl input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--profit); outline-offset: 2px; }
 .btForm { display: flex; flex-direction: column; gap: 12px; padding: 14px 12px; }
 .btForm .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .fld { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: .76rem; color: var(--muted); }
@@ -340,11 +357,18 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
   <div id="warn" class="warn" hidden></div>
 
   <section class="card">
+    <div class="rmode"><span>右側長條</span>
+      <div id="rightMode" class="seg" role="group" aria-label="右側長條顯示內容">
+        <button type="button" data-m="vol" aria-pressed="true">區間成交量</button>
+        <button type="button" data-m="chip" aria-pressed="false">籌碼分布</button>
+      </div>
+    </div>
     <div id="chart"></div>
+    <div id="rangeBox" aria-label="走勢圖顯示區間"></div>
     <div id="readout" class="readout"></div>
     <div class="legend">
-      <span><i style="background:var(--profit)"></i>獲利籌碼（成本在現價以下）<button type="button" class="info" data-term="profitChips" aria-label="獲利籌碼的說明">i</button></span>
-      <span><i style="background:var(--trapped)"></i>套牢籌碼（成本在現價以上）<button type="button" class="info" data-term="trappedChips" aria-label="套牢籌碼的說明">i</button></span>
+      <span><i style="background:var(--profit)"></i><span id="lgPt">成交價在現價以下</span><button id="lgPi" type="button" class="info" data-term="rangeVol" aria-label="區間成交量的說明">i</button></span>
+      <span><i style="background:var(--trapped)"></i><span id="lgTt">成交價在現價以上</span><button id="lgTi" type="button" class="info" data-term="rangeVol" aria-label="區間成交量的說明">i</button></span>
       <span id="lgSt"><i class="ln" style="border-color:var(--bull)"></i>SuperTrend 多頭　<i class="ln" style="border-color:var(--bear)"></i>空頭<button type="button" class="info" data-term="supertrend" aria-label="SuperTrend 的說明">i</button></span>
     </div>
   </section>
@@ -460,7 +484,7 @@ const pct = (x, d = 1) => (x * 100).toFixed(d) + "%";
 const spct = (x, d = 1) => (x >= 0 ? "+" : "−") + Math.abs(x * 100).toFixed(d) + "%";
 
 const LIVE = !DATA;           // no embedded data: look stocks up from FinMind in the browser
-const state = { idx: 0, years: 3, decay: 1.0, gap: 3, probe: null, recent: [], last: "2330", stOn: true, stN: 10, stM: 3 };
+const state = { idx: 0, years: 3, decay: 1.0, gap: 3, probe: null, recent: [], last: "2330", stOn: true, stN: 10, stM: 3, rightMode: "vol", view: null };
 let cur = null;               // stock being analysed: { code, name, shares, d, o, h, l, c, v }
 try {
   const s = JSON.parse(localStorage.getItem("chipState") || "{}");
@@ -812,6 +836,11 @@ const GLOSS = {
   warm: { t: "進場時涵蓋率（暖機）",
     def: "籌碼分布需要時間累積。回測起始日之前的歷史資料越短，進場當時的模型涵蓋率越低，算出的支撐與壓力越不可靠。",
     read: ["涵蓋率低於 80%，建議把起始日往後挪，讓模型多暖機一段時間。", "程式要求起始日至少在資料最早日之後 2 年（歷史太短的股票為 1 年）。"] },
+  rangeVol: { t: "區間成交量",
+    def: "圖表右側的橫向長條，顯示你在下方拉條選的時間區間內，各個價位的成交量占這段區間總成交量的比例。拉動時間區間，長條會跟著重算。",
+    read: ["長條越長，代表這段期間有越多的量在這個價位成交，也就是主要的換手區。", "藍色是成交價在現價以下的量，橘色是在現價以上的量。", "切換成「籌碼分布」，右側會改成目前仍持有的籌碼（整段計算，不隨區間變動）。", "淡色的支撐與壓力色帶，一律依整段籌碼計算，不會隨時間區間改變。"],
+    calc: "把每天的成交量依三角分布分到當天最高價與最低價之間的各個價位，再把所選區間內每天的結果加總（不衰減）。",
+    live: R => { const V = state.view; return V ? `目前區間：<b>${R.rows[V.a].d} ～ ${R.rows[V.b].d}</b>（${V.b - V.a + 1} 個交易日）。` : ""; } },
   profitChips: { t: "獲利籌碼",
     def: "成本在現價以下的籌碼，也就是目前帳面賺錢的持有人手上的股票。圖中的藍色長條。",
     read: ["這些持有人若賣出，會造成獲利了結的賣壓。"] },
@@ -922,6 +951,38 @@ function niceTicks(lo, hi, want) {
   for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(v);
   return { ticks: out, step };
 }
+/* ---------- 可調整的時間區間：快速按鈕 + 雙把手滑桿 ---------- */
+function mountRange(el, o) {
+  const n = o.n;
+  if (n < 30) { el.innerHTML = ""; return; }
+  const minSpan = Math.min(10, n - 1);
+  let a = o.a, b = o.b, raf = 0;
+  const pre = [["3 個月", 63], ["6 個月", 126], ["1 年", 250], ["2 年", 500]].filter(p => p[1] < n * 0.95).concat([["全部", n]]);
+  el.innerHTML = `<div class="rng"><div class="rngTop"><span class="rngLbl" aria-live="polite"></span><div class="rngPre">${pre.map(([t, d]) => `<button type="button" data-d="${d}">${t}</button>`).join("")}</div></div>
+    <div class="rngSl"><div class="rngTrack"><i class="rngFill"></i></div>
+    <input type="range" class="rA" min="0" max="${n - 1}" step="1" aria-label="顯示區間的起點"><input type="range" class="rB" min="0" max="${n - 1}" step="1" aria-label="顯示區間的終點"></div></div>`;
+  const q = s => el.querySelector(s), A = q(".rA"), B = q(".rB"), fill = q(".rngFill"), lbl = q(".rngLbl");
+  const paint = () => {
+    A.value = a; B.value = b;
+    fill.style.left = (a / (n - 1) * 100) + "%"; fill.style.width = ((b - a) / (n - 1) * 100) + "%";
+    lbl.textContent = `${o.date(a)} ～ ${o.date(b)}（${b - a + 1} 個交易日）`;
+    el.querySelectorAll(".rngPre button").forEach(btn => btn.setAttribute("aria-pressed", b === n - 1 && b - a + 1 === +btn.dataset.d));
+  };
+  const emit = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; o.onChange(a, b); }); };
+  A.addEventListener("input", () => { a = Math.min(+A.value, b - minSpan); paint(); emit(); });
+  B.addEventListener("input", () => { b = Math.max(+B.value, a + minSpan); paint(); emit(); });
+  q(".rngPre").addEventListener("click", e => {
+    const btn = e.target.closest("button"); if (!btn) return;
+    a = Math.max(0, n - Math.min(+btn.dataset.d, n)); b = n - 1; paint(); o.onChange(a, b);
+  });
+  paint();
+}
+// 分析頁走勢圖目前顯示的區間（交易日索引）；換股票或換年數時回到預設（最近 250 天）
+function ensureView(R) {
+  const n = R.rows.length, code = cur && cur.code;
+  if (!state.view || state.view.n !== n || state.view.code !== code) state.view = { code, n, a: Math.max(0, n - LOOKBACK), b: n - 1 };
+  return state.view;
+}
 function drawChart(R) {
   const el = $("chart");
   const W = Math.max(300, Math.floor(el.clientWidth || 340));
@@ -929,11 +990,14 @@ function drawChart(R) {
   const ml = 42, mr = 6, mt = 8, mb = 26, gp = 6;
   const inner = W - ml - mr, pw = Math.round(inner * 0.6), dw = inner - pw - gp;
   const xp = ml, xd = ml + pw + gp;
-  const tail = R.rows.slice(-LOOKBACK);
+  const V = ensureView(R);
+  const tail = R.rows.slice(V.a, V.b + 1);
   let lo = Infinity, hi = -Infinity;
   for (const r of tail) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
-  for (const z of R.a.sup) lo = Math.min(lo, z.low);
-  for (const z of R.a.res) hi = Math.max(hi, z.high);
+  // 放大到短區間時，只把「離價格不遠」的支撐壓力納入縮放，避免遠處的區域把走勢壓扁
+  const zoomed = tail.length < 240, vlo = lo, vhi = hi;
+  for (const z of R.a.sup) if (!zoomed || z.low >= vlo * 0.8) lo = Math.min(lo, z.low);
+  for (const z of R.a.res) if (!zoomed || z.high <= vhi * 1.25) hi = Math.max(hi, z.high);
   lo *= 0.95; hi *= 1.05;
   R.view = { lo, hi, H, mt, mb };
   const y = v => mt + (H - mt - mb) * (1 - (v - lo) / (hi - lo));
@@ -951,7 +1015,7 @@ function drawChart(R) {
   for (let i = tail.length - 1; i >= 0; i--) bot += `L${x(i).toFixed(1)} ${y(tail[i].l).toFixed(1)}`;
   g += `<path class="rng" d="${top}${bot}Z"/>`;
   if (state.stOn) {
-    const off = R.rows.length - tail.length;
+    const off = V.a;
     let run = "", cls = "";
     const flush = () => { if (run) g += `<path class="${cls}" d="${run}"/>`; run = ""; };
     tail.forEach((r, i) => {
@@ -964,11 +1028,16 @@ function drawChart(R) {
     flush();
   }
   g += `<path class="pl" d="${line}"/>`;
-  const pmax = Math.max(...R.m.p);
+  // 右側長條：區間成交量（隨上面的時間區間重算）或整段籌碼分布
+  const chipMode = state.rightMode === "chip";
+  const bars = chipMode ? R.m.p : rangeVolume(R, V.a, V.b);
+  let acc = 0;
+  R.rightCum = Float64Array.from(bars, v => (acc += v));
+  const pmax = Math.max(...bars) || 1;
   for (let i = 0; i < R.centers.length; i++) {
-    if (R.m.p[i] <= 0 || R.edges[i + 1] < lo || R.edges[i] > hi) continue;
+    if (bars[i] <= 0 || R.edges[i + 1] < lo || R.edges[i] > hi) continue;
     const y1 = y(R.edges[i + 1]), y0 = y(R.edges[i]);
-    g += `<rect class="${R.centers[i] <= R.price ? "bar-p" : "bar-t"}" x="${xd}" y="${y1.toFixed(1)}" width="${(dw * R.m.p[i] / pmax).toFixed(1)}" height="${Math.max(0.7, y0 - y1).toFixed(1)}"/>`;
+    g += `<rect class="${R.centers[i] <= R.price ? "bar-p" : "bar-t"}" x="${xd}" y="${y1.toFixed(1)}" width="${(dw * bars[i] / pmax).toFixed(1)}" height="${Math.max(0.7, y0 - y1).toFixed(1)}"/>`;
   }
   g += `</g>`;
   g += `<line class="px" x1="${xp}" x2="${W - mr}" y1="${y(R.price)}" y2="${y(R.price)}"/>`;
@@ -982,7 +1051,7 @@ function drawChart(R) {
     const i = Math.round(k * (tail.length - 1) / nx), d = tail[i].d;
     g += `<text class="axt" x="${x(i)}" y="${H - mb + 14}" text-anchor="${k === 0 ? "start" : k === nx ? "end" : "middle"}">${d.slice(2, 4)}/${d.slice(5, 7)}</text>`;
   }
-  g += `<text class="cap" x="${W - mr}" y="${H - mb + 14}" text-anchor="end">占比 0–${(pmax * 100).toFixed(1)}%</text>`;
+  g += `<text class="cap" x="${W - mr}" y="${H - mb + 14}" text-anchor="end">${chipMode ? "籌碼" : "成交量"}占比 0–${(pmax * 100).toFixed(1)}%</text>`;
   if (state.probe != null) {
     const py = y(state.probe);
     g += `<line class="probe" x1="${ml}" x2="${W - mr}" y1="${py}" y2="${py}"/><text class="ptag" x="${W - mr - 2}" y="${py - 4}" text-anchor="end">${fmt(state.probe)}</text>`;
@@ -998,12 +1067,41 @@ function drawChart(R) {
 }
 function updateReadout(R) {
   const el = $("readout");
-  if (state.probe == null) { el.textContent = "點圖表任一高度，可查看該價位以下的籌碼比例。"; return; }
+  const chipMode = state.rightMode === "chip", what = chipMode ? "籌碼" : "成交量";
+  if (state.probe == null) { el.textContent = `點圖表任一高度，可查看該價位以下的${what}比例。`; return; }
   const v = state.probe;
   let k = 0;
   while (k < R.centers.length - 1 && R.edges[k + 1] <= v) k++;
-  const below = R.a.cum[k];
-  el.innerHTML = `價位 <b>${fmt(v)}</b>（距現價 <b>${spct(v / R.price - 1)}</b>）<br>此價以下籌碼 <b>${pct(below)}</b>，此價以上 <b>${pct(1 - below)}</b>`;
+  const below = R.rightCum ? R.rightCum[k] : R.a.cum[k];
+  const V = state.view, span = chipMode ? "" : `（${R.rows[V.a].d} ～ ${R.rows[V.b].d}）`;
+  el.innerHTML = `價位 <b>${fmt(v)}</b>（距現價 <b>${spct(v / R.price - 1)}</b>）<br>此價以下${what} <b>${pct(below)}</b>，此價以上 <b>${pct(1 - below)}</b>${span}`;
+}
+/* 區間成交量：先把每天的成交量依三角分布分到各價位並累加，之後任何區間都只要相減 */
+function rangeVolume(R, a, b) {
+  const nb = R.centers.length;
+  if (!R.vp) {
+    const n = R.rows.length, P = new Float64Array((n + 1) * nb), w = new Float64Array(nb);
+    for (let i = 0; i < n; i++) {
+      const r = R.rows[i];
+      dayWeights(R.edges, r.h, r.l, r.c, w);
+      const o0 = i * nb, o1 = o0 + nb;
+      for (let k = 0; k < nb; k++) P[o1 + k] = P[o0 + k] + r.v * w[k];
+    }
+    R.vp = P;
+  }
+  const out = new Float64Array(nb);
+  let s = 0;
+  for (let k = 0; k < nb; k++) { out[k] = R.vp[(b + 1) * nb + k] - R.vp[a * nb + k]; s += out[k]; }
+  if (s > 0) for (let k = 0; k < nb; k++) out[k] /= s;
+  return out;
+}
+function renderLegend() {
+  const chip = state.rightMode === "chip";
+  $("lgPt").textContent = chip ? "獲利籌碼（成本在現價以下）" : "成交價在現價以下";
+  $("lgTt").textContent = chip ? "套牢籌碼（成本在現價以上）" : "成交價在現價以上";
+  $("lgPi").dataset.term = chip ? "profitChips" : "rangeVol";
+  $("lgTi").dataset.term = chip ? "trappedChips" : "rangeVol";
+  [...$("rightMode").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.m === (chip ? "chip" : "vol")));
 }
 
 /* ---------- rest of the UI ---------- */
@@ -1061,6 +1159,10 @@ function render() {
   }
   $("res").innerHTML = zoneRows(a.res, "R", "r", "現價上方沒有明顯的籌碼堆積。");
   $("sup").innerHTML = zoneRows(a.sup, "S", "s", "現價下方沒有明顯的籌碼堆積。");
+  const V = ensureView(R);
+  mountRange($("rangeBox"), { n: R.rows.length, a: V.a, b: V.b, date: i => R.rows[i].d,
+    onChange: (a, b) => { V.a = a; V.b = b; state.probe = null; drawChart(R); updateReadout(R); } });
+  renderLegend();
   drawChart(R); updateReadout(R);
   window.__R = R;
   renderStar();
@@ -1446,42 +1548,46 @@ const WHY = { tp: "漲到壓力區賣出（停利）", stop: "跌破支撐賣出
 function drawBtChart(R, el) {
   const W = Math.max(300, Math.floor(el.clientWidth || 340));
   const ml = 42, mr = 6, mt = 16, h1 = Math.round(W * 0.5), gap = 34, h2 = Math.round(W * 0.3), mb = 22;
-  const H = mt + h1 + gap + h2 + mb, N = R.win.length;
-  const x = i => ml + (W - ml - mr) * i / Math.max(1, N - 1);
+  const V = bt.view || { a: 0, b: R.win.length - 1 };
+  const off = V.a, N = V.b - V.a + 1;
+  const win = R.win.slice(V.a, V.b + 1), es = R.es.slice(V.a, V.b + 1), bhs = R.bh.slice(V.a, V.b + 1);
+  const H = mt + h1 + gap + h2 + mb;
+  const x = i => ml + (W - ml - mr) * (i - off) / Math.max(1, N - 1);   // i 是整段回測期間的交易日索引
   const f0 = v => fmt(v, v < 100 ? 2 : 0);
   let lo = Infinity, hi = -Infinity;
-  R.win.forEach(p => { lo = Math.min(lo, p.c); hi = Math.max(hi, p.c); });
+  win.forEach(p => { lo = Math.min(lo, p.c); hi = Math.max(hi, p.c); });
   const pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
   const y1 = v => mt + h1 * (1 - (v - lo) / (hi - lo));
   let g = `<text class="cap" x="${ml}" y="${mt - 5}">價格走勢與買賣點</text>`;
   for (const t of niceTicks(lo, hi, 4).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y1(t)}" y2="${y1(t)}"/><text class="axt" x="${ml - 5}" y="${y1(t) + 3.5}" text-anchor="end">${f0(t)}</text>`;
-  g += `<path class="pl" d="${R.win.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y1(p.c).toFixed(1)}`).join("")}"/>`;
-  for (const t of R.trades) {
-    let d = `M${x(t.wi0).toFixed(1)} ${y1(t.entry).toFixed(1)}`;
-    for (let i = t.wi0 + 1; i < t.wi1; i++) d += `L${x(i).toFixed(1)} ${y1(R.win[i].c).toFixed(1)}`;
-    d += `L${x(t.wi1).toFixed(1)} ${y1(t.exit).toFixed(1)}`;
+  g += `<path class="pl" d="${win.map((p, i) => `${i ? "L" : "M"}${x(i + off).toFixed(1)} ${y1(p.c).toFixed(1)}`).join("")}"/>`;
+  const seen = R.trades.filter(t => t.wi1 >= V.a && t.wi0 <= V.b);        // 只畫和目前顯示區間有交集的交易
+  for (const t of seen) {
+    const i0 = Math.max(t.wi0, V.a), i1 = Math.min(t.wi1, V.b);
+    let d = `M${x(i0).toFixed(1)} ${y1(t.wi0 >= V.a ? t.entry : R.win[i0].c).toFixed(1)}`;
+    for (let i = i0 + 1; i < i1; i++) d += `L${x(i).toFixed(1)} ${y1(R.win[i].c).toFixed(1)}`;
+    d += `L${x(i1).toFixed(1)} ${y1(t.wi1 <= V.b ? t.exit : R.win[i1].c).toFixed(1)}`;
     g += `<path class="${t.net > 0 ? "tr-up" : "tr-dn"}" d="${d}"/>`;
   }
-  for (const t of R.trades) {
-    const ex = x(t.wi0), ey = y1(t.entry);
-    g += `<path class="mk" d="M${ex.toFixed(1)} ${(ey + 1).toFixed(1)}l-4.5 8h9z"/>`;
-    g += `<circle class="${t.net > 0 ? "mk-up" : "mk-dn"}" cx="${x(t.wi1).toFixed(1)}" cy="${y1(t.exit).toFixed(1)}" r="3.8"/>`;
+  for (const t of seen) {
+    if (t.wi0 >= V.a) g += `<path class="mk" d="M${x(t.wi0).toFixed(1)} ${(y1(t.entry) + 1).toFixed(1)}l-4.5 8h9z"/>`;
+    if (t.wi1 <= V.b) g += `<circle class="${t.net > 0 ? "mk-up" : "mk-dn"}" cx="${x(t.wi1).toFixed(1)}" cy="${y1(t.exit).toFixed(1)}" r="3.8"/>`;
   }
   const t2 = mt + h1 + gap;
   let lo2 = Infinity, hi2 = -Infinity;
-  R.es.forEach(v => { lo2 = Math.min(lo2, v * 100); hi2 = Math.max(hi2, v * 100); });
-  R.bh.forEach(v => { lo2 = Math.min(lo2, v * 100); hi2 = Math.max(hi2, v * 100); });
-  lo2 = Math.min(lo2, 100); hi2 = Math.max(hi2, 100);
+  es.forEach(v => { lo2 = Math.min(lo2, v * 100); hi2 = Math.max(hi2, v * 100); });
+  bhs.forEach(v => { lo2 = Math.min(lo2, v * 100); hi2 = Math.max(hi2, v * 100); });
+  if (V.a === 0) { lo2 = Math.min(lo2, 100); hi2 = Math.max(hi2, 100); }
   const p2 = (hi2 - lo2) * 0.08 || 1; lo2 -= p2; hi2 += p2;
   const y2 = v => t2 + h2 * (1 - (v - lo2) / (hi2 - lo2));
   g += `<text class="cap" x="${ml}" y="${t2 - 8}">100 元本金的變化</text>`;
   for (const t of niceTicks(lo2, hi2, 3).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y2(t)}" y2="${y2(t)}"/><text class="axt" x="${ml - 5}" y="${y2(t) + 3.5}" text-anchor="end">${Math.round(t)}</text>`;
-  g += `<line class="px" x1="${ml}" x2="${W - mr}" y1="${y2(100)}" y2="${y2(100)}"/>`;
-  g += `<path class="eq-b" d="${R.bh.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y2(v * 100).toFixed(1)}`).join("")}"/>`;
-  g += `<path class="eq-s" d="${R.es.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y2(v * 100).toFixed(1)}`).join("")}"/>`;
+  if (y2(100) >= t2 && y2(100) <= t2 + h2) g += `<line class="px" x1="${ml}" x2="${W - mr}" y1="${y2(100)}" y2="${y2(100)}"/>`;
+  g += `<path class="eq-b" d="${bhs.map((v, i) => `${i ? "L" : "M"}${x(i + off).toFixed(1)} ${y2(v * 100).toFixed(1)}`).join("")}"/>`;
+  g += `<path class="eq-s" d="${es.map((v, i) => `${i ? "L" : "M"}${x(i + off).toFixed(1)} ${y2(v * 100).toFixed(1)}`).join("")}"/>`;
   for (let k = 0; k <= 4; k++) {
-    const i = Math.round(k * (N - 1) / 4), d = R.win[i].d;
-    g += `<text class="axt" x="${x(i)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 4 ? "end" : "middle"}">${d.slice(2, 4)}/${d.slice(5, 7)}</text>`;
+    const i = Math.round(k * (N - 1) / 4), d = win[i].d;
+    g += `<text class="axt" x="${x(i + off)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 4 ? "end" : "middle"}">${d.slice(2, 4)}/${d.slice(5, 7)}</text>`;
   }
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="回測的價格與交易標記，以及資產曲線">${g}</svg>`;
 }
@@ -1530,7 +1636,7 @@ function renderBt(R, o, st) {
   h += `<div class="btNote">${notes.map(esc).join("<br>")}</div>`;
 
   /* 4. 圖 */
-  h += `<div class="card"><div id="btChart"></div><div class="legend"><span>▲ 買進</span><span><i class="ln" style="border-color:var(--bull)"></i>賣出賺錢（紅）</span><span><i class="ln" style="border-color:var(--bear)"></i>賣出虧錢（綠）</span><span><i class="ln" style="border-color:var(--profit)"></i>照規則買賣</span><span><i class="ln" style="border-color:var(--muted);border-top-style:dashed"></i>單純持有</span></div></div>`;
+  h += `<div class="card"><div id="btChart"></div><div id="btRange"></div><div class="legend"><span>▲ 買進</span><span><i class="ln" style="border-color:var(--bull)"></i>賣出賺錢（紅）</span><span><i class="ln" style="border-color:var(--bear)"></i>賣出虧錢（綠）</span><span><i class="ln" style="border-color:var(--profit)"></i>照規則買賣</span><span><i class="ln" style="border-color:var(--muted);border-top-style:dashed"></i>單純持有</span></div></div>`;
 
   /* 5. 每次買賣 */
   if (S.n) {
@@ -1541,7 +1647,10 @@ function renderBt(R, o, st) {
       <div class="r ${signCls(t.net)}">${f(t.net)}<small>${t.net > 0 ? "賺" : "賠"}　100 → ${money(t.net)}</small></div></div>`).join("") + `</div>`;
   }
   $("btOut").innerHTML = h;
-  if (S.n || R.win.length) drawBtChart(R, $("btChart"));
+  bt.view = { a: 0, b: R.win.length - 1 };
+  mountRange($("btRange"), { n: R.win.length, a: 0, b: R.win.length - 1, date: i => R.win[i].d,
+    onChange: (a, b) => { bt.view.a = a; bt.view.b = b; drawBtChart(R, $("btChart")); } });
+  drawBtChart(R, $("btChart"));
   bt.last = R;
 }
 async function btRunClick() {
@@ -1601,6 +1710,12 @@ function setTheme(mode, persist) {
 $("themeSeg").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setTheme(b.dataset.mode, true); });
 setTheme(document.documentElement.getAttribute("data-theme") || "auto", false);
 buildControls();
+$("rightMode").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  state.rightMode = b.dataset.m; state.probe = null;
+  renderLegend();
+  if (window.__R) { drawChart(window.__R); updateReadout(window.__R); }
+});
 initMember();
 if (LIVE) {
   loadInfo().then(() => {
