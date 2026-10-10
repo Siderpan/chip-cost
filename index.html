@@ -10,9 +10,16 @@ body{margin:0;font-size:14px;-webkit-text-size-adjust:100%}
 [hidden]{display:none!important}
 </style>
 <script src="firebase-config.js"></script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231b2744%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2326365f%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22url(%23g)%22%2F%3E%3Crect%20x%3D%2225%22%20y%3D%2216.5%22%20width%3D%2214%22%20height%3D%227%22%20rx%3D%223.5%22%20fill%3D%22%23e6c98f%22%2F%3E%3Crect%20x%3D%2219%22%20y%3D%2228.5%22%20width%3D%2226%22%20height%3D%227%22%20rx%3D%223.5%22%20fill%3D%22%23f4f6fa%22%2F%3E%3Crect%20x%3D%2213%22%20y%3D%2240.5%22%20width%3D%2238%22%20height%3D%227%22%20rx%3D%223.5%22%20fill%3D%22%23f4f6fa%22%20opacity%3D%22.6%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<meta name="theme-color" content="#1b2744">
+<meta name="application-name" content="籌碼王">
+<meta name="apple-mobile-web-app-title" content="籌碼王">
 </head>
 <body>
 <title>籌碼王</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
@@ -59,6 +66,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .zoomBar button.zv { min-width: 56px; font-size: .78rem; color: var(--muted); }
 .zoomBar button:disabled { opacity: .4; cursor: default; }
 .hl { min-width: 0; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo { width: 36px; height: 36px; flex: none; border-radius: 9px; }
 .hr { display: flex; align-items: center; gap: 8px; flex: none; }
 .page { display: flex; flex-direction: column; gap: 14px; }
 .acct { flex: none; min-height: 36px; min-width: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 500 .8rem var(--font-ui); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
@@ -176,14 +185,26 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .gName { font: 700 .92rem var(--font-ui); }
 .gName.s { color: var(--profit); } .gName.r { color: var(--trapped); }
 .gFig { padding: 10px 8px; }
+.gFig { padding: 12px 10px 14px; display: flex; flex-direction: column; gap: 10px; }
 .gFig svg { display: block; width: 100%; height: auto; }
-.gFig .gz-s { fill: var(--profit); opacity: .16; }
-.gFig .gz-r { fill: var(--trapped); opacity: .2; }
-.gFig .gt-s { fill: var(--profit); font: 700 12px var(--font-ui); }
-.gFig .gt-r { fill: var(--trapped); font: 700 12px var(--font-ui); }
-.gFig .gl { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
-.gFig .gdot { fill: var(--ink); }
-.gFig .gnote { fill: var(--muted); font: 400 10.5px var(--font-ui); }
+.gFig > .gTag { align-self: flex-start; }
+.gFig .gf-up { fill: var(--bull); stroke: var(--bull); }
+.gFig .gf-dn { fill: var(--bear); stroke: var(--bear); }
+.gFig .gf-wick { stroke-width: 1.2; }
+.gFig .gf-body { stroke-width: 0; }
+.gFig .gf-band-s { fill: var(--profit); opacity: .14; }
+.gFig .gf-band-r { fill: var(--trapped); opacity: .17; }
+.gFig .gf-lbl-s { fill: var(--profit); font: 700 10.5px var(--font-ui); }
+.gFig .gf-lbl-r { fill: var(--trapped); font: 700 10.5px var(--font-ui); }
+.gFig .gf-badge circle { fill: var(--ink); }
+.gFig .gf-badge text { fill: var(--surface); font: 700 10px var(--font-num); text-anchor: middle; }
+.gFig .gf-cap { fill: var(--muted); font: 400 9.5px var(--font-ui); }
+.gFigNote { list-style: none; margin: 0; padding: 0 4px; display: flex; flex-direction: column; gap: 8px; font-size: .86rem; line-height: 1.7; }
+.gFigNote li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; align-items: start; }
+.gFigNote .bd { width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--surface); font: 700 .72rem var(--font-num); display: inline-flex; align-items: center; justify-content: center; margin-top: 2px; }
+.gFigNote b.s { color: var(--profit); } .gFigNote b.r { color: var(--trapped); }
+.gFigCap { margin: 0; padding: 8px 10px; background: var(--bg); border-radius: 8px; font-size: .82rem; line-height: 1.7; color: var(--muted); }
+.gFigCap b { color: var(--ink); font-weight: 600; }
 .gStory { padding: 12px 14px; }
 .gStory p { margin: 6px 0 0; font-size: .9rem; line-height: 1.8; }
 .gTag { display: inline-block; font: 700 .72rem var(--font-ui); border-radius: 5px; padding: 2px 8px; color: var(--surface); }
@@ -429,6 +450,13 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
 
 <script>try { var t = localStorage.getItem("chipTheme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
 try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <= 1.6) document.documentElement.style.setProperty("--zoom", z); } catch (e) {}</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logoSym" viewBox="0 0 64 64">
+  <defs><linearGradient id="logoG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b2744"/><stop offset="1" stop-color="#26365f"/></linearGradient></defs>
+  <rect width="64" height="64" rx="15" fill="url(#logoG)"/>
+  <rect x="25" y="16.5" width="14" height="7" rx="3.5" fill="#e6c98f"/>
+  <rect x="19" y="28.5" width="26" height="7" rx="3.5" fill="#f4f6fa"/>
+  <rect x="13" y="40.5" width="38" height="7" rx="3.5" fill="#f4f6fa" opacity=".6"/>
+</symbol></svg>
 <main class="app">
   <div id="zoomBar" class="zoomBar" role="group" aria-label="頁面大小" hidden>
     <span class="zl">頁面大小</span>
@@ -438,7 +466,10 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </div>
   <header>
     <div class="hl">
-      <h1>籌碼王</h1>
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 64 64" role="img" aria-label="籌碼王"><use href="#logoSym"/></svg>
+        <h1>籌碼王</h1>
+      </div>
       <p id="asof"></p>
     </div>
     <div class="hr">
@@ -475,16 +506,12 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="gSec">
       <h3>什麼是支撐？什麼是壓力？</h3>
       <div class="card gFig">
-        <svg viewBox="0 0 320 168" role="img" aria-label="示意圖：股價在上方的壓力和下方的支撐之間來回">
-          <rect class="gz-r" x="0" y="14" width="320" height="30" rx="3"/>
-          <rect class="gz-s" x="0" y="124" width="320" height="30" rx="3"/>
-          <text class="gt-r" x="8" y="33">壓力：天花板</text>
-          <text class="gt-s" x="8" y="143">支撐：地板</text>
-          <path class="gl" d="M10 118 L40 100 L66 114 L96 62 L126 82 L152 50 L184 70 L214 116 L240 96 L268 128 L296 60"/>
-          <circle class="gdot" cx="152" cy="50" r="4"/><circle class="gdot" cx="268" cy="128" r="4"/>
-          <text class="gnote" x="158" y="46">漲不動，轉頭</text>
-          <text class="gnote" x="198" y="162">跌到這裡撐住，彈起</text>
-        </svg>
+        <div id="gFigSvg" role="img" aria-label="示意圖：K 線在壓力區受阻、在支撐區反彈，右側長條顯示各價位的成本分布"></div>
+        <ol class="gFigNote">
+          <li><span class="bd">1</span><span>股價跌到成本集中的<b class="s">支撐區</b>，原本買在這裡的人不想賣、想再買，買盤進來，股價<b>反彈</b>。</span></li>
+          <li><span class="bd">2</span><span>股價漲到成本集中的<b class="r">壓力區</b>，被套的人終於回本、趕快賣，賣壓出現，股價<b>漲不動</b>。</span></li>
+        </ol>
+        <p class="gFigCap">右側的橫向長條，是「每個價位有多少人的成本」。<b>越長的地方，越容易變成支撐或壓力。</b></p>
       </div>
       <div class="gTwo">
         <div class="card gMini"><div class="gName s">支撐（地板）</div><p>股價往下跌，到這個價位附近，比較容易<b>停住、反彈</b>。</p></div>
@@ -494,10 +521,22 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
     <div class="gSec">
       <h3>為什麼成本的位置會變成地板和天花板？</h3>
-      <div class="card gStory"><span class="gTag s">變成支撐</span>
-        <p>股價回跌到 100 元附近。當初買在 100 元的人想：「還沒虧，先不賣」，甚至「這個價錢我願意再買一點」。<b>賣的人變少、買的人變多</b>，股價比較容易撐住。</p></div>
-      <div class="card gStory"><span class="gTag r">變成壓力</span>
-        <p>股價從 100 元跌到 80 元，被套的人很痛苦。等到股價反彈回 100 元附近，他們想：「終於回本了，趕快賣！」<b>賣壓一次湧出</b>，股價就容易漲不動。</p></div>
+      <div class="card gFig"><span class="gTag s">變成支撐</span>
+        <div id="gStoryA" role="img" aria-label="示意圖：股價漲上去之後跌回成本 100 元附近，在這裡反彈"></div>
+        <ol class="gFigNote">
+          <li><span class="bd">1</span><span>很多人<b>買在 100 元附近</b>，大家的成本都集中在這裡（右側最長的長條）。</span></li>
+          <li><span class="bd">2</span><span>股價漲上去，這些人都賺錢，不急著賣。</span></li>
+          <li><span class="bd">3</span><span>股價<b>跌回 100 元附近</b>：他們想「還沒虧，先不賣」，甚至「這個價錢我願意再買一點」。<b>賣的人變少、買的人變多</b>，股價比較容易撐住，所以這裡是<b class="s">支撐</b>。</span></li>
+        </ol>
+      </div>
+      <div class="card gFig"><span class="gTag r">變成壓力</span>
+        <div id="gStoryB" role="img" aria-label="示意圖：股價從 100 元跌到 80 元後反彈回 100 元附近，在這裡漲不動"></div>
+        <ol class="gFigNote">
+          <li><span class="bd">1</span><span>很多人<b>買在 100 元附近</b>，成本集中在這裡。</span></li>
+          <li><span class="bd">2</span><span>股價一路跌到 80 元，這些人被套，很痛苦。</span></li>
+          <li><span class="bd">3</span><span>股價<b>反彈回 100 元附近</b>：他們想「終於回本了，趕快賣！」<b>賣壓一次湧出</b>，股價就容易漲不動，所以這裡是<b class="r">壓力</b>。</span></li>
+        </ol>
+      </div>
       <p class="gLead">所以<b>同一堆成本，會因為現在的股價在它的上面還是下面，而換角色</b>。下面讓你親手試試。</p>
     </div>
 
@@ -2203,7 +2242,99 @@ const GUIDE_TERMS = [
     ["supertrend", "SuperTrend", "判斷目前偏多還是偏空的趨勢線。", "它不參與支撐壓力的計算。常見的看法是：多頭時，下方支撐的參考性較高；空頭時，上方壓力比較值得留意。<b>這是輔助，不是定論</b>。"],
   ] },
 ];
+// 新手專區的第一張示意圖：K 線在壓力區受阻、在支撐區反彈，右側是各價位的成本分布（和分析頁的圖是同一種畫法）
+function guideFig() {
+  const W = 340, H = 212, L = 42, R = 244, T = 22, B = 186, HX = 254, HW = 76;
+  const y = v => T + (B - T) * (1 - v / 100);                       // v：0～100 的相對價位
+  const closes = [52, 48, 44, 40, 36, 33, 31, 35, 40, 46, 52, 58, 64, 69, 73, 70, 66, 61, 54, 47, 40, 34, 31, 36, 42];
+  const rnd = i => { const s = Math.sin(i * 12.9898) * 43758.5453; return s - Math.floor(s); };   // 固定的假亂數，每次畫出來都一樣
+  const n = closes.length, pitch = (R - L) / n, bw = pitch * 0.6, last = closes[n - 1];
+  const S = [26, 35], Z = [67, 77];                                // 支撐區、壓力區（相對價位）
+  let g = "";
+  for (const p of [90, 100, 110, 120, 130]) {                       // 水平格線與價格刻度（假想價位，支撐 100、壓力 120）
+    const v = 30 + (p - 100) * 42 / 20;
+    g += `<line class="gridl" x1="${L}" x2="${W - 4}" y1="${y(v)}" y2="${y(v)}"/><text class="axt" x="${L - 6}" y="${y(v) + 3.5}" text-anchor="end">${p}</text>`;
+  }
+  g += `<rect class="gf-band-r" x="${L}" y="${y(Z[1])}" width="${W - 4 - L}" height="${y(Z[0]) - y(Z[1])}"/>`;
+  g += `<rect class="gf-band-s" x="${L}" y="${y(S[1])}" width="${W - 4 - L}" height="${y(S[0]) - y(S[1])}"/>`;
+  g += `<text class="gf-lbl-r" x="${L + 5}" y="${y(Z[1]) + 11}">壓力區</text><text class="gf-lbl-s" x="${L + 5}" y="${y(S[0]) - 5}">支撐區</text>`;
+  // 右側：各價位的成本分布
+  const bump = (v, c, w) => Math.exp(-(((v - c) / w) ** 2));
+  const bins = [];
+  for (let v = 4; v < 100; v += 4) bins.push({ v, w: 0.1 + bump(v, 30, 6) + 0.78 * bump(v, 72, 6) + 0.3 * bump(v, 51, 8) });
+  const wmax = Math.max(...bins.map(b => b.w));
+  g += `<text class="gf-cap" x="${HX}" y="${T - 9}">各價位的成本</text>`;
+  for (const b of bins) g += `<rect class="${b.v <= last ? "bar-p" : "bar-t"}" x="${HX}" y="${y(b.v + 2).toFixed(1)}" width="${(HW * b.w / wmax).toFixed(1)}" height="${(y(b.v - 2) - y(b.v + 2) - 1).toFixed(1)}"/>`;
+  // K 線
+  let prev = closes[0] + 2;
+  closes.forEach((c, i) => {
+    const o = prev; prev = c;
+    let hi = Math.max(o, c) + 1 + rnd(i) * 2.2, lo = Math.min(o, c) - 1 - rnd(i + 50) * 2.2;
+    if (i === 6) lo = 27.5; if (i === 22) lo = 28; if (i === 14) hi = 76;     // 剛好碰到支撐區、壓力區
+    const x = L + pitch * (i + 0.5), cls = c >= o ? "gf-up" : "gf-dn", top = y(Math.max(o, c)), h = Math.max(1.2, Math.abs(y(o) - y(c)));
+    g += `<g class="${cls}"><line class="gf-wick" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${y(hi).toFixed(1)}" y2="${y(lo).toFixed(1)}"/><rect class="gf-body" x="${(x - bw / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}"/></g>`;
+  });
+  // 現價線
+  g += `<line class="px" x1="${L}" x2="${W - 4}" y1="${y(last)}" y2="${y(last)}"/><text class="ptag" x="${R - 4}" y="${y(last) - 5}" text-anchor="end">現價</text>`;
+  // 編號標記，對應圖下方的說明
+  const badge = (i, yv, no) => { const x = L + pitch * (i + 0.5); return `<g class="gf-badge"><circle cx="${x.toFixed(1)}" cy="${yv.toFixed(1)}" r="8"/><text x="${x.toFixed(1)}" y="${(yv + 3.5).toFixed(1)}">${no}</text></g>`; };
+  g += badge(6, y(27.5) + 16, 1) + badge(14, y(76) - 14, 2);
+  $("gFigSvg").innerHTML = `<svg viewBox="0 0 ${W} ${H}" focusable="false" aria-hidden="true">${g}</svg>`;
+}
+// 兩個小故事的示意圖：同一堆成本，股價在它上面時是支撐，在它下面時是壓力
+// 畫法和上面那張圖一樣（K 線、價格刻度、色帶、右側成本分布、編號圓點）
+function storyFig(id, cfg) {
+  const W = 340, H = 174, L = 42, R = 244, T = 32, B = 154, HX = 254, HW = 76, P0 = 75, P1 = 128;
+  const y = p => T + (B - T) * (1 - (p - P0) / (P1 - P0));
+  const rnd = i => { const s = Math.sin(i * 12.9898) * 43758.5453; return s - Math.floor(s); };
+  const n = cfg.closes.length, pitch = (R - L) / n, bw = pitch * 0.6, last = cfg.closes[n - 1];
+  const sup = cfg.role === "s";
+  let g = "";
+  for (const p of [80, 90, 100, 110, 120])
+    g += `<line class="gridl" x1="${L}" x2="${W - 4}" y1="${y(p)}" y2="${y(p)}"/><text class="axt" x="${L - 6}" y="${y(p) + 3.5}" text-anchor="end">${p}</text>`;
+  g += `<rect class="${sup ? "gf-band-s" : "gf-band-r"}" x="${L}" y="${y(102)}" width="${W - 4 - L}" height="${y(98) - y(102)}"/>`;
+  // 圖例（放在圖的上方，避免蓋到 K 線）
+  g += `<rect x="${L}" y="${T - 17}" width="9" height="9" rx="2" class="${sup ? "gf-band-s" : "gf-band-r"}" style="opacity:.55"/><text class="${sup ? "gf-lbl-s" : "gf-lbl-r"}" x="${L + 14}" y="${T - 9}">${sup ? "支撐區" : "壓力區"}（成本集中在 100）</text>`;
+  g += `<text class="gf-cap" x="${HX}" y="${T - 9}">各價位的成本</text>`;
+  // 右側成本分布
+  const bump = (p, c, w) => Math.exp(-(((p - c) / w) ** 2));
+  const bins = [];
+  for (let p = P0 + 1.5; p < P1; p += 3) bins.push({ p, w: 0.1 + bump(p, 100, 4.2) + (cfg.extra || []).reduce((a, e) => a + e[1] * bump(p, e[0], 4), 0) });
+  const wmax = Math.max(...bins.map(b => b.w));
+  for (const b of bins) g += `<rect class="${b.p <= last ? "bar-p" : "bar-t"}" x="${HX}" y="${y(b.p + 1.5).toFixed(1)}" width="${(HW * b.w / wmax).toFixed(1)}" height="${(y(b.p - 1.5) - y(b.p + 1.5) - 1).toFixed(1)}"/>`;
+  // K 線
+  const hiA = [], loA = [];
+  let prev = cfg.closes[0] + 0.6;
+  cfg.closes.forEach((c, i) => {
+    const o = prev; prev = c;
+    let hi = Math.max(o, c) + 0.6 + rnd(i) * 1.6, lo = Math.min(o, c) - 0.6 - rnd(i + 50) * 1.6;
+    if (cfg.hi && cfg.hi[i] != null) hi = cfg.hi[i];
+    if (cfg.lo && cfg.lo[i] != null) lo = cfg.lo[i];
+    hiA[i] = hi; loA[i] = lo;
+    const x = L + pitch * (i + 0.5), cls = c >= o ? "gf-up" : "gf-dn", top = y(Math.max(o, c)), h = Math.max(1.2, Math.abs(y(o) - y(c)));
+    g += `<g class="${cls}"><line class="gf-wick" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${y(hi).toFixed(1)}" y2="${y(lo).toFixed(1)}"/><rect class="gf-body" x="${(x - bw / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}"/></g>`;
+  });
+  g += `<line class="px" x1="${L}" x2="${W - 4}" y1="${y(last)}" y2="${y(last)}"/><text class="ptag" x="${R - 4}" y="${y(last) + (cfg.tagBelow ? 13 : -5)}" text-anchor="end">現價</text>`;
+  for (const b of cfg.badges) {
+    const x = L + pitch * (b.i + 0.5), yy = b.pos === "below" ? y(loA[b.i]) + 15 : y(hiA[b.i]) - 13;
+    g += `<g class="gf-badge"><circle cx="${x.toFixed(1)}" cy="${yy.toFixed(1)}" r="8"/><text x="${x.toFixed(1)}" y="${(yy + 3.5).toFixed(1)}">${b.no}</text></g>`;
+  }
+  $(id).innerHTML = `<svg viewBox="0 0 ${W} ${H}" focusable="false" aria-hidden="true">${g}</svg>`;
+}
 function guideInit() {
+  guideFig();
+  // 變成支撐：先在 100 附近買、漲上去、再跌回 100 反彈
+  storyFig("gStoryA", { role: "s",
+    closes: [100.5, 99.5, 100.8, 100.2, 101.2, 100.6, 104, 108, 113, 118, 120, 116, 112, 108, 105, 102, 100.2, 101.8, 104.5, 107],
+    lo: { 16: 98.6 }, hi: { 10: 122 },
+    badges: [{ i: 2, pos: "below", no: 1 }, { i: 10, pos: "above", no: 2 }, { i: 16, pos: "below", no: 3 }],
+    extra: [[118, 0.18]] });
+  // 變成壓力：在 100 附近買、一路跌到 80、再反彈回 100 附近漲不動
+  storyFig("gStoryB", { role: "r",
+    closes: [100.4, 99.6, 100.9, 100.1, 98, 95, 91, 87, 84, 81.5, 80.5, 82.5, 85, 88, 92, 95.5, 98.5, 100.4, 99, 96],
+    lo: { 10: 79 }, hi: { 17: 102.4 },
+    badges: [{ i: 2, pos: "above", no: 1 }, { i: 10, pos: "below", no: 2 }, { i: 17, pos: "above", no: 3 }],
+    extra: [[82, 0.3]], tagBelow: true });
   $("guideTerms").innerHTML = GUIDE_TERMS.map(g => `<div class="gTermGroup"><div class="gGroupT">${g.g}</div>${g.items.map(([k, t, d, x]) =>
     `<div class="gTerm"><div class="gt">${t}${tip(k)}</div><p class="gd">${d}</p><p class="gx"><b>對支撐壓力的影響：</b>${x}</p></div>`).join("")}</div>`).join("");
   $("pgGuide").addEventListener("click", e => {
