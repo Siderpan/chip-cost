@@ -59,7 +59,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .acct img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .acct .ini { font: 600 .95rem var(--font-ui); color: var(--profit); }
 .tabs { display: flex; border-bottom: 1px solid var(--line); }
-.tabs button { flex: 1; min-height: 44px; border: 0; background: transparent; color: var(--muted); font: 500 .92rem var(--font-ui); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs button { flex: 1; min-height: 44px; border: 0; background: transparent; color: var(--muted); font: 500 .86rem var(--font-ui); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 0 2px; white-space: nowrap; }
 .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--profit); font-weight: 700; }
 .tabs .cnt { margin-left: 6px; font: 500 .72rem var(--font-num); color: var(--muted); }
 .priceRow { display: flex; align-items: center; gap: 6px; }
@@ -93,6 +93,62 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .rngSl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 22px; height: 22px; margin-top: 7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); cursor: grab; }
 .rngSl input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); cursor: grab; }
 .rngSl input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--profit); outline-offset: 2px; }
+.guide h3 { margin: 0; font: 700 1.05rem var(--font-ui); }
+.gHero { padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; border-left: 4px solid var(--profit); }
+.gHero p { margin: 0; line-height: 1.8; font-size: .95rem; }
+.gKicker { font: 500 .72rem var(--font-ui); letter-spacing: .08em; color: var(--muted); }
+.gH1 { margin: 0; font: 700 1.3rem/1.4 var(--font-ui); letter-spacing: 0; color: var(--ink); text-wrap: balance; }
+.gSec { display: flex; flex-direction: column; gap: 10px; }
+.gLead { margin: 0; font-size: .88rem; line-height: 1.75; color: var(--muted); }
+.gLead b { color: var(--ink); font-weight: 600; }
+.gTwo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 380px) { .gTwo { grid-template-columns: minmax(0, 1fr); } }
+.gMini { padding: 12px; }
+.gMini p { margin: 4px 0 0; font-size: .86rem; line-height: 1.7; }
+.gName { font: 700 .92rem var(--font-ui); }
+.gName.s { color: var(--profit); } .gName.r { color: var(--trapped); }
+.gFig { padding: 10px 8px; }
+.gFig svg { display: block; width: 100%; height: auto; }
+.gFig .gz-s { fill: var(--profit); opacity: .16; }
+.gFig .gz-r { fill: var(--trapped); opacity: .2; }
+.gFig .gt-s { fill: var(--profit); font: 700 12px var(--font-ui); }
+.gFig .gt-r { fill: var(--trapped); font: 700 12px var(--font-ui); }
+.gFig .gl { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+.gFig .gdot { fill: var(--ink); }
+.gFig .gnote { fill: var(--muted); font: 400 10.5px var(--font-ui); }
+.gStory { padding: 12px 14px; }
+.gStory p { margin: 6px 0 0; font-size: .9rem; line-height: 1.8; }
+.gTag { display: inline-block; font: 700 .72rem var(--font-ui); border-radius: 5px; padding: 2px 8px; color: var(--surface); }
+.gTag.s { background: var(--profit); } .gTag.r { background: var(--trapped); }
+.gDemo { padding: 12px 10px; display: flex; flex-direction: column; gap: 10px; }
+.gSlide { display: grid; grid-template-columns: auto minmax(0, 1fr) 3em; gap: 10px; align-items: center; font-size: .84rem; padding: 0 4px; }
+.gSlide input { width: 100%; accent-color: var(--profit); height: 32px; }
+.gSlide output { text-align: right; font: 600 .95rem var(--font-num); }
+.gDemoText { display: flex; flex-direction: column; gap: 6px; padding: 0 4px; font-size: .86rem; line-height: 1.65; }
+.gDemoText .row { display: grid; grid-template-columns: 4.6em minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.gDemoText .pillm { font: 700 .72rem var(--font-ui); text-align: center; border-radius: 5px; padding: 2px 0; color: var(--surface); }
+.gDemoText .pillm.s { background: var(--profit); } .gDemoText .pillm.r { background: var(--trapped); } .gDemoText .pillm.m { background: var(--muted); }
+.gDemoText .sum { margin-top: 2px; padding: 8px 10px; background: var(--bg); border-radius: 8px; }
+.gTermGroup { display: flex; flex-direction: column; gap: 8px; }
+.gTermGroup + .gTermGroup { margin-top: 8px; }
+.gGroupT { font: 500 .78rem var(--font-ui); color: var(--muted); letter-spacing: .04em; }
+.gTerm { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; }
+.gTerm .gt { font: 700 .95rem var(--font-ui); display: flex; align-items: center; }
+.gTerm .gd { margin: 4px 0 0; font-size: .84rem; color: var(--muted); line-height: 1.7; }
+.gTerm .gx { margin: 6px 0 0; font-size: .88rem; line-height: 1.75; }
+.gTerm .gx b { color: var(--profit); font-weight: 600; }
+.gi-demo { display: inline-flex; width: 17px; height: 17px; border: 1px solid var(--muted); border-radius: 50%; align-items: center; justify-content: center; font: italic 700 11px/1 Georgia, serif; color: var(--muted); vertical-align: 1px; }
+.gSteps { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.gStep { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; }
+.gStep > i { font: 700 .8rem var(--font-num); font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: var(--profit); color: var(--surface); display: inline-flex; align-items: center; justify-content: center; }
+.gStep b { font-size: .92rem; }
+.gStep p { margin: 2px 0 0; font-size: .86rem; line-height: 1.7; color: var(--muted); }
+.gBtns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 460px) { .gBtns { grid-template-columns: minmax(0, 1fr); } }
+.gBtns .btn { margin: 0; }
+.gWarn { padding: 14px 16px; }
+.gWarn ul { margin: 8px 0 0; padding-left: 1.2em; font-size: .86rem; line-height: 1.8; color: var(--muted); }
+.gWarn li b { color: var(--ink); font-weight: 600; }
 .btForm { display: flex; flex-direction: column; gap: 12px; padding: 14px 12px; }
 .btForm .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .fld { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: .76rem; color: var(--muted); }
@@ -249,6 +305,7 @@ svg .probe { stroke: var(--muted); stroke-width: 1; }
 svg .tag { font: 600 10.5px var(--font-num); stroke: var(--surface); stroke-width: 3; paint-order: stroke; stroke-linejoin: round; }
 svg .tag.s { fill: var(--profit); }
 svg .tag.r { fill: var(--trapped); }
+svg .tag.m { fill: var(--muted); }
 svg .ptag { fill: var(--ink); font: 500 10.5px var(--font-num); stroke: var(--surface); stroke-width: 3; paint-order: stroke; }
 .info { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; margin-left: 5px; padding: 0; border: 1px solid var(--muted); border-radius: 50%; background: transparent; color: var(--muted); font: italic 700 11px/1 Georgia, "Times New Roman", serif; vertical-align: 1px; cursor: pointer; flex: none; }
 .info::after { content: ""; position: absolute; inset: -12px; }
@@ -323,10 +380,90 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
   </header>
 
   <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
+    <button type="button" role="tab" data-tab="guide" aria-selected="false">新手專區</button>
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
   </nav>
+
+  <section id="pgGuide" class="page guide" hidden>
+    <div class="card gHero">
+      <div class="gKicker">新手專區・約 3 分鐘看完</div>
+      <h2 class="gH1">股價為什麼會「卡」在某些價位？</h2>
+      <p>因為<b>很多人買在那裡</b>。大家都記得自己的成本，股價回到那個價位時，就會有人想買、有人想賣。</p>
+      <p>這個系統做的事很單純：把「<b>大家的成本在哪裡</b>」畫出來，幫你找出股價比較容易停下來的位置，也就是<b>支撐</b>和<b>壓力</b>。</p>
+    </div>
+
+    <div class="gSec">
+      <h3>什麼是支撐？什麼是壓力？</h3>
+      <div class="card gFig">
+        <svg viewBox="0 0 320 168" role="img" aria-label="示意圖：股價在上方的壓力和下方的支撐之間來回">
+          <rect class="gz-r" x="0" y="14" width="320" height="30" rx="3"/>
+          <rect class="gz-s" x="0" y="124" width="320" height="30" rx="3"/>
+          <text class="gt-r" x="8" y="33">壓力：天花板</text>
+          <text class="gt-s" x="8" y="143">支撐：地板</text>
+          <path class="gl" d="M10 118 L40 100 L66 114 L96 62 L126 82 L152 50 L184 70 L214 116 L240 96 L268 128 L296 60"/>
+          <circle class="gdot" cx="152" cy="50" r="4"/><circle class="gdot" cx="268" cy="128" r="4"/>
+          <text class="gnote" x="158" y="46">漲不動，轉頭</text>
+          <text class="gnote" x="198" y="162">跌到這裡撐住，彈起</text>
+        </svg>
+      </div>
+      <div class="gTwo">
+        <div class="card gMini"><div class="gName s">支撐（地板）</div><p>股價往下跌，到這個價位附近，比較容易<b>停住、反彈</b>。</p></div>
+        <div class="card gMini"><div class="gName r">壓力（天花板）</div><p>股價往上漲，到這個價位附近，比較容易遇到<b>賣壓、漲不動</b>。</p></div>
+      </div>
+    </div>
+
+    <div class="gSec">
+      <h3>為什麼成本的位置會變成地板和天花板？</h3>
+      <div class="card gStory"><span class="gTag s">變成支撐</span>
+        <p>股價回跌到 100 元附近。當初買在 100 元的人想：「還沒虧，先不賣」，甚至「這個價錢我願意再買一點」。<b>賣的人變少、買的人變多</b>，股價比較容易撐住。</p></div>
+      <div class="card gStory"><span class="gTag r">變成壓力</span>
+        <p>股價從 100 元跌到 80 元，被套的人很痛苦。等到股價反彈回 100 元附近，他們想：「終於回本了，趕快賣！」<b>賣壓一次湧出</b>，股價就容易漲不動。</p></div>
+      <p class="gLead">所以<b>同一堆成本，會因為現在的股價在它的上面還是下面，而換角色</b>。下面讓你親手試試。</p>
+    </div>
+
+    <div class="gSec">
+      <h3>動手試試：拖動股價</h3>
+      <div class="card gDemo">
+        <div id="demoChart"></div>
+        <div class="gSlide"><label for="demoPrice">現在的股價</label><input id="demoPrice" type="range" min="66" max="134" step="1" value="112"><output id="demoPriceV" class="num">112</output></div>
+        <div id="demoText" class="gDemoText" aria-live="polite"></div>
+        <div class="legend"><span><i style="background:var(--profit)"></i>成本低於現價（帳面賺錢）</span><span><i style="background:var(--trapped)"></i>成本高於現價（被套）</span></div>
+      </div>
+    </div>
+
+    <div class="gSec">
+      <h3>各個名詞，怎麼影響支撐與壓力？</h3>
+      <p class="gLead">點名詞旁邊的 <span class="gi-demo">i</span> 還有更詳細的說明。</p>
+      <div id="guideTerms"></div>
+      <button type="button" class="info-link" data-term="combo">兩個占比怎麼組合判讀？</button>
+    </div>
+
+    <div class="gSec">
+      <h3>三步驟開始用</h3>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>查一檔股票</b><p>到「分析」頁，輸入代碼或名稱。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>看三個地方</b><p>圖上的淡色色帶（藍色是支撐、橘色是壓力）；下方的 S1～S3、R1～R3 列表；以及模型涵蓋率夠不夠高。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>想驗證，就去回測</b><p>在「回測」頁，看看「靠近支撐買、到壓力賣」這個想法，過去真的有效嗎？</p></div></div>
+      </div>
+      <div class="gBtns">
+        <button type="button" class="btn" data-go="demo">用 2330 看範例</button>
+        <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
+        <button type="button" class="btn ghost" data-go="backtest">去回測</button>
+      </div>
+    </div>
+
+    <div class="card gWarn">
+      <div class="gName">先記得這幾件事</div>
+      <ul>
+        <li>支撐和壓力是<b>依成交資料推算的統計傾向</b>，不是預測。股價不一定會在支撐止跌、在壓力受阻。</li>
+        <li>先看<b>模型涵蓋率</b>。太低（例如 50% 以下）時，離現價很遠的支撐壓力只當參考。</li>
+        <li>常見的觀察是：壓力被<b>有效突破</b>後，有時會變成新的支撐。這是常見現象，不是保證。</li>
+        <li>這個系統只是幫你讀資料，<b>不是買賣建議</b>。</li>
+      </ul>
+    </div>
+  </section>
 
   <div id="pgAnalyze" class="page">
   <div id="searchBox" class="searchBox" hidden>
@@ -841,6 +978,17 @@ const GLOSS = {
     read: ["長條越長，代表這段期間有越多的量在這個價位成交，也就是主要的換手區。", "藍色是成交價在現價以下的量，橘色是在現價以上的量。", "切換成「籌碼分布」，右側會改成這個區間算出來的籌碼（舊成本會隨成交逐日被取代）。", "平均成本、獲利比例、支撐壓力、SuperTrend 等數字，也都是依這個區間重新計算的。"],
     calc: "把每天的成交量依三角分布分到當天最高價與最低價之間的各個價位，再把所選區間內每天的結果加總（不衰減）。",
     live: R => `目前區間：<b>${R.rows[0].d} ～ ${R.rows[R.rows.length - 1].d}</b>（${R.rows.length} 個交易日）。` },
+  chipShare: { t: "籌碼占比",
+    def: "目前仍持有股票、成本落在這個價格區間的人，占全部持有人的比例。",
+    read: ["越高，代表這個價位有越多人的成本。股價回到這裡時，反應的人越多，支撐或壓力越明顯。", "它會隨著換手逐日更新：舊成本被新成交取代後，占比就會下降。"],
+    calc: "把每天的成交量依價位累積，並讓舊籌碼隨換手逐日衰減，最後把區間內的籌碼加總。" },
+  volShare: { t: "成交量占比",
+    def: "這段期間內，有多少比例的成交量發生在這個價格區間。",
+    read: ["越高，代表這裡曾經是主要的換手區，價位被市場記得更牢。", "和籌碼占比一起看：兩者都高最可靠，詳見「兩個占比怎麼組合判讀」。"],
+    calc: "把每天的成交量依三角分布分到各價位，加總後除以期間總成交量（不衰減）。" },
+  distNear: { t: "距現價",
+    def: "這個支撐或壓力的價位，離現在的股價有多遠（百分比）。",
+    read: ["越近，對短期走勢的影響越直接。", "離很遠的區域，要等股價真的走到那裡才有意義，短期可以先放在心上就好。"] },
   profitChips: { t: "獲利籌碼",
     def: "成本在現價以下的籌碼，也就是目前帳面賺錢的持有人手上的股票。圖中的藍色長條。",
     read: ["這些持有人若賣出，會造成獲利了結的賣壓。"] },
@@ -1209,6 +1357,10 @@ function buildControls() {
     $("tabs").hidden = false;
     $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showTab(b.dataset.tab); });
     btInit();
+    guideInit();
+    let seenGuide = false;
+    try { seenGuide = !!localStorage.getItem("chipGuideSeen"); } catch (e) {}
+    if (!seenGuide) showTab("guide");          // 第一次來的人先看新手專區
     $("searchBox").hidden = false;
     $("snapNote").hidden = true;
     renderRecent();
@@ -1372,6 +1524,8 @@ async function fetchQuotes() {
   await Promise.all([worker(), worker(), worker()]);
 }
 function showTab(t) {
+  $("pgGuide").hidden = t !== "guide";
+  if (t !== "guide") { try { localStorage.setItem("chipGuideSeen", "1"); } catch (e) {} }
   $("pgAnalyze").hidden = t !== "analyze";
   $("pgWatch").hidden = t !== "watch";
   $("pgBt").hidden = t !== "backtest";
@@ -1700,6 +1854,77 @@ function btInit() {
     else setBtHint(`找不到「${v}」，請輸入股票代碼或完整名稱。`, true);
   });
   new ResizeObserver(() => { if (bt.last && $("btChart") && !$("pgBt").hidden) drawBtChart(bt.last, $("btChart")); }).observe($("btOut"));
+}
+
+/* ---------- 新手專區 ---------- */
+const GUIDE_TERMS = [
+  { g: "決定「這個價位有多強」", items: [
+    ["chipShare", "籌碼占比", "目前還抱著股票、成本落在這個區間的人，占全部持有人的比例。", "越高，代表這裡有越多人的成本。股價回到這裡時，反應的人越多，<b>支撐或壓力越明顯</b>。"],
+    ["volShare", "成交量占比", "這段期間內，有多少比例的成交量發生在這個價格區間。", "越高，代表這裡曾是主要的換手區，價位被市場記得更牢，<b>強度更有依據</b>。"],
+    ["distNear", "距現價", "這個支撐或壓力，離現在的股價有多遠。", "越近，對短期走勢的影響越直接；離很遠的，要等股價走到那裡才有意義。"],
+  ] },
+  { g: "判斷「整體氣氛」", items: [
+    ["avg", "平均成本", "所有持有人成本的重心。", "現價高於平均成本，代表多數人賺錢，平均成本常被當作整體的心理防線；<b>差距越大，獲利了結的賣壓也越大</b>。"],
+    ["profit", "獲利比例", "成本低於現價的人占多少。", "很高：上方幾乎沒有被套的人，<b>壓力區少、壓力弱</b>。很低：多數人被套，<b>上方壓力重</b>，反彈容易遇到解套賣壓。"],
+    ["conc", "集中度", "大家的成本是擠在一起，還是散得很開。", "越小越集中，<b>支撐壓力的位置很明確</b>；越大越分散，沒有特別突出的價位，支撐壓力就比較模糊。"],
+  ] },
+  { g: "決定「可不可信」", items: [
+    ["turnover", "累計換手", "這段期間，股票整體換手了幾輪。", "換手越多，舊成本被新成交取代得越徹底，算出來的「現在大家的成本」<b>越準</b>。"],
+    ["coverage", "模型涵蓋率", "模型有多完整地描繪出目前的持有結構。", "越接近 100% 越可靠；低於 90%，離現價很遠的支撐壓力<b>只當參考</b>。把時間區間拉長可以提高。"],
+  ] },
+  { g: "另一個角度", items: [
+    ["supertrend", "SuperTrend", "判斷目前偏多還是偏空的趨勢線。", "它不參與支撐壓力的計算。常見的看法是：多頭時，下方支撐的參考性較高；空頭時，上方壓力比較值得留意。<b>這是輔助，不是定論</b>。"],
+  ] },
+];
+function guideInit() {
+  $("guideTerms").innerHTML = GUIDE_TERMS.map(g => `<div class="gTermGroup"><div class="gGroupT">${g.g}</div>${g.items.map(([k, t, d, x]) =>
+    `<div class="gTerm"><div class="gt">${t}${tip(k)}</div><p class="gd">${d}</p><p class="gx"><b>對支撐壓力的影響：</b>${x}</p></div>`).join("")}</div>`).join("");
+  $("pgGuide").addEventListener("click", e => {
+    const b = e.target.closest("[data-go]"); if (!b) return;
+    const go = b.dataset.go;
+    if (go === "demo") { showTab("analyze"); selectStock("2330", "台積電"); }
+    else if (go === "analyze") { showTab("analyze"); $("q").focus(); }
+    else showTab(go);
+  });
+  guideDemo();
+}
+// 互動示範：固定的三堆成本，拖動股價，看同一堆成本怎麼在「支撐」和「壓力」之間換角色
+function guideDemo() {
+  const piles = [{ c: 80, w: 4, h: 0.4, n: "C" }, { c: 100, w: 4, h: 1, n: "A" }, { c: 122, w: 4, h: 0.65, n: "B" }];
+  const P0 = 60, P1 = 140, step = 2, bins = [];
+  for (let p = P0 + step / 2; p < P1; p += step) {
+    let v = 0.03;
+    piles.forEach(q => { v += q.h * Math.exp(-0.5 * ((p - q.c) / q.w) ** 2); });
+    bins.push({ p, v });
+  }
+  const tot = bins.reduce((a, b) => a + b.v, 0);
+  bins.forEach(b => { b.v /= tot; });
+  const vmax = Math.max(...bins.map(b => b.v)), el = $("demoChart"), slider = $("demoPrice");
+  function draw() {
+    const price = +slider.value;
+    $("demoPriceV").textContent = price;
+    const W = Math.max(280, Math.floor(el.clientWidth || 320)), H = 230, ml = 34, mr = 8, mt = 8, mb = 8, lab = 108;
+    const y = p => mt + (H - mt - mb) * (1 - (p - P0) / (P1 - P0)), bw = W - ml - mr - lab;
+    let g = "";
+    for (let t = P0 + 20; t < P1; t += 20) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text class="axt" x="${ml - 5}" y="${y(t) + 3.5}" text-anchor="end">${t}</text>`;
+    for (const b of bins) g += `<rect class="${b.p <= price ? "bar-p" : "bar-t"}" x="${ml}" y="${y(b.p + step / 2).toFixed(1)}" width="${(bw * b.v / vmax).toFixed(1)}" height="${(y(b.p - step / 2) - y(b.p + step / 2) - 0.6).toFixed(1)}"/>`;
+    g += `<line class="px" x1="${ml}" x2="${W - mr}" y1="${y(price)}" y2="${y(price)}"/><text class="ptag" x="${ml + 4}" y="${y(price) - 5}">現在股價 ${price}</text>`;
+    const rows = [];
+    for (const q of piles) {
+      const d = price - q.c, k = Math.abs(d) <= 3 ? "m" : d > 0 ? "s" : "r", word = k === "m" ? "就在這裡" : k === "s" ? "支撐" : "壓力";
+      g += `<text class="tag ${k}" x="${W - mr}" y="${y(q.c) + 4}" text-anchor="end">${q.n} 堆（${q.c}）${word}</text>`;
+      rows.push(`<div class="row"><span class="pillm ${k}">${q.n} 堆 ${word}</span><span>${k === "s" ? `成本 ${q.c} 比現價低，這些人還賺錢。股價跌回來時，容易有人不賣、有人想再買，所以當作<b>地板</b>。`
+        : k === "r" ? `成本 ${q.c} 比現價高，這些人被套。股價漲到這裡，容易有人想解套賣出，所以當作<b>天花板</b>。`
+        : `股價正好站在成本 ${q.c} 這堆上。它會是地板還是天花板，要看接下來守得住還是跌破。`}</span></div>`);
+    }
+    let prof = 0;
+    for (const b of bins) if (b.p <= price) prof += b.v;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="三堆成本與目前股價的位置">${g}</svg>`;
+    $("demoText").innerHTML = rows.join("") + `<div class="sum">這時的<b>獲利比例</b>是 <b>${pct(prof, 0)}</b>：成本低於現價的人有這麼多。比例越高，上方被套的人越少，壓力就越輕。</div>`;
+  }
+  slider.addEventListener("input", draw);
+  new ResizeObserver(draw).observe(el);
+  draw();
 }
 
 function setTheme(mode, persist) {
