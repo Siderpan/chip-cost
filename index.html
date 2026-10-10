@@ -85,6 +85,11 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 details.adv.inner { border: 0; padding: 0; background: transparent; }
 details.adv.inner summary { min-height: 40px; padding: 0; color: var(--profit); font-weight: 500; }
 details.adv.inner .two { padding-bottom: 6px; }
+/* 手機的日期欄位本身有最小寬度與日曆圖示，並排會互相蓋住，所以窄螢幕改成上下排 */
+.fld input[type="date"] { -webkit-appearance: none; appearance: none; display: block; width: 100%; max-width: 100%; min-width: 0; height: 44px; text-align: left; font-size: .95rem; }
+.fld input[type="date"]::-webkit-date-and-time-value { text-align: left; min-width: 0; }
+.fld input[type="date"]::-webkit-calendar-picker-indicator { margin: 0 0 0 4px; padding: 0; }
+@media (max-width: 480px) { .btForm .two.dates { grid-template-columns: minmax(0, 1fr); } }
 .rules { padding: 12px 14px; font-size: .84rem; line-height: 1.7; }
 .rules .rtitle { font: 600 .9rem var(--font-ui); margin-bottom: 6px; }
 .rflow { display: flex; flex-direction: column; gap: 8px; }
@@ -409,7 +414,7 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
       </div>
       <div class="fld">
         <span class="step"><i>2</i>選期間</span>
-        <div class="two">
+        <div class="two dates">
           <label class="fld" for="btStart"><span>起始日</span><input id="btStart" type="date"></label>
           <label class="fld" for="btEnd"><span>結束日</span><input id="btEnd" type="date"></label>
         </div>
