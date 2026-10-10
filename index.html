@@ -104,6 +104,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .rngSl input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--profit); outline-offset: 2px; }
 .seg.fill { display: flex; width: 100%; }
 .seg.fill button { flex: 1 1 0; min-width: 0; padding: 0 6px; min-height: 44px; font-size: .86rem; white-space: nowrap; }
+.fmBox { font: 400 .76rem var(--font-num); color: var(--muted); padding: 6px 10px; background: var(--bg); border-radius: 8px; }
+.fmBox.low { background: var(--warn-bg); color: var(--warn-ink); }
 .chk { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: .86rem; color: var(--ink); }
 .chk input, .fld .chk input { width: 22px; min-width: 22px; height: 22px; min-height: 22px; padding: 0; margin: 0; accent-color: var(--profit); flex: none; }
 .chk span { min-width: 0; }
@@ -627,7 +629,10 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div id="tokBox" class="tokrow" hidden>
       <label for="tok">FinMind token（選填）<button type="button" class="info" data-term="token" aria-label="FinMind token 的說明">i</button></label>
       <input id="tok" type="password" autocomplete="off" placeholder="未填也能用，每小時約可查 300 次">
-      <p class="advnote">註冊 FinMind 後取得，可提高查詢上限。只存在這支手機的瀏覽器裡。</p>
+      <p class="advnote">到 <a href="https://finmindtrade.com/" target="_blank" rel="noopener">FinMind 官網</a>註冊並驗證信箱後取得，可把每小時的查詢上限提高（未填約 300 次，填了約 600 次，實際數字以 FinMind 為準）。只存在這支手機的瀏覽器裡。</p>
+      <div class="fmUsage fmBox"></div>
+      <button type="button" id="fmReset" class="info-link">重設用量記錄</button>
+      <p class="advnote">用量是這支手機自己記的估計值。如果你確定已經等夠久，或畫面上的數字不準，可以按「重設用量記錄」。</p>
     </div>
   </details>
   </div>
@@ -656,6 +661,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
           <button type="button" data-p="recent" aria-pressed="false">最近查過</button>
         </div>
         <div id="scrPoolInfo" class="picked"></div>
+        <div class="fmUsage fmBox"></div>
       </div>
       <div class="fld">
         <span class="step"><i>2</i>設定條件（調整後結果會立刻更新）</span>
@@ -813,17 +819,73 @@ const save = () => { try { localStorage.setItem("chipState", JSON.stringify({ id
 const FM = "https://api.finmindtrade.com/api/v4/data";
 const getToken = () => { try { return localStorage.getItem("fmToken") || ""; } catch (e) { return ""; } };
 const dateBack = ({ years = 0, days = 0 }) => { const d = new Date(); d.setFullYear(d.getFullYear() - years); d.setDate(d.getDate() - days); return d.toISOString().slice(0, 10); };
+/* 查詢額度管理
+   FinMind 免費額度有限（沒填 token 約每小時 300 次，填了約 600 次），用光會被暫停約 1 小時。
+   所以：1) 記錄本機最近一小時的查詢次數；2) 被擋之後先暫停送出，不要一直敲被擋的門；3) 查過的資料存起來重複使用 */
+const FM_RESERVE = 40;                       // 篩選時至少保留給一般查詢的次數
+const DIV_TTL = 7 * 864e5, SH_TTL = 30 * 864e5;
+const fmLimit = () => getToken() ? 600 : 300;
+// 瀏覽器擋掉儲存（例如無痕模式）時，改存在記憶體裡，至少「本次開啟期間」的用量記錄和暫停狀態仍然有效
+const lsMem = {};
+const lsRead = k => { try { const v = localStorage.getItem(k); if (v != null) return JSON.parse(v); } catch (e) {} return lsMem[k] === undefined ? null : lsMem[k]; };
+const lsWrite = (k, v) => { lsMem[k] = v; try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const lsDel = k => { delete lsMem[k]; try { localStorage.removeItem(k); } catch (e) {} };
+const todayTW = () => new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
+const fmLog = () => { const now = Date.now(); return (lsRead("fmLog") || []).filter(t => now - t < 3600e3); };
+const fmLeft = () => Math.max(0, fmLimit() - fmLog().length);
+const fmBlocked = () => { const t = lsRead("fmBlock"); return t && t > Date.now() ? t : 0; };
+const hhmm = ms => new Date(ms).toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit", hour12: false });
+function fmBlockNow(log) { const until = Math.max(Date.now() + 15 * 60e3, ((log && log[0]) || Date.now()) + 3600e3); lsWrite("fmBlock", until); return until; }
+function fmLimitError(until) {
+  const e = new Error(`資料來源的查詢次數已達上限，預計 ${hhmm(until)} 後恢復。這段時間仍可以看已經查過的資料；在「進階參數」填入 FinMind token 可以提高上限。`);
+  e.limit = true; return e;
+}
+function fmUsageRender() {
+  const b = fmBlocked(), txt = b ? `查詢暫停中，預計 ${hhmm(b)} 恢復` : `本小時約已用 ${fmLog().length} / ${fmLimit()} 次${getToken() ? "（已使用 token）" : ""}`;
+  document.querySelectorAll(".fmUsage").forEach(el => { el.textContent = txt; el.classList.toggle("low", !!b || fmLeft() < FM_RESERVE); });
+}
 async function fm(dataset, params) {
+  const blocked = fmBlocked();
+  if (blocked) throw fmLimitError(blocked);            // 已經被擋就不再送，避免延長封鎖
   const u = new URL(FM);
   u.searchParams.set("dataset", dataset);
   for (const k in params) u.searchParams.set(k, params[k]);
   const t = getToken();
   if (t) u.searchParams.set("token", t);
+  const log = fmLog(); log.push(Date.now()); lsWrite("fmLog", log); fmUsageRender();
   let r, j;
-  try { r = await fetch(u); j = await r.json(); } catch (e) { throw new Error("連不上資料來源，請檢查網路後再試。"); }
-  if (j.status !== 200) throw new Error(/level|limit|request/i.test(j.msg || "") ? "查詢次數已達上限，請稍後再試，或在進階參數填入 FinMind token。" : (j.msg || "查詢失敗"));
+  try { r = await fetch(u); }
+  catch (e) {
+    // 被限流時對方常常沒有帶 CORS 標頭，瀏覽器只看得到「連線失敗」。用量已接近上限時，就當作被擋
+    if (log.length >= fmLimit() * 0.8) throw fmLimitError(fmBlockNow(log));
+    throw new Error("連不上資料來源，請檢查網路後再試。");
+  }
+  if (r.status === 402 || r.status === 429) throw fmLimitError(fmBlockNow(log));
+  try { j = await r.json(); } catch (e) { throw new Error(`資料來源回應異常（HTTP ${r.status}）。`); }
+  if (j.status === 402 || /upper limit|too many|reach/i.test(j.msg || "")) throw fmLimitError(fmBlockNow(log));
+  if (j.status !== 200) throw new Error(/level/i.test(j.msg || "") ? "這份資料需要 FinMind 付費會員。" : (j.msg || "查詢失敗"));
   return j.data || [];
 }
+// 變動很慢的資料（除權息、流通股數）存在 localStorage，隔幾天才需要重查
+async function fmCached(dataset, params, ttl, shrink) {
+  const key = `fmc:${dataset}:${params.data_id}`, c = lsRead(key);
+  if (c && Date.now() - c.t < ttl) return c.data;
+  const data = shrink(await fm(dataset, params));
+  lsWrite(key, { t: Date.now(), data });
+  return data;
+}
+const fmCachedFresh = (dataset, id, ttl) => { const c = lsRead(`fmc:${dataset}:${id}`); return !!c && Date.now() - c.t < ttl; };
+// 整檔股價資料存在 IndexedDB，同一天內重開網頁、重新篩選都不用再查
+let idbP = null;
+const idbDb = () => idbP || (idbP = new Promise(res => {
+  try { const r = indexedDB.open("chipcache", 1); r.onupgradeneeded = () => r.result.createObjectStore("stocks"); r.onsuccess = () => res(r.result); r.onerror = () => res(null); r.onblocked = () => res(null); }
+  catch (e) { res(null); }
+}));
+async function idbGet(key) {
+  const db = await idbDb(); if (!db) return null;
+  return new Promise(res => { try { const q = db.transaction("stocks").objectStore("stocks").get(key); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch (e) { res(null); } });
+}
+async function idbPut(key, val) { const db = await idbDb(); if (!db) return; try { db.transaction("stocks", "readwrite").objectStore("stocks").put(val, key); } catch (e) {} }
 let info = [];                // [[id, name], ...]
 async function loadInfo() {
   try { const c = JSON.parse(localStorage.getItem("chipInfo") || "null"); if (c && Date.now() - c.t < 6048e5 && c.l.length) { info = c.l; return; } } catch (e) {}
@@ -852,14 +914,38 @@ function searchStocks(q) {
     .slice(0, 8).map(x => x[1]);
 }
 const stockCache = new Map();
+// 載入順序：記憶體 → 今天已經存過的 IndexedDB → 連網查詢。被限流時退回舊的快取（會標示資料日期）
 async function loadStock(code, years = 6) {
   const key = `${code}:${years}`;
   if (stockCache.has(key)) return stockCache.get(key);
-  const start = dateBack({ years });
+  const saved = await idbGet(key);
+  if (saved && saved.st && saved.st.d && saved.day === todayTW()) { stockCache.set(key, saved.st); return saved.st; }
+  try {
+    const st = await fetchStock(code, years);
+    stockCache.set(key, st);
+    idbPut(key, { day: todayTW(), st });
+    return st;
+  } catch (e) {
+    if (e.limit && saved && saved.st && saved.st.d) { saved.st.stale = saved.day; return saved.st; }
+    throw e;
+  }
+}
+// 這檔股票現在還需要幾次連網查詢（已經有快取的不用）
+async function loadCostOf(code, years = 6) {
+  if (stockCache.has(`${code}:${years}`)) return 0;
+  const saved = await idbGet(`${code}:${years}`);
+  if (saved && saved.day === todayTW()) return 0;
+  return 1 + (fmCachedFresh("TaiwanStockDividendResult", code, DIV_TTL) ? 0 : 1) + (fmCachedFresh("TaiwanStockShareholding", code, SH_TTL) ? 0 : 1);
+}
+async function fetchStock(code, years) {
+  const key = `${code}:${years}`, start = dateBack({ years });
+  const soft = e => { if (e.limit) throw e; return []; };       // 限流要往上丟，其他錯誤就當作沒有資料
   const [px, dv, sh] = await Promise.all([
     fm("TaiwanStockPrice", { data_id: code, start_date: start }),
-    fm("TaiwanStockDividendResult", { data_id: code, start_date: start }).catch(() => []),
-    fm("TaiwanStockShareholding", { data_id: code, start_date: dateBack({ days: 30 }) }).catch(() => []),
+    fmCached("TaiwanStockDividendResult", { data_id: code, start_date: dateBack({ years: 12 }) }, DIV_TTL,
+      rows => rows.map(r => ({ date: r.date, before_price: r.before_price, reference_price: r.reference_price }))).catch(soft),
+    fmCached("TaiwanStockShareholding", { data_id: code, start_date: dateBack({ days: 30 }) }, SH_TTL,
+      rows => rows.slice(-1).map(r => ({ NumberOfSharesIssued: r.NumberOfSharesIssued }))).catch(soft),
   ]);
   const rows = px.filter(r => r.Trading_Volume > 0 && r.max > 0 && r.min > 0 && r.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
   if (!rows.length) throw new Error(`查無 ${code} 的股價資料，請確認代碼。`);
@@ -875,7 +961,6 @@ async function loadStock(code, years = 6) {
   }
   if (sh.length) { const n = +sh[sh.length - 1].NumberOfSharesIssued; if (n > 0) st.shares = n; }
   if (!st.shares) { const o = [...stockCache.values()].find(x => x.code === code && x.shares); if (o) st.shares = o.shares; }
-  stockCache.set(key, st);
   return st;
 }
 function setStatus(msg, err) {
@@ -891,7 +976,7 @@ async function selectStock(code, name) {
     cur = await loadStock(code);
     state.probe = null; state.last = code;
     state.recent = [{ code, name: cur.name }, ...state.recent.filter(r => r.code !== code)].slice(0, 6);
-    save(); setStatus("");
+    save(); setStatus(cur.stale ? `資料來源暫時查詢不了，目前顯示的是 ${cur.stale} 存下來的資料，價格可能不是最新。` : "");
     renderRecent(); render();
   } catch (e) {
     setStatus(e.message || "查詢失敗", true);
@@ -1212,8 +1297,8 @@ const GLOSS = {
     def: "日 K 資料只有開高低收和總量，沒有每個價位的成交量。程式假設當天成交量在最低價與最高價之間呈三角形分布，峰值偏向收盤價，再依此把量分到各價位。",
     read: ["這是近似值，若有分價明細資料會更準確。"] },
   token: { t: "FinMind token",
-    def: "FinMind 是提供台股資料的服務。註冊後可取得 token，用來提高每小時能查詢的次數。",
-    read: ["不填也能使用，每小時約可查 300 次，每次分析會用掉 3 次。", "token 只存在這支手機的瀏覽器裡，不會上傳到其他地方。"] },
+    def: "FinMind 是提供台股資料的服務。註冊並驗證信箱後可取得 token，用來提高每小時能查詢的次數。",
+    read: ["不填也能使用，每小時約可查 300 次；填了 token 約 600 次（實際數字以 FinMind 為準）。", "第一次查一檔股票約用 3 次查詢；同一天再查同一檔，或隔天再查，用的次數會少很多，因為資料會存在這支手機裡。", "用光額度後，FinMind 會暫停提供資料約 1 小時。網頁偵測到時會先暫停送出請求，避免一直重試延長封鎖，並顯示預計恢復的時間。", "token 只存在這支手機的瀏覽器裡，不會上傳到其他地方。"] },
   shares: { t: "流通股數",
     def: "市場上實際可以買賣的股票總數，用來計算每天的換手率。",
     read: ["數字不正確會讓換手率失真。ETF 或新上市股票可能查不到，需要手動輸入。"] },
@@ -1544,7 +1629,12 @@ function buildSearch() {
   });
   $("tokBox").hidden = false;
   $("tok").value = getToken();
-  $("tok").addEventListener("change", e => { try { localStorage.setItem("fmToken", e.target.value.trim()); } catch (err) {} });
+  $("tok").addEventListener("change", e => { try { localStorage.setItem("fmToken", e.target.value.trim()); } catch (err) {} fmUsageRender(); });
+  $("fmReset").addEventListener("click", () => {
+    lsWrite("fmLog", []); lsDel("fmBlock");
+    fmUsageRender(); if (!$("pgScreen").hidden) scrPoolInfo();
+  });
+  fmUsageRender();
 }
 function buildControls() {
   if (LIVE) {
@@ -2532,18 +2622,39 @@ function scrEval(m, c) {
   } else checks.push({ key: "rr", ok: false, text: "沒有支撐，無法計算風險報酬比" });
   return { checks, pass: checks.every(x => x.ok), rr, reward, risk, target, stop };
 }
-function scrPoolInfo() {
-  const n = scrCodes().length;
-  $("scrPoolInfo").textContent = scr.pool === "big" ? `內建大型股 ${n} 檔，第一次篩選約需 ${n * 3} 次資料查詢。`
-    : scr.pool === "watch" ? (memberOn && user ? `你的自選股 ${n} 檔。` : "登入會員後才有自選股。") : `你最近查過的 ${n} 檔。`;
+// 還沒分析的股票，依「現在有多少額度」切成這次能做的和要等的
+async function scrPlan() {
+  const todo = scrCodes().filter(k => !scr.metrics.has(k)), budget = Math.max(0, fmLeft() - FM_RESERVE);
+  let spent = 0, need = 0; const allowed = [], deferred = [];
+  for (const k of todo) {
+    const c = await loadCostOf(k);
+    need += c;
+    if (spent + c <= budget) { spent += c; allowed.push(k); } else deferred.push(k);
+  }
+  return { todo, allowed, deferred, need, spent, budget };
+}
+let scrInfoSeq = 0;
+async function scrPoolInfo() {
+  const codes = scrCodes(), n = codes.length, seq = ++scrInfoSeq;
   [...$("scrPool").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.p === scr.pool));
+  const head = scr.pool === "big" ? `內建大型股 ${n} 檔。` : scr.pool === "watch" ? (memberOn && user ? `你的自選股 ${n} 檔。` : "登入會員後才有自選股。") : `你最近查過的 ${n} 檔。`;
+  $("scrPoolInfo").textContent = head;
+  fmUsageRender();
+  const p = await scrPlan();
+  if (seq !== scrInfoSeq) return;
+  const tail = !p.todo.length ? "資料都已經載入，不需要再查詢。"
+    : p.need === 0 ? "資料都已存在這支手機裡，不需要再查詢。"
+    : p.deferred.length ? `還需要約 ${p.need} 次查詢，目前的額度只夠這次先分析 ${p.allowed.length} 檔（為了讓你還能查股票，會保留 ${FM_RESERVE} 次），其餘的之後再接著做。`
+    : `還需要約 ${p.need} 次查詢。`;
+  $("scrPoolInfo").textContent = `${head}${tail}`;
 }
 function renderScreen() {
   const el = $("scrOut"), c = scrCond(), codes = scrCodes();
   const all = codes.map(k => scr.metrics.get(k)).filter(Boolean).map(m => ({ m, ev: scrEval(m, c) }));
   if (!all.length) { el.innerHTML = `<div class="empty">${scr.running ? "分析中…" : "按「開始篩選」，系統會逐檔載入資料並計算支撐與壓力。"}</div>`; return; }
   const pass = all.filter(x => x.ev.pass).sort((a, b) => b.ev.rr - a.ev.rr || b.m.s1.strength - a.m.s1.strength);
-  let h = `<div class="status">已分析 ${all.length} / ${codes.length} 檔${scr.failed ? `，${scr.failed} 檔略過（查不到資料或股數）` : ""}${scr.limited ? "。查詢次數已達上限，先顯示已分析的部分，稍後再按一次會接著做，也可以在「進階參數」填入 FinMind token" : ""}。</div>`;
+  const left = codes.length - all.length - scr.failed;
+  let h = `<div class="status">已分析 ${all.length} / ${codes.length} 檔${scr.failed ? `，${scr.failed} 檔略過（查不到資料或股數）` : ""}。${scr.limited ? "查詢次數已用完，先顯示已分析的部分。" : ""}${left > 0 && !scr.running ? `還有 ${left} 檔還沒分析：${scr.limitMsg || "等額度恢復，或在「進階參數」填入 FinMind token，再按一次「開始篩選」就會接著做（已分析的不會重複查詢）。"}` : ""}</div>`;
   if (!pass.length) {
     const cnt = {}; all.forEach(x => x.ev.checks.forEach(k => { if (!k.ok) cnt[k.key] = (cnt[k.key] || 0) + 1; }));
     const NAME = { near: "離支撐太遠或沒有支撐", str: "支撐太弱", bull: "趨勢不是多頭", cov: "涵蓋率不夠", rr: "風險報酬比不夠" };
@@ -2569,8 +2680,17 @@ async function scrRun() {
   if (scr.running) return;
   const codes = scrCodes();
   if (!codes.length) { $("scrOut").innerHTML = `<div class="empty">這個範圍裡還沒有股票。</div>`; return; }
+  const blocked = fmBlocked();
+  if (blocked) { scr.limitMsg = ""; $("scrOut").innerHTML = `<div class="status err">資料來源的查詢暫停中，預計 ${hhmm(blocked)} 恢復。先前分析過的結果不受影響；也可以在「進階參數」填入 FinMind token 提高上限。</div>`; return; }
+  const plan = await scrPlan();
+  if (plan.todo.length && !plan.allowed.length) {
+    scr.limitMsg = "";
+    $("scrOut").innerHTML = `<div class="status err">目前剩下的查詢額度只有約 ${fmLeft()} 次，不夠分析這些股票（要保留 ${FM_RESERVE} 次給一般查詢）。請稍後再試，或在「進階參數」填入 FinMind token。</div>`;
+    return;
+  }
   scr.running = true; scr.stop = false; scr.failed = 0; scr.limited = false;
-  const queue = codes.filter(k => !scr.metrics.has(k)), total = queue.length;
+  scr.limitMsg = plan.deferred.length ? `為了保留查詢額度給一般使用，這次先分析了 ${plan.allowed.length} 檔；等額度恢復（約 1 小時內）或填入 FinMind token 後，再按一次「開始篩選」就會接著做。` : "";
+  const queue = plan.allowed.slice(), total = queue.length;
   const prog = $("scrProg"), bar = prog.querySelector("i"), txt = prog.querySelector(".txt");
   let done = 0;
   $("scrRun").disabled = true; prog.hidden = !total;
@@ -2580,13 +2700,13 @@ async function scrRun() {
     while (queue.length && !scr.stop && !scr.limited) {
       const code = queue.shift();
       try { const m = await scrMetrics(code); if (m) scr.metrics.set(code, m); else scr.failed++; }
-      catch (e) { if (/上限/.test(e.message)) { scr.limited = true; queue.unshift(code); } else scr.failed++; }
+      catch (e) { if (e.limit) { scr.limited = true; scr.limitMsg = e.message; } else scr.failed++; }
       done++; tick();
     }
   };
   await Promise.all([worker(), worker(), worker()]);
   scr.running = false; $("scrRun").disabled = false; prog.hidden = true;
-  renderScreen();
+  renderScreen(); scrPoolInfo();
 }
 function scrOpen() { scrPoolInfo(); renderScreen(); }
 function scrInit() {
