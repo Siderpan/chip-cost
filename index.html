@@ -476,7 +476,7 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
 
 <script>
 const DATA = /*__DATA__*/null;
-const BIN = 0.5, SMOOTH = 1.0, LOOKBACK = 250;
+const BIN = 0.5, SMOOTH = 1.0;
 const YEAR_OPTIONS = [1, 2, 3, 6];
 const $ = id => document.getElementById(id);
 const fmt = (n, d = 2) => n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -763,7 +763,7 @@ const GLOSS = {
     live: R => `這 ${R.rows.length} 個交易日累計換手 <b>${R.m.cumTurnover.toFixed(1)}</b> 次。` },
   coverage: { t: "模型涵蓋率",
     def: "模型能從這段期間的成交資料「解釋」到的流通股比例。數字越接近 100%，結果越可靠。",
-    read: ["低於 90%：期間起點之前的舊籌碼沒有被算進去，離現價很遠的支撐與壓力僅供參考。", "改選較長的年數，通常可以提高涵蓋率。"],
+    read: ["低於 90%：期間起點之前的舊籌碼沒有被算進去，離現價很遠的支撐與壓力僅供參考。", "把下方的時間區間拉長（或選較長的年數），通常可以提高涵蓋率；區間縮得越短，涵蓋率越低。"],
     calc: "模型從期間起點的空分布開始，逐日加入新成交並衰減舊籌碼，最後被填滿的總量就是涵蓋率。",
     live: R => `目前涵蓋率 <b>${pct(R.m.coverage)}</b>，${R.m.coverage < 0.9 ? "偏低，建議選更長的年數。" : "已足夠。"}` },
   support: { t: "支撐區",
@@ -838,9 +838,9 @@ const GLOSS = {
     read: ["涵蓋率低於 80%，建議把起始日往後挪，讓模型多暖機一段時間。", "程式要求起始日至少在資料最早日之後 2 年（歷史太短的股票為 1 年）。"] },
   rangeVol: { t: "區間成交量",
     def: "圖表右側的橫向長條，顯示你在下方拉條選的時間區間內，各個價位的成交量占這段區間總成交量的比例。拉動時間區間，長條會跟著重算。",
-    read: ["長條越長，代表這段期間有越多的量在這個價位成交，也就是主要的換手區。", "藍色是成交價在現價以下的量，橘色是在現價以上的量。", "切換成「籌碼分布」，右側會改成目前仍持有的籌碼（整段計算，不隨區間變動）。", "淡色的支撐與壓力色帶，一律依整段籌碼計算，不會隨時間區間改變。"],
+    read: ["長條越長，代表這段期間有越多的量在這個價位成交，也就是主要的換手區。", "藍色是成交價在現價以下的量，橘色是在現價以上的量。", "切換成「籌碼分布」，右側會改成這個區間算出來的籌碼（舊成本會隨成交逐日被取代）。", "平均成本、獲利比例、支撐壓力、SuperTrend 等數字，也都是依這個區間重新計算的。"],
     calc: "把每天的成交量依三角分布分到當天最高價與最低價之間的各個價位，再把所選區間內每天的結果加總（不衰減）。",
-    live: R => { const V = state.view; return V ? `目前區間：<b>${R.rows[V.a].d} ～ ${R.rows[V.b].d}</b>（${V.b - V.a + 1} 個交易日）。` : ""; } },
+    live: R => `目前區間：<b>${R.rows[0].d} ～ ${R.rows[R.rows.length - 1].d}</b>（${R.rows.length} 個交易日）。` },
   profitChips: { t: "獲利籌碼",
     def: "成本在現價以下的籌碼，也就是目前帳面賺錢的持有人手上的股票。圖中的藍色長條。",
     read: ["這些持有人若賣出，會造成獲利了結的賣壓。"] },
@@ -924,23 +924,41 @@ document.addEventListener("keydown", e => {
 });
 
 /* ---------- compute for current selection ---------- */
-function compute() {
-  const st = cur;
-  const last = st.d[st.d.length - 1];
-  const cut = new Date(last); cut.setFullYear(cut.getFullYear() - state.years);
-  const cutS = cut.toISOString().slice(0, 10);
-  const rows = [];
-  for (let i = 0; i < st.d.length; i++) {
-    if (st.d[i] >= cutS) rows.push({ d: st.d[i], o: st.o[i], h: st.h[i], l: st.l[i], c: st.c[i], v: st.v[i] * 1000 });
+function allRowsOf(st) {
+  if (!st._rows) st._rows = st.d.map((d, i) => ({ d, o: st.o[i], h: st.h[i], l: st.l[i], c: st.c[i], v: st.v[i] * 1000 }));
+  return st._rows;
+}
+// 分析區間（交易日索引 a～b）。換股票時回到預設：最近 state.years 年，終點是最新一天
+function ensureView() {
+  const st = cur, n = st.d.length;
+  if (!state.view || state.view.code !== st.code || state.view.n !== n) {
+    const cut = new Date(st.d[n - 1]); cut.setFullYear(cut.getFullYear() - state.years);
+    const cutS = cut.toISOString().slice(0, 10);
+    const a = st.d.findIndex(d => d >= cutS);
+    state.view = { code: st.code, n, a: a < 0 ? 0 : a, b: n - 1 };
   }
+  return state.view;
+}
+function yearStartIdx(years) {
+  const st = cur, n = st.d.length, cut = new Date(st.d[n - 1]);
+  cut.setFullYear(cut.getFullYear() - years);
+  const a = st.d.findIndex(d => d >= cut.toISOString().slice(0, 10));
+  return a < 0 ? 0 : a;
+}
+// 整個分析（平均成本、獲利比例、支撐壓力、SuperTrend…）都只用這個區間內的資料，以區間終點收盤價當作「現價」
+function compute() {
+  const st = cur, all = allRowsOf(st), V = ensureView();
+  const rows = all.slice(V.a, V.b + 1);
   const price = rows[rows.length - 1].c;
   let lo = price, hi = price;
   for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
   const { edges, centers } = makeBins(lo, hi, BIN);
   const m = runModel(rows, edges, st.shares, state.decay);
   const a = analyze(centers, m.p, price, state.gap, m.vol);
-  const sdf = superTrend(rows, state.stN, state.stM);
-  return { st, rows, price, edges, centers, m, a, sdf, sum: stSummary(rows, sdf, price) };
+  // SuperTrend 需要暖機，所以用到區間終點為止的全部資料來算，再取區間內的部分
+  const full = all.slice(0, V.b + 1), sf = superTrend(full, state.stN, state.stM);
+  const sdf = { st: sf.st.slice(V.a), dir: sf.dir.slice(V.a) };
+  return { st, rows, price, edges, centers, m, a, sdf, sum: stSummary(full, sf, price), isLatest: V.b === V.n - 1 };
 }
 
 /* ---------- chart ---------- */
@@ -955,9 +973,9 @@ function niceTicks(lo, hi, want) {
 function mountRange(el, o) {
   const n = o.n;
   if (n < 30) { el.innerHTML = ""; return; }
-  const minSpan = Math.min(10, n - 1);
+  const minSpan = Math.min(o.minSpan || 10, n - 1);
   let a = o.a, b = o.b, raf = 0;
-  const pre = [["3 個月", 63], ["6 個月", 126], ["1 年", 250], ["2 年", 500]].filter(p => p[1] < n * 0.95).concat([["全部", n]]);
+  const pre = [["3 個月", 63], ["6 個月", 126], ["1 年", 250], ["2 年", 500], ["3 年", 750]].filter(p => p[1] < n * 0.95).concat([["全部", n]]);
   el.innerHTML = `<div class="rng"><div class="rngTop"><span class="rngLbl" aria-live="polite"></span><div class="rngPre">${pre.map(([t, d]) => `<button type="button" data-d="${d}">${t}</button>`).join("")}</div></div>
     <div class="rngSl"><div class="rngTrack"><i class="rngFill"></i></div>
     <input type="range" class="rA" min="0" max="${n - 1}" step="1" aria-label="顯示區間的起點"><input type="range" class="rB" min="0" max="${n - 1}" step="1" aria-label="顯示區間的終點"></div></div>`;
@@ -977,12 +995,6 @@ function mountRange(el, o) {
   });
   paint();
 }
-// 分析頁走勢圖目前顯示的區間（交易日索引）；換股票或換年數時回到預設（最近 250 天）
-function ensureView(R) {
-  const n = R.rows.length, code = cur && cur.code;
-  if (!state.view || state.view.n !== n || state.view.code !== code) state.view = { code, n, a: Math.max(0, n - LOOKBACK), b: n - 1 };
-  return state.view;
-}
 function drawChart(R) {
   const el = $("chart");
   const W = Math.max(300, Math.floor(el.clientWidth || 340));
@@ -990,8 +1002,7 @@ function drawChart(R) {
   const ml = 42, mr = 6, mt = 8, mb = 26, gp = 6;
   const inner = W - ml - mr, pw = Math.round(inner * 0.6), dw = inner - pw - gp;
   const xp = ml, xd = ml + pw + gp;
-  const V = ensureView(R);
-  const tail = R.rows.slice(V.a, V.b + 1);
+  const tail = R.rows;                 // 圖上顯示的就是目前的分析區間
   let lo = Infinity, hi = -Infinity;
   for (const r of tail) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
   // 放大到短區間時，只把「離價格不遠」的支撐壓力納入縮放，避免遠處的區域把走勢壓扁
@@ -1015,7 +1026,7 @@ function drawChart(R) {
   for (let i = tail.length - 1; i >= 0; i--) bot += `L${x(i).toFixed(1)} ${y(tail[i].l).toFixed(1)}`;
   g += `<path class="rng" d="${top}${bot}Z"/>`;
   if (state.stOn) {
-    const off = V.a;
+    const off = 0;
     let run = "", cls = "";
     const flush = () => { if (run) g += `<path class="${cls}" d="${run}"/>`; run = ""; };
     tail.forEach((r, i) => {
@@ -1030,7 +1041,7 @@ function drawChart(R) {
   g += `<path class="pl" d="${line}"/>`;
   // 右側長條：區間成交量（隨上面的時間區間重算）或整段籌碼分布
   const chipMode = state.rightMode === "chip";
-  const bars = chipMode ? R.m.p : rangeVolume(R, V.a, V.b);
+  const bars = chipMode ? R.m.p : R.m.vol;
   let acc = 0;
   R.rightCum = Float64Array.from(bars, v => (acc += v));
   const pmax = Math.max(...bars) || 1;
@@ -1041,7 +1052,7 @@ function drawChart(R) {
   }
   g += `</g>`;
   g += `<line class="px" x1="${xp}" x2="${W - mr}" y1="${y(R.price)}" y2="${y(R.price)}"/>`;
-  g += `<text class="ptag" x="${xp + 4}" y="${y(R.price) - 5}">現價 ${fmt(R.price)}</text>`;
+  g += `<text class="ptag" x="${xp + 4}" y="${y(R.price) - 5}">${R.isLatest ? "現價" : "終點收盤"} ${fmt(R.price)}</text>`;
   const tags = [...R.a.sup.map((z, i) => ({ t: "S" + (i + 1), z, c: "s" })), ...R.a.res.map((z, i) => ({ t: "R" + (i + 1), z, c: "r" }))]
     .map(o => ({ ...o, y: y(o.z.peak) + 3.5 })).sort((a, b) => a.y - b.y);
   for (let i = 1; i < tags.length; i++) if (tags[i].y - tags[i - 1].y < 12) tags[i].y = tags[i - 1].y + 12;
@@ -1073,27 +1084,8 @@ function updateReadout(R) {
   let k = 0;
   while (k < R.centers.length - 1 && R.edges[k + 1] <= v) k++;
   const below = R.rightCum ? R.rightCum[k] : R.a.cum[k];
-  const V = state.view, span = chipMode ? "" : `（${R.rows[V.a].d} ～ ${R.rows[V.b].d}）`;
+  const span = `（${R.rows[0].d} ～ ${R.rows[R.rows.length - 1].d}）`;
   el.innerHTML = `價位 <b>${fmt(v)}</b>（距現價 <b>${spct(v / R.price - 1)}</b>）<br>此價以下${what} <b>${pct(below)}</b>，此價以上 <b>${pct(1 - below)}</b>${span}`;
-}
-/* 區間成交量：先把每天的成交量依三角分布分到各價位並累加，之後任何區間都只要相減 */
-function rangeVolume(R, a, b) {
-  const nb = R.centers.length;
-  if (!R.vp) {
-    const n = R.rows.length, P = new Float64Array((n + 1) * nb), w = new Float64Array(nb);
-    for (let i = 0; i < n; i++) {
-      const r = R.rows[i];
-      dayWeights(R.edges, r.h, r.l, r.c, w);
-      const o0 = i * nb, o1 = o0 + nb;
-      for (let k = 0; k < nb; k++) P[o1 + k] = P[o0 + k] + r.v * w[k];
-    }
-    R.vp = P;
-  }
-  const out = new Float64Array(nb);
-  let s = 0;
-  for (let k = 0; k < nb; k++) { out[k] = R.vp[(b + 1) * nb + k] - R.vp[a * nb + k]; s += out[k]; }
-  if (s > 0) for (let k = 0; k < nb; k++) out[k] /= s;
-  return out;
 }
 function renderLegend() {
   const chip = state.rightMode === "chip";
@@ -1121,19 +1113,31 @@ function askShares() {
     <div class="h">ETF 或新上市股票常查不到，可到基金公司或公開資訊觀測站查詢。</div></div>`;
   window.__R = null;
   renderStar();
-  $("res").innerHTML = ""; $("sup").innerHTML = ""; $("chart").innerHTML = ""; $("readout").textContent = "";
+  $("res").innerHTML = ""; $("sup").innerHTML = ""; $("chart").innerHTML = ""; $("readout").textContent = ""; $("rangeBox").innerHTML = "";
   $("sharesForm").addEventListener("submit", e => {
     e.preventDefault();
     const n = +String($("sharesIn").value).replace(/[,\s]/g, "");
     if (n > 0) { st.shares = n; render(); } else $("sharesIn").focus();
   });
 }
+// 年數按鈕目前是否剛好對應現在的分析區間
+function syncYearBtns() {
+  const V = state.view;
+  [...$("years").children].forEach(c => c.setAttribute("aria-pressed", !!V && V.b === V.n - 1 && V.a === yearStartIdx(+c.dataset.y)));
+}
+// 完整重畫：換股票、換參數時用；會重建拉條
 function render() {
   if (!cur) return;
   if (!cur.shares) { askShares(); return; }
-  const R = compute();
+  const V = ensureView();
+  mountRange($("rangeBox"), { n: V.n, a: V.a, b: V.b, minSpan: 20, date: i => cur.d[i],
+    onChange: (a, b) => { V.a = a; V.b = b; state.probe = null; refresh(compute()); } });
+  refresh(compute());
+}
+// 區間改變時：重算並更新所有數字、色帶、圖表（不重建拉條，才不會拖到一半被重設）
+function refresh(R) {
   const st = R.st, a = R.a, m = R.m;
-  $("sName").textContent = `${st.code}${st.name ? "　" + st.name : ""}　${R.rows[0].d} ～ ${R.rows[R.rows.length - 1].d}`;
+  $("sName").textContent = `${st.code}${st.name ? "　" + st.name : ""}　${R.rows[0].d} ～ ${R.rows[R.rows.length - 1].d}${R.isLatest ? "" : "（以區間終點收盤價為現價）"}`;
   $("sPrice").textContent = fmt(R.price);
   const stat = (k, v, h, term) => `<div class="stat"><div class="k">${k}${tip(term)}</div><div class="v">${v}</div><div class="h">${h || "&nbsp;"}</div></div>`;
   $("stats").innerHTML =
@@ -1142,9 +1146,9 @@ function render() {
     stat("90% 籌碼區間", `${fmt(a.cost90[0], 0)}～${fmt(a.cost90[1], 0)}`, "", "cost90") +
     stat("集中度", pct(a.conc), "越小越集中", "conc") +
     stat("累計換手", m.cumTurnover.toFixed(1) + " 次", `${R.rows.length} 個交易日`, "turnover") +
-    stat("模型涵蓋率", pct(m.coverage), m.coverage < 0.9 ? "偏低，可選更長年數" : "足夠", "coverage");
+    stat("模型涵蓋率", pct(m.coverage), m.coverage < 0.9 ? "偏低，可拉長區間" : "足夠", "coverage");
   const w = [];
-  if (m.coverage < 0.9) w.push(`涵蓋率只有 ${pct(m.coverage, 0)}：這段期間換手不足，較遠的支撐與壓力僅供參考。可改選較長的年數。`);
+  if (m.coverage < 0.9) w.push(`涵蓋率只有 ${pct(m.coverage, 0)}：這段期間換手不足，較遠的支撐與壓力僅供參考。可把時間區間拉長。`);
   if (m.capped) w.push(`有 ${m.capped} 天換手率超過 100%，已截為 100%，請確認流通股數是否正確。`);
   $("warn").hidden = !w.length;
   $("warn").innerHTML = w.join("<br>");
@@ -1159,10 +1163,7 @@ function render() {
   }
   $("res").innerHTML = zoneRows(a.res, "R", "r", "現價上方沒有明顯的籌碼堆積。");
   $("sup").innerHTML = zoneRows(a.sup, "S", "s", "現價下方沒有明顯的籌碼堆積。");
-  const V = ensureView(R);
-  mountRange($("rangeBox"), { n: R.rows.length, a: V.a, b: V.b, date: i => R.rows[i].d,
-    onChange: (a, b) => { V.a = a; V.b = b; state.probe = null; drawChart(R); updateReadout(R); } });
-  renderLegend();
+  renderLegend(); syncYearBtns();
   drawChart(R); updateReadout(R);
   window.__R = R;
   renderStar();
@@ -1226,7 +1227,7 @@ function buildControls() {
   $("years").innerHTML = YEAR_OPTIONS.map(y => `<button type="button" data-y="${y}" aria-pressed="${y === state.years}">${y} 年</button>`).join("");
   $("years").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
-    state.years = +b.dataset.y; state.probe = null; save();
+    state.years = +b.dataset.y; state.probe = null; state.view = null; save();
     [...$("years").children].forEach(c => c.setAttribute("aria-pressed", +c.dataset.y === state.years));
     render();
   });
