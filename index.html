@@ -121,6 +121,13 @@ button:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px 
 .sharesForm button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--profit); color: var(--surface); font: 600 .85rem var(--font-ui); cursor: pointer; }
 .tokrow { display: flex; flex-direction: column; gap: 6px; padding-block: 6px 4px; font-size: .78rem; }
 .tokrow input { min-height: 40px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 0 10px; font: 400 .9rem var(--font-num); }
+.stocks { align-items: center; }
+.rchip { flex: none; display: flex; align-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.rchip.on { border-color: var(--profit); box-shadow: inset 0 0 0 1px var(--profit); }
+.stocks .rchip button.rmain { border: 0; background: transparent; border-radius: 8px 0 0 8px; padding: 6px 4px 6px 12px; }
+.stocks .rchip button.rx { border: 0; background: transparent; min-height: 44px; min-width: 34px; padding: 0 9px 0 5px; border-radius: 0 8px 8px 0; color: var(--muted); font: 400 1.15rem/1 var(--font-ui); display: flex; align-items: center; justify-content: center; }
+.stocks .rchip button.rx:hover { color: var(--ink); }
+.stocks button.rclear { flex: none; border: 0; background: transparent; color: var(--muted); font: 400 .75rem var(--font-ui); text-decoration: underline; padding: 0 8px; white-space: nowrap; }
 .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
 .sname { font-size: .85rem; color: var(--muted); }
 .sprice { font: 600 1.9rem/1.1 var(--font-num); letter-spacing: -.02em; }
@@ -423,9 +430,29 @@ async function selectStock(code, name) {
     document.querySelector(".app").classList.remove("busy");
   }
 }
+let pendingClear = false, clearTimer = null;
 function renderRecent() {
-  $("stocks").innerHTML = state.recent.map(r =>
-    `<button type="button" role="tab" data-code="${r.code}" aria-selected="${cur && r.code === cur.code}"><span class="code">${r.code}</span><span class="nm">${r.name || "&nbsp;"}</span></button>`).join("");
+  const chips = state.recent.map(r => {
+    const on = cur && r.code === cur.code;
+    return `<span class="rchip${on ? " on" : ""}"><button type="button" class="rmain" data-code="${esc(r.code)}"${on ? ' aria-current="true"' : ""}><span class="code">${esc(r.code)}</span><span class="nm">${esc(r.name) || "&nbsp;"}</span></button><button type="button" class="rx" data-rm="${esc(r.code)}" aria-label="移除 ${esc(r.code)} 的搜尋紀錄">×</button></span>`;
+  });
+  if (state.recent.length > 1) chips.push(`<button type="button" class="rclear" data-clear="1">${pendingClear ? "確認清除" : "清除全部"}</button>`);
+  $("stocks").innerHTML = chips.join("");
+}
+function removeRecent(code) {
+  state.recent = state.recent.filter(r => r.code !== code);
+  if (state.last === code) state.last = "2330";
+  save(); renderRecent();
+}
+function clearRecent() {
+  if (!pendingClear) {
+    pendingClear = true; clearTimeout(clearTimer);
+    clearTimer = setTimeout(() => { pendingClear = false; renderRecent(); }, 3000);
+    renderRecent(); return;
+  }
+  clearTimeout(clearTimer); pendingClear = false;
+  state.recent = []; state.last = "2330";
+  save(); renderRecent();
 }
 
 /* ---------- model (port of chip_cost.py) ---------- */
@@ -868,7 +895,12 @@ function buildSearch() {
     else if (/^\d{4,6}[A-Za-z]?$/.test(v)) pick(v, "");
     else setStatus(`找不到「${v}」，請輸入股票代碼或完整名稱。`, true);
   });
-  $("stocks").addEventListener("click", e => { const b = e.target.closest("button"); if (b) selectStock(b.dataset.code, ""); });
+  $("stocks").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.rm) removeRecent(b.dataset.rm);
+    else if (b.dataset.clear) clearRecent();
+    else if (b.dataset.code) selectStock(b.dataset.code, "");
+  });
   $("tokBox").hidden = false;
   $("tok").value = getToken();
   $("tok").addEventListener("change", e => { try { localStorage.setItem("fmToken", e.target.value.trim()); } catch (err) {} });
