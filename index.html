@@ -9,6 +9,7 @@ html{color-scheme:light dark}
 body{margin:0;font-size:14px;-webkit-text-size-adjust:100%}
 [hidden]{display:none!important}
 </style>
+<script src="firebase-config.js"></script>
 </head>
 <body>
 <title>籌碼成本分布</title>
@@ -51,6 +52,45 @@ body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); }
 :root[data-theme="light"] { color-scheme: light; }
 header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .hl { min-width: 0; }
+.hr { display: flex; align-items: center; gap: 8px; flex: none; }
+.page { display: flex; flex-direction: column; gap: 14px; }
+.acct { flex: none; min-height: 36px; min-width: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 500 .8rem var(--font-ui); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.acct.in { padding: 0; width: 36px; border-radius: 50%; overflow: hidden; border-color: var(--profit); }
+.acct img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.acct .ini { font: 600 .95rem var(--font-ui); color: var(--profit); }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
+.tabs button { min-height: 44px; border: 0; background: transparent; color: var(--muted); font: 500 .92rem var(--font-ui); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--profit); font-weight: 700; }
+.tabs .cnt { margin-left: 6px; font: 500 .72rem var(--font-num); color: var(--muted); }
+.priceRow { display: flex; align-items: center; gap: 6px; }
+.star { position: relative; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.star svg { fill: none; }
+.star[aria-pressed="true"] { color: var(--trapped); }
+.star[aria-pressed="true"] svg { fill: currentColor; }
+.btn { min-height: 46px; width: 100%; border: 0; border-radius: 8px; background: var(--profit); color: var(--surface); font: 600 .95rem var(--font-ui); cursor: pointer; padding: 0 16px; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.sheet .btn { margin-top: 14px; }
+.sheet .msg { margin-top: 10px; font-size: .8rem; color: var(--warn-ink); background: var(--warn-bg); border-radius: 8px; padding: 8px 10px; line-height: 1.5; }
+.me { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.me .av { width: 48px; height: 48px; border-radius: 50%; background: var(--bg); overflow: hidden; display: flex; align-items: center; justify-content: center; font: 600 1.2rem var(--font-ui); color: var(--profit); flex: none; }
+.me .av img { width: 100%; height: 100%; object-fit: cover; }
+.me .nm { font-weight: 700; overflow-wrap: anywhere; }
+.me .em { font-size: .8rem; color: var(--muted); overflow-wrap: anywhere; }
+.wname .c, .wname .n, .wq .p, .wq .d { display: block; }
+.wrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 4px 6px 4px 4px; }
+.wmain { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 56px; padding: 6px 8px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; border-radius: 8px; font: inherit; }
+.wmain:hover { background: var(--bg); }
+.wname .c { font: 600 1.02rem var(--font-num); }
+.wname .n { font-size: .78rem; color: var(--muted); margin-top: 1px; }
+.wq { text-align: right; }
+.wq .p { font: 500 1rem var(--font-num); }
+.wq .d { font: 400 .74rem var(--font-num); margin-top: 1px; color: var(--muted); }
+.wq .d.up { color: var(--bull); }
+.wq .d.dn { color: var(--bear); }
+.wrm { min-height: 44px; min-width: 44px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: 500 .76rem var(--font-ui); cursor: pointer; padding: 0 8px; }
+.wrm:hover { background: var(--bg); color: var(--ink); }
+.wrm.sure { color: var(--surface); background: var(--bull); }
+.wlist { display: flex; flex-direction: column; gap: 8px; }
 .seg.theme button { min-height: 36px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; }
 h1 { font-size: 1.25rem; font-weight: 700; margin: 0; letter-spacing: .02em; }
 h2 { font-size: .8rem; font-weight: 500; color: var(--muted); letter-spacing: .08em; margin: 0; }
@@ -141,7 +181,8 @@ svg .st-dn { fill: none; stroke: var(--bear); stroke-width: 1.6; stroke-linejoin
 .pill.bull { background: var(--bull); }
 .pill.bear { background: var(--bear); }
 .legend .ln { display: inline-block; width: 12px; height: 0; border-top: 2px solid; margin-right: 5px; vertical-align: 3px; }
-.stcard .zp { font-size: 1rem; }
+.stcard .zp { font-size: .92rem; }
+.stcard .zr { overflow-wrap: anywhere; }
 svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 
 .zones { display: flex; flex-direction: column; gap: 8px; }
@@ -173,6 +214,8 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
       <h1>籌碼成本分布</h1>
       <p id="asof"></p>
     </div>
+    <div class="hr">
+    <button id="acctBtn" class="acct" type="button" hidden aria-label="登入"></button>
     <div id="themeSeg" class="seg theme" role="group" aria-label="頁面明暗">
       <button type="button" data-mode="auto" aria-pressed="true" aria-label="跟隨系統">自動</button>
       <button type="button" data-mode="light" aria-pressed="false" aria-label="淺色">
@@ -182,7 +225,15 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       </button>
     </div>
+    </div>
   </header>
+
+  <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
+    <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
+    <button type="button" role="tab" data-tab="watch" aria-selected="false">自選股<span id="watchCount" class="cnt"></span></button>
+  </nav>
+
+  <div id="pgAnalyze" class="page">
   <div id="searchBox" class="searchBox" hidden>
     <form id="searchForm" class="search" autocomplete="off">
       <input id="q" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入股票代碼或名稱，例如 2330、台積電" aria-label="股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -196,7 +247,12 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
   <section class="top">
     <div>
       <div id="sName" class="sname"></div>
-      <div id="sPrice" class="sprice"></div>
+      <div class="priceRow">
+        <div id="sPrice" class="sprice"></div>
+        <button id="starBtn" class="star" type="button" hidden aria-pressed="false" aria-label="加入自選股">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1L3.2 9.6l6.1-.8z"/></svg>
+        </button>
+      </div>
     </div>
     <div id="years" class="seg" role="group" aria-label="回溯年數"></div>
   </section>
@@ -237,6 +293,12 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
       <p class="advnote">註冊 FinMind 後取得，可提高查詢上限。只存在這支手機的瀏覽器裡。</p>
     </div>
   </details>
+  </div>
+
+  <section id="pgWatch" class="page" hidden>
+    <h2>自選股</h2>
+    <div id="watchBody"></div>
+  </section>
 
   <footer>
     <div id="src"></div>
@@ -579,6 +641,14 @@ function openSheet(k, from) {
   document.documentElement.style.overflow = "hidden";
   $("sheetClose").focus();
 }
+function openCustom(title, html, from) {
+  $("sheetT").textContent = title;
+  $("sheetBody").innerHTML = html;
+  sheetFrom = from || null;
+  $("sheet").hidden = false;
+  document.documentElement.style.overflow = "hidden";
+  $("sheetClose").focus();
+}
 function closeSheet() {
   $("sheet").hidden = true;
   document.documentElement.style.overflow = "";
@@ -594,7 +664,12 @@ $("sheetClose").addEventListener("click", closeSheet);
 document.addEventListener("keydown", e => {
   if ($("sheet").hidden) return;
   if (e.key === "Escape") closeSheet();
-  else if (e.key === "Tab") { e.preventDefault(); $("sheetClose").focus(); }
+  else if (e.key === "Tab") {
+    const f = [...$("sheet").querySelectorAll("button")];
+    const i = f.indexOf(document.activeElement);
+    e.preventDefault();
+    f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+  }
 });
 
 /* ---------- compute for current selection ---------- */
@@ -725,6 +800,7 @@ function askShares() {
     <form id="sharesForm" class="sharesForm"><input id="sharesIn" inputmode="numeric" placeholder="請輸入流通股數（股），例如 179000000" aria-label="流通股數"><button type="submit">分析</button></form>
     <div class="h">ETF 或新上市股票常查不到，可到基金公司或公開資訊觀測站查詢。</div></div>`;
   window.__R = null;
+  renderStar();
   $("res").innerHTML = ""; $("sup").innerHTML = ""; $("chart").innerHTML = ""; $("readout").textContent = "";
   $("sharesForm").addEventListener("submit", e => {
     e.preventDefault();
@@ -765,6 +841,7 @@ function render() {
   $("sup").innerHTML = zoneRows(a.sup, "S", "s", "現價下方沒有明顯的籌碼堆積。");
   drawChart(R); updateReadout(R);
   window.__R = R;
+  renderStar();
 }
 function buildSearch() {
   const q = $("q"), sugg = $("sugg");
@@ -830,6 +907,182 @@ function buildControls() {
     ? "資料：FinMind 台股日 K，查詢時即時下載，以除權息參考價還原。"
     : `資料：${DATA.source}，更新於 ${DATA.asof}。`;
 }
+/* ---------- members: Firebase Auth (Google) + Firestore watchlist ---------- */
+const FB = window.FIREBASE_CONFIG || null;   // 由同資料夾的 firebase-config.js 提供；沒有就不顯示會員功能
+let memberOn = false;
+const FB_VERSION = "10.12.2";
+const loadScript = src => new Promise((ok, no) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = () => no(new Error(src)); document.head.appendChild(s); });
+const WATCH_MAX = 50;
+let auth = null, fdb = null, user = null, unsubWatch = null, watchErr = "";
+let watch = new Map(), pendingRm = null, rmTimer = null;
+const quotes = new Map();
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const wlRef = () => fdb.collection("users").doc(user.uid).collection("watchlist");
+
+function renderAcct() {
+  const b = $("acctBtn");
+  b.hidden = !memberOn;
+  if (!memberOn) return;
+  if (user) {
+    const nm = user.displayName || user.email || "會員";
+    b.className = "acct in";
+    b.setAttribute("aria-label", "帳號：" + nm);
+    b.innerHTML = user.photoURL ? `<img src="${esc(user.photoURL)}" alt="" referrerpolicy="no-referrer">` : `<span class="ini">${esc(nm.trim().charAt(0).toUpperCase())}</span>`;
+  } else {
+    b.className = "acct";
+    b.setAttribute("aria-label", "登入");
+    b.textContent = "登入";
+  }
+}
+function renderStar() {
+  const b = $("starBtn"), on = !!(cur && watch.has(cur.code));
+  b.hidden = !(memberOn && cur);
+  b.setAttribute("aria-pressed", on);
+  b.setAttribute("aria-label", on ? "從自選股移除" : "加入自選股");
+}
+function openLogin(reason) {
+  openCustom("登入", `<p class="def">${esc(reason || "登入後可以把常用的股票存成自選股，換手機也能看到。")}</p>
+    <div id="loginMsg"></div>
+    <button type="button" class="btn" data-act="login">使用 Google 登入</button>
+    <p class="calc" style="margin-top:12px">登入只用來辨識你的帳號，只會儲存你的自選股代碼和名稱。</p>`, $("acctBtn"));
+}
+function openAccount() {
+  const nm = user.displayName || "會員", ini = esc(nm.trim().charAt(0).toUpperCase());
+  openCustom("我的帳號", `<div class="me"><div class="av">${user.photoURL ? `<img src="${esc(user.photoURL)}" alt="" referrerpolicy="no-referrer">` : ini}</div>
+    <div><div class="nm">${esc(nm)}</div><div class="em">${esc(user.email || "")}</div></div></div>
+    <p class="def">已儲存 ${watch.size} 檔自選股。</p>
+    <button type="button" class="btn ghost" data-act="logout">登出</button>`, $("acctBtn"));
+}
+async function doLogin() {
+  const setMsg = t => { const m = $("loginMsg"); if (m) m.innerHTML = t ? `<div class="msg">${esc(t)}</div>` : ""; };
+  setMsg("");
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try { await auth.signInWithPopup(provider); closeSheet(); }
+  catch (e) {
+    const c = e.code || "";
+    if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return;
+    if (c === "auth/popup-blocked") { try { await auth.signInWithRedirect(provider); return; } catch (_) {} }
+    setMsg(c === "auth/unauthorized-domain" ? "這個網址還沒加入 Firebase 的授權網域，請依設定教學加入後再試。"
+      : c === "auth/operation-not-supported-in-this-environment" ? "請用 https 網址（例如 GitHub Pages）開啟，不能直接開本機檔案。"
+      : "登入失敗：" + (e.message || c));
+  }
+}
+function onUser(u) {
+  user = u || null;
+  if (unsubWatch) { unsubWatch(); unsubWatch = null; }
+  watch = new Map(); watchErr = ""; pendingRm = null;
+  if (user) {
+    unsubWatch = wlRef().orderBy("addedAt", "desc").onSnapshot(snap => {
+      watch = new Map(snap.docs.map(d => [d.id, d.data()]));
+      watchErr = "";
+      renderStar(); renderWatch();
+      if (!$("pgWatch").hidden) fetchQuotes();
+    }, err => {
+      watchErr = err.code === "permission-denied" ? "沒有讀取權限，請確認 Firestore 規則已依設定教學發佈。" : "讀取自選股失敗：" + (err.message || err.code);
+      renderWatch();
+    });
+  }
+  renderAcct(); renderStar(); renderWatch();
+}
+async function toggleStar() {
+  if (!cur) return;
+  if (!user) { openLogin("登入後才能把這檔股票加入自選股。"); return; }
+  try {
+    const ref = wlRef().doc(cur.code);
+    if (watch.has(cur.code)) await ref.delete();
+    else {
+      if (watch.size >= WATCH_MAX) { setStatus(`自選股最多 ${WATCH_MAX} 檔，請先移除不需要的。`, true); return; }
+      await ref.set({ code: cur.code, name: cur.name || "", addedAt: Date.now() });
+    }
+  } catch (e) {
+    setStatus(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已依設定教學發佈。" : "儲存失敗：" + (e.message || e.code), true);
+  }
+}
+function renderWatch() {
+  $("watchCount").textContent = user && watch.size ? `(${watch.size})` : "";
+  const el = $("watchBody");
+  if (!memberOn) { el.innerHTML = ""; return; }
+  if (!user) {
+    el.innerHTML = `<div class="empty">登入後可以儲存常用的股票，換手機也能看到。<br><button type="button" class="btn" style="margin-top:12px" data-act="login-open">使用 Google 登入</button></div>`;
+    return;
+  }
+  if (watchErr) { el.innerHTML = `<div class="status err">${esc(watchErr)}</div>`; return; }
+  if (!watch.size) { el.innerHTML = `<div class="empty">還沒有自選股。到「分析」頁查詢股票，按股價旁邊的星號就會加進來。</div>`; return; }
+  const rows = [...watch.values()].map(w => {
+    const q = quotes.get(w.code);
+    let qh = `<span class="p">—</span><span class="d">${q && q.fail ? "查不到報價" : "載入中"}</span>`;
+    if (q && !q.fail) {
+      const cls = q.chg == null ? "" : q.chg > 0 ? "up" : q.chg < 0 ? "dn" : "";
+      qh = `<span class="p">${fmt(q.close)}</span><span class="d ${cls}">${q.chg == null ? "" : spct(q.chg, 2)}</span>`;
+    }
+    const sure = pendingRm === w.code;
+    return `<div class="wrow"><button type="button" class="wmain" data-act="open" data-code="${esc(w.code)}" data-name="${esc(w.name)}" aria-label="分析 ${esc(w.code)} ${esc(w.name)}">
+      <span class="wname"><span class="c">${esc(w.code)}</span><span class="n">${esc(w.name) || "&nbsp;"}</span></span><span class="wq">${qh}</span></button>
+      <button type="button" class="wrm${sure ? " sure" : ""}" data-act="rm" data-code="${esc(w.code)}" aria-label="移除 ${esc(w.code)}">${sure ? "確認刪除" : "移除"}</button></div>`;
+  });
+  el.innerHTML = `<div class="wlist">${rows.join("")}</div><p class="advnote" style="padding-top:10px">報價為最新收盤價與漲跌幅（紅漲綠跌），點股票會進入分析。</p>`;
+}
+async function fetchQuotes() {
+  const codes = [...watch.keys()].filter(c => { const q = quotes.get(c); return !q || Date.now() - q.t > 3e5; });
+  let i = 0, stop = false;
+  const worker = async () => {
+    while (i < codes.length && !stop) {
+      const c = codes[i++];
+      try {
+        const rows = (await fm("TaiwanStockPrice", { data_id: c, start_date: dateBack({ days: 14 }) })).filter(x => x.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
+        const a = rows[rows.length - 1];
+        quotes.set(c, a ? { close: a.close, chg: a.close - a.spread > 0 ? a.spread / (a.close - a.spread) : null, date: a.date, t: Date.now() } : { fail: true, t: Date.now() });
+      } catch (e) { quotes.set(c, { fail: true, t: Date.now() }); if (/上限/.test(e.message)) stop = true; }
+      renderWatch();
+    }
+  };
+  await Promise.all([worker(), worker(), worker()]);
+}
+function showTab(t) {
+  $("pgAnalyze").hidden = t !== "analyze";
+  $("pgWatch").hidden = t !== "watch";
+  [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
+  if (t === "watch") { renderWatch(); if (user) fetchQuotes(); }
+  window.scrollTo(0, 0);
+}
+async function initMember() {
+  if (!LIVE || !FB || !FB.apiKey || String(FB.apiKey).startsWith("YOUR_")) return;
+  try { for (const m of ["app", "auth", "firestore"]) await loadScript(`https://www.gstatic.com/firebasejs/${FB_VERSION}/firebase-${m}-compat.js`); }
+  catch (e) { return; }                      // 沒網路或被擋：維持沒有會員功能的版本
+  memberOn = true;
+  $("tabs").hidden = false;
+  $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showTab(b.dataset.tab); });
+  $("acctBtn").addEventListener("click", () => user ? openAccount() : openLogin());
+  $("starBtn").addEventListener("click", toggleStar);
+  $("sheetBody").addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    if (b.dataset.act === "login") doLogin();
+    else if (b.dataset.act === "logout") { closeSheet(); auth.signOut(); }
+  });
+  $("watchBody").addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const a = b.dataset.act;
+    if (a === "login-open") openLogin();
+    else if (a === "open") { showTab("analyze"); selectStock(b.dataset.code, b.dataset.name); }
+    else if (a === "rm") {
+      const code = b.dataset.code;
+      if (pendingRm === code) {
+        clearTimeout(rmTimer); pendingRm = null;
+        wlRef().doc(code).delete().catch(err => { watchErr = "移除失敗：" + (err.message || err.code); renderWatch(); });
+      } else {
+        pendingRm = code; clearTimeout(rmTimer);
+        rmTimer = setTimeout(() => { pendingRm = null; renderWatch(); }, 3000);
+        renderWatch();
+      }
+    }
+  });
+  firebase.initializeApp(FB);
+  auth = firebase.auth(); fdb = firebase.firestore();
+  auth.getRedirectResult().catch(() => {});
+  auth.onAuthStateChanged(onUser);
+  renderAcct();
+}
+
 function setTheme(mode, persist) {
   const root = document.documentElement;
   if (mode === "light" || mode === "dark") root.setAttribute("data-theme", mode); else { mode = "auto"; root.removeAttribute("data-theme"); }
@@ -839,6 +1092,7 @@ function setTheme(mode, persist) {
 $("themeSeg").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setTheme(b.dataset.mode, true); });
 setTheme(document.documentElement.getAttribute("data-theme") || "auto", false);
 buildControls();
+initMember();
 if (LIVE) {
   loadInfo().then(() => {
     if (cur && !cur.name) {
