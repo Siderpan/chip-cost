@@ -58,8 +58,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .acct.in { padding: 0; width: 36px; border-radius: 50%; overflow: hidden; border-color: var(--profit); }
 .acct img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .acct .ini { font: 600 .95rem var(--font-ui); color: var(--profit); }
-.tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
-.tabs button { min-height: 44px; border: 0; background: transparent; color: var(--muted); font: 500 .92rem var(--font-ui); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs { display: flex; border-bottom: 1px solid var(--line); }
+.tabs button { flex: 1; min-height: 44px; border: 0; background: transparent; color: var(--muted); font: 500 .92rem var(--font-ui); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
 .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--profit); font-weight: 700; }
 .tabs .cnt { margin-left: 6px; font: 500 .72rem var(--font-num); color: var(--muted); }
 .priceRow { display: flex; align-items: center; gap: 6px; }
@@ -76,6 +76,68 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .me .av img { width: 100%; height: 100%; object-fit: cover; }
 .me .nm { font-weight: 700; overflow-wrap: anywhere; }
 .me .em { font-size: .8rem; color: var(--muted); overflow-wrap: anywhere; }
+.btForm { display: flex; flex-direction: column; gap: 12px; padding: 14px 12px; }
+.btForm .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.fld { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: .76rem; color: var(--muted); }
+.fld input, .fld select { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 0 10px; font: 400 .95rem var(--font-num); min-width: 0; }
+.btForm .search input { font-family: var(--font-ui); font-size: 1rem; background: var(--surface); }
+.btForm .stocks { margin-top: 2px; }
+details.adv.inner { border: 0; padding: 0; background: transparent; }
+details.adv.inner summary { min-height: 40px; padding: 0; color: var(--profit); font-weight: 500; }
+details.adv.inner .two { padding-bottom: 6px; }
+.rules { padding: 12px 14px; font-size: .84rem; line-height: 1.7; }
+.rules .rtitle { font: 600 .9rem var(--font-ui); margin-bottom: 6px; }
+.rflow { display: flex; flex-direction: column; gap: 8px; }
+.rflow > div { display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.rflow b { font-weight: 600; }
+.tag { display: inline-block; text-align: center; font: 600 .72rem var(--font-ui); border-radius: 5px; padding: 2px 0; color: var(--surface); }
+.tag.buy { background: var(--profit); }
+.tag.sell { background: var(--trapped); }
+.tag.note { background: var(--muted); }
+.rules ol { margin: 0; padding-left: 1.3em; color: var(--muted); font-size: .8rem; }
+.rules li b { color: var(--ink); font-weight: 500; }
+details.rfull { margin-top: 6px; }
+.step { display: flex; align-items: center; gap: 8px; font: 600 .86rem var(--font-ui); color: var(--ink); }
+.step i { font: 600 .72rem var(--font-num); font-style: normal; width: 20px; height: 20px; border-radius: 50%; background: var(--profit); color: var(--surface); display: inline-flex; align-items: center; justify-content: center; }
+.picked { font-size: .84rem; color: var(--muted); }
+.picked b { color: var(--ink); font-weight: 600; }
+#btChips:empty { display: none; }
+.btNote { background: var(--warn-bg); color: var(--warn-ink); border-radius: 8px; padding: 9px 12px; font-size: .78rem; line-height: 1.55; }
+.verdict { padding: 14px 14px 12px; display: flex; flex-direction: column; gap: 10px; }
+.verdict .vh { font: 500 .72rem var(--font-ui); letter-spacing: .08em; color: var(--muted); }
+.verdict .vt { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+.verdict .vs { margin: 0; font-size: .82rem; line-height: 1.75; color: var(--muted); }
+.verdict .vs b { color: var(--ink); font-family: var(--font-num); font-weight: 600; }
+.cmp { display: flex; flex-direction: column; gap: 10px; }
+.crow { display: grid; grid-template-columns: 5.6em minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+.crow .cl { font-size: .8rem; }
+.cbar { height: 14px; border-radius: 4px; background: var(--bg); overflow: hidden; }
+.cbar i { display: block; height: 100%; border-radius: 4px; }
+.cbar i.pos { background: var(--bull); }
+.cbar i.neg { background: var(--bear); }
+.crow .cv { text-align: right; font: 600 1rem var(--font-num); min-width: 5.5em; }
+.crow .cv small { display: block; font: 400 .66rem var(--font-num); color: var(--muted); margin-top: 1px; }
+details.more { margin-top: -2px; }
+details.more .stats { margin-top: 4px; }
+.trade details.td { grid-column: 1; }
+.trade details.td summary { min-height: 32px; display: flex; align-items: center; font: 400 .72rem var(--font-ui); color: var(--profit); cursor: pointer; }
+.trade details.td .m { padding-bottom: 4px; line-height: 1.7; }
+.up { color: var(--bull); } .dn { color: var(--bear); }
+.tlist { display: flex; flex-direction: column; gap: 8px; }
+.trade { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; }
+.trade .d { font: 500 .82rem var(--font-num); }
+.trade .m { font: 400 .72rem var(--font-num); color: var(--muted); grid-column: 1; }
+.trade .r { grid-row: 1 / span 2; grid-column: 2; text-align: right; font: 600 1.1rem var(--font-num); align-self: center; }
+.trade .r small { display: block; font: 500 .68rem var(--font-ui); color: var(--muted); margin-top: 2px; }
+.rsn { display: inline-block; font: 500 .66rem var(--font-ui); padding: 1px 6px; border-radius: 4px; background: var(--bg); color: var(--muted); margin-left: 6px; }
+svg .mk { fill: var(--ink); }
+svg .mk-up { fill: var(--bull); stroke: var(--surface); stroke-width: 1.2; }
+svg .mk-dn { fill: var(--bear); stroke: var(--surface); stroke-width: 1.2; }
+.trade .r { grid-row: 1 / span 3 !important; }
+svg .eq-s { fill: none; stroke: var(--profit); stroke-width: 1.8; }
+svg .eq-b { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 4 3; }
+svg .tr-up { fill: none; stroke: var(--bull); stroke-width: 2.6; stroke-linecap: round; }
+svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap: round; }
 .wname .c, .wname .n, .wq .p, .wq .d { display: block; }
 .wrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 4px 6px 4px 4px; }
 .wmain { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 56px; padding: 6px 8px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; border-radius: 8px; font: inherit; }
@@ -202,6 +264,9 @@ svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 .zs { text-align: right; }
 .zs .a { font: 500 .95rem var(--font-num); }
 .zs .b { font: 400 .72rem var(--font-num); color: var(--muted); margin-top: 1px; }
+.info-link { align-self: flex-start; min-height: 44px; padding: 0 2px; border: 0; background: transparent; color: var(--profit); font: 500 .82rem var(--font-ui); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.zs .lb { display: block; font: 400 .66rem var(--font-ui); color: var(--muted); margin-top: 1px; }
+.zs .a + .a { margin-top: 5px; }
 .empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; padding: 12px; font-size: .8rem; color: var(--muted); }
 
 details.adv { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; }
@@ -237,7 +302,8 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
 
   <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
-    <button type="button" role="tab" data-tab="watch" aria-selected="false">自選股<span id="watchCount" class="cnt"></span></button>
+    <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
+    <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
   </nav>
 
   <div id="pgAnalyze" class="page">
@@ -283,6 +349,7 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
     <div id="res" class="zones"></div>
     <h2>支撐區（現價以下，由近到遠）<button type="button" class="info" data-term="support" aria-label="支撐區的說明">i</button></h2>
     <div id="sup" class="zones"></div>
+    <button type="button" class="info-link" data-term="combo">兩個占比怎麼組合判讀？</button>
   </section>
 
   <details class="adv">
@@ -305,6 +372,63 @@ footer code { font-family: var(--font-num); font-size: .68rem; overflow-wrap: an
   <section id="pgWatch" class="page" hidden>
     <h2>自選股</h2>
     <div id="watchBody"></div>
+  </section>
+
+  <section id="pgBt" class="page" hidden>
+    <h2>回測：如果當時照支撐與壓力買賣，結果會怎樣？</h2>
+    <div class="card rules">
+      <div class="rtitle">這個回測怎麼買賣？<button type="button" class="info" data-term="btRules" aria-label="回測規則的說明">i</button></div>
+      <div class="rflow">
+        <div><span class="tag buy">買</span><span>股價回到<b>支撐區</b>附近時，隔天開盤買進。</span></div>
+        <div><span class="tag sell">賣</span><span>三種情況擇一：漲到<b>壓力區</b>賣出獲利；<b>跌破支撐</b>就停損；放太久<b>時間到</b>就賣。</span></div>
+        <div><span class="tag note">注意</span><span>每天只用<b>當天以前</b>的資料算支撐與壓力，不偷看未來。一次只持有一筆，已扣手續費與稅。</span></div>
+      </div>
+      <details class="adv inner rfull">
+        <summary>看完整規則</summary>
+        <ol>
+          <li><b>進場</b>：收盤價在最近支撐區內，或在支撐峰值上方不超過「靠近支撐」的距離時，隔天開盤買進。</li>
+          <li><b>停利</b>：進場時最近的壓力峰值。距離不到 2% 或沒有壓力時，用「無壓力時停利」的漲幅。</li>
+          <li><b>停損</b>：跌破進場時支撐區下緣，再往下「止損緩衝」的距離。</li>
+          <li><b>到期</b>：超過最長持有天數，以當天收盤賣出。期間最後一天仍持有，也以收盤結算。</li>
+          <li>同一天同時碰到停利與停損，<b>先算停損</b>（偏保守）。</li>
+        </ol>
+      </details>
+    </div>
+    <div class="card btForm">
+      <div class="fld">
+        <span class="step"><i>1</i>選股票</span>
+        <div class="searchBox">
+          <form id="btSearchForm" class="search" autocomplete="off">
+            <input id="btQ" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入代碼或名稱，例如 2330、台積電" aria-label="回測的股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <button type="submit">選擇</button>
+          </form>
+          <ul id="btSugg" class="sugg" hidden></ul>
+        </div>
+        <div id="btChips" class="stocks" aria-label="常用股票"></div>
+        <div id="btPicked" class="picked"></div>
+      </div>
+      <div class="fld">
+        <span class="step"><i>2</i>選期間</span>
+        <div class="two">
+          <label class="fld" for="btStart"><span>起始日</span><input id="btStart" type="date"></label>
+          <label class="fld" for="btEnd"><span>結束日</span><input id="btEnd" type="date"></label>
+        </div>
+      </div>
+      <div id="btHint" class="status"></div>
+      <details class="adv inner">
+        <summary>想調整買賣條件？（可略過）</summary>
+        <div class="two">
+          <label class="fld" for="btNear"><span>靠近支撐 %<button type="button" class="info" data-term="btNear" aria-label="靠近支撐的說明">i</button></span><input id="btNear" type="number" inputmode="decimal" min="0.5" max="15" step="0.5" value="3"></label>
+          <label class="fld" for="btStop"><span>止損緩衝 %<button type="button" class="info" data-term="btStop" aria-label="止損緩衝的說明">i</button></span><input id="btStop" type="number" inputmode="decimal" min="0" max="10" step="0.5" value="1"></label>
+          <label class="fld" for="btHold"><span>最長持有（天）<button type="button" class="info" data-term="btHold" aria-label="最長持有的說明">i</button></span><input id="btHold" type="number" inputmode="numeric" min="5" max="250" step="5" value="60"></label>
+          <label class="fld" for="btTp"><span>無壓力時停利 %<button type="button" class="info" data-term="btTp" aria-label="無壓力時停利的說明">i</button></span><input id="btTp" type="number" inputmode="decimal" min="2" max="50" step="1" value="10"></label>
+          <label class="fld" for="btCost"><span>來回成本 %<button type="button" class="info" data-term="btCost" aria-label="來回成本的說明">i</button></span><input id="btCost" type="number" inputmode="decimal" min="0" max="3" step="0.005" value="0.585"></label>
+        </div>
+        <p class="advnote">回測也會使用「分析」頁進階參數裡的衰減係數與最小間距。</p>
+      </details>
+      <button id="btRun" type="button" class="btn">開始回測</button>
+    </div>
+    <div id="btOut"></div>
   </section>
 
   <footer>
@@ -385,9 +509,10 @@ function searchStocks(q) {
     .slice(0, 8).map(x => x[1]);
 }
 const stockCache = new Map();
-async function loadStock(code) {
-  if (stockCache.has(code)) return stockCache.get(code);
-  const start = dateBack({ years: 6 });
+async function loadStock(code, years = 6) {
+  const key = `${code}:${years}`;
+  if (stockCache.has(key)) return stockCache.get(key);
+  const start = dateBack({ years });
   const [px, dv, sh] = await Promise.all([
     fm("TaiwanStockPrice", { data_id: code, start_date: start }),
     fm("TaiwanStockDividendResult", { data_id: code, start_date: start }).catch(() => []),
@@ -406,7 +531,8 @@ async function loadStock(code) {
     st.d.push(r.date); st.o.push(r.open * f); st.h.push(r.max * f); st.l.push(r.min * f); st.c.push(r.close * f); st.v.push(r.Trading_Volume / 1000);
   }
   if (sh.length) { const n = +sh[sh.length - 1].NumberOfSharesIssued; if (n > 0) st.shares = n; }
-  stockCache.set(code, st);
+  if (!st.shares) { const o = [...stockCache.values()].find(x => x.code === code && x.shares); if (o) st.shares = o.shares; }
+  stockCache.set(key, st);
   return st;
 }
 function setStatus(msg, err) {
@@ -490,21 +616,23 @@ function dayWeights(edges, h, l, c, out) {
 }
 function runModel(rows, edges, shares, decay) {
   const n = edges.length - 1;
-  const chips = new Float64Array(n), w = new Float64Array(n);
-  let cum = 0, capped = 0;
+  const chips = new Float64Array(n), w = new Float64Array(n), vol = new Float64Array(n);
+  let cum = 0, capped = 0, totalVol = 0;
   for (const r of rows) {
     let t = r.v / shares * decay;
     if (t > 1) { t = 1; capped++; }
     cum += r.v / shares;
     dayWeights(edges, r.h, r.l, r.c, w);
-    for (let i = 0; i < n; i++) chips[i] = chips[i] * (1 - t) + w[i] * t;
+    for (let i = 0; i < n; i++) { chips[i] = chips[i] * (1 - t) + w[i] * t; vol[i] += r.v * w[i]; }
+    totalVol += r.v;
   }
+  for (let i = 0; i < n; i++) vol[i] /= totalVol;   // 期間內各價位的成交量比例（不衰減），總和 = 1
   let coverage = 0;
   for (let i = 0; i < n; i++) coverage += chips[i];
   for (let i = 0; i < n; i++) chips[i] /= coverage;
-  return { p: chips, coverage, cumTurnover: cum, capped };
+  return { p: chips, vol, coverage, cumTurnover: cum, capped };
 }
-function analyze(centers, p, price, gapPct) {
+function analyze(centers, p, price, gapPct, vol) {
   const n = p.length;
   let avg = 0, profit = 0;
   for (let i = 0; i < n; i++) { avg += p[i] * centers[i]; if (centers[i] <= price) profit += p[i]; }
@@ -531,8 +659,9 @@ function analyze(centers, p, price, gapPct) {
     let lo = i, hi = i;
     while (lo > 0 && s[lo - 1] >= 0.5 * s[i] && s[lo - 1] <= s[lo]) lo--;
     while (hi < n - 1 && s[hi + 1] >= 0.5 * s[i] && s[hi + 1] <= s[hi]) hi++;
-    let st = 0; for (let k = lo; k <= hi; k++) st += p[k];
-    return { peak: centers[i], low: centers[lo], high: centers[hi], strength: st, dist: centers[i] / price - 1 };
+    let st = 0, vs = 0;
+    for (let k = lo; k <= hi; k++) { st += p[k]; vs += vol[k]; }
+    return { peak: centers[i], low: centers[lo], high: centers[hi], strength: st, volShare: vs, dist: centers[i] / price - 1 };
   });
   const sup = zones.filter(z => z.peak < price).sort((a, b) => b.strength - a.strength).slice(0, 3).sort((a, b) => b.peak - a.peak);
   const res = zones.filter(z => z.peak >= price).sort((a, b) => b.strength - a.strength).slice(0, 3).sort((a, b) => a.peak - b.peak);
@@ -609,14 +738,74 @@ const GLOSS = {
     live: R => `目前涵蓋率 <b>${pct(R.m.coverage)}</b>，${R.m.coverage < 0.9 ? "偏低，建議選更長的年數。" : "已足夠。"}` },
   support: { t: "支撐區",
     def: "現價以下、籌碼特別密集的價格區間。這些價位附近有大量持有人的成本，常被視為股價回檔時可能出現買盤或惜售的位置。",
-    read: ["峰值價：該區間內籌碼最多的價位。", "區間：峰值兩側籌碼降到一半以前的範圍。", "籌碼占比：這個區間的籌碼占全部籌碼的比例，越高越強。", "距現價：峰值價相對現價的漲跌幅。", "這是依成本推算的統計結果，不保證股價一定會在此止跌。"],
-    calc: "先把籌碼分布平滑，找出局部高峰，相鄰高峰至少相隔「最小間距」，再取占比最大的前三個。",
-    live: R => R.a.sup.length ? `目前最近的支撐是 <b>${fmt(R.a.sup[0].peak)}</b>（距現價 ${spct(R.a.sup[0].dist)}，占比 ${pct(R.a.sup[0].strength)}）。` : "目前現價下方沒有明顯的籌碼堆積。" },
+    read: ["峰值價：該區間內籌碼最多的價位。", "區間：峰值兩側籌碼降到一半以前的範圍。", "距現價：峰值價相對現價的漲跌幅。",
+      "籌碼占比：目前仍持有的籌碼中，成本落在這個區間的比例。越高，代表現在有越多人的成本在這裡。",
+      "成交量占比：所選時間區間的總成交量中，有多少比例是在這個價格區間成交的。越高，代表這裡曾是主要的換手區，有較多的歷史成交量支持。",
+      "兩個數字一起看：兩者都高，支撐的強度較有依據；成交量占比高但籌碼占比低，表示當時在這裡買進的人，多半已經賣出了。",
+      "兩個數字怎麼搭配判讀，請看列表下方的「兩個占比怎麼組合判讀？」。",
+      "這是依成本推算的統計結果，不保證股價一定會在此止跌。"],
+    calc: "先把籌碼分布平滑，找出局部高峰，相鄰高峰至少相隔「最小間距」，再取籌碼占比最大的前三個。成交量占比是把每天的成交量依三角分布分到各價位後加總（不衰減），再除以期間總成交量。",
+    live: R => R.a.sup.length ? `目前最近的支撐是 <b>${fmt(R.a.sup[0].peak)}</b>（距現價 ${spct(R.a.sup[0].dist)}）：籌碼占比 <b>${pct(R.a.sup[0].strength)}</b>，成交量占比 <b>${pct(R.a.sup[0].volShare)}</b>（期間 ${R.rows.length} 個交易日）。` : "目前現價下方沒有明顯的籌碼堆積。" },
   resistance: { t: "壓力區",
     def: "現價以上、籌碼特別密集的價格區間。這裡有較多在更高價買進的持有人，股價回到成本附近時，可能出現解套賣壓。",
-    read: ["欄位意義與支撐區相同。", "如果現價已經創新高，上方沒有套牢籌碼，就不會有壓力區。"],
+    read: ["欄位意義與支撐區相同：籌碼占比是目前仍持有的籌碼，成交量占比是整段期間內在這個區間成交的量。", "壓力區的兩個數字都高，代表這裡有很多人的成本，也曾大量成交，股價回到這裡時解套賣壓較有依據。", "如果現價已經創新高，上方沒有套牢籌碼，就不會有壓力區。"],
     calc: "與支撐區相同，只是取現價以上的高峰。",
-    live: R => R.a.res.length ? `目前最近的壓力是 <b>${fmt(R.a.res[0].peak)}</b>（距現價 ${spct(R.a.res[0].dist)}，占比 ${pct(R.a.res[0].strength)}）。` : "目前現價上方沒有明顯的籌碼堆積。" },
+    live: R => R.a.res.length ? `目前最近的壓力是 <b>${fmt(R.a.res[0].peak)}</b>（距現價 ${spct(R.a.res[0].dist)}）：籌碼占比 <b>${pct(R.a.res[0].strength)}</b>，成交量占比 <b>${pct(R.a.res[0].volShare)}</b>（期間 ${R.rows.length} 個交易日）。` : "目前現價上方沒有明顯的籌碼堆積。" },
+  combo: { t: "兩個占比怎麼組合判讀",
+    def: "籌碼占比是「現在還有多少人的成本在這裡」，成交量占比是「這段期間有多少量在這裡成交過」。一個看庫存，一個看流量，合在一起看才完整。",
+    read: ["<b>口訣：先看量，再看籌；量籌皆高最可靠。</b>",
+      "<b>量籌雙高</b>：曾大量成交，現在仍有許多人的成本在此，支撐或壓力的依據最足。",
+      "<b>量大籌少</b>：當時很熱鬧，但買進的人多半已經賣出，人去樓空，強度要打折。",
+      "<b>量少籌多</b>：成交不算大，但持有人抱得久或是近期才成交，籌碼還在，可以再觀察。",
+      "<b>量籌雙低</b>：沒什麼量，也沒什麼人的成本在這裡，可有可無。",
+      "「高」「低」沒有固定門檻，建議拿同一檔股票的三個區域互相比較，或換不同年數看是否一致。這只是讀資料的方法，不是買賣建議。"],
+    calc: "籌碼占比會隨換手逐日衰減舊成本；成交量占比不衰減，把期間內每天成交量依三角分布分到各價位後加總。",
+    live: R => {
+      const z = R.a.sup[0] || R.a.res[0];
+      if (!z) return "目前沒有支撐或壓力區可以比較。";
+      const d = (z.volShare - z.strength) * 100;
+      return `最近的一區（${fmt(z.peak)}）：籌碼占比 <b>${pct(z.strength)}</b>，成交量占比 <b>${pct(z.volShare)}</b>，成交量占比${d >= 0 ? "高出" : "低了"} <b>${Math.abs(d).toFixed(1)}</b> 個百分點。`;
+    } },
+  btRules: { t: "回測規則",
+    def: "回測是用過去的資料，模擬「如果當時照這套規則操作，結果會怎樣」。這裡的規則是：靠近支撐買進，到壓力附近賣出，跌破支撐就停損。",
+    read: ["<b>不偷看未來</b>：每一天只用當天以前的成交資料重算支撐與壓力，再決定要不要進場。這樣才不會把「事後才知道」的資訊混進去。",
+      "<b>隔天開盤買進</b>：收盤後才算得出訊號，所以用隔天的開盤價成交。",
+      "報酬已扣除「來回成本」，價格使用還原權息後的價格，所以股利也算在內。",
+      "這個模擬沒有考慮滑價、成交量不足買不到、融資融券等實際狀況。",
+      "過去的結果不代表未來，也不是買賣建議。參數調到「剛好」賺錢的組合，常常只是過度配合歷史。"] },
+  btNear: { t: "靠近支撐",
+    def: "收盤價距離最近支撐峰值的上限（百分比）。價格落在支撐區內，或在支撐峰值上方不超過這個距離，才算進場訊號。",
+    read: ["調小：只在非常貼近支撐時進場，次數少，但停損距離短。", "調大：容易進場，但可能離支撐已經有一段距離，停損距離變長。"] },
+  btStop: { t: "止損緩衝",
+    def: "停損價 = 進場時支撐區下緣 再往下這個百分比。價格跌破這條線，就視為支撐失效，賣出停損。",
+    read: ["調小：停損很緊，容易被正常的上下震盪洗出場。", "調大：給價格更多空間，但單筆虧損可能變大。"] },
+  btHold: { t: "最長持有（天）",
+    def: "進場後如果一直沒碰到停利或停損，持有到這個交易日數就以收盤價賣出。",
+    read: ["避免資金被一筆不動的部位綁很久。", "這是交易日，不是日曆天，60 個交易日大約三個月。"] },
+  btTp: { t: "無壓力時停利",
+    def: "進場時如果上方沒有壓力區，或最近的壓力距離不到 2%（賺不到什麼），就改用這個漲幅當停利目標。",
+    read: ["股價創新高時上方常常沒有套牢籌碼，沒有壓力可以參考，這時才會用到這個百分比。"] },
+  btCost: { t: "來回成本",
+    def: "買進再賣出一次要付的總成本，以百分比表示。預設 0.585% 是台股一般股票的手續費（買賣各 0.1425%）加證交稅（賣出 0.3%），未計券商折扣。",
+    read: ["ETF 的證交稅較低，有手續費折扣也會更低，可以自行調整。", "交易次數越多，成本的影響越大。"] },
+  winRate: { t: "勝率",
+    def: "報酬率大於 0 的交易占全部交易的比例（已扣除成本）。",
+    read: ["勝率高不一定賺錢：如果贏的時候賺得少、輸的時候賠得多，整體仍可能虧損。", "要和「平均每筆報酬」一起看。"] },
+  cumRet: { t: "策略累計報酬",
+    def: "把每一筆交易的報酬率連乘起來的總報酬（複利），空手的時候資金不動。",
+    read: ["和「買進持有」比較：這段期間單純買進後不動，報酬是多少。", "策略大部分時間是空手的，所以風險暴露比買進持有少，這也是比較時要留意的差別。"] },
+  mdd: { t: "最大回撤",
+    def: "資產曲線從任一高點往下跌到低點的最大跌幅，用來衡量過程中最痛的時候會虧多少。",
+    read: ["報酬相近時，最大回撤越小越好。", "這裡以每天收盤計算，沒有考慮盤中更深的波動。"] },
+  bh: { t: "買進持有",
+    def: "作為對照組：在起始日開盤買進，持有到結束日收盤，中間完全不操作（未扣成本）。",
+    read: ["如果策略的報酬打不贏買進持有，而且風險沒有明顯比較小，這套規則的價值就有限。"] },
+  fwd20: { t: "進場後 20 日報酬",
+    def: "每一筆進場後，不管有沒有停利停損，單純持有 20 個交易日的報酬率（未扣成本）。這是用來檢查「支撐買點」本身有沒有優勢，和出場規則無關。",
+    read: ["如果多數筆數 20 日後都是正的，表示買點本身有一定參考價值。", "樣本很少時，這個平均數不穩定。"] },
+  warm: { t: "進場時涵蓋率（暖機）",
+    def: "籌碼分布需要時間累積。回測起始日之前的歷史資料越短，進場當時的模型涵蓋率越低，算出的支撐與壓力越不可靠。",
+    read: ["涵蓋率低於 80%，建議把起始日往後挪，讓模型多暖機一段時間。", "程式要求起始日至少在資料最早日之後 2 年（歷史太短的股票為 1 年）。"] },
   profitChips: { t: "獲利籌碼",
     def: "成本在現價以下的籌碼，也就是目前帳面賺錢的持有人手上的股票。圖中的藍色長條。",
     read: ["這些持有人若賣出，會造成獲利了結的賣壓。"] },
@@ -683,7 +872,7 @@ function closeSheet() {
   sheetFrom = null;
 }
 document.addEventListener("click", e => {
-  const b = e.target.closest(".info");
+  const b = e.target.closest(".info, .info-link");
   if (b) { e.preventDefault(); e.stopPropagation(); openSheet(b.dataset.term, b); return; }
   if (e.target === $("sheet")) closeSheet();
 });
@@ -714,7 +903,7 @@ function compute() {
   for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
   const { edges, centers } = makeBins(lo, hi, BIN);
   const m = runModel(rows, edges, st.shares, state.decay);
-  const a = analyze(centers, m.p, price, state.gap);
+  const a = analyze(centers, m.p, price, state.gap, m.vol);
   const sdf = superTrend(rows, state.stN, state.stM);
   return { st, rows, price, edges, centers, m, a, sdf, sum: stSummary(rows, sdf, price) };
 }
@@ -815,8 +1004,8 @@ function updateReadout(R) {
 function zoneRows(zs, tag, cls, emptyMsg) {
   if (!zs.length) return `<div class="empty">${emptyMsg}</div>`;
   return zs.map((z, i) => `<div class="zrow"><span class="pill ${cls}">${tag}${i + 1}</span>
-    <div><div class="zp">${fmt(z.peak)}</div><div class="zr">${fmt(z.low)} ～ ${fmt(z.high)}</div></div>
-    <div class="zs"><div class="a">${pct(z.strength)}</div><div class="b">距現價 ${spct(z.dist)}</div></div></div>`).join("");
+    <div><div class="zp">${fmt(z.peak)}</div><div class="zr">${fmt(z.low)} ～ ${fmt(z.high)}</div><div class="zr">距現價 ${spct(z.dist)}</div></div>
+    <div class="zs"><div class="a">${pct(z.strength)}<span class="lb">籌碼占比</span></div><div class="a">${pct(z.volShare)}<span class="lb">成交量占比</span></div></div></div>`).join("");
 }
 function askShares() {
   const st = cur, price = st.c[st.c.length - 1];
@@ -908,6 +1097,9 @@ function buildSearch() {
 function buildControls() {
   if (LIVE) {
     $("asof").textContent = "即時查詢";
+    $("tabs").hidden = false;
+    $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showTab(b.dataset.tab); });
+    btInit();
     $("searchBox").hidden = false;
     $("snapNote").hidden = true;
     renderRecent();
@@ -1073,8 +1265,10 @@ async function fetchQuotes() {
 function showTab(t) {
   $("pgAnalyze").hidden = t !== "analyze";
   $("pgWatch").hidden = t !== "watch";
+  $("pgBt").hidden = t !== "backtest";
   [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
   if (t === "watch") { renderWatch(); if (user) fetchQuotes(); }
+  if (t === "backtest") btOpen();
   window.scrollTo(0, 0);
 }
 async function initMember() {
@@ -1082,8 +1276,7 @@ async function initMember() {
   try { for (const m of ["app", "auth", "firestore"]) await loadScript(`https://www.gstatic.com/firebasejs/${FB_VERSION}/firebase-${m}-compat.js`); }
   catch (e) { return; }                      // 沒網路或被擋：維持沒有會員功能的版本
   memberOn = true;
-  $("tabs").hidden = false;
-  $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showTab(b.dataset.tab); });
+  document.querySelector('#tabs [data-tab="watch"]').hidden = false;
   $("acctBtn").addEventListener("click", () => user ? openAccount() : openLogin());
   $("starBtn").addEventListener("click", toggleStar);
   $("sheetBody").addEventListener("click", e => {
@@ -1113,6 +1306,270 @@ async function initMember() {
   auth.getRedirectResult().catch(() => {});
   auth.onAuthStateChanged(onUser);
   renderAcct();
+}
+
+/* ---------- backtest: walk-forward, uses only data known on each day ---------- */
+const BT_YEARS = 12;
+const bt = { st: null, seq: 0, running: false };
+const addYears = (d, y) => { const x = new Date(d + "T00:00:00Z"); x.setUTCFullYear(x.getUTCFullYear() + y); return x.toISOString().slice(0, 10); };
+const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+const signCls = x => x > 0 ? "up" : x < 0 ? "dn" : "";
+function setBtHint(msg, err) { const el = $("btHint"); el.textContent = msg || ""; el.className = "status" + (err ? " err" : ""); el.hidden = !msg; }
+
+function btRenderPicked() {
+  $("btPicked").innerHTML = bt.code ? `目前選擇：<b>${esc(bt.code)}${bt.name ? " " + esc(bt.name) : ""}</b>` : "";
+  const seen = new Set([bt.code]), chips = [];
+  const add = (c, n) => { if (c && !seen.has(c) && chips.length < 8) { seen.add(c); chips.push([c, n]); } };
+  if (cur) add(cur.code, cur.name);
+  state.recent.forEach(r => add(r.code, r.name));
+  watch.forEach(w => add(w.code, w.name));
+  $("btChips").innerHTML = chips.map(([c, n]) => `<button type="button" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button>`).join("");
+}
+function btPick(code, name) {
+  code = String(code).trim().toUpperCase();
+  bt.code = code;
+  bt.name = name || (info.find(s => s[0] === code) || [])[1] || "";
+  $("btQ").value = ""; $("btSugg").hidden = true;
+  btRenderPicked();
+  btLoad();
+}
+async function btLoad() {
+  const code = bt.code, seq = ++bt.seq;
+  if (!code) return false;
+  $("btOut").innerHTML = "";
+  $("btRun").disabled = true;
+  setBtHint(`載入 ${code} 的 ${BT_YEARS} 年歷史資料…`);
+  try {
+    const st = await loadStock(code, BT_YEARS);
+    if (seq !== bt.seq) return false;
+    bt.st = st;
+    const first = st.d[0], last = st.d[st.d.length - 1];
+    const span = (new Date(last) - new Date(first)) / 3.156e10;
+    const minStart = addYears(first, span >= 3.5 ? 2 : 1);
+    if ((new Date(last) - new Date(minStart)) / 864e5 < 90) throw new Error(`${code} 的歷史資料太短（${st.d.length} 天），暖機後可回測的期間不到 3 個月。`);
+    const s = $("btStart"), e = $("btEnd");
+    s.min = e.min = minStart; s.max = e.max = last;
+    if (!s.value || s.value < minStart || s.value > last) s.value = minStart > addYears(last, -2) ? minStart : addYears(last, -2);
+    if (!e.value || e.value > last || e.value < minStart) e.value = last;
+    setBtHint(`可回測期間：${minStart} ～ ${last}（起始日之前的資料用來暖機）。`);
+    return true;
+  } catch (err) {
+    if (seq === bt.seq) { bt.st = null; setBtHint(err.message, true); }
+    return false;
+  } finally {
+    if (seq === bt.seq) $("btRun").disabled = false;
+  }
+}
+function btOpen() {
+  if (!bt.code) { bt.code = cur ? cur.code : "2330"; bt.name = cur ? cur.name : "台積電"; }
+  btRenderPicked();
+  if (!bt.st || bt.st.code !== bt.code) btLoad();
+}
+
+function runBacktest(st, o) {
+  const L = st.d.length, rows = [];
+  for (let i = 0; i < L; i++) rows.push({ d: st.d[i], o: st.o[i], h: st.h[i], l: st.l[i], c: st.c[i], v: st.v[i] * 1000 });
+  let lo = Infinity, hi = -Infinity;
+  for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
+  const { edges, centers } = makeBins(lo, hi, BIN);
+  const n = centers.length, chips = new Float64Array(n), w = new Float64Array(n), pn = new Float64Array(n), zero = new Float64Array(n);
+  const s0 = rows.findIndex(r => r.d >= o.start);
+  let e0 = -1;
+  for (let i = L - 1; i >= 0; i--) if (rows[i].d <= o.end) { e0 = i; break; }
+  if (s0 < 0 || e0 - s0 < 20) throw new Error("所選區間的交易日太少，請拉長期間。");
+  const cost = o.cost / 100, bhEntry = rows[s0].o;
+  const trades = [], es = [], bh = [], win = [];
+  let pos = null, pend = null, base = 1;
+  for (let i = 0; i <= e0; i++) {
+    const r = rows[i];
+    const t = Math.min(1, r.v / st.shares * o.decay);
+    dayWeights(edges, r.h, r.l, r.c, w);
+    let sum = 0;
+    for (let k = 0; k < n; k++) { const v = chips[k] * (1 - t) + w[k] * t; chips[k] = v; sum += v; }
+    if (i < s0) continue;
+    const wi = i - s0;
+    win.push({ d: r.d, c: r.c });
+    if (pend) { pos = { ...pend, i0: i, wi0: wi, entry: r.o }; pend = null; }   // 隔天開盤成交
+    if (pos) {
+      let px = null, why = null;
+      if (r.o < pos.target && r.l <= pos.stop) { px = Math.min(r.o, pos.stop); why = "stop"; }     // 同日兩者都碰到，先算停損
+      else if (r.h >= pos.target) { px = Math.max(r.o, pos.target); why = "tp"; }
+      else if (i - pos.i0 + 1 >= o.maxHold) { px = r.c; why = "time"; }
+      else if (i === e0) { px = r.c; why = "end"; }
+      if (px != null) {
+        const net = (px / pos.entry) * (1 - cost) - 1;
+        const f = rows[pos.i0 + 20] ? rows[pos.i0 + 20].c / pos.entry - 1 : null;
+        trades.push({ d0: rows[pos.i0].d, d1: r.d, entry: pos.entry, exit: px, net, why, days: i - pos.i0 + 1, wi0: pos.wi0, wi1: wi,
+          s1: pos.s1, r1: pos.r1, target: pos.target, stop: pos.stop, cov: pos.cov, fwd20: f });
+        base *= 1 + net; pos = null;
+      }
+    }
+    es.push(pos ? base * (r.c / pos.entry) * (1 - cost / 2) : base);
+    bh.push(r.c / bhEntry);
+    if (!pos && !pend && i < e0) {
+      for (let k = 0; k < n; k++) pn[k] = chips[k] / sum;
+      const a = analyze(centers, pn, r.c, o.gap, zero);
+      const S = a.sup[0], R = a.res[0];
+      if (S && r.c >= S.low && r.c / S.peak - 1 <= o.near / 100) {
+        const target = R && R.peak >= r.c * 1.02 ? R.peak : r.c * (1 + o.tp / 100);
+        pend = { s1: S.peak, r1: R ? R.peak : null, stop: S.low * (1 - o.stopBuf / 100), target, cov: sum };
+      }
+    }
+  }
+  const dd = arr => { let pk = -Infinity, m = 0; for (const v of arr) { pk = Math.max(pk, v); m = Math.min(m, v / pk - 1); } return m; };
+  const nets = trades.map(x => x.net), f20 = trades.map(x => x.fwd20).filter(x => x != null);
+  return { win, es, bh, trades, stats: {
+    n: trades.length, wins: nets.filter(x => x > 0).length,
+    winRate: trades.length ? nets.filter(x => x > 0).length / trades.length : null,
+    avg: mean(nets), cum: base - 1, bhRet: bh[bh.length - 1] - 1, mdd: dd(es), bhMdd: dd(bh),
+    avgDays: mean(trades.map(x => x.days)), worst: nets.length ? Math.min(...nets) : null, best: nets.length ? Math.max(...nets) : null,
+    avgCov: mean(trades.map(x => x.cov)), f20: mean(f20), f20n: f20.length, openAtEnd: trades.some(x => x.why === "end"),
+  } };
+}
+
+const WHY = { tp: "漲到壓力區賣出（停利）", stop: "跌破支撐賣出（停損）", time: "持有太久，時間到賣出", end: "回測結束時仍持有" };
+function drawBtChart(R, el) {
+  const W = Math.max(300, Math.floor(el.clientWidth || 340));
+  const ml = 42, mr = 6, mt = 16, h1 = Math.round(W * 0.5), gap = 34, h2 = Math.round(W * 0.3), mb = 22;
+  const H = mt + h1 + gap + h2 + mb, N = R.win.length;
+  const x = i => ml + (W - ml - mr) * i / Math.max(1, N - 1);
+  const f0 = v => fmt(v, v < 100 ? 2 : 0);
+  let lo = Infinity, hi = -Infinity;
+  R.win.forEach(p => { lo = Math.min(lo, p.c); hi = Math.max(hi, p.c); });
+  const pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
+  const y1 = v => mt + h1 * (1 - (v - lo) / (hi - lo));
+  let g = `<text class="cap" x="${ml}" y="${mt - 5}">價格走勢與買賣點</text>`;
+  for (const t of niceTicks(lo, hi, 4).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y1(t)}" y2="${y1(t)}"/><text class="axt" x="${ml - 5}" y="${y1(t) + 3.5}" text-anchor="end">${f0(t)}</text>`;
+  g += `<path class="pl" d="${R.win.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y1(p.c).toFixed(1)}`).join("")}"/>`;
+  for (const t of R.trades) {
+    let d = `M${x(t.wi0).toFixed(1)} ${y1(t.entry).toFixed(1)}`;
+    for (let i = t.wi0 + 1; i < t.wi1; i++) d += `L${x(i).toFixed(1)} ${y1(R.win[i].c).toFixed(1)}`;
+    d += `L${x(t.wi1).toFixed(1)} ${y1(t.exit).toFixed(1)}`;
+    g += `<path class="${t.net > 0 ? "tr-up" : "tr-dn"}" d="${d}"/>`;
+  }
+  for (const t of R.trades) {
+    const ex = x(t.wi0), ey = y1(t.entry);
+    g += `<path class="mk" d="M${ex.toFixed(1)} ${(ey + 1).toFixed(1)}l-4.5 8h9z"/>`;
+    g += `<circle class="${t.net > 0 ? "mk-up" : "mk-dn"}" cx="${x(t.wi1).toFixed(1)}" cy="${y1(t.exit).toFixed(1)}" r="3.8"/>`;
+  }
+  const t2 = mt + h1 + gap;
+  let lo2 = Infinity, hi2 = -Infinity;
+  R.es.forEach(v => { lo2 = Math.min(lo2, v * 100); hi2 = Math.max(hi2, v * 100); });
+  R.bh.forEach(v => { lo2 = Math.min(lo2, v * 100); hi2 = Math.max(hi2, v * 100); });
+  lo2 = Math.min(lo2, 100); hi2 = Math.max(hi2, 100);
+  const p2 = (hi2 - lo2) * 0.08 || 1; lo2 -= p2; hi2 += p2;
+  const y2 = v => t2 + h2 * (1 - (v - lo2) / (hi2 - lo2));
+  g += `<text class="cap" x="${ml}" y="${t2 - 8}">100 元本金的變化</text>`;
+  for (const t of niceTicks(lo2, hi2, 3).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y2(t)}" y2="${y2(t)}"/><text class="axt" x="${ml - 5}" y="${y2(t) + 3.5}" text-anchor="end">${Math.round(t)}</text>`;
+  g += `<line class="px" x1="${ml}" x2="${W - mr}" y1="${y2(100)}" y2="${y2(100)}"/>`;
+  g += `<path class="eq-b" d="${R.bh.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y2(v * 100).toFixed(1)}`).join("")}"/>`;
+  g += `<path class="eq-s" d="${R.es.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y2(v * 100).toFixed(1)}`).join("")}"/>`;
+  for (let k = 0; k <= 4; k++) {
+    const i = Math.round(k * (N - 1) / 4), d = R.win[i].d;
+    g += `<text class="axt" x="${x(i)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 4 ? "end" : "middle"}">${d.slice(2, 4)}/${d.slice(5, 7)}</text>`;
+  }
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="回測的價格與交易標記，以及資產曲線">${g}</svg>`;
+}
+function renderBt(R, o, st) {
+  const S = R.stats, f = x => x == null ? "—" : spct(x, 1);
+  const money = x => fmt(100 * (1 + x), 1);
+  const tile = (k, v, h, term, cls) => `<div class="stat"><div class="k">${k}${tip(term)}</div><div class="v ${cls || ""}">${v}</div><div class="h">${h || "&nbsp;"}</div></div>`;
+  const heldDays = R.trades.reduce((a, t) => a + t.days, 0), exposure = heldDays / R.win.length;
+  const who = `${esc(st.code)}${st.name ? " " + esc(st.name) : ""}`;
+
+  /* 1. 結論：先用白話說結果 */
+  let h = "";
+  if (S.n === 0) {
+    h += `<div class="card verdict"><div class="vh">結論</div><p class="vt"><b>這段期間沒有買賣。</b>${who} 在 ${o.start} 到 ${o.end} 之間，沒有出現符合條件的買點。可以放寬「靠近支撐」、拉長期間，或換一檔股票試試。</p></div>`;
+  } else {
+    const headline = S.cum > S.bhRet ? "照規則買賣，報酬比單純持有高。"
+      : S.cum > 0 ? "照規則買賣有賺錢，但沒有比單純持有多。"
+      : "照規則買賣，在這段期間是虧的。";
+    const maxAbs = Math.max(Math.abs(S.cum), Math.abs(S.bhRet), 0.01);
+    const row = (label, v) => `<div class="crow"><span class="cl">${label}</span><span class="cbar"><i class="${v >= 0 ? "pos" : "neg"}" style="width:${Math.max(2, Math.abs(v) / maxAbs * 100).toFixed(1)}%"></i></span><span class="cv ${signCls(v)}">${f(v)}<small>100 元 → ${money(v)} 元</small></span></div>`;
+    h += `<div class="card verdict"><div class="vh">結論${tip("btRules")}</div>
+      <p class="vt"><b>${headline}</b></p>
+      <div class="cmp">${row("照規則買賣", S.cum)}${row("單純買進持有", S.bhRet)}</div>
+      <p class="vs">${who}，${o.start} 到 ${o.end}。共買賣 <b>${S.n}</b> 次，<b>${S.wins}</b> 次賺、<b>${S.n - S.wins}</b> 次賠。
+      規則只有 <b>${pct(exposure, 0)}</b> 的時間持有股票，其餘時間空手，所以和單純持有比的時候，要一起看下面的「過程最多回吐」。</p></div>`;
+
+    /* 2. 四個最重要的數字，用白話標題 */
+    h += `<section class="stats">`
+      + tile("賺錢的機率", pct(S.winRate, 0), `${S.n} 次買賣裡賺了 ${S.wins} 次`, "winRate")
+      + tile("平均每次", f(S.avg), `最好 ${f(S.best)}　最差 ${f(S.worst)}`, "winRate", signCls(S.avg))
+      + tile("過程最多回吐", f(S.mdd), `單純持有是 ${f(S.bhMdd)}`, "mdd")
+      + tile("平均持有", `${S.avgDays.toFixed(0)} 天`, "從買進到賣出", "btHold")
+      + `</section>`;
+    h += `<details class="adv inner more"><summary>更多數據</summary><section class="stats">`
+      + tile("買進後 20 日報酬", f(S.f20), S.f20n ? `不管賣點，單純放 20 天的平均（${S.f20n} 次）` : "", "fwd20", signCls(S.f20))
+      + tile("買進時涵蓋率", S.avgCov == null ? "—" : pct(S.avgCov, 0), "越高，籌碼分布越可靠", "warm")
+      + `</section></details>`;
+  }
+
+  /* 3. 提醒 */
+  const notes = [];
+  if (S.n > 0 && S.n < 10) notes.push(`只有 ${S.n} 次買賣，次數太少，賺錢機率和平均數字的參考價值有限。`);
+  if (S.avgCov != null && S.avgCov < 0.8) notes.push(`起始日離資料起點太近，買進當時籌碼分布還沒累積夠（涵蓋率約 ${pct(S.avgCov, 0)}），結果比較不可靠。可以把起始日往後挪。`);
+  if (S.openAtEnd) notes.push("期間最後一天還持有股票，已用結束日的收盤價結算。");
+  notes.push("以還原權息後的價格計算，沒有計入滑價。過去的結果不代表未來，也不是買賣建議。");
+  h += `<div class="btNote">${notes.map(esc).join("<br>")}</div>`;
+
+  /* 4. 圖 */
+  h += `<div class="card"><div id="btChart"></div><div class="legend"><span>▲ 買進</span><span><i class="ln" style="border-color:var(--bull)"></i>賣出賺錢（紅）</span><span><i class="ln" style="border-color:var(--bear)"></i>賣出虧錢（綠）</span><span><i class="ln" style="border-color:var(--profit)"></i>照規則買賣</span><span><i class="ln" style="border-color:var(--muted);border-top-style:dashed"></i>單純持有</span></div></div>`;
+
+  /* 5. 每次買賣 */
+  if (S.n) {
+    h += `<h2>每次買賣（紅色賺錢，綠色賠錢）</h2><div class="tlist">` + R.trades.map(t => `<div class="trade">
+      <div class="d">${t.d0} 買進 → ${t.d1} 賣出</div>
+      <div class="m">買 ${fmt(t.entry)}　賣 ${fmt(t.exit)}　持有 ${t.days} 天<span class="rsn">${WHY[t.why]}</span></div>
+      <details class="td"><summary>買進時的數據</summary><div class="m">最近的支撐 ${fmt(t.s1)}<br>停利目標 ${fmt(t.target)}　停損價 ${fmt(t.stop)}<br>模型涵蓋率 ${pct(t.cov, 0)}　買進後 20 日 ${t.fwd20 == null ? "—" : spct(t.fwd20, 1)}</div></details>
+      <div class="r ${signCls(t.net)}">${f(t.net)}<small>${t.net > 0 ? "賺" : "賠"}　100 → ${money(t.net)}</small></div></div>`).join("") + `</div>`;
+  }
+  $("btOut").innerHTML = h;
+  if (S.n || R.win.length) drawBtChart(R, $("btChart"));
+  bt.last = R;
+}
+async function btRunClick() {
+  if (bt.running) return;
+  if (!bt.st || bt.st.code !== bt.code) { if (!(await btLoad())) return; }
+  const st = bt.st;
+  if (!st.shares) { setBtHint("查不到這檔的流通股數。請先到「分析」頁查詢這檔股票並輸入股數，再回來回測。", true); return; }
+  const num = (id, d) => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : d; };
+  const o = { start: $("btStart").value, end: $("btEnd").value, near: num("btNear", 3), stopBuf: num("btStop", 1), maxHold: Math.max(1, Math.round(num("btHold", 60))), tp: num("btTp", 10), cost: num("btCost", 0.585), decay: state.decay, gap: state.gap };
+  if (!o.start || !o.end || o.start >= o.end) { setBtHint("請選擇正確的起始日與結束日（起始日要早於結束日）。", true); return; }
+  if (o.start < $("btStart").min) { setBtHint(`起始日最早是 ${$("btStart").min}，之前的資料用來暖機。`, true); return; }
+  bt.running = true; $("btRun").disabled = true; $("btRun").textContent = "計算中…"; setBtHint("");
+  await new Promise(r => setTimeout(r, 30));
+  try { renderBt(runBacktest(st, o), o, st); }
+  catch (e) { setBtHint(e.message || "回測失敗", true); $("btOut").innerHTML = ""; }
+  finally { bt.running = false; $("btRun").disabled = false; $("btRun").textContent = "開始回測"; }
+}
+function btInit() {
+  $("btRun").addEventListener("click", btRunClick);
+  const q = $("btQ"), sugg = $("btSugg");
+  let shown = [];
+  const show = () => {
+    shown = searchStocks(q.value);
+    sugg.hidden = !shown.length;
+    sugg.innerHTML = shown.map(s => `<li><button type="button" data-code="${esc(s[0])}" data-name="${esc(s[1])}"><span class="c">${esc(s[0])}</span><span>${esc(s[1])}</span></button></li>`).join("");
+  };
+  q.addEventListener("input", show);
+  q.addEventListener("focus", show);
+  document.addEventListener("click", e => { if (!q.closest(".searchBox").contains(e.target)) sugg.hidden = true; });
+  sugg.addEventListener("click", e => { const b = e.target.closest("button"); if (b) btPick(b.dataset.code, b.dataset.name); });
+  $("btChips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) btPick(b.dataset.code, b.dataset.name); });
+  $("btSearchForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = q.value.trim();
+    if (!v) return;
+    shown = searchStocks(v);
+    const exact = info.find(s => s[0].toLowerCase() === v.toLowerCase());
+    if (exact) btPick(exact[0], exact[1]);
+    else if (shown.length) btPick(shown[0][0], shown[0][1]);
+    else if (/^\d{4,6}[A-Za-z]?$/.test(v)) btPick(v, "");
+    else setBtHint(`找不到「${v}」，請輸入股票代碼或完整名稱。`, true);
+  });
+  new ResizeObserver(() => { if (bt.last && $("btChart") && !$("pgBt").hidden) drawBtChart(bt.last, $("btChart")); }).observe($("btOut"));
 }
 
 function setTheme(mode, persist) {
