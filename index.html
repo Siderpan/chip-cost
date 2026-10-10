@@ -102,6 +102,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .rngSl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 22px; height: 22px; margin-top: 7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); cursor: grab; }
 .rngSl input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); cursor: grab; }
 .rngSl input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--profit); outline-offset: 2px; }
+.seg.fill { display: flex; width: 100%; }
+.seg.fill button { flex: 1 1 0; min-width: 0; padding: 0 6px; min-height: 44px; font-size: .86rem; white-space: nowrap; }
 .chk { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: .86rem; color: var(--ink); }
 .chk input, .fld .chk input { width: 22px; min-width: 22px; height: 22px; min-height: 22px; padding: 0; margin: 0; accent-color: var(--profit); flex: none; }
 .chk span { min-width: 0; }
@@ -528,6 +530,17 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       </div>
     </div>
 
+    <div class="gSec">
+      <h3>不知道看哪一檔？用「選股」幫你篩</h3>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>選一個候選範圍</b><p>內建的大型股、你的自選股，或最近查過的股票，不用登入就能用。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>設定你在意的條件</b><p>例如「離支撐不超過 5%」「趨勢要偏多」「風險報酬比至少 1.5」。調整後結果會立刻更新。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>看符合條件的前 3 檔</b><p>每一檔都列出每個條件的實際數字，再按「看分析」或「回測這檔」進一步確認。</p></div></div>
+      </div>
+      <p class="gLead"><b>這是篩選器，不是預測</b>：它只把「位置合不合你的條件」整理出來，沒有任何方法能保證哪一檔會漲。入選後建議先回測，看過去的表現再參考。</p>
+      <button type="button" class="btn" data-go="screen">去選股</button>
+    </div>
+
     <div id="gSimSec" class="gSec" hidden>
       <h3>想實際練習？玩模擬交易</h3>
       <div class="card gSteps">
@@ -637,7 +650,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="card btForm">
       <div class="fld">
         <span class="step"><i>1</i>選候選範圍</span>
-        <div id="scrPool" class="seg" role="group" aria-label="候選範圍">
+        <div id="scrPool" class="seg fill" role="group" aria-label="候選範圍">
           <button type="button" data-p="big" aria-pressed="true">大型股</button>
           <button type="button" data-p="watch" aria-pressed="false">我的自選股</button>
           <button type="button" data-p="recent" aria-pressed="false">最近查過</button>
@@ -894,7 +907,8 @@ function renderRecent() {
   });
   if (state.recent.length > 1) chips.push(`<button type="button" class="rclear" data-clear="1">${pendingClear ? "確認清除" : "清除全部"}</button>`);
   $("stocks").innerHTML = chips.join("");
-  btRenderPicked();   // 回測頁的快速選擇和分析頁共用同一份搜尋紀錄，兩邊一起更新
+  btRenderPicked();   // 回測頁、模擬交易頁的快速選擇和分析頁共用同一份搜尋紀錄，三邊一起更新
+  if (memberOn) renderSimForm();
 }
 function removeRecent(code) {
   state.recent = state.recent.filter(r => r.code !== code);
@@ -1814,17 +1828,9 @@ function btRenderPicked() {
   $("btPicked").innerHTML = bt.code ? `目前選擇：<b>${esc(bt.code)}${bt.name ? " " + esc(bt.name) : ""}</b>` : "";
   const seen = new Set([bt.code]), chips = [];
   const add = (c, n) => { if (c && !seen.has(c) && chips.length < 8) { seen.add(c); chips.push([c, n]); } };
-  state.recent.forEach(r => add(r.code, r.name));
-  if (cur) add(cur.code, cur.name);
-  watch.forEach(w => add(w.code, w.name));
-  const inHistory = new Set(state.recent.map(r => r.code));
-  const html = chips.map(([c, n]) => {
-    const main = `<button type="button" class="rmain" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button>`;
-    // 只有「搜尋紀錄」可以移除；來自自選股的股票沒有 ×，要到自選股頁移除
-    return inHistory.has(c)
-      ? `<span class="rchip">${main}<button type="button" class="rx" data-rm="${esc(c)}" aria-label="移除 ${esc(c)} 的搜尋紀錄">×</button></span>`
-      : `<span class="rchip">${main}</span>`;
-  });
+  state.recent.forEach(r => add(r.code, r.name));      // 只放「搜尋紀錄」，自選股和目前分析的股票不會固定出現在這裡
+  const html = chips.map(([c, n]) =>
+    `<span class="rchip"><button type="button" class="rmain" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button><button type="button" class="rx" data-rm="${esc(c)}" aria-label="移除 ${esc(c)} 的搜尋紀錄">×</button></span>`);
   if (state.recent.length > 1) html.push(`<button type="button" class="rclear" data-clear="1">${pendingClear ? "確認清除" : "清除全部"}</button>`);
   $("btChips").innerHTML = html.join("");
 }
@@ -2395,13 +2401,17 @@ function renderSimForm() {
   const a = sim.acc;
   [...$("simSide").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.s === sim.side));
   $("simPlace").textContent = sim.side === "buy" ? "送出買進預約單" : "送出賣出預約單";
-  // 常用股票：持股 + 自選股
+  // 快速選擇：目前的持股（方便賣出，沒有 ×）+ 搜尋紀錄（有 ×，可移除）。自選股不會固定出現在這裡
   const seen = new Set(), chips = [];
-  const add = (c, n) => { if (c && !seen.has(c) && chips.length < 8) { seen.add(c); chips.push([c, n]); } };
-  Object.entries((a && a.holdings) || {}).forEach(([c, h]) => add(c, h.name));
-  watch.forEach(w => add(w.code, w.name));
-  state.recent.forEach(r => add(r.code, r.name));
-  $("simChips").innerHTML = chips.map(([c, n]) => `<button type="button" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button>`).join("");
+  const add = (c, n, hold) => { if (c && !seen.has(c) && chips.length < 8) { seen.add(c); chips.push([c, n, hold]); } };
+  Object.entries((a && a.holdings) || {}).forEach(([c, h]) => add(c, h.name, true));
+  state.recent.forEach(r => add(r.code, r.name, false));
+  const html = chips.map(([c, n, hold]) => {
+    const main = `<button type="button" class="rmain" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button>`;
+    return `<span class="rchip">${main}${hold ? "" : `<button type="button" class="rx" data-rm="${esc(c)}" aria-label="移除 ${esc(c)} 的搜尋紀錄">×</button>`}</span>`;
+  });
+  if (state.recent.length > 1) html.push(`<button type="button" class="rclear" data-clear="1">${pendingClear ? "確認清除" : "清除全部"}</button>`);
+  $("simChips").innerHTML = html.join("");
   const p = sim.pick, q = p && sim.quotes.get(p.code);
   $("simPicked").innerHTML = p ? `目前選擇：<b>${esc(p.code)}${p.name ? " " + esc(p.name) : ""}</b>${q ? `　最新收盤 ${fmt(q.close)}（${q.date}）` : "　報價載入中…"}` : "";
   const qty = Math.round((+$("simQty").value || 0) * (+$("simUnit").value));
@@ -2431,7 +2441,12 @@ function simInit() {
   q.addEventListener("input", show); q.addEventListener("focus", show);
   document.addEventListener("click", e => { if (!q.closest(".searchBox").contains(e.target)) sugg.hidden = true; });
   sugg.addEventListener("click", e => { const b = e.target.closest("button"); if (b) simPick(b.dataset.code, b.dataset.name); });
-  $("simChips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) simPick(b.dataset.code, b.dataset.name); });
+  $("simChips").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.rm) removeRecent(b.dataset.rm);
+    else if (b.dataset.clear) clearRecent();
+    else if (b.dataset.code) simPick(b.dataset.code, b.dataset.name);
+  });
   $("simSearchForm").addEventListener("submit", e => {
     e.preventDefault();
     const v = q.value.trim(); if (!v) return;
