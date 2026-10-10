@@ -12,7 +12,7 @@ body{margin:0;font-size:14px;-webkit-text-size-adjust:100%}
 <script src="firebase-config.js"></script>
 </head>
 <body>
-<title>籌碼成本分布</title>
+<title>籌碼王</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
@@ -77,6 +77,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .btn { min-height: 46px; width: 100%; border: 0; border-radius: 8px; background: var(--profit); color: var(--surface); font: 600 .95rem var(--font-ui); cursor: pointer; padding: 0 16px; }
 .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
 .sheet .btn { margin-top: 14px; }
+.btn.danger { color: var(--bull); border-color: var(--bull); }
+.sheet .msg.ok { background: var(--bg); color: var(--ink); }
 .sheet .msg { margin-top: 10px; font-size: .8rem; color: var(--warn-ink); background: var(--warn-bg); border-radius: 8px; padding: 8px 10px; line-height: 1.5; }
 .me { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
 .me .av { width: 48px; height: 48px; border-radius: 50%; background: var(--bg); overflow: hidden; display: flex; align-items: center; justify-content: center; font: 600 1.2rem var(--font-ui); color: var(--profit); flex: none; }
@@ -100,6 +102,38 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .rngSl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 22px; height: 22px; margin-top: 7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); cursor: grab; }
 .rngSl input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); cursor: grab; }
 .rngSl input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--profit); outline-offset: 2px; }
+.tabs { overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button { flex: 1 0 auto; padding: 0 8px; }
+.simAcct { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.simTotal .k { font-size: .74rem; color: var(--muted); }
+.simTotal .v { font: 600 1.7rem/1.15 var(--font-num); letter-spacing: -.02em; }
+.simTotal .r { font: 600 .92rem var(--font-num); margin-top: 2px; }
+.simGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+.simGrid > div .k { font-size: .7rem; color: var(--muted); }
+.simGrid > div .v { font: 500 .95rem var(--font-num); }
+.simClaim .hint { margin-top: 6px; font-size: .76rem; color: var(--muted); line-height: 1.6; }
+.simForm .seg { align-self: flex-start; }
+.simBoardHead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.simBoardHead .seg button { min-height: 34px; font-size: .76rem; }
+.orow { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 8px 8px 12px; }
+.orow + .orow { margin-top: 8px; }
+.orow .t { font: 600 .9rem var(--font-num); }
+.orow .s { font-size: .74rem; color: var(--muted); margin-top: 1px; line-height: 1.5; }
+.orow .x { min-height: 44px; min-width: 52px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: 500 .78rem var(--font-ui); cursor: pointer; }
+.orow .x:hover { background: var(--bg); color: var(--ink); }
+.orow .pn { font: 500 .85rem var(--font-num); text-align: right; }
+.orow .pn small { display: block; font: 400 .7rem var(--font-num); color: var(--muted); margin-top: 1px; }
+.pill.buy { background: var(--bull); } .pill.sell { background: var(--bear); }
+.pill.no { background: var(--muted); }
+.brow { display: grid; grid-template-columns: 2em minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.brow + .brow { margin-top: 6px; }
+.brow.me { border-color: var(--profit); box-shadow: inset 0 0 0 1px var(--profit); }
+.brow .rk { font: 700 .95rem var(--font-num); color: var(--muted); text-align: center; }
+.brow .rk.top { color: var(--trapped); }
+.brow .nm { font-weight: 600; overflow-wrap: anywhere; }
+.brow .sb { font: 400 .72rem var(--font-num); color: var(--muted); margin-top: 1px; }
+.brow .rt { font: 600 1rem var(--font-num); text-align: right; }
 .guide h3 { margin: 0; font: 700 1.05rem var(--font-ui); }
 .gHero { padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; border-left: 4px solid var(--profit); }
 .gHero p { margin: 0; line-height: 1.8; font-size: .95rem; }
@@ -242,6 +276,7 @@ svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap:
 h1 { font-size: 1.25rem; font-weight: 700; margin: 0; letter-spacing: .02em; }
 h2 { font-size: .8rem; font-weight: 500; color: var(--muted); letter-spacing: .08em; margin: 0; }
 #asof { font: 400 .72rem var(--font-num); color: var(--muted); margin: 0; }
+#asof:empty { display: none; }
 .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
 
 .stocks { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
@@ -376,7 +411,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </div>
   <header>
     <div class="hl">
-      <h1>籌碼成本分布</h1>
+      <h1>籌碼王</h1>
       <p id="asof"></p>
     </div>
     <div class="hr">
@@ -397,6 +432,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <button type="button" role="tab" data-tab="guide" aria-selected="false">新手專區</button>
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
+    <button type="button" role="tab" data-tab="sim" aria-selected="false" hidden>模擬交易</button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
   </nav>
 
@@ -466,6 +502,16 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
         <button type="button" class="btn ghost" data-go="backtest">去回測</button>
       </div>
+    </div>
+
+    <div id="gSimSec" class="gSec" hidden>
+      <h3>想實際練習？玩模擬交易</h3>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>每週領 100 萬虛擬資金</b><p>用 Google 登入後，每週可以領一次，領到的錢和持股會一直累積。這裡沒有真的錢。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>用真實開盤價下預約單</b><p>09:00 以前下的單，當天開盤成交；之後下的單，下一個交易日開盤成交。收盤資料出來後，下次打開網頁就會自動成交。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>拿支撐與壓力去驗證，和大家比報酬率</b><p>先在「分析」頁找支撐壓力，也可以先去「回測」看看過去有沒有效，再到排行榜和其他會員比賽。排名只供同樂。</p></div></div>
+      </div>
+      <button type="button" class="btn" data-go="sim">去模擬交易</button>
     </div>
 
     <div class="card gWarn">
@@ -552,6 +598,50 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <section id="pgWatch" class="page" hidden>
     <h2>自選股</h2>
     <div id="watchBody"></div>
+  </section>
+
+  <section id="pgSim" class="page" hidden>
+    <h2>模擬交易：每週領 100 萬，用真實開盤價成交</h2>
+    <div id="simGate"></div>
+    <div id="simMain" class="page" hidden>
+      <div id="simAcct" class="card simAcct"></div>
+      <div class="card btForm simForm">
+        <div class="rtitle">下預約單<button type="button" class="info" data-term="simRules" aria-label="模擬交易規則的說明">i</button></div>
+        <div class="searchBox">
+          <form id="simSearchForm" class="search" autocomplete="off">
+            <input id="simQ" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入代碼或名稱，例如 2330、台積電" aria-label="要交易的股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <button type="submit">選擇</button>
+          </form>
+          <ul id="simSugg" class="sugg" hidden></ul>
+        </div>
+        <div id="simChips" class="stocks" aria-label="常用股票"></div>
+        <div id="simPicked" class="picked"></div>
+        <div id="simSide" class="seg" role="group" aria-label="買或賣">
+          <button type="button" data-s="buy" aria-pressed="true">買進</button>
+          <button type="button" data-s="sell" aria-pressed="false">賣出</button>
+        </div>
+        <div class="two">
+          <label class="fld" for="simQty"><span>數量</span><input id="simQty" type="number" inputmode="numeric" min="1" step="1" value="1"></label>
+          <label class="fld" for="simUnit"><span>單位</span><select id="simUnit"><option value="1000">張（1,000 股）</option><option value="1">股（零股）</option></select></label>
+        </div>
+        <div id="simEst" class="status"></div>
+        <button id="simPlace" type="button" class="btn">送出預約單</button>
+        <div id="simMsg" class="status" hidden></div>
+      </div>
+      <h2>預約中的委託</h2>
+      <div id="simOrders"></div>
+      <h2>持股</h2>
+      <div id="simHold"></div>
+      <h2>成交紀錄</h2>
+      <div id="simTrades"></div>
+      <div class="simBoardHead"><h2>排行榜</h2>
+        <div id="simSort" class="seg" role="group" aria-label="排行榜排序">
+          <button type="button" data-k="ret" aria-pressed="true">報酬率</button>
+          <button type="button" data-k="value" aria-pressed="false">總資產</button>
+        </div>
+      </div>
+      <div id="simBoard"></div>
+    </div>
   </section>
 
   <section id="pgBt" class="page" hidden>
@@ -992,6 +1082,15 @@ const GLOSS = {
     read: ["長條越長，代表這段期間有越多的量在這個價位成交，也就是主要的換手區。", "藍色是成交價在現價以下的量，橘色是在現價以上的量。", "切換成「籌碼分布」，右側會改成這個區間算出來的籌碼（舊成本會隨成交逐日被取代）。", "平均成本、獲利比例、支撐壓力、SuperTrend 等數字，也都是依這個區間重新計算的。"],
     calc: "把每天的成交量依三角分布分到當天最高價與最低價之間的各個價位，再把所選區間內每天的結果加總（不衰減）。",
     live: R => `目前區間：<b>${R.rows[0].d} ～ ${R.rows[R.rows.length - 1].d}</b>（${R.rows.length} 個交易日）。` },
+  simRules: { t: "模擬交易規則",
+    def: "用虛擬資金、真實的開盤價，練習照支撐壓力買賣，並和其他會員比報酬率。這裡沒有真的錢。",
+    read: ["<b>領資金</b>：每週可以領一次 NT$ 1,000,000（以台灣時間的週一為一週的開始）。沒領的週數不能補領，領到的錢和持股都會累積。",
+      "<b>下單</b>：下的是預約單。開盤前（09:00 前）下的單，當天開盤成交；其他時間下的單，下一個交易日開盤成交。遇到假日會順延到下一個有開盤的日子。",
+      "<b>成交價</b>：取自 FinMind 的真實開盤價（未還原）。當天收盤後資料出來，你下次打開網頁時就會自動成交，不用一直盯著。",
+      "<b>成本</b>：手續費 0.1425%（最低 1 元）；賣出再加證交稅，一般股票 0.3%、ETF 0.1%。",
+      "<b>失敗的情況</b>：成交時現金不夠、或持股不夠賣，這筆預約單會顯示「未成交」。",
+      "<b>排行榜</b>：報酬率 = 總資產 ÷ 累計投入本金 − 1。總資產用最新收盤價計算。",
+      "<b>友善版的限制</b>：成交價取自真實資料，但帳務是在你的瀏覽器計算後寫入雲端，懂技術的人仍然可能改資料，所以排名只適合朋友同樂，不適合有獎品的正式比賽。"] },
   chipShare: { t: "籌碼占比",
     def: "目前仍持有股票、成本落在這個價格區間的人，占全部持有人的比例。",
     read: ["越高，代表這個價位有越多人的成本。股價回到這裡時，反應的人越多，支撐或壓力越明顯。", "它會隨著換手逐日更新：舊成本被新成交取代後，占比就會下降。"],
@@ -1367,7 +1466,6 @@ function buildSearch() {
 }
 function buildControls() {
   if (LIVE) {
-    $("asof").textContent = "即時查詢";
     $("tabs").hidden = false;
     $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showTab(b.dataset.tab); });
     btInit();
@@ -1445,12 +1543,38 @@ function openLogin(reason) {
     <button type="button" class="btn" data-act="login">使用 Google 登入</button>
     <p class="calc" style="margin-top:12px">登入只用來辨識你的帳號，只會儲存你的自選股代碼和名稱。</p>`, $("acctBtn"));
 }
-function openAccount() {
+let delArm = null, delTimer = null;     // 刪除資料要按兩次：第一次先「備妥」，4 秒內再按才真的刪
+function openAccount(msg) {
   const nm = user.displayName || "會員", ini = esc(nm.trim().charAt(0).toUpperCase());
   openCustom("我的帳號", `<div class="me"><div class="av">${user.photoURL ? `<img src="${esc(user.photoURL)}" alt="" referrerpolicy="no-referrer">` : ini}</div>
     <div><div class="nm">${esc(nm)}</div><div class="em">${esc(user.email || "")}</div></div></div>
-    <p class="def">已儲存 ${watch.size} 檔自選股。</p>
-    <button type="button" class="btn ghost" data-act="logout">登出</button>`, $("acctBtn"));
+    <p class="def">已儲存 ${watch.size} 檔自選股${sim.acc ? `，模擬交易已領取 ${sim.acc.claimedCount} 週` : ""}。</p>
+    ${msg ? `<div class="msg ok">${esc(msg)}</div>` : ""}
+    <button type="button" class="btn ghost" data-act="logout">登出</button>
+    <h4 style="margin:18px 0 0">資料管理</h4>
+    <button type="button" class="btn ghost${delArm === "delSim" ? " danger" : ""}" data-act="delSim">${delArm === "delSim" ? "再按一次，確認刪除" : "刪除模擬交易資料與排行榜紀錄"}</button>
+    <button type="button" class="btn ghost danger" data-act="delAll">${delArm === "delAll" ? "再按一次，確認刪除全部並登出" : "刪除我的所有資料並登出"}</button>
+    <p class="calc" style="margin-top:10px">刪除後無法復原。「所有資料」包含自選股、模擬交易帳戶和排行榜紀錄。</p>`, $("acctBtn"));
+}
+async function deleteSimData() {
+  const uid = user.uid;
+  if (sim.unsub) { sim.unsub(); sim.unsub = null; }
+  await fdb.collection("leaderboard").doc(uid).delete();
+  await fdb.collection("users").doc(uid).collection("sim").doc("account").delete();
+  simReset(); sim.lb = [];
+  if (!$("pgSim").hidden) simOpen(); else renderSim();
+}
+async function deleteAllData() {
+  const u = user, uid = u.uid;
+  if (unsubWatch) { unsubWatch(); unsubWatch = null; }
+  const snap = await fdb.collection("users").doc(uid).collection("watchlist").get();
+  await Promise.all(snap.docs.map(d => fdb.collection("users").doc(uid).collection("watchlist").doc(d.id).delete()));
+  await deleteSimData();
+  let removed = false;
+  try { await u.delete(); removed = true; } catch (e) { /* 需要最近重新登入才能刪除帳號本身，就只登出 */ }
+  if (!removed) await auth.signOut();
+  openCustom("資料已刪除", `<p class="def">你的自選股、模擬交易帳戶和排行榜紀錄都已刪除。</p>
+    <p class="calc">${removed ? "你的登入帳號也已一併移除。" : "你的 Google 登入紀錄（姓名與 Email）仍保留在 Firebase 的登入系統裡，沒有任何資料。如果想連它也移除，請重新登入後再按一次「刪除我的所有資料並登出」，或聯絡網站管理者。"}</p>`);
 }
 async function doLogin() {
   const setMsg = t => { const m = $("loginMsg"); if (m) m.innerHTML = t ? `<div class="msg">${esc(t)}</div>` : ""; };
@@ -1470,6 +1594,7 @@ function onUser(u) {
   user = u || null;
   if (unsubWatch) { unsubWatch(); unsubWatch = null; }
   watch = new Map(); watchErr = ""; pendingRm = null;
+  simReset(); sim.lb = [];
   if (user) {
     unsubWatch = wlRef().orderBy("addedAt", "desc").onSnapshot(snap => {
       watch = new Map(snap.docs.map(d => [d.id, d.data()]));
@@ -1482,6 +1607,7 @@ function onUser(u) {
     });
   }
   renderAcct(); renderStar(); renderWatch();
+  if (memberOn && !$("pgSim").hidden) simOpen(); else if (memberOn) renderSim();
 }
 async function toggleStar() {
   if (!cur) return;
@@ -1543,9 +1669,11 @@ function showTab(t) {
   $("pgAnalyze").hidden = t !== "analyze";
   $("pgWatch").hidden = t !== "watch";
   $("pgBt").hidden = t !== "backtest";
+  $("pgSim").hidden = t !== "sim";
   [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
   if (t === "watch") { renderWatch(); if (user) fetchQuotes(); }
   if (t === "backtest") btOpen();
+  if (t === "sim") simOpen();
   window.scrollTo(0, 0);
 }
 async function initMember() {
@@ -1554,12 +1682,30 @@ async function initMember() {
   catch (e) { return; }                      // 沒網路或被擋：維持沒有會員功能的版本
   memberOn = true;
   document.querySelector('#tabs [data-tab="watch"]').hidden = false;
+  document.querySelector('#tabs [data-tab="sim"]').hidden = false;
+  $("gSimSec").hidden = false;
+  simInit();
   $("acctBtn").addEventListener("click", () => user ? openAccount() : openLogin());
   $("starBtn").addEventListener("click", toggleStar);
-  $("sheetBody").addEventListener("click", e => {
+  $("sheetBody").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
-    if (b.dataset.act === "login") doLogin();
-    else if (b.dataset.act === "logout") { closeSheet(); auth.signOut(); }
+    const act = b.dataset.act;
+    if (act === "login") doLogin();
+    else if (act === "logout") { closeSheet(); auth.signOut(); }
+    else if (act === "delSim" || act === "delAll") {
+      if (delArm !== act) {                       // 第一次：只切換成確認狀態
+        delArm = act; clearTimeout(delTimer);
+        delTimer = setTimeout(() => { delArm = null; if (!$("sheet").hidden && $("sheetT").textContent === "我的帳號") openAccount(); }, 4000);
+        openAccount(); return;
+      }
+      clearTimeout(delTimer); delArm = null; b.disabled = true;
+      try {
+        if (act === "delSim") { await deleteSimData(); openAccount("已刪除模擬交易資料與排行榜紀錄，之後可以重新加入。"); }
+        else await deleteAllData();
+      } catch (err) {
+        openAccount(err.code === "permission-denied" ? "刪除失敗：沒有權限，請確認 Firestore 規則已更新並發佈（需要新版規則）。" : "刪除失敗：" + (err.message || err.code));
+      }
+    }
   });
   $("watchBody").addEventListener("click", e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
@@ -1939,6 +2085,320 @@ function guideDemo() {
   slider.addEventListener("input", draw);
   new ResizeObserver(draw).observe(el);
   draw();
+}
+
+/* ---------- 模擬交易：每週領 100 萬，預約單用真實開盤價成交 ---------- */
+const SIM_WEEKLY = 1000000, SIM_MAX_ORDERS = 20, SIM_FEE = 0.001425;
+const sim = { acc: null, loaded: false, err: "", unsub: null, quotes: new Map(), pick: null, side: "buy", lb: [], lbSort: "ret", busy: false, again: false, lastPush: "" };
+const twDate = ms => new Date(ms + 8 * 3600e3).toISOString().slice(0, 10);          // 台灣日期
+const twMinutes = ms => { const d = new Date(ms + 8 * 3600e3); return d.getUTCHours() * 60 + d.getUTCMinutes(); };
+const weekIdx = ms => Math.floor((Math.floor((ms + 8 * 3600e3) / 864e5) + 3) / 7);  // 以台灣時間週一為一週的開始，要和 firestore.rules 的 weekOf 一致
+const weekMonday = w => new Date((w * 7 - 3) * 864e5).toISOString().slice(0, 10);
+const money = n => "NT$ " + Math.round(n).toLocaleString("en-US");
+const taxRate = code => /^00\d{2,4}[A-Z]?$/.test(code) ? 0.001 : 0.003;             // ETF 證交稅 0.1%，一般股票 0.3%
+const simRef = () => fdb.collection("users").doc(user.uid).collection("sim").doc("account");
+const simId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+function simReset() {
+  if (sim.unsub) { sim.unsub(); sim.unsub = null; }
+  sim.acc = null; sim.loaded = false; sim.err = ""; sim.lastPush = ""; sim.pick = null;
+}
+// 預約單的成交日：開盤前（09:00 前）下的單，當天開盤成交；之後下的單，下一個交易日開盤成交
+function simAfterDate(ms) { return twMinutes(ms) < 9 * 60 ? twDate(ms) : twDate(ms + 864e5); }
+
+async function simQuote(code) {
+  const q = sim.quotes.get(code);
+  if (q && Date.now() - q.t < 3e5) return q;
+  const rows = (await fm("TaiwanStockPrice", { data_id: code, start_date: dateBack({ days: 14 }) })).filter(x => x.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
+  if (!rows.length) throw new Error(`查不到 ${code} 的報價`);
+  const r = rows[rows.length - 1], n = { close: r.close, date: r.date, t: Date.now() };
+  sim.quotes.set(code, n);
+  return n;
+}
+function simValue(acc) {
+  let v = acc.cash;
+  for (const [c, h] of Object.entries(acc.holdings || {})) {
+    const q = sim.quotes.get(c);
+    if (!q) return null;
+    v += h.qty * q.close;
+  }
+  return v;
+}
+
+/* 成交：純函式，傳入帳戶和「訂單 id → 開盤價」，回傳要寫回去的欄位 */
+function applyFills(a, fills) {
+  let cash = a.cash;
+  const holdings = JSON.parse(JSON.stringify(a.holdings || {}));
+  let orders = [...(a.orders || [])], trades = [...(a.trades || [])];
+  const order = [...fills].sort((x, y) => (orders.find(o => o.id === x.id) || {}).createdAt - (orders.find(o => o.id === y.id) || {}).createdAt);
+  for (const f of order) {
+    const o = orders.find(x => x.id === f.id);
+    if (!o) continue;
+    orders = orders.filter(x => x.id !== f.id);
+    const amt = f.price * o.qty, fee = Math.max(1, Math.round(amt * SIM_FEE));
+    const t = { id: o.id, d: f.date, code: o.code, name: o.name, side: o.side, qty: o.qty, price: f.price, fee, tax: 0, ok: true };
+    if (o.side === "buy") {
+      if (cash < amt + fee) { t.ok = false; t.fee = 0; t.note = "資金不足，未成交"; }
+      else {
+        cash -= amt + fee;
+        const h = holdings[o.code] || { name: o.name, qty: 0, cost: 0 };
+        h.qty += o.qty; h.cost += amt + fee; h.name = o.name; holdings[o.code] = h;
+      }
+    } else {
+      const h = holdings[o.code];
+      if (!h || h.qty < o.qty) { t.ok = false; t.fee = 0; t.note = "持股不足，未成交"; }
+      else {
+        t.tax = Math.round(amt * taxRate(o.code));
+        const net = amt - fee - t.tax, basis = h.cost * o.qty / h.qty;
+        cash += net; t.pnl = Math.round(net - basis);
+        h.qty -= o.qty; h.cost -= basis;
+        if (h.qty <= 0) delete holdings[o.code];
+      }
+    }
+    trades.unshift(t);
+  }
+  return { cash, holdings, orders, trades: trades.slice(0, 200) };
+}
+async function simProcess() {
+  const acc = sim.acc, today = twDate(Date.now());
+  const due = (acc.orders || []).filter(o => o.after <= today);
+  if (!due.length) return;
+  const rowsBy = new Map();
+  for (const code of new Set(due.map(o => o.code))) {
+    const start = due.filter(o => o.code === code).map(o => o.after).sort()[0];
+    try { rowsBy.set(code, (await fm("TaiwanStockPrice", { data_id: code, start_date: start })).filter(r => r.open > 0).sort((a, b) => a.date < b.date ? -1 : 1)); }
+    catch (e) { if (/上限/.test(e.message)) throw e; }
+  }
+  const fills = [];
+  for (const o of due) {
+    const r = (rowsBy.get(o.code) || []).find(x => x.date >= o.after);   // 還沒有資料（今天還沒收盤）就先等
+    if (r) fills.push({ id: o.id, price: r.open, date: r.date });
+  }
+  if (!fills.length) return;
+  await fdb.runTransaction(async tx => {
+    const snap = await tx.get(simRef());
+    tx.update(simRef(), applyFills(snap.data(), fills));
+  });
+}
+
+async function simJoin(nick) {
+  await simRef().set({ nick, cash: 0, claimWeek: 0, claimedCount: 0, holdings: {}, orders: [], trades: [], createdAt: Date.now() });
+  await simClaim();
+}
+async function simClaim() {
+  const W = weekIdx(Date.now());
+  await fdb.runTransaction(async tx => {
+    const a = (await tx.get(simRef())).data();
+    if (a.claimWeek >= W) throw new Error("這一週已經領過了。");
+    tx.update(simRef(), { cash: a.cash + SIM_WEEKLY, claimWeek: W, claimedCount: a.claimedCount + 1 });
+  });
+}
+async function simPlace() {
+  const p = sim.pick;
+  if (!p) throw new Error("請先選擇一檔股票。");
+  const qty = Math.round((+$("simQty").value) * (+$("simUnit").value));
+  if (!(qty >= 1) || qty > 10000000) throw new Error("數量不正確。");
+  const q = await simQuote(p.code);
+  const now = Date.now(), after = simAfterDate(now);
+  await fdb.runTransaction(async tx => {
+    const a = (await tx.get(simRef())).data(), orders = a.orders || [];
+    if (orders.length >= SIM_MAX_ORDERS) throw new Error(`預約單最多 ${SIM_MAX_ORDERS} 筆，請先取消不需要的。`);
+    if (sim.side === "sell") {
+      const have = (a.holdings[p.code] || {}).qty || 0, pending = orders.filter(o => o.side === "sell" && o.code === p.code).reduce((s, o) => s + o.qty, 0);
+      if (qty > have - pending) throw new Error(`可賣的股數只有 ${have - pending} 股。`);
+    } else {
+      const reserved = orders.filter(o => o.side === "buy").reduce((s, o) => s + o.est * o.qty * (1 + SIM_FEE), 0);
+      if (q.close * qty * (1 + SIM_FEE) > a.cash - reserved) throw new Error(`現金不夠（可用約 ${money(a.cash - reserved)}）。`);
+    }
+    tx.update(simRef(), { orders: [...orders, { id: simId(), code: p.code, name: p.name || "", side: sim.side, qty, createdAt: now, after, est: q.close }] });
+  });
+  return after;
+}
+async function simCancel(id) {
+  await fdb.runTransaction(async tx => {
+    const a = (await tx.get(simRef())).data();
+    tx.update(simRef(), { orders: (a.orders || []).filter(o => o.id !== id) });
+  });
+}
+
+/* 排行榜 */
+async function simPushBoard() {
+  const a = sim.acc, v = simValue(a);
+  if (!a || v == null || !a.claimedCount) return;
+  const invested = a.claimedCount * SIM_WEEKLY, value = Math.round(v), ret = value / invested - 1;
+  const key = [a.nick, invested, value].join("|");
+  if (key === sim.lastPush) return;
+  await fdb.collection("leaderboard").doc(user.uid).set({ nick: a.nick, invested, value, ret, weeks: a.claimedCount, updatedAt: Date.now() });
+  sim.lastPush = key;
+}
+async function simLoadBoard() {
+  const snap = await fdb.collection("leaderboard").orderBy(sim.lbSort, "desc").limit(20).get();
+  sim.lb = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+  renderSimBoard();
+}
+async function simAfterLoad() {
+  if (!sim.acc) return;
+  if (sim.busy) { sim.again = true; return; }
+  sim.busy = true;
+  try {
+    await simProcess();
+    const codes = Object.keys((sim.acc || {}).holdings || {});
+    for (const c of codes) { try { await simQuote(c); } catch (e) {} }
+    renderSim();
+    await simPushBoard();
+    await simLoadBoard();
+  } catch (e) {
+    setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已依設定教學發佈。" : (e.message || "更新失敗"), true);
+  } finally {
+    sim.busy = false;
+    if (sim.again) { sim.again = false; simAfterLoad(); }
+  }
+}
+function setSimMsg(msg, err) { const el = $("simMsg"); el.hidden = !msg; el.textContent = msg || ""; el.className = "status" + (err ? " err" : ""); }
+
+function simOpen() {
+  if (!memberOn) return;
+  renderSim();
+  if (!user || sim.unsub) { if (user && sim.acc) simAfterLoad(); return; }
+  sim.unsub = simRef().onSnapshot(snap => {
+    sim.acc = snap.exists ? snap.data() : null; sim.loaded = true; sim.err = "";
+    renderSim();
+    simAfterLoad();
+  }, err => { sim.err = err.code === "permission-denied" ? "沒有讀取權限，請確認 Firestore 規則已依設定教學發佈。" : "讀取失敗：" + (err.message || err.code); renderSim(); });
+}
+
+function renderSim() {
+  const gate = $("simGate"), main = $("simMain");
+  const showGate = html => { gate.innerHTML = html; gate.hidden = false; main.hidden = true; };
+  if (!user) return showGate(`<div class="empty">登入後才能參加模擬交易。<br><button type="button" class="btn" style="margin-top:12px" data-act="login-open">使用 Google 登入</button></div>`);
+  if (sim.err) return showGate(`<div class="status err">${esc(sim.err)}</div>`);
+  if (!sim.loaded) return showGate(`<div class="status">載入帳戶中…</div>`);
+  if (!sim.acc) return showGate(`<div class="card simAcct">
+    <div class="rtitle">加入模擬交易</div>
+    <p class="gLead">每週第一個交易日前可以領 <b>NT$ 1,000,000</b> 模擬資金，用真實的開盤價下預約單，和其他會員比報酬率。先取一個要顯示在排行榜上的暱稱（請<b>不要用真實姓名</b>）。</p>
+    <label class="fld" for="simNick"><span>暱稱（1～12 字）</span><input id="simNick" maxlength="12" autocomplete="off" placeholder="例如：股海小舟"></label>
+    <button type="button" class="btn" data-act="join">加入並領取本週資金</button>
+    <div id="simJoinMsg" class="status" hidden></div></div>`);
+  gate.hidden = true; main.hidden = false;
+  const a = sim.acc, W = weekIdx(Date.now()), canClaim = a.claimWeek < W;
+  const v = simValue(a), invested = a.claimedCount * SIM_WEEKLY, pnl = v == null ? null : v - invested, ret = v == null ? null : v / invested - 1;
+  const holdVal = v == null ? null : v - a.cash;
+  $("simAcct").innerHTML = `<div class="simTotal"><div class="k">${esc(a.nick)} 的總資產</div><div class="v">${v == null ? "更新報價中…" : money(v)}</div>
+    <div class="r ${signCls(pnl)}">${ret == null ? "" : `${spct(ret, 2)}　${pnl >= 0 ? "+" : "−"}${money(Math.abs(pnl)).slice(4)}`}${tip("simRules")}</div></div>
+    <div class="simGrid"><div><div class="k">現金</div><div class="v">${money(a.cash)}</div></div>
+      <div><div class="k">持股市值</div><div class="v">${holdVal == null ? "—" : money(holdVal)}</div></div>
+      <div><div class="k">累計投入本金</div><div class="v">${money(invested)}</div></div>
+      <div><div class="k">已領取</div><div class="v">${a.claimedCount} 週</div></div></div>
+    <div class="simClaim">${canClaim ? `<button type="button" class="btn" data-act="claim">領取本週資金 ${money(SIM_WEEKLY)}</button>`
+      : `<button type="button" class="btn ghost" disabled>本週已領取</button><div class="hint">下一次可以領取：${weekMonday(W + 1)}（週一）起。</div>`}</div>`;
+  // 預約單
+  const nameOf = (c, n) => `${esc(c)}${n ? " " + esc(n) : ""}`;
+  $("simOrders").innerHTML = (a.orders || []).length ? (a.orders || []).map(o => `<div class="orow"><span class="pill ${o.side === "buy" ? "buy" : "sell"}">${o.side === "buy" ? "買進" : "賣出"}</span>
+    <div><div class="t">${nameOf(o.code, o.name)}　${o.qty.toLocaleString("en-US")} 股</div><div class="s">預計 ${o.after} 起第一個交易日的開盤價成交</div></div>
+    <button type="button" class="x" data-act="cancel" data-id="${esc(o.id)}">取消</button></div>`).join("")
+    : `<div class="empty">目前沒有預約單。下單後，會在下一個開盤用真實的開盤價成交。</div>`;
+  // 持股
+  const hs = Object.entries(a.holdings || {});
+  $("simHold").innerHTML = hs.length ? hs.map(([c, h]) => {
+    const q = sim.quotes.get(c), mv = q ? h.qty * q.close : null, pl = mv == null ? null : mv - h.cost;
+    return `<div class="orow" style="grid-template-columns:minmax(0,1fr) auto"><div><div class="t">${nameOf(c, h.name)}</div>
+      <div class="s">${h.qty.toLocaleString("en-US")} 股　均價 ${fmt(h.cost / h.qty)}　${q ? "收盤 " + fmt(q.close) : "報價更新中"}</div></div>
+      <div class="pn ${signCls(pl)}">${pl == null ? "—" : spct(pl / h.cost, 2)}<small>${mv == null ? "" : money(mv)}</small></div></div>`;
+  }).join("") : `<div class="empty">目前沒有持股。</div>`;
+  // 成交紀錄
+  $("simTrades").innerHTML = (a.trades || []).length ? (a.trades || []).slice(0, 30).map(t => `<div class="orow" style="grid-template-columns:auto minmax(0,1fr) auto"><span class="pill ${t.ok ? (t.side === "buy" ? "buy" : "sell") : "no"}">${t.ok ? (t.side === "buy" ? "買進" : "賣出") : "未成交"}</span>
+    <div><div class="t">${nameOf(t.code, t.name)}　${t.qty.toLocaleString("en-US")} 股</div><div class="s">${t.d}　${t.ok ? `開盤價 ${fmt(t.price)}　手續費 ${t.fee}${t.tax ? "　證交稅 " + t.tax : ""}` : esc(t.note || "")}</div></div>
+    <div class="pn ${signCls(t.pnl)}">${t.pnl == null ? "" : (t.pnl >= 0 ? "+" : "−") + Math.abs(t.pnl).toLocaleString("en-US")}<small>${t.pnl == null ? "" : "已實現損益"}</small></div></div>`).join("")
+    : `<div class="empty">還沒有成交紀錄。</div>`;
+  renderSimBoard(); renderSimForm();
+}
+function renderSimBoard() {
+  const el = $("simBoard");
+  if (!sim.lb.length) { el.innerHTML = `<div class="empty">排行榜還沒有資料。</div>`; return; }
+  el.innerHTML = sim.lb.map((r, i) => `<div class="brow${user && r.uid === user.uid ? " me" : ""}"><span class="rk${i < 3 ? " top" : ""}">${i + 1}</span>
+    <div><div class="nm">${esc(r.nick)}</div><div class="sb">總資產 ${money(r.value)}　領取 ${r.weeks} 週</div></div>
+    <div class="rt ${signCls(r.ret)}">${spct(r.ret, 2)}</div></div>`).join("")
+    + `<p class="advnote" style="padding-top:8px">報酬率 = 總資產 ÷ 累計投入本金 − 1。成交價取自真實開盤價，但這是友善版，排名僅供同樂。</p>`;
+}
+function renderSimForm() {
+  const a = sim.acc;
+  [...$("simSide").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.s === sim.side));
+  $("simPlace").textContent = sim.side === "buy" ? "送出買進預約單" : "送出賣出預約單";
+  // 常用股票：持股 + 自選股
+  const seen = new Set(), chips = [];
+  const add = (c, n) => { if (c && !seen.has(c) && chips.length < 8) { seen.add(c); chips.push([c, n]); } };
+  Object.entries((a && a.holdings) || {}).forEach(([c, h]) => add(c, h.name));
+  watch.forEach(w => add(w.code, w.name));
+  state.recent.forEach(r => add(r.code, r.name));
+  $("simChips").innerHTML = chips.map(([c, n]) => `<button type="button" data-code="${esc(c)}" data-name="${esc(n)}"><span class="code">${esc(c)}</span><span class="nm">${esc(n) || "&nbsp;"}</span></button>`).join("");
+  const p = sim.pick, q = p && sim.quotes.get(p.code);
+  $("simPicked").innerHTML = p ? `目前選擇：<b>${esc(p.code)}${p.name ? " " + esc(p.name) : ""}</b>${q ? `　最新收盤 ${fmt(q.close)}（${q.date}）` : "　報價載入中…"}` : "";
+  const qty = Math.round((+$("simQty").value || 0) * (+$("simUnit").value));
+  const have = p && a ? ((a.holdings[p.code] || {}).qty || 0) : 0;
+  let est = "";
+  if (p && q && qty > 0) {
+    const amt = q.close * qty;
+    est = `預估約 ${money(amt)}（以最新收盤估算，實際用開盤價成交，手續費約 ${Math.max(1, Math.round(amt * SIM_FEE)).toLocaleString("en-US")} 元）。${sim.side === "sell" ? `目前持有 ${have.toLocaleString("en-US")} 股。` : ""}預計 ${simAfterDate(Date.now())} 起第一個交易日的開盤價成交。`;
+  }
+  $("simEst").textContent = est; $("simEst").hidden = !est;
+}
+async function simPick(code, name) {
+  code = String(code).trim().toUpperCase();
+  sim.pick = { code, name: name || (info.find(s => s[0] === code) || [])[1] || "" };
+  $("simQ").value = ""; $("simSugg").hidden = true; setSimMsg("");
+  renderSimForm();
+  try { await simQuote(code); } catch (e) { setSimMsg(e.message, true); sim.pick = null; }
+  renderSimForm();
+}
+function simInit() {
+  const q = $("simQ"), sugg = $("simSugg");
+  const show = () => {
+    const shown = searchStocks(q.value);
+    sugg.hidden = !shown.length;
+    sugg.innerHTML = shown.map(s => `<li><button type="button" data-code="${esc(s[0])}" data-name="${esc(s[1])}"><span class="c">${esc(s[0])}</span><span>${esc(s[1])}</span></button></li>`).join("");
+  };
+  q.addEventListener("input", show); q.addEventListener("focus", show);
+  document.addEventListener("click", e => { if (!q.closest(".searchBox").contains(e.target)) sugg.hidden = true; });
+  sugg.addEventListener("click", e => { const b = e.target.closest("button"); if (b) simPick(b.dataset.code, b.dataset.name); });
+  $("simChips").addEventListener("click", e => { const b = e.target.closest("button"); if (b) simPick(b.dataset.code, b.dataset.name); });
+  $("simSearchForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = q.value.trim(); if (!v) return;
+    const shown = searchStocks(v), exact = info.find(s => s[0].toLowerCase() === v.toLowerCase());
+    if (exact) simPick(exact[0], exact[1]); else if (shown.length) simPick(shown[0][0], shown[0][1]);
+    else if (/^\d{4,6}[A-Za-z]?$/.test(v)) simPick(v, ""); else setSimMsg(`找不到「${v}」，請輸入股票代碼或完整名稱。`, true);
+  });
+  $("simSide").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { sim.side = b.dataset.s; renderSimForm(); } });
+  $("simQty").addEventListener("input", renderSimForm); $("simUnit").addEventListener("change", renderSimForm);
+  $("simPlace").addEventListener("click", async () => {
+    if (sim.busy) return;
+    setSimMsg(""); $("simPlace").disabled = true;
+    try { const after = await simPlace(); setSimMsg(`已送出預約單，預計 ${after} 起第一個交易日的開盤價成交。`); }
+    catch (e) { setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已發佈。" : (e.message || "送出失敗"), true); }
+    finally { $("simPlace").disabled = false; }
+  });
+  $("simSort").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    sim.lbSort = b.dataset.k; [...$("simSort").children].forEach(c => c.setAttribute("aria-pressed", c === b));
+    simLoadBoard().catch(() => {});
+  });
+  $("pgSim").addEventListener("click", async e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const act = b.dataset.act;
+    if (act === "login-open") openLogin("登入後才能參加模擬交易。");
+    else if (act === "claim") {
+      b.disabled = true;
+      try { await simClaim(); await simPushBoard(); simLoadBoard().catch(() => {}); }
+      catch (err) { setSimMsg(err.code === "permission-denied" ? "領取失敗：請確認手機的日期時間正確，以及 Firestore 規則已發佈。" : err.message, true); b.disabled = false; }
+    } else if (act === "cancel") { try { await simCancel(b.dataset.id); } catch (err) { setSimMsg(err.message, true); } }
+    else if (act === "join") {
+      const nick = $("simNick").value.trim(), m = $("simJoinMsg");
+      if (!nick || nick.length > 12) { m.hidden = false; m.className = "status err"; m.textContent = "請輸入 1～12 字的暱稱。"; return; }
+      b.disabled = true;
+      try { await simJoin(nick); }
+      catch (err) { m.hidden = false; m.className = "status err"; m.textContent = err.code === "permission-denied" ? "加入失敗：請確認 Firestore 規則已依設定教學發佈。" : (err.message || "加入失敗"); b.disabled = false; }
+    }
+  });
 }
 
 /* ---------- 頁面縮放（A− / 100% / A+） ---------- */
