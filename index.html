@@ -1352,12 +1352,17 @@ const GLOSS = {
       "<b>失敗的情況</b>：成交時現金不夠、或持股不夠賣，這筆預約單會顯示「未成交」。",
       "<b>排行榜</b>：報酬率 = 總資產 ÷ 累計投入本金 − 1。總資產用最新收盤價計算。",
       "<b>友善版的限制</b>：成交價取自真實資料，但帳務是在你的瀏覽器計算後寫入雲端，懂技術的人仍然可能改資料，所以排名只適合朋友同樂，不適合有獎品的正式比賽。"] },
+  simInvested: { t: "累計投入本金",
+    def: "你到目前為止領過的資金總和，也就是「你總共投入了多少本金」。每領一週就加 NT$ 1,000,000。",
+    read: ["例如領了 3 週，累計投入本金就是 NT$ 3,000,000。", "<b>為什麼需要它</b>：每週都會加碼，不能只比總資產（領得多的人一定比較大）。所以報酬率 = 總資產 ÷ 累計投入本金 − 1，用它當基準才公平。",
+      "總資產比它高就是賺，低就是虧。損益 = 總資產 − 累計投入本金。"] },
   simAvail: { t: "預約買單占用與扣除預約後資產",
     def: "預約中的買單還沒成交，錢還在帳上，但成交時會被用掉。這兩個數字幫你看清楚「真正還能用多少」。",
     read: ["<b>預約買單預估占用</b> = 每筆預約買單的「預估價 × 股數 × (1 + 手續費)」加總。預估價是下單當下的最新收盤價。",
-      "<b>扣除預約後資產</b> = 總資產 − 預約買單預估占用。下新單前拿它當參考，才不會把已經預約出去的錢重複使用。",
+      "<b>扣除預約買單後資產</b> = 總資產 − 預約買單預估占用。下新單前拿它當參考，才不會把已經預約出去的錢重複使用。",
       "下買單時，系統用的是「現金 − 預約買單占用」來檢查夠不夠，所以可用現金比帳上現金少。",
-      "賣單不計入：賣出會把持股換成現金，總資產大致不變，但成交價與稅費要等開盤才知道。"],
+      "<b>預約賣單預估所得</b> = 預估價 × 股數 −手續費 − 證交稅。<b>預約成交後預估現金</b> = 現金 − 買單占用 + 賣單所得。",
+      "賣單所得<b>不會</b>加進「扣除預約買單後資產」：持股已經算在總資產裡，再加一次會重複。賣單所得也不會放寬下買單的現金檢查，因為賣單要等開盤成交。"],
     calc: "實際成交用開盤價，和預估價不同，占用金額會有出入；僅供下單參考。" },
   chipShare: { t: "籌碼占比",
     def: "目前仍持有股票、成本落在這個價格區間的人，占全部持有人的比例。",
@@ -2688,6 +2693,11 @@ function simReserved(acc) {
   return (acc.orders || []).filter(o => o.side === "buy").reduce((s, o) => s + o.est * o.qty * (1 + SIM_FEE), 0);
 }
 
+// 預約中的賣單預估所得（扣掉手續費和證交稅）
+function simSellProceeds(acc) {
+  return (acc.orders || []).filter(o => o.side === "sell").reduce((s, o) => s + o.est * o.qty * (1 - SIM_FEE - taxRate(o.code)), 0);
+}
+
 /* 成交：純函式，傳入帳戶和「訂單 id → 開盤價」，回傳要寫回去的欄位 */
 function applyFills(a, fills) {
   let cash = a.cash;
@@ -2951,17 +2961,19 @@ function renderSim() {
   gate.hidden = true; main.hidden = false;
   const a = sim.acc, W = weekIdx(Date.now()), canClaim = a.claimWeek < W;
   const v = simValue(a), invested = a.claimedCount * SIM_WEEKLY, pnl = v == null ? null : v - invested, ret = v == null ? null : v / invested - 1;
-  const holdVal = v == null ? null : v - a.cash, reserved = simReserved(a);
+  const holdVal = v == null ? null : v - a.cash, reserved = simReserved(a), proceeds = simSellProceeds(a);
   $("simAcct").innerHTML = `<div class="simHead"><button type="button" class="avBtn" data-act="editProfile" aria-label="更換頭像或修改暱稱">${avatarHtml(avOk(a.avatar) ? a.avatar : (user.photoURL || ""), a.nick)}<span class="avEdit" aria-hidden="true">✎</span></button>
     <div class="simWho"><div class="nm">${esc(a.nick)}</div><button type="button" class="info-link" data-act="editProfile">編輯頭像與暱稱</button></div></div>
     <div class="simTotal"><div class="k">總資產</div><div class="v">${v == null ? "更新報價中…" : money(v)}</div>
     <div class="r ${signCls(pnl)}">${ret == null ? "" : `${spct(ret, 2)}　${pnl >= 0 ? "+" : "−"}${money(Math.abs(pnl)).slice(4)}`}${tip("simRules")}</div></div>
     <div class="simGrid"><div><div class="k">現金</div><div class="v">${money(a.cash)}</div></div>
       <div><div class="k">持股市值</div><div class="v">${holdVal == null ? "—" : money(holdVal)}</div></div>
-      <div><div class="k">累計投入本金</div><div class="v">${money(invested)}</div></div>
+      <div><div class="k">累計投入本金${tip("simInvested")}</div><div class="v">${money(invested)}</div></div>
       <div><div class="k">已領取</div><div class="v">${a.claimedCount} 週</div></div>
       <div><div class="k">預約買單預估占用${tip("simAvail")}</div><div class="v">${money(reserved)}</div></div>
-      <div><div class="k">扣除預約後資產</div><div class="v">${v == null ? "—" : money(v - reserved)}</div></div></div>
+      <div><div class="k">預約賣單預估所得</div><div class="v">${money(proceeds)}</div></div>
+      <div><div class="k">預約成交後預估現金</div><div class="v">${money(a.cash - reserved + proceeds)}</div></div>
+      <div><div class="k">扣除預約買單後資產</div><div class="v">${v == null ? "—" : money(v - reserved)}</div></div></div>
     <div class="simClaim">${canClaim ? `<button type="button" class="btn" data-act="claim">領取本週資金 ${money(SIM_WEEKLY)}</button>`
       : `<button type="button" class="btn ghost" disabled>本週已領取</button><div class="hint">下一次可以領取：${weekMonday(W + 1)}（週一）起。</div>`}</div>`;
   // 預約單
@@ -3026,8 +3038,8 @@ function renderSimForm() {
     est = `預估約 ${money(amt)}（以最新收盤估算，實際用開盤價成交，手續費約 ${Math.max(1, Math.round(amt * SIM_FEE)).toLocaleString("en-US")} 元）。${sim.side === "sell" ? `目前持有 ${have.toLocaleString("en-US")} 股。` : ""}預計 ${simAfterDate(Date.now())} 起第一個交易日的開盤價成交。`;
   }
   if (a) {
-    const resv = simReserved(a), v = simValue(a, true);
-    est = `扣除預約買單後：可用現金約 ${money(Math.max(0, a.cash - resv))}，資產約 ${money(v - resv)}（預約買單占用約 ${money(resv)}）。` + (est ? "\n" + est : "");
+    const resv = simReserved(a), v = simValue(a, true), pro = simSellProceeds(a);
+    est = `目前可用現金約 ${money(Math.max(0, a.cash - resv))}（預約買單占用 ${money(resv)}）。預約賣單成交後預估現金約 ${money(a.cash - resv + pro)}（含賣單預估所得 ${money(pro)}）。扣除預約買單後資產約 ${money(v - resv)}。` + (est ? "\n" + est : "");
   }
   $("simEst").textContent = est; $("simEst").hidden = !est; $("simEst").style.whiteSpace = "pre-line";
 }
