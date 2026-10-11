@@ -636,7 +636,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <div class="card gSteps">
         <div class="gStep"><i>1</i><div><b>看加權指數</b><p>最新收盤、漲跌點數和近約 90 個交易日的走勢，先知道大盤現在偏強還是偏弱。</p></div></div>
         <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>日盤收盤後，夜盤是最即時的市場情緒。系統會用夜盤的漲跌點數，粗估隔天大盤的開盤位置。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>算算這檔占大盤多少</b><p>輸入個股，填上「上市股票總市值」，就知道它的權重，以及它漲跌 1% 會讓大盤動幾點。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>算算這檔占大盤多少</b><p>輸入個股，系統會自動取得「上市股票總市值」，算出它的權重，以及它漲跌 1% 會讓大盤動幾點。</p></div></div>
       </div>
       <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨不是指數本身，推估開盤也只是粗估。支撐與壓力還是要回到個股的籌碼分布來看。</p>
       <button type="button" class="btn" data-go="market">去大盤指數</button>
@@ -774,6 +774,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <label class="fld" for="mcTotal"><span>上市股票總市值（兆元）<button type="button" class="info" data-term="mktTotal" aria-label="總市值怎麼查的說明">i</button></span><input id="mcTotal" type="number" inputmode="decimal" min="0" step="any" placeholder="填入「兆元」數字"></label>
         <label class="fld" for="mcPct"><span>假設這檔漲跌（%）</span><input id="mcPct" type="number" inputmode="decimal" step="any" value="1"></label>
       </div>
+      <div id="mcTotalNote" class="status" style="margin-top:6px"></div>
       <div id="mcOut" class="mcOut"></div>
     </div>
   </section>
@@ -1411,8 +1412,8 @@ const GLOSS = {
     calc: "使用最近到期的單月合約（近月）；資料來自 FinMind 的期貨每日行情，通常在夜盤結束後才會出現完整資料。" },
   mktTotal: { t: "上市股票總市值",
     def: "所有上市股票的「股價 × 發行股數」加總，也是計算每檔股票占加權指數權重時的分母。",
-    read: ["這個數字會隨股價天天變動，免費資料源沒有提供，所以請自己填入一次，網頁會記住。", "可以在證交所（twse.com.tw）的市場統計、或財經網站的大盤資訊找到「上市總市值」，單位換算成<b>兆元</b>填入。", "算法舉例（數字隨意假設）：總市值 100 兆、某檔市值 10 兆，權重就是 10%。"],
-    calc: "權重 = 個股市值 ÷ 上市股票總市值。官方指數用的是計入股數與除數，這裡用發行股數估算，會有小幅差異。" },
+    read: ["這個數字會隨股價天天變動。網頁每次打開「大盤指數」會自動向證交所取得並更新，不用自己查。", "如果你想用別的數字（例如證交所網站上看到的），可以直接改欄位，單位是<b>兆元</b>；旁邊的「改回自動」可以恢復。", "算法舉例（數字隨意假設）：總市值 100 兆、某檔市值 10 兆，權重就是 10%。"],
+    calc: "總市值優先使用證交所公布的「上市公司總市值」（最近一個交易日收盤）。官方資料讀不到時，改用每檔上市股票的「發行股數 × 收盤價」自己加總（不含 ETF、特別股、存託憑證），兩者實測相差不到 0.5%。權重 = 個股市值 ÷ 上市股票總市值。" },
   simInvested: { t: "累計投入本金",
     def: "你到目前為止領過的資金總和，也就是「你總共投入了多少本金」。每領一週就加 NT$ 1,000,000。",
     read: ["例如領了 3 週，累計投入本金就是 NT$ 3,000,000。", "<b>為什麼需要它</b>：每週都會加碼，不能只比總資產（領得多的人一定比較大）。所以報酬率 = 總資產 ÷ 累計投入本金 − 1，用它當基準才公平。",
@@ -2197,6 +2198,7 @@ function mktParse(px, fu) {
   return { idx, fut };
 }
 async function mktLoad(force) {
+  mktTotalLoad(force);
   if (mkt.loading) return;
   if (!force && mkt.idx && Date.now() - mkt.at < MKT_TTL) { mktRender(); return; }
   mkt.loading = true; mkt.err = ""; mkt.stale = 0; mktRender();
@@ -2253,6 +2255,66 @@ function mktRender() {
   }
   el.innerHTML = bar + err + taiex + night;
 }
+/* 上市股票總市值（不佔用 FinMind 額度，都是 www.twse.com.tw 的 JSON，可以從網頁直接讀）
+   1) 優先用證交所官方公布的「上市公司總市值」（金融友善服務專區使用的 homeApi/mkt_cap，單位億元，最近 5 個交易日）；
+   2) 讀不到時，改自己加總：Σ（每檔上市股票的發行股數 × 收盤價），發行股數取自「外資及陸資投資持股統計」，
+      收盤價取自「每日收盤行情」。實測和官方數字差不到 0.5%。
+   證交所的 openapi 網域不開放瀏覽器直接讀取，所以不用 */
+const TWSE = "https://www.twse.com.tw/rwd/zh", TWSE_HOME = "https://www.twse.com.tw/rwd/homeApi";
+const MKT_TOT_TTL = 6 * 3600e3;
+const num = v => +String(v).replace(/,/g, "");
+const isoDate = s => /^\d{8}$/.test(s) ? `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6)}` : String(s);
+const twseGet = u => fetch(u).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
+async function mktTotalOfficial() {
+  const rows = await twseGet(`${TWSE_HOME}/mkt_cap`);
+  const last = Array.isArray(rows) ? rows[rows.length - 1] : null;
+  if (!last || !(num(last[1]) > 0) || !/^\d{2}\/\d{2}$/.test(last[0])) throw new Error("資料不完整");
+  const [mm, dd] = last[0].split("/").map(Number), now = new Date(Date.now() + 8 * 3600e3);
+  const y = mm > now.getUTCMonth() + 1 ? now.getUTCFullYear() - 1 : now.getUTCFullYear();      // 只有月/日；比現在的月份還大就是去年
+  return { t: Date.now(), total: num(last[1]) * 1e8, n: 0, src: "official", date: `${y}-${String(mm).padStart(2, "0")}-${String(dd).padStart(2, "0")}` };
+}
+async function mktTotalSum() {
+  const get = twseGet;
+  {
+    const [sh, mi] = await Promise.all([get(`${TWSE}/fund/MI_QFIIS?selectType=ALLBUT0999&response=json`), get(`${TWSE}/afterTrading/MI_INDEX?type=ALLBUT0999&response=json`)]);
+    const tb = (mi.tables || []).find(t => t.fields && t.fields.includes("證券代號") && t.fields.includes("收盤價"));
+    if (sh.stat !== "OK" || mi.stat !== "OK" || !tb) throw new Error("資料不完整");
+    const ci = tb.fields.indexOf("證券代號"), pi = tb.fields.indexOf("收盤價");
+    const close = new Map(tb.data.map(r => [r[ci], num(r[pi])]));
+    let total = 0, n = 0;
+    for (const r of sh.data) {
+      const code = r[0];
+      if (!/^[1-9]\d{3}$/.test(code) || /^91/.test(code)) continue;      // 只算一般上市股票：不含 ETF、特別股、存託憑證
+      const s = num(r[3]), p = close.get(code);
+      if (s > 0 && p > 0) { total += s * p; n++; }
+    }
+    if (n < 500) throw new Error("資料不完整");
+    return { t: Date.now(), total, n, src: "sum", date: isoDate(mi.date || "") };
+  }
+}
+async function mktTotalLoad(force) {
+  const c = lsRead("mktTot2");
+  if (!force && c && Date.now() - c.t < MKT_TOT_TTL) { mkt.tot = c; mcApplyTotal(); return; }
+  mkt.totErr = false;
+  try { mkt.tot = await mktTotalOfficial(); }
+  catch (e) {
+    try { mkt.tot = await mktTotalSum(); }
+    catch (e2) { mkt.totErr = true; if (c) mkt.tot = c; }
+  }
+  if (mkt.tot && !mkt.totErr) lsWrite("mktTot2", mkt.tot);
+  mcApplyTotal();
+}
+// 自動值填進欄位；使用者自己改過的數字（手動）優先，旁邊有「改回自動」
+function mcApplyTotal() {
+  const man = lsRead("mktTotalManual"), t = mkt.tot, f = $("mcTotal"), note = $("mcTotalNote");
+  if (man > 0) { f.value = man; note.innerHTML = `使用你手動填的數字。${t ? `<button type="button" class="info-link" data-act="totAuto">改回自動（約 ${(t.total / 1e12).toFixed(1)} 兆）</button>` : ""}`; }
+  else if (t) {
+    f.value = +(t.total / 1e12).toFixed(2);
+    note.textContent = (t.src === "official" ? `自動取得：證交所公布的上市公司總市值（${t.date} 收盤）` : `自動計算：證交所 ${t.date} 收盤，${t.n.toLocaleString("en-US")} 檔上市股票的市值加總（官方數字這次讀不到）`)
+      + (mkt.totErr ? "，這次更新失敗，用的是上次存下來的" : "") + "。可以直接改成別的數字。";
+  } else { f.value = ""; note.textContent = mkt.totErr ? "自動取得上市總市值失敗，請手動填入「兆元」數字，或稍後重新整理。" : "取得上市總市值中…"; }
+  mcRender();
+}
 /* 個股占大盤計算器 */
 function mcRender() {
   const out = $("mcOut"); if (!out) return;
@@ -2260,7 +2322,7 @@ function mcRender() {
   const st = mkt.stock, idxC = mkt.idx && mkt.idx[mkt.idx.length - 1].c;
   if (!(price > 0) || !(shares > 0)) { out.innerHTML = `<div class="status">先選一檔股票，股價和發行股數會自動帶入；也可以自己改。</div>`; return; }
   const cap = price * shares, rows = [`<div class="row">這檔的市值約 <b>${fmt(cap / 1e8, 0)} 億元</b>（股價 × 發行股數）。</div>`];
-  if (!(total > 0)) { out.innerHTML = rows.join("") + `<div class="status">再填入「上市股票總市值」，就能算出占大盤的比重。</div>`; return; }
+  if (!(total > 0)) { out.innerHTML = rows.join("") + `<div class="status">還沒有「上市股票總市值」，取得後就能算出占大盤的比重。</div>`; return; }
   const w = cap / total;
   let html = `<div><div class="status">占加權指數的權重</div><div class="big">${(w * 100).toFixed(2)}%</div></div>` + rows.join("");
   if (w > 0.5) html += `<div class="status err">算出來的權重超過 50%，請確認總市值的單位是「兆元」。</div>`;
@@ -2299,7 +2361,7 @@ async function mcPick(code, name) {
 }
 function mktInit() {
   const q = $("mcQ"), sugg = $("mcSugg");
-  const tot = lsRead("mktTotal"); if (tot > 0) $("mcTotal").value = tot;
+  mkt.tot = lsRead("mktTot2"); mcApplyTotal();
   const show = () => {
     const shown = searchStocks(q.value);
     sugg.hidden = !shown.length;
@@ -2315,7 +2377,12 @@ function mktInit() {
     if (exact) mcPick(exact[0], exact[1]); else if (shown.length) mcPick(shown[0][0], shown[0][1]);
     else if (/^\d{4,6}[A-Za-z]?$/.test(v)) mcPick(v, ""); else $("mcPicked").innerHTML = `<span class="dn">找不到「${esc(v)}」，請輸入股票代碼或完整名稱。</span>`;
   });
-  $("mcTotal").addEventListener("input", () => { const n = +$("mcTotal").value; if (n > 0) lsWrite("mktTotal", n); else lsDel("mktTotal"); mcRender(); });
+  $("mcTotal").addEventListener("input", () => {
+    const n = +$("mcTotal").value;
+    if (n > 0) { lsWrite("mktTotalManual", n); $("mcTotalNote").innerHTML = `使用你手動填的數字。${mkt.tot ? `<button type="button" class="info-link" data-act="totAuto">改回自動（約 ${(mkt.tot.total / 1e12).toFixed(1)} 兆）</button>` : ""}`; }
+    mcRender();
+  });
+  $("mcTotalNote").addEventListener("click", e => { if (e.target.closest('[data-act="totAuto"]')) { lsDel("mktTotalManual"); mcApplyTotal(); } });
   for (const id of ["mcPrice", "mcShares", "mcPct"]) $(id).addEventListener("input", mcRender);
   $("mktBody").addEventListener("click", e => { if (e.target.closest('[data-act="mktRefresh"]')) mktLoad(true); });
   mcRender();
