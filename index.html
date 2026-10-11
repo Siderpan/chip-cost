@@ -170,7 +170,22 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .orow .pn small { display: block; font: 400 .7rem var(--font-num); color: var(--muted); margin-top: 1px; }
 .pill.buy { background: var(--bull); } .pill.sell { background: var(--bear); }
 .pill.no { background: var(--muted); }
-.brow { display: grid; grid-template-columns: 2em minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.av { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden; background: var(--bg); color: var(--profit); flex: none; }
+.av img, .avBtn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.av .ini, .avBtn .ini { font: 600 1.1em var(--font-ui); }
+.av.sm { width: 34px; height: 34px; font-size: .9rem; }
+.av.lg { width: 96px; height: 96px; font-size: 2.2rem; margin: 0 auto; }
+.simHead { display: flex; align-items: center; gap: 12px; }
+.avBtn { position: relative; width: 58px; height: 58px; padding: 0; border: 2px solid var(--line); border-radius: 50%; background: var(--bg); color: var(--profit); font-size: 1.4rem; cursor: pointer; flex: none; display: inline-flex; align-items: center; justify-content: center; overflow: visible; }
+.avBtn img { border-radius: 50%; }
+.avBtn .avEdit { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--profit); color: var(--surface); font-size: .7rem; display: inline-flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
+.simWho { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.simWho .nm { font-weight: 700; font-size: 1.02rem; overflow-wrap: anywhere; }
+.pf { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+.pfNote { text-align: center; font-size: .78rem; color: var(--muted); line-height: 1.6; }
+.pfBtns { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.pf .btn { margin: 0; }
+.brow { display: grid; grid-template-columns: 2em 34px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
 .brow + .brow { margin-top: 6px; }
 .brow.me { border-color: var(--profit); box-shadow: inset 0 0 0 1px var(--profit); }
 .brow .rk { font: 700 .95rem var(--font-num); color: var(--muted); text-align: center; }
@@ -1423,7 +1438,7 @@ document.addEventListener("keydown", e => {
   if ($("sheet").hidden) return;
   if (e.key === "Escape") closeSheet();
   else if (e.key === "Tab") {
-    const f = [...$("sheet").querySelectorAll("button")];
+    const f = [...$("sheet").querySelectorAll("button, input:not([type=file])")].filter(x => !x.disabled);
     const i = f.indexOf(document.activeElement);
     e.preventDefault();
     f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
@@ -2121,11 +2136,15 @@ async function initMember() {
   $("admRefresh").addEventListener("click", adminLoad);
   $("admBack").addEventListener("click", () => showTab("analyze"));
   $("starBtn").addEventListener("click", toggleStar);
+  $("sheetBody").addEventListener("change", e => { if (e.target.id === "pfFile" && e.target.files[0]) pickAvatar(e.target.files[0]); });
   $("sheetBody").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
     if (act === "login") doLogin();
     else if (act === "openAdmin") { closeSheet(); showTab("admin"); }
+    else if (act === "pfUpload") $("pfFile").click();
+    else if (act === "pfDefault") saveProfile({ avatar: firebase.firestore.FieldValue.delete() }, "已改回預設頭像。");
+    else if (act === "pfSave") saveNick();
     else if (act === "copyUid") {
       try { await navigator.clipboard.writeText(user.uid); b.textContent = "已複製"; }
       catch (err) { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "已選取，請長按複製"; }
@@ -2750,15 +2769,77 @@ async function simCancel(id) {
   });
 }
 
+/* 個人檔案：頭像與暱稱 ------------------------------------------------------------
+   頭像存成縮小後的小張 JPEG 資料（約 5～10 KB），直接放在文件裡，不需要另外的檔案儲存空間。
+   預設顯示會員的 Google 頭貼（只有自己看得到）；自己上傳的頭像才會出現在排行榜上。 */
+const AV_RE = /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/;
+const avOk = s => typeof s === "string" && s.length <= 16000 && AV_RE.test(s);     // 別人存的資料不能直接信，圖片網址只接受這種格式
+function avatarHtml(src, nick) {
+  const ini = esc(String(nick || "?").trim().charAt(0).toUpperCase() || "?");
+  return src ? `<img src="${esc(src)}" alt="" referrerpolicy="no-referrer" data-ini="${ini}">` : `<span class="ini">${ini}</span>`;
+}
+// 圖片載入失敗（例如 Google 頭貼連不到）時，改顯示暱稱的第一個字。用事件監聽，不在 HTML 裡放程式碼
+document.addEventListener("error", e => {
+  const im = e.target;
+  if (im && im.tagName === "IMG" && im.dataset && im.dataset.ini !== undefined) {
+    const s = document.createElement("span"); s.className = "ini"; s.textContent = im.dataset.ini; im.replaceWith(s);
+  }
+}, true);
+// 把選的圖片裁成正方形、縮成 128 像素的 JPEG；太大就再縮小一點
+async function makeAvatar(file) {
+  if (!file || !/^image\//.test(file.type)) throw new Error("請選擇圖片檔。");
+  if (file.size > 10e6) throw new Error("圖片太大了（上限 10 MB）。");
+  let img;
+  try { img = await createImageBitmap(file, { imageOrientation: "from-image" }); }       // 會照相片的方向自動轉正
+  catch (e) { img = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(new Error("讀不到這張圖片，請換一張。")); i.src = URL.createObjectURL(file); }); }
+  const w = img.width || img.naturalWidth, h = img.height || img.naturalHeight, s = Math.min(w, h);
+  for (const [size, q] of [[128, 0.85], [112, 0.8], [96, 0.75], [80, 0.7]]) {
+    const c = document.createElement("canvas"); c.width = c.height = size;
+    const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size);
+    g.drawImage(img, (w - s) / 2, (h - s) / 2, s, s, 0, 0, size, size);
+    const url = c.toDataURL("image/jpeg", q);
+    if (avOk(url)) return url;
+  }
+  throw new Error("圖片壓縮後還是太大，請換一張。");
+}
+function openProfile(msg, isErr) {
+  const a = sim.acc;
+  if (!a) return;
+  const custom = avOk(a.avatar), shown = custom ? a.avatar : (user.photoURL || "");
+  openCustom("編輯頭像與暱稱", `<div class="pf">
+    <div class="pfAv av lg">${avatarHtml(shown, a.nick)}</div>
+    <div class="pfNote">${custom ? "目前使用你上傳的頭像，會顯示在排行榜上。" : "目前使用 Google 頭貼，只有你自己看得到；上傳頭像後才會出現在排行榜。"}</div>
+    <div class="pfBtns"><button type="button" class="btn ghost" data-act="pfUpload">上傳新頭像</button>${custom ? `<button type="button" class="btn ghost" data-act="pfDefault">改回預設頭像</button>` : ""}</div>
+    <input id="pfFile" type="file" accept="image/*" hidden>
+    <label class="fld" for="pfNick"><span>暱稱（1～12 字，請不要用真實姓名）</span><input id="pfNick" maxlength="12" autocomplete="off" value="${esc(a.nick)}"></label>
+    <button type="button" class="btn" data-act="pfSave">儲存暱稱</button>
+    <div id="pfMsg" class="${isErr ? "msg" : "msg ok"}" ${msg ? "" : "hidden"}>${esc(msg || "")}</div></div>`, null);
+}
+async function saveProfile(patch, okMsg) {
+  try { await simRef().update(patch); openProfile(okMsg); }
+  catch (e) { openProfile(e.code === "permission-denied" ? "儲存沒有成功：沒有權限，請確認 Firestore 規則已更新並發佈（需要新版規則）。" : "儲存沒有成功：" + (e.message || e.code), true); }
+}
+async function pickAvatar(file) {
+  try { const url = await makeAvatar(file); await saveProfile({ avatar: url }, "頭像已更新。"); }
+  catch (e) { openProfile(e.message || "頭像更新失敗", true); }
+}
+async function saveNick() {
+  const nick = ($("pfNick").value || "").trim();
+  if (!nick || nick.length > 12) { openProfile("暱稱要 1～12 個字。", true); return; }
+  if (nick === sim.acc.nick) { openProfile("暱稱沒有變動。"); return; }
+  await saveProfile({ nick }, "暱稱已更新。");
+}
+
 /* 排行榜 */
 async function simPushBoard(force) {
   const a = sim.acc;
   if (!a || !a.claimedCount) return;
   const v = simValue(a, true);                       // 查不到的報價用成本估算，不要因此不上榜
   const invested = a.claimedCount * SIM_WEEKLY, value = Math.round(v), ret = value / invested - 1;
-  const key = [a.nick, invested, value].join("|");
+  const av = avOk(a.avatar) ? a.avatar : "";         // 只有自己上傳的頭像會放上排行榜；預設的 Google 頭貼不公開
+  const key = [a.nick, invested, value, av.length].join("|");
   if (!force && key === sim.lastPush) return;
-  await fdb.collection("leaderboard").doc(user.uid).set({ nick: a.nick, invested, value, ret, weeks: a.claimedCount, updatedAt: Date.now() });
+  await fdb.collection("leaderboard").doc(user.uid).set({ nick: a.nick, invested, value, ret, weeks: a.claimedCount, updatedAt: Date.now(), ...(av ? { avatar: av } : {}) });
   sim.lastPush = key; sim.pushErr = "";
 }
 async function simLoadBoard() {
@@ -2818,7 +2899,9 @@ function renderSim() {
   const a = sim.acc, W = weekIdx(Date.now()), canClaim = a.claimWeek < W;
   const v = simValue(a), invested = a.claimedCount * SIM_WEEKLY, pnl = v == null ? null : v - invested, ret = v == null ? null : v / invested - 1;
   const holdVal = v == null ? null : v - a.cash;
-  $("simAcct").innerHTML = `<div class="simTotal"><div class="k">${esc(a.nick)} 的總資產</div><div class="v">${v == null ? "更新報價中…" : money(v)}</div>
+  $("simAcct").innerHTML = `<div class="simHead"><button type="button" class="avBtn" data-act="editProfile" aria-label="更換頭像或修改暱稱">${avatarHtml(avOk(a.avatar) ? a.avatar : (user.photoURL || ""), a.nick)}<span class="avEdit" aria-hidden="true">✎</span></button>
+    <div class="simWho"><div class="nm">${esc(a.nick)}</div><button type="button" class="info-link" data-act="editProfile">編輯頭像與暱稱</button></div></div>
+    <div class="simTotal"><div class="k">總資產</div><div class="v">${v == null ? "更新報價中…" : money(v)}</div>
     <div class="r ${signCls(pnl)}">${ret == null ? "" : `${spct(ret, 2)}　${pnl >= 0 ? "+" : "−"}${money(Math.abs(pnl)).slice(4)}`}${tip("simRules")}</div></div>
     <div class="simGrid"><div><div class="k">現金</div><div class="v">${money(a.cash)}</div></div>
       <div><div class="k">持股市值</div><div class="v">${holdVal == null ? "—" : money(holdVal)}</div></div>
@@ -2858,6 +2941,7 @@ function renderSimBoard() {
   if (!sim.lb.length) { el.innerHTML = `${notice}<div class="empty">排行榜還沒有資料。</div>`; return; }
   el.innerHTML = notice + `<p class="advnote" style="padding:0 2px 8px">${sim.lb.length >= 20 ? "顯示前 20 名" : `目前共 ${sim.lb.length} 位參賽者`}（依${sim.lbSort === "ret" ? "報酬率" : "總資產"}排序）</p>`
     + sim.lb.map((r, i) => `<div class="brow${user && r.uid === user.uid ? " me" : ""}"><span class="rk${i < 3 ? " top" : ""}">${i + 1}</span>
+    <span class="av sm">${avatarHtml(avOk(r.avatar) ? r.avatar : "", r.nick)}</span>
     <div><div class="nm">${esc(r.nick)}</div><div class="sb">總資產 ${money(r.value)}　領取 ${r.weeks} 週</div></div>
     <div class="rt ${signCls(r.ret)}">${spct(r.ret, 2)}</div></div>`).join("")
     + `<p class="advnote" style="padding-top:8px">報酬率 = 總資產 ÷ 累計投入本金 − 1。成交價取自真實開盤價，但這是友善版，排名僅供同樂。</p>`;
@@ -2938,6 +3022,7 @@ function simInit() {
     const act = b.dataset.act;
     if (act === "login-open") openLogin("登入後才能參加模擬交易。");
     else if (act === "resend") { b.disabled = true; await simSyncBoard(true); renderSimBoard(); }
+    else if (act === "editProfile") openProfile();
     else if (act === "claim") {
       b.disabled = true;
       try { await simClaim(); }
