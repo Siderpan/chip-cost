@@ -158,6 +158,26 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .mktHead .v { font: 600 1.7rem/1.15 var(--font-num); letter-spacing: -.02em; }
 .mktHead .r { font: 600 .92rem var(--font-num); text-align: right; }
 .mktSpark { width: 100%; height: 64px; display: block; margin: 8px 0 6px; }
+.shDot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.6px solid var(--muted); vertical-align: -1px; box-sizing: border-box; }
+.shDot.on { background: var(--profit); border-color: var(--profit); }
+.shCard { padding: 12px 14px; }
+.shRow { padding: 10px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 6px 8px; align-items: center; }
+.shRow:last-of-type { border-bottom: 0; }
+.shP { font: 600 .9rem var(--font-num); }
+.shDots { display: flex; flex-wrap: wrap; gap: 4px; min-height: 12px; }
+.shMeta { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: .78rem; color: var(--muted); }
+.shMeta b { font: 600 .86rem var(--font-num); color: var(--ink); }
+.shTag { margin-left: auto; font-size: .74rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); }
+.shTag.good { background: var(--profit); border-color: var(--profit); color: var(--surface); }
+.shTag.warn { border-color: var(--trapped); color: var(--trapped); }
+.shMnemo { padding: 14px 16px; text-align: center; border-color: var(--profit); }
+.shMnemo .mn { font-size: .7rem; letter-spacing: .2em; color: var(--muted); margin-bottom: 4px; }
+.shMnemo .big { font: 700 1.08rem/1.5 var(--font-ui); margin: 2px 0; }
+.shMnemo .sm { font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 8px 0 0; text-align: left; }
+.mktLg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .72rem; color: var(--muted); margin: 0 0 4px; align-items: center; }
+.mktLg .ln { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--profit); vertical-align: middle; margin-right: 5px; }
+.mktLg .ln.dash { border-top: 2px dashed var(--muted); }
+.mktLg .rg { margin-left: auto; font-family: var(--font-num); }
 .mktCard { margin-bottom: 10px; padding: 12px 14px; }
 .mktCard .nt { font-size: .75rem; color: var(--muted); margin-top: 8px; line-height: 1.55; }
 .mcOut { margin-top: 12px; display: grid; gap: 8px; }
@@ -608,6 +628,22 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div id="demoText" class="gDemoText" aria-live="polite"></div>
         <div class="legend"><span><i style="background:var(--profit)"></i>成本低於現價（帳面賺錢）</span><span><i style="background:var(--trapped)"></i>成本高於現價（被套）</span></div>
       </div>
+    </div>
+
+    <div class="gSec">
+      <h3>最容易搞混的兩個數字：成交量占比 vs 籌碼占比</h3>
+      <p class="gLead">想像每個價位是一間<b>房間</b>，每一位在這個價位買進的人是一個圓點：<span class="shDot on"></span> <b>還抱著股票</b>（還在房裡），<span class="shDot"></span> <b>已經賣掉</b>（已經退房）。</p>
+      <div class="gTwo">
+        <div class="card gMini"><div class="gName">成交量占比＝簽到簿</div><p><b>來過就算</b>，不管現在走了沒。<br>數的是 <span class="shDot on"></span>＋<span class="shDot"></span>。</p></div>
+        <div class="card gMini"><div class="gName">籌碼占比＝現場點名</div><p><b>還在才算</b>，退房的不算。<br>只數 <span class="shDot on"></span>。</p></div>
+      </div>
+      <div class="card shCard"><div id="shRows"></div>
+        <p class="gFigCap">每一排是一個價位。右邊的「量」是簽到簿占比（全部圓點裡，這排占幾 %），「籌」是點名占比（所有 <span class="shDot on"></span> 裡，這排占幾 %）。</p></div>
+      <div class="card shMnemo"><div class="mn">口訣</div>
+        <p class="big">量看「來過」，籌看「還在」。</p>
+        <p class="big">來過又還在，才是真地板、真天花板。</p>
+        <p class="sm">人為什麼會走？股價漲跌之間，買的人陸續賣掉換手，舊成本就被新成本取代。所以<b>籌碼占比會變，成交量占比是歷史紀錄，不會變</b>。</p></div>
+      <button type="button" class="info-link" data-term="combo">四種組合怎麼判讀？</button>
     </div>
 
     <div class="gSec">
@@ -1326,8 +1362,8 @@ const GLOSS = {
     calc: "與支撐區相同，只是取現價以上的高峰。",
     live: R => R.a.res.length ? `目前最近的壓力是 <b>${fmt(R.a.res[0].peak)}</b>（距現價 ${spct(R.a.res[0].dist)}）：籌碼占比 <b>${pct(R.a.res[0].strength)}</b>，成交量占比 <b>${pct(R.a.res[0].volShare)}</b>（期間 ${R.rows.length} 個交易日）。` : "目前現價上方沒有明顯的籌碼堆積。" },
   combo: { t: "兩個占比怎麼組合判讀",
-    def: "籌碼占比是「現在還有多少人的成本在這裡」，成交量占比是「這段期間有多少量在這裡成交過」。一個看庫存，一個看流量，合在一起看才完整。",
-    read: ["<b>口訣：先看量，再看籌；量籌皆高最可靠。</b>",
+    def: "成交量占比是<b>簽到簿</b>（來過就算），籌碼占比是<b>現場點名</b>（還在才算）。一個看來過多少人，一個看現在還剩多少人，合在一起看才完整。",
+    read: ["<b>口訣：量看「來過」，籌看「還在」；來過又還在，才是真地板、真天花板。</b>",
       "<b>量籌雙高</b>：曾大量成交，現在仍有許多人的成本在此，支撐或壓力的依據最足。",
       "<b>量大籌少</b>：當時很熱鬧，但買進的人多半已經賣出，人去樓空，強度要打折。",
       "<b>量少籌多</b>：成交不算大，但持有人抱得久或是近期才成交，籌碼還在，可以再觀察。",
@@ -1427,12 +1463,12 @@ const GLOSS = {
       "賣單所得<b>不會</b>加進「扣除預約買單後資產」：持股已經算在總資產裡，再加一次會重複。賣單所得也不會放寬下買單的現金檢查，因為賣單要等開盤成交。"],
     calc: "實際成交用開盤價，和預估價不同，占用金額會有出入；僅供下單參考。" },
   chipShare: { t: "籌碼占比",
-    def: "目前仍持有股票、成本落在這個價格區間的人，占全部持有人的比例。",
-    read: ["越高，代表這個價位有越多人的成本。股價回到這裡時，反應的人越多，支撐或壓力越明顯。", "它會隨著換手逐日更新：舊成本被新成交取代後，占比就會下降。"],
+    def: "目前仍持有股票、成本落在這個價格區間的人，占全部持有人的比例。<b>一句話：現場點名，還在才算。</b>",
+    read: ["把價位想成房間：<b>還抱著股票的人才算「還在房裡」</b>，已經賣掉的人等於退房，不算。", "越高，代表這個價位有越多人的成本。股價回到這裡時，反應的人越多，支撐或壓力越明顯。", "它會隨著換手逐日更新：舊成本被新成交取代後，占比就會下降。"],
     calc: "把每天的成交量依價位累積，並讓舊籌碼隨換手逐日衰減，最後把區間內的籌碼加總。" },
   volShare: { t: "成交量占比",
-    def: "這段期間內，有多少比例的成交量發生在這個價格區間。",
-    read: ["越高，代表這裡曾經是主要的換手區，價位被市場記得更牢。", "和籌碼占比一起看：兩者都高最可靠，詳見「兩個占比怎麼組合判讀」。"],
+    def: "這段期間內，有多少比例的成交量發生在這個價格區間。<b>一句話：簽到簿，來過就算。</b>",
+    read: ["把價位想成房間：<b>只要曾經在這裡買賣過就記一筆</b>，不管那個人現在還在不在。這是歷史紀錄，不會減少。", "越高，代表這裡曾經是主要的換手區，價位被市場記得更牢。", "和籌碼占比一起看：兩者都高最可靠，詳見「兩個占比怎麼組合判讀」。"],
     calc: "把每天的成交量依三角分布分到各價位，加總後除以期間總成交量（不衰減）。" },
   distNear: { t: "距現價",
     def: "這個支撐或壓力的價位，離現在的股價有多遠（百分比）。",
@@ -2191,8 +2227,13 @@ function mktParse(px, fu) {
       const days = rows.filter(r => r.trading_session === "position");
       const prev = days.filter(r => r.date < nd && r.contract_date === today.contract_date).sort((a, b) => a.date < b.date ? 1 : -1)[0];
       const newer = days.some(r => r.date >= nd);
+      // 走勢：每天取最近到期的單月合約，分別記夜盤收盤與日盤收盤
+      const pick = (list) => { const m = {}; for (const r of list) if (!m[r.date] || r.contract_date < m[r.date].contract_date) m[r.date] = r; return m; };
+      const nm = pick(nights), dm = pick(days);
+      const ser = [...new Set([...Object.keys(nm), ...Object.keys(dm)])].sort().slice(-40)
+        .map(d => ({ d, n: nm[d] ? nm[d].close : null, p: dm[d] ? dm[d].close : null }));
       fut = { nd, contract: today.contract_date, o: today.open, h: today.max, l: today.min, c: today.close, v: today.volume,
-        pd: prev ? prev.date : null, pc: prev ? prev.close : null, newer };
+        pd: prev ? prev.date : null, pc: prev ? prev.close : null, newer, ser };
     }
   }
   return { idx, fut };
@@ -2205,7 +2246,7 @@ async function mktLoad(force) {
   try {
     const [px, fu] = await Promise.all([
       fm("TaiwanStockPrice", { data_id: "TAIEX", start_date: dateBack({ days: 130 }) }),
-      fm("TaiwanFuturesDaily", { data_id: "TX", start_date: dateBack({ days: 12 }) }).catch(e => { if (e.limit) throw e; return null; })
+      fm("TaiwanFuturesDaily", { data_id: "TX", start_date: dateBack({ days: 62 }) }).catch(e => { if (e.limit) throw e; return null; })
     ]);
     const r = mktParse(px, fu);
     if (!r.idx.length) throw new Error("查不到加權指數資料，請稍後再試。");
@@ -2223,6 +2264,19 @@ function mktSpark(rows) {
   const pts = v.map((y, i) => `${(p + i * (W - 2 * p) / (v.length - 1)).toFixed(1)},${(H - p - (y - lo) / sp * (H - 2 * p)).toFixed(1)}`).join(" ");
   const up = v[v.length - 1] >= v[0];
   return `<svg class="mktSpark ${up ? "up" : "dn"}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="近 ${rows.length} 個交易日加權指數走勢"><polyline points="${pts}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`;
+}
+// 夜盤走勢：實線 = 夜盤收盤，虛線 = 日盤收盤（都是近月合約）；兩條線的差距就是「夜盤相對日盤的方向」
+function mktNightChart(ser) {
+  const pts = (ser || []).filter(r => r.n != null || r.p != null);
+  if (pts.length < 2) return "";
+  const W = 320, H = 120, pad = 4, vals = pts.flatMap(r => [r.n, r.p]).filter(v => v != null);
+  const lo = Math.min(...vals), hi = Math.max(...vals), sp = hi - lo || 1;
+  const X = i => pad + i * (W - 2 * pad) / (pts.length - 1), Y = v => H - pad - (v - lo) / sp * (H - 2 * pad);
+  const line = key => pts.map((r, i) => r[key] == null ? null : `${X(i).toFixed(1)},${Y(r[key]).toFixed(1)}`).filter(Boolean).join(" ");
+  return `<svg class="mktSpark mktNightSvg" style="height:120px" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="近 ${pts.length} 個交易日台指期夜盤與日盤收盤走勢">
+    <polyline points="${line("p")}" fill="none" stroke="var(--muted)" stroke-width="1.4" stroke-dasharray="4 3" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    <polyline points="${line("n")}" fill="none" stroke="var(--profit)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>
+    <div class="mktLg"><span><i class="ln"></i>夜盤收盤</span><span><i class="ln dash"></i>日盤收盤</span><span class="rg">${esc(pts[0].d.slice(5))} ～ ${esc(pts[pts.length - 1].d.slice(5))}　區間 ${fmt(lo, 0)}～${fmt(hi, 0)}</span></div>`;
 }
 function mktRender() {
   const el = $("mktBody"); if (!el) return;
@@ -2248,7 +2302,8 @@ function mktRender() {
     const est = gap ? L.c + d : null;
     night = `<div class="card mktCard"><div class="mktHead"><div><div class="k">台指期夜盤（近月 ${esc(ym)}）${tip("mktNight")}　${esc(F.nd)}</div><div class="v">${fmt(F.c, 0)}</div></div>
       <div class="r ${signCls(d)}">${d == null ? "" : sgn(d, 0) + "<br>" + spct(dp, 2)}</div></div>
-      <div class="simGrid" style="margin-top:8px"><div><div class="k">夜盤開盤</div><div class="v">${fmt(F.o, 0)}</div></div><div><div class="k">夜盤成交量</div><div class="v">${Number(F.v).toLocaleString("en-US")} 口</div></div>
+      ${mktNightChart(F.ser)}
+      <div class="simGrid"><div><div class="k">夜盤開盤</div><div class="v">${fmt(F.o, 0)}</div></div><div><div class="k">夜盤成交量</div><div class="v">${Number(F.v).toLocaleString("en-US")} 口</div></div>
         <div><div class="k">夜盤最高</div><div class="v">${fmt(F.h, 0)}</div></div><div><div class="k">夜盤最低</div><div class="v">${fmt(F.l, 0)}</div></div>
         ${est != null ? `<div><div class="k">對照前一日盤收盤</div><div class="v">${fmt(F.pc, 0)}（${esc(F.pd)}）</div></div><div><div class="k">依此推估大盤開盤約</div><div class="v ${signCls(d)}">${fmt(est, 0)}</div></div>` : ""}</div>
       <div class="nt">${F.newer ? "這份夜盤已經過去，後面日盤已經開盤，只當參考。" : (F.pc == null ? "" : `漲跌 = 夜盤收盤 − 前一個日盤收盤（${esc(F.pd)}）。`)}${est != null ? "「推估大盤開盤」= 加權指數最新收盤 + 夜盤漲跌點數，只是粗估，實際開盤會有誤差。" : ""}</div></div>`;
@@ -2861,8 +2916,21 @@ function storyFig(id, cfg) {
   }
   $(id).innerHTML = `<svg viewBox="0 0 ${W} ${H}" focusable="false" aria-hidden="true">${g}</svg>`;
 }
+// 成交量占比 vs 籌碼占比：用圓點數給新手看（● 還抱著，○ 已賣掉），四個價位剛好對應四種組合
+function shareFig() {
+  const rows = [
+    { p: 120, seen: 9, here: 2, tag: "量大籌少・人去樓空", cls: "warn" },
+    { p: 110, seen: 1, here: 0, tag: "量籌雙低・沒人在意", cls: "" },
+    { p: 100, seen: 9, here: 8, tag: "量籌雙高・最可靠", cls: "good" },
+    { p: 90, seen: 3, here: 3, tag: "量少籌多・老客人還在", cls: "" },
+  ];
+  const tS = rows.reduce((s, r) => s + r.seen, 0), tH = rows.reduce((s, r) => s + r.here, 0);
+  $("shRows").innerHTML = rows.map(r => `<div class="shRow"><div class="shP">${r.p} 元</div>
+    <div class="shDots" role="img" aria-label="來過 ${r.seen} 人，還在 ${r.here} 人">${"<span class=\"shDot on\"></span>".repeat(r.here)}${"<span class=\"shDot\"></span>".repeat(r.seen - r.here)}</div>
+    <div class="shMeta"><span>量 <b>${Math.round(r.seen / tS * 100)}%</b></span><span>籌 <b>${Math.round(r.here / tH * 100)}%</b></span><span class="shTag ${r.cls}">${r.tag}</span></div></div>`).join("");
+}
 function guideInit() {
-  guideFig();
+  guideFig(); shareFig();
   // 變成支撐：先在 100 附近買、漲上去、再跌回 100 反彈
   storyFig("gStoryA", { role: "s",
     closes: [100.5, 99.5, 100.8, 100.2, 101.2, 100.6, 104, 108, 113, 118, 120, 116, 112, 108, 105, 102, 100.2, 101.8, 104.5, 107],
