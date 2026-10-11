@@ -153,6 +153,17 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .simTotal .k { font-size: .74rem; color: var(--muted); }
 .simTotal .v { font: 600 1.7rem/1.15 var(--font-num); letter-spacing: -.02em; }
 .simTotal .r { font: 600 .92rem var(--font-num); margin-top: 2px; }
+.mktHead { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: end; }
+.mktHead .k { font-size: .74rem; color: var(--muted); }
+.mktHead .v { font: 600 1.7rem/1.15 var(--font-num); letter-spacing: -.02em; }
+.mktHead .r { font: 600 .92rem var(--font-num); text-align: right; }
+.mktSpark { width: 100%; height: 64px; display: block; margin: 8px 0 6px; }
+.mktCard { margin-bottom: 10px; padding: 12px 14px; }
+.mktCard .nt { font-size: .75rem; color: var(--muted); margin-top: 8px; line-height: 1.55; }
+.mcOut { margin-top: 12px; display: grid; gap: 8px; }
+.mcOut .big { font: 600 1.5rem/1.2 var(--font-num); }
+.mcOut .row { font-size: .86rem; line-height: 1.6; }
+.mcOut .row b { font-family: var(--font-num); }
 .simGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
 .simGrid > div .k { font-size: .7rem; color: var(--muted); }
 .simGrid > div .v { font: 500 .95rem var(--font-num); }
@@ -537,6 +548,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
     <button type="button" role="tab" data-tab="guide" aria-selected="false">新手專區</button>
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
+    <button type="button" role="tab" data-tab="market" aria-selected="false">大盤指數</button>
     <button type="button" role="tab" data-tab="screen" aria-selected="false">選股</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
@@ -617,6 +629,17 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
         <button type="button" class="btn ghost" data-go="backtest">去回測</button>
       </div>
+    </div>
+
+    <div class="gSec">
+      <h3>先看大環境？到「大盤指數」</h3>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>看加權指數</b><p>最新收盤、漲跌點數和近約 90 個交易日的走勢，先知道大盤現在偏強還是偏弱。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>日盤收盤後，夜盤是最即時的市場情緒。系統會用夜盤的漲跌點數，粗估隔天大盤的開盤位置。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>算算這檔占大盤多少</b><p>輸入個股，填上「上市股票總市值」，就知道它的權重，以及它漲跌 1% 會讓大盤動幾點。</p></div></div>
+      </div>
+      <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨不是指數本身，推估開盤也只是粗估。支撐與壓力還是要回到個股的籌碼分布來看。</p>
+      <button type="button" class="btn" data-go="market">去大盤指數</button>
     </div>
 
     <div class="gSec">
@@ -727,6 +750,32 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <section id="pgWatch" class="page" hidden>
     <h2>自選股</h2>
     <div id="watchBody"></div>
+  </section>
+
+  <section id="pgMarket" class="page" hidden>
+    <h2>大盤指數：加權指數與台指期夜盤</h2>
+    <div id="mktBody"></div>
+    <h2>個股占大盤計算器</h2>
+    <div class="card btForm mktCalc">
+      <p class="advnote" style="padding:0 2px 8px">加權指數是「發行量加權」：每檔股票的權重 = 它的市值 ÷ 上市股票總市值。算出權重後，就知道這檔漲跌 1% 會讓大盤動幾點。</p>
+      <div class="searchBox">
+        <form id="mcForm" class="search" autocomplete="off">
+          <input id="mcQ" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入代碼或名稱，例如 2330、台積電" aria-label="要計算的股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button type="submit">選擇</button>
+        </form>
+        <ul id="mcSugg" class="sugg" hidden></ul>
+      </div>
+      <div id="mcPicked" class="picked"></div>
+      <div class="two">
+        <label class="fld" for="mcPrice"><span>股價（元）</span><input id="mcPrice" type="number" inputmode="decimal" min="0" step="any"></label>
+        <label class="fld" for="mcShares"><span>發行股數（股）</span><input id="mcShares" type="number" inputmode="numeric" min="0" step="any"></label>
+      </div>
+      <div class="two">
+        <label class="fld" for="mcTotal"><span>上市股票總市值（兆元）<button type="button" class="info" data-term="mktTotal" aria-label="總市值怎麼查的說明">i</button></span><input id="mcTotal" type="number" inputmode="decimal" min="0" step="any" placeholder="填入「兆元」數字"></label>
+        <label class="fld" for="mcPct"><span>假設這檔漲跌（%）</span><input id="mcPct" type="number" inputmode="decimal" step="any" value="1"></label>
+      </div>
+      <div id="mcOut" class="mcOut"></div>
+    </div>
   </section>
 
   <section id="pgScreen" class="page" hidden>
@@ -1352,6 +1401,18 @@ const GLOSS = {
       "<b>失敗的情況</b>：成交時現金不夠、或持股不夠賣，這筆預約單會顯示「未成交」。",
       "<b>排行榜</b>：報酬率 = 總資產 ÷ 累計投入本金 − 1。總資產用最新收盤價計算。",
       "<b>友善版的限制</b>：成交價取自真實資料，但帳務是在你的瀏覽器計算後寫入雲端，懂技術的人仍然可能改資料，所以排名只適合朋友同樂，不適合有獎品的正式比賽。"] },
+  mktTaiex: { t: "加權指數（TAIEX）",
+    def: "台灣股市最常被拿來代表「大盤」的指數，由所有上市股票依市值加權計算而成。",
+    read: ["市值大的公司影響大盤比較多，例如台積電漲 1%，對大盤的影響遠大於一檔小公司漲 1%。", "指數只在日盤（09:00～13:30）更新；下班後想知道大盤明天可能怎麼開，可以看台指期的夜盤。"],
+    calc: "資料來自 FinMind 的每日收盤資料，不是即時報價。" },
+  mktNight: { t: "台指期夜盤",
+    def: "台灣指數期貨（台指期，代號 TX）在日盤收盤後的交易時段，約 15:00 到隔天清晨 05:00。",
+    read: ["夜盤交易的是「期貨」，不是加權指數本身，價格會和現貨有些差距（正價差或逆價差）。", "因為日盤收盤後現貨市場已經休息，夜盤是這段時間裡最即時的市場情緒指標，常被拿來推估隔天大盤的開盤方向。", "這裡用「夜盤收盤 − 前一個日盤收盤」的點數差，換算成加權指數的推估開盤；只是粗估，實際開盤受美股、個股消息影響，常有誤差。"],
+    calc: "使用最近到期的單月合約（近月）；資料來自 FinMind 的期貨每日行情，通常在夜盤結束後才會出現完整資料。" },
+  mktTotal: { t: "上市股票總市值",
+    def: "所有上市股票的「股價 × 發行股數」加總，也是計算每檔股票占加權指數權重時的分母。",
+    read: ["這個數字會隨股價天天變動，免費資料源沒有提供，所以請自己填入一次，網頁會記住。", "可以在證交所（twse.com.tw）的市場統計、或財經網站的大盤資訊找到「上市總市值」，單位換算成<b>兆元</b>填入。", "算法舉例（數字隨意假設）：總市值 100 兆、某檔市值 10 兆，權重就是 10%。"],
+    calc: "權重 = 個股市值 ÷ 上市股票總市值。官方指數用的是計入股數與除數，這裡用發行股數估算，會有小幅差異。" },
   simInvested: { t: "累計投入本金",
     def: "你到目前為止領過的資金總和，也就是「你總共投入了多少本金」。每領一週就加 NT$ 1,000,000。",
     read: ["例如領了 3 週，累計投入本金就是 NT$ 3,000,000。", "<b>為什麼需要它</b>：每週都會加碼，不能只比總資產（領得多的人一定比較大）。所以報酬率 = 總資產 ÷ 累計投入本金 − 1，用它當基準才公平。",
@@ -1763,6 +1824,7 @@ function buildControls() {
     btInit();
     guideInit();
     scrInit();
+    mktInit();
     let seenGuide = false;
     try { seenGuide = !!localStorage.getItem("chipGuideSeen"); } catch (e) {}
     if (!seenGuide) showTab("guide");          // 第一次來的人先看新手專區
@@ -2011,7 +2073,7 @@ async function fetchQuotes() {
 /* ---------- 流量記錄器：只記次數，不記任何人的身分或內容 ----------
    每天一筆 stats/<日期>，用遞增計數累加。事件先放在記憶體，隔一小段時間合併成一次寫入，
    以節省 Firestore 的寫入額度。管理員（admins/<uid> 存在）自己的使用不計入。 */
-const TRAFFIC_KEYS = ["sessions", "uniques", "tab_guide", "tab_analyze", "tab_screen", "tab_watch", "tab_backtest", "tab_sim",
+const TRAFFIC_KEYS = ["sessions", "uniques", "tab_guide", "tab_analyze", "tab_market", "tab_screen", "tab_watch", "tab_backtest", "tab_sim",
   "act_search", "act_screen", "act_backtest", "act_order", "act_signin"];
 const traffic = { q: {}, timer: 0, skip: false, off: false };
 const admin = { on: false };
@@ -2029,7 +2091,7 @@ async function trafficFlush() {
   try { await fdb.collection("stats").doc(day).set(payload, { merge: true }); }
   catch (e) { if (e.code === "permission-denied") traffic.off = true; }   // 規則還沒發佈就先停止，免得一直失敗
 }
-const PAGE_OF = { guide: "pgGuide", analyze: "pgAnalyze", screen: "pgScreen", watch: "pgWatch", backtest: "pgBt", sim: "pgSim" };
+const PAGE_OF = { guide: "pgGuide", analyze: "pgAnalyze", market: "pgMarket", screen: "pgScreen", watch: "pgWatch", backtest: "pgBt", sim: "pgSim" };
 function trafficStart() {
   const day = todayTW();
   let seen = null; try { seen = localStorage.getItem("chipSeenDay"); } catch (e) {}
@@ -2061,7 +2123,7 @@ function adminStatusHtml() {
 }
 
 /* ---------- 管理後台（只有管理員看得到）---------- */
-const ADM_LABEL = { tab_guide: "新手專區", tab_analyze: "分析", tab_screen: "選股", tab_watch: "自選股", tab_backtest: "回測", tab_sim: "模擬交易",
+const ADM_LABEL = { tab_guide: "新手專區", tab_analyze: "分析", tab_market: "大盤指數", tab_screen: "選股", tab_watch: "自選股", tab_backtest: "回測", tab_sim: "模擬交易",
   act_search: "查詢股票", act_screen: "執行選股", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
 async function adminLoad() {
   const el = $("admBody");
@@ -2111,6 +2173,153 @@ async function adminLoad() {
   el.innerHTML = sections.join("");
   $("admAsof").textContent = "更新於 " + new Date().toLocaleTimeString("zh-TW", { hour12: false });
 }
+/* ───── 大盤指數：加權指數（TAIEX）、台指期夜盤、個股占大盤計算器 ───── */
+const mkt = { idx: null, fut: null, at: 0, loading: false, err: "", stale: 0, stock: null, busy: false };
+const MKT_TTL = 5 * 60e3;
+function mktParse(px, fu) {
+  const idx = px.filter(r => r.close > 0).sort((a, b) => a.date < b.date ? -1 : 1).slice(-90)
+    .map(r => ({ d: r.date, o: r.open, h: r.max, l: r.min, c: r.close, m: r.Trading_money }));
+  let fut = null;
+  if (fu) {
+    // 只看單一月份的合約（不含價差合約）；夜盤日期 D = 「D 日這個交易日」開盤前的那一段夜盤
+    const rows = fu.filter(r => r.futures_id === "TX" && !String(r.contract_date).includes("/") && r.close > 0);
+    const nights = rows.filter(r => r.trading_session === "after_market");
+    if (nights.length) {
+      const nd = nights.reduce((m, r) => r.date > m ? r.date : m, "");
+      const today = nights.filter(r => r.date === nd).sort((a, b) => a.contract_date < b.contract_date ? -1 : 1)[0];
+      const days = rows.filter(r => r.trading_session === "position");
+      const prev = days.filter(r => r.date < nd && r.contract_date === today.contract_date).sort((a, b) => a.date < b.date ? 1 : -1)[0];
+      const newer = days.some(r => r.date >= nd);
+      fut = { nd, contract: today.contract_date, o: today.open, h: today.max, l: today.min, c: today.close, v: today.volume,
+        pd: prev ? prev.date : null, pc: prev ? prev.close : null, newer };
+    }
+  }
+  return { idx, fut };
+}
+async function mktLoad(force) {
+  if (mkt.loading) return;
+  if (!force && mkt.idx && Date.now() - mkt.at < MKT_TTL) { mktRender(); return; }
+  mkt.loading = true; mkt.err = ""; mkt.stale = 0; mktRender();
+  try {
+    const [px, fu] = await Promise.all([
+      fm("TaiwanStockPrice", { data_id: "TAIEX", start_date: dateBack({ days: 130 }) }),
+      fm("TaiwanFuturesDaily", { data_id: "TX", start_date: dateBack({ days: 12 }) }).catch(e => { if (e.limit) throw e; return null; })
+    ]);
+    const r = mktParse(px, fu);
+    if (!r.idx.length) throw new Error("查不到加權指數資料，請稍後再試。");
+    mkt.idx = r.idx; mkt.fut = r.fut; mkt.futFail = !fu; mkt.at = Date.now();
+    lsWrite("mktc", { t: mkt.at, idx: r.idx, fut: r.fut });
+  } catch (e) {
+    const c = lsRead("mktc");
+    if (c && c.idx && c.idx.length) { mkt.idx = c.idx; mkt.fut = c.fut; mkt.stale = c.t; mkt.err = e.message || "查詢失敗"; }
+    else mkt.err = e.message || "查詢失敗";
+  } finally { mkt.loading = false; mktRender(); mcRender(); }
+}
+function mktSpark(rows) {
+  if (rows.length < 2) return "";
+  const W = 320, H = 64, p = 3, v = rows.map(r => r.c), lo = Math.min(...v), hi = Math.max(...v), sp = hi - lo || 1;
+  const pts = v.map((y, i) => `${(p + i * (W - 2 * p) / (v.length - 1)).toFixed(1)},${(H - p - (y - lo) / sp * (H - 2 * p)).toFixed(1)}`).join(" ");
+  const up = v[v.length - 1] >= v[0];
+  return `<svg class="mktSpark ${up ? "up" : "dn"}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="近 ${rows.length} 個交易日加權指數走勢"><polyline points="${pts}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`;
+}
+function mktRender() {
+  const el = $("mktBody"); if (!el) return;
+  const bar = `<div class="mktBar" style="display:flex;gap:10px;align-items:center;margin-bottom:10px"><button type="button" class="info-link" style="min-height:36px" data-act="mktRefresh"${mkt.loading ? " disabled" : ""}>${mkt.loading ? "更新中…" : "重新整理"}</button><span class="status" style="flex:1">${mkt.at && !mkt.stale ? "更新於 " + hhmm(mkt.at) : ""}</span></div>`;
+  let err = "";
+  if (mkt.err) err = `<div class="status err" style="margin-bottom:10px">${esc(mkt.err)}${mkt.stale ? `<br>目前顯示的是 ${new Date(mkt.stale).toLocaleString("zh-TW", { hour12: false })} 存下來的資料。` : ""}</div>`;
+  if (!mkt.idx) { el.innerHTML = bar + err + (mkt.loading ? `<div class="empty">載入中…</div>` : ""); return; }
+  const rs = mkt.idx, L = rs[rs.length - 1], P = rs[rs.length - 2], chg = P ? L.c - P.c : 0, pc = P ? chg / P.c : 0;
+  const sgn = (x, d = 2) => (x >= 0 ? "+" : "−") + fmt(Math.abs(x), d);
+  const taiex = `<div class="card mktCard"><div class="mktHead"><div><div class="k">加權指數（TAIEX）${tip("mktTaiex")}　${esc(L.d)}</div><div class="v">${fmt(L.c)}</div></div>
+    <div class="r ${signCls(chg)}">${sgn(chg)}<br>${spct(pc, 2)}</div></div>
+    ${mktSpark(rs)}
+    <div class="simGrid"><div><div class="k">開盤</div><div class="v">${fmt(L.o)}</div></div><div><div class="k">成交金額</div><div class="v">${fmt(L.m / 1e8, 0)} 億</div></div>
+      <div><div class="k">最高</div><div class="v">${fmt(L.h)}</div></div><div><div class="k">最低</div><div class="v">${fmt(L.l)}</div></div></div>
+    <div class="nt">走勢圖為近 ${rs.length} 個交易日的收盤價。</div></div>`;
+  let night;
+  const F = mkt.fut;
+  if (!F) {
+    night = `<div class="card mktCard"><div class="mktHead"><div><div class="k">台指期夜盤${tip("mktNight")}</div><div class="v">—</div></div></div><div class="nt">${mkt.futFail ? "夜盤資料這次沒有查到，請稍後按「重新整理」。" : "最近沒有夜盤成交資料。"}</div></div>`;
+  } else {
+    const d = F.pc ? F.c - F.pc : null, dp = d == null ? null : d / F.pc, ym = String(F.contract).replace(/^(\d{4})(\d{2})$/, "$1 年 $2 月");
+    const gap = d != null && F.nd > L.d && !F.newer;
+    const est = gap ? L.c + d : null;
+    night = `<div class="card mktCard"><div class="mktHead"><div><div class="k">台指期夜盤（近月 ${esc(ym)}）${tip("mktNight")}　${esc(F.nd)}</div><div class="v">${fmt(F.c, 0)}</div></div>
+      <div class="r ${signCls(d)}">${d == null ? "" : sgn(d, 0) + "<br>" + spct(dp, 2)}</div></div>
+      <div class="simGrid" style="margin-top:8px"><div><div class="k">夜盤開盤</div><div class="v">${fmt(F.o, 0)}</div></div><div><div class="k">夜盤成交量</div><div class="v">${Number(F.v).toLocaleString("en-US")} 口</div></div>
+        <div><div class="k">夜盤最高</div><div class="v">${fmt(F.h, 0)}</div></div><div><div class="k">夜盤最低</div><div class="v">${fmt(F.l, 0)}</div></div>
+        ${est != null ? `<div><div class="k">對照前一日盤收盤</div><div class="v">${fmt(F.pc, 0)}（${esc(F.pd)}）</div></div><div><div class="k">依此推估大盤開盤約</div><div class="v ${signCls(d)}">${fmt(est, 0)}</div></div>` : ""}</div>
+      <div class="nt">${F.newer ? "這份夜盤已經過去，後面日盤已經開盤，只當參考。" : (F.pc == null ? "" : `漲跌 = 夜盤收盤 − 前一個日盤收盤（${esc(F.pd)}）。`)}${est != null ? "「推估大盤開盤」= 加權指數最新收盤 + 夜盤漲跌點數，只是粗估，實際開盤會有誤差。" : ""}</div></div>`;
+  }
+  el.innerHTML = bar + err + taiex + night;
+}
+/* 個股占大盤計算器 */
+function mcRender() {
+  const out = $("mcOut"); if (!out) return;
+  const price = +$("mcPrice").value, shares = +$("mcShares").value, total = +$("mcTotal").value * 1e12, pct = +$("mcPct").value / 100;
+  const st = mkt.stock, idxC = mkt.idx && mkt.idx[mkt.idx.length - 1].c;
+  if (!(price > 0) || !(shares > 0)) { out.innerHTML = `<div class="status">先選一檔股票，股價和發行股數會自動帶入；也可以自己改。</div>`; return; }
+  const cap = price * shares, rows = [`<div class="row">這檔的市值約 <b>${fmt(cap / 1e8, 0)} 億元</b>（股價 × 發行股數）。</div>`];
+  if (!(total > 0)) { out.innerHTML = rows.join("") + `<div class="status">再填入「上市股票總市值」，就能算出占大盤的比重。</div>`; return; }
+  const w = cap / total;
+  let html = `<div><div class="status">占加權指數的權重</div><div class="big">${(w * 100).toFixed(2)}%</div></div>` + rows.join("");
+  if (w > 0.5) html += `<div class="status err">算出來的權重超過 50%，請確認總市值的單位是「兆元」。</div>`;
+  if (idxC) {
+    const pts = idxC * w * pct;
+    html += `<div class="row">這檔漲跌 <b>${pct >= 0 ? "+" : "−"}${Math.abs(pct * 100).toFixed(2)}%</b>，大盤約 <b class="${signCls(pts)}">${pts >= 0 ? "+" : "−"}${fmt(Math.abs(pts), 1)} 點</b>（${spct(w * pct, 3)}）。</div>
+      <div class="row">大盤要漲 100 點，只靠這檔的話，它要漲約 <b>${(100 / (idxC * w) * 100).toFixed(2)}%</b>。</div>`;
+    if (st && st.prev > 0) {
+      const r = price / st.prev - 1, tp = idxC * w * r;
+      html += `<div class="row">${esc(st.date)} 這檔${r >= 0 ? "上漲" : "下跌"} <b class="${signCls(r)}">${spct(r, 2)}</b>，對大盤的貢獻約 <b class="${signCls(tp)}">${tp >= 0 ? "+" : "−"}${fmt(Math.abs(tp), 1)} 點</b>。</div>`;
+    }
+  } else html += `<div class="status">還沒載入加權指數，所以暫時不能換算成點數。</div>`;
+  out.innerHTML = html + `<p class="advnote">用「發行股數 × 股價」估算，加權指數實際是依證交所公布的計入股數與除數計算，所以這是估算值，和官方公布的權重會有些許出入。</p>`;
+}
+async function mcPick(code, name) {
+  code = String(code).trim().toUpperCase();
+  name = name || (info.find(s => s[0] === code) || [])[1] || "";
+  $("mcQ").value = ""; $("mcSugg").hidden = true;
+  $("mcPicked").textContent = `查詢 ${code}${name ? " " + name : ""} 中…`;
+  try {
+    const cached = stockCache.get(`${code}:6`);        // 快取裡的價格是還原權息後的，不能拿來算市值；這裡只借用發行股數
+    let price, prev, date, shares;
+    const [px, sh] = await Promise.all([
+      fm("TaiwanStockPrice", { data_id: code, start_date: dateBack({ days: 14 }) }),
+      fmCached("TaiwanStockShareholding", { data_id: code, start_date: dateBack({ days: 30 }) }, SH_TTL, rows => rows.slice(-1).map(r => ({ NumberOfSharesIssued: r.NumberOfSharesIssued }))).catch(e => { if (e.limit) throw e; return []; })
+    ]);
+    const rows = px.filter(r => r.close > 0 && r.Trading_Volume > 0).sort((a, b) => a.date < b.date ? -1 : 1);
+    if (!rows.length) throw new Error(`查無 ${code} 的股價資料，請確認代碼。`);
+    price = rows[rows.length - 1].close; date = rows[rows.length - 1].date; prev = rows.length > 1 ? rows[rows.length - 2].close : 0;
+    shares = sh.length ? +sh[sh.length - 1].NumberOfSharesIssued : (cached && cached.shares) || 0;
+    mkt.stock = { code, name, date, prev };
+    $("mcPrice").value = price; $("mcShares").value = shares > 0 ? shares : "";
+    $("mcPicked").innerHTML = `目前選擇：<b>${esc(code)}${name ? " " + esc(name) : ""}</b>　最新收盤 ${fmt(price)}（${esc(date)}）${shares > 0 ? "" : "　<span class=\"dn\">查不到發行股數，請自己填入</span>"}`;
+  } catch (e) { mkt.stock = null; $("mcPicked").innerHTML = `<span class="dn">${esc(e.message || "查詢失敗")}</span>`; }
+  mcRender();
+}
+function mktInit() {
+  const q = $("mcQ"), sugg = $("mcSugg");
+  const tot = lsRead("mktTotal"); if (tot > 0) $("mcTotal").value = tot;
+  const show = () => {
+    const shown = searchStocks(q.value);
+    sugg.hidden = !shown.length;
+    sugg.innerHTML = shown.map(s => `<li><button type="button" data-code="${esc(s[0])}" data-name="${esc(s[1])}"><span class="c">${esc(s[0])}</span><span>${esc(s[1])}</span></button></li>`).join("");
+  };
+  q.addEventListener("input", show); q.addEventListener("focus", show);
+  document.addEventListener("click", e => { if (!q.closest(".searchBox").contains(e.target)) sugg.hidden = true; });
+  sugg.addEventListener("click", e => { const b = e.target.closest("button"); if (b) mcPick(b.dataset.code, b.dataset.name); });
+  $("mcForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = q.value.trim(); if (!v) return;
+    const shown = searchStocks(v), exact = info.find(s => s[0].toLowerCase() === v.toLowerCase());
+    if (exact) mcPick(exact[0], exact[1]); else if (shown.length) mcPick(shown[0][0], shown[0][1]);
+    else if (/^\d{4,6}[A-Za-z]?$/.test(v)) mcPick(v, ""); else $("mcPicked").innerHTML = `<span class="dn">找不到「${esc(v)}」，請輸入股票代碼或完整名稱。</span>`;
+  });
+  $("mcTotal").addEventListener("input", () => { const n = +$("mcTotal").value; if (n > 0) lsWrite("mktTotal", n); else lsDel("mktTotal"); mcRender(); });
+  for (const id of ["mcPrice", "mcShares", "mcPct"]) $(id).addEventListener("input", mcRender);
+  $("mktBody").addEventListener("click", e => { if (e.target.closest('[data-act="mktRefresh"]')) mktLoad(true); });
+  mcRender();
+}
 function showTab(t) {
   if (t === "admin" && !admin.on) t = "analyze";
   $("pgAdmin").hidden = t !== "admin";
@@ -2122,6 +2331,8 @@ function showTab(t) {
   $("pgBt").hidden = t !== "backtest";
   $("pgSim").hidden = t !== "sim";
   $("pgScreen").hidden = t !== "screen";
+  $("pgMarket").hidden = t !== "market";
+  if (t === "market") mktLoad();
   [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
   if (t === "watch") { renderWatch(); if (user) fetchQuotes(); }
   if (t === "backtest") btOpen();
