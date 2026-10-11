@@ -2136,7 +2136,10 @@ async function initMember() {
   $("admRefresh").addEventListener("click", adminLoad);
   $("admBack").addEventListener("click", () => showTab("analyze"));
   $("starBtn").addEventListener("click", toggleStar);
-  $("sheetBody").addEventListener("change", e => { if (e.target.id === "pfFile" && e.target.files[0]) pickAvatar(e.target.files[0]); });
+  $("sheetBody").addEventListener("change", e => {
+    if (e.target.id === "pfFile" && e.target.files[0]) pickAvatar(e.target.files[0]);
+    else if (e.target.id === "pfPub") saveProfile({ pubPhoto: e.target.checked }, e.target.checked ? "排行榜會顯示你的 Google 頭貼。" : "排行榜不再顯示你的 Google 頭貼。");
+  });
   $("sheetBody").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
@@ -2772,6 +2775,7 @@ async function simCancel(id) {
 /* 個人檔案：頭像與暱稱 ------------------------------------------------------------
    頭像存成縮小後的小張 JPEG 資料（約 5～10 KB），直接放在文件裡，不需要另外的檔案儲存空間。
    預設顯示會員的 Google 頭貼（只有自己看得到）；自己上傳的頭像才會出現在排行榜上。 */
+const strHash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return h; };
 const AV_RE = /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/;
 const avOk = s => typeof s === "string" && s.length <= 16000 && AV_RE.test(s);     // 別人存的資料不能直接信，圖片網址只接受這種格式
 function avatarHtml(src, nick) {
@@ -2802,22 +2806,57 @@ async function makeAvatar(file) {
   }
   throw new Error("圖片壓縮後還是太大，請換一張。");
 }
+// 把 Google 頭貼縮成 128 像素的小圖（和上傳的頭像同一種格式）。連不到或不允許讀取時回傳空字串，排行榜就顯示暱稱第一個字
+async function googlePhotoAvatar() {
+  if (!user || !user.photoURL) return "";
+  if (sim.gphoto && sim.gphoto.src === user.photoURL) return sim.gphoto.data;
+  const data = await new Promise(res => {
+    const i = new Image(); i.crossOrigin = "anonymous"; i.referrerPolicy = "no-referrer";
+    i.onload = () => {
+      try {
+        const s = Math.min(i.naturalWidth, i.naturalHeight) || 1;
+        for (const [size, q] of [[128, 0.85], [96, 0.75], [80, 0.7]]) {
+          const c = document.createElement("canvas"); c.width = c.height = size;
+          const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size);
+          g.drawImage(i, (i.naturalWidth - s) / 2, (i.naturalHeight - s) / 2, s, s, 0, 0, size, size);
+          const u = c.toDataURL("image/jpeg", q);
+          if (avOk(u)) return res(u);
+        }
+      } catch (e) {}
+      res("");
+    };
+    i.onerror = () => res("");
+    i.src = user.photoURL;
+  });
+  sim.gphoto = { src: user.photoURL, data };
+  return data;
+}
 function openProfile(msg, isErr) {
   const a = sim.acc;
   if (!a) return;
-  const custom = avOk(a.avatar), shown = custom ? a.avatar : (user.photoURL || "");
+  const custom = avOk(a.avatar), shown = custom ? a.avatar : (user.photoURL || ""), pub = a.pubPhoto !== false;
   openCustom("編輯頭像與暱稱", `<div class="pf">
     <div class="pfAv av lg">${avatarHtml(shown, a.nick)}</div>
-    <div class="pfNote">${custom ? "目前使用你上傳的頭像，會顯示在排行榜上。" : "目前使用 Google 頭貼，只有你自己看得到；上傳頭像後才會出現在排行榜。"}</div>
+    <div class="pfNote">${custom ? "目前使用你上傳的頭像，會顯示在排行榜上。" : user.photoURL ? (pub ? "目前使用 Google 頭貼，排行榜上也會顯示。" : "目前使用 Google 頭貼，只有你自己看得到，排行榜只顯示暱稱的第一個字。") : "你的 Google 帳號沒有頭貼，可以上傳一張。"}</div>
+    ${!custom && user.photoURL ? `<label class="chk" for="pfPub"><input id="pfPub" type="checkbox"${pub ? " checked" : ""}><span>在排行榜上也顯示我的 Google 頭貼</span></label>` : ""}
     <div class="pfBtns"><button type="button" class="btn ghost" data-act="pfUpload">上傳新頭像</button>${custom ? `<button type="button" class="btn ghost" data-act="pfDefault">改回預設頭像</button>` : ""}</div>
     <input id="pfFile" type="file" accept="image/*" hidden>
     <label class="fld" for="pfNick"><span>暱稱（1～12 字，請不要用真實姓名）</span><input id="pfNick" maxlength="12" autocomplete="off" value="${esc(a.nick)}"></label>
     <button type="button" class="btn" data-act="pfSave">儲存暱稱</button>
     <div id="pfMsg" class="${isErr ? "msg" : "msg ok"}" ${msg ? "" : "hidden"}>${esc(msg || "")}</div></div>`, null);
 }
+// 存檔後立刻同步排行榜，並把結果明確告訴使用者（成功，或失敗的原因）
 async function saveProfile(patch, okMsg) {
-  try { await simRef().update(patch); openProfile(okMsg); }
-  catch (e) { openProfile(e.code === "permission-denied" ? "儲存沒有成功：沒有權限，請確認 Firestore 規則已更新並發佈（需要新版規則）。" : "儲存沒有成功：" + (e.message || e.code), true); }
+  try { await simRef().update(patch); }
+  catch (e) { openProfile(e.code === "permission-denied" ? "儲存沒有成功：沒有權限，請確認 Firestore 規則已更新並發佈（需要新版規則）。" : "儲存沒有成功：" + (e.message || e.code), true); return; }
+  if (!sim.acc) { openProfile(okMsg); return; }
+  await new Promise(r => setTimeout(r, 50));      // 讓帳戶的即時監聽先收到最新資料（sim.acc 會自動更新）
+  await simSyncBoard(true);
+  renderSim();
+  if (sim.pushErr) { openProfile(`已儲存，但排行榜沒有更新：${sim.pushErr}`, true); return; }
+  if (sim.boardErr) { openProfile(`已儲存，但排行榜讀取失敗：${sim.boardErr}`, true); return; }
+  const me = sim.lb.find(r => r.uid === user.uid);
+  openProfile(me ? `${okMsg}排行榜也已同步。` : `${okMsg}排行榜暫時沒有顯示你的成績（可能不在前 20 名）。`);
 }
 async function pickAvatar(file) {
   try { const url = await makeAvatar(file); await saveProfile({ avatar: url }, "頭像已更新。"); }
@@ -2836,8 +2875,10 @@ async function simPushBoard(force) {
   if (!a || !a.claimedCount) return;
   const v = simValue(a, true);                       // 查不到的報價用成本估算，不要因此不上榜
   const invested = a.claimedCount * SIM_WEEKLY, value = Math.round(v), ret = value / invested - 1;
-  const av = avOk(a.avatar) ? a.avatar : "";         // 只有自己上傳的頭像會放上排行榜；預設的 Google 頭貼不公開
-  const key = [a.nick, invested, value, av.length].join("|");
+  // 排行榜的頭像：自己上傳的優先；沒上傳就用 Google 頭貼（會員可以在個人檔案裡關掉，關掉就只顯示暱稱的第一個字）
+  let av = avOk(a.avatar) ? a.avatar : "";
+  if (!av && a.pubPhoto !== false) av = await googlePhotoAvatar();
+  const key = [a.nick, invested, value, strHash(av)].join("|");     // 用內容的雜湊值判斷頭像有沒有變；只比長度的話，換成長度一樣的圖就會被誤認為沒變而不上傳
   if (!force && key === sim.lastPush) return;
   await fdb.collection("leaderboard").doc(user.uid).set({ nick: a.nick, invested, value, ret, weeks: a.claimedCount, updatedAt: Date.now(), ...(av ? { avatar: av } : {}) });
   sim.lastPush = key; sim.pushErr = "";
@@ -2939,7 +2980,7 @@ function renderSimBoard() {
   else if (sim.pushErr) notice = `<div class="status err">${esc(sim.pushErr)}<br><button type="button" class="info-link" data-act="resend">重新送出我的成績</button></div>`;
   else if (sim.acc && sim.acc.claimedCount && !mine && sim.lb.length < 20) notice = `<div class="status err">你的成績還沒有出現在排行榜上。<button type="button" class="info-link" data-act="resend">重新送出我的成績</button></div>`;
   if (!sim.lb.length) { el.innerHTML = `${notice}<div class="empty">排行榜還沒有資料。</div>`; return; }
-  el.innerHTML = notice + `<p class="advnote" style="padding:0 2px 8px">${sim.lb.length >= 20 ? "顯示前 20 名" : `目前共 ${sim.lb.length} 位參賽者`}（依${sim.lbSort === "ret" ? "報酬率" : "總資產"}排序）</p>`
+  el.innerHTML = notice + `<p class="advnote" style="padding:0 2px 8px">${sim.lb.length >= 20 ? "顯示前 20 名" : `目前共 ${sim.lb.length} 位參賽者`}（依${sim.lbSort === "ret" ? "報酬率" : "總資產"}排序）　<button type="button" class="info-link" style="min-height:32px" data-act="refreshBoard">重新整理排行榜</button></p>`
     + sim.lb.map((r, i) => `<div class="brow${user && r.uid === user.uid ? " me" : ""}"><span class="rk${i < 3 ? " top" : ""}">${i + 1}</span>
     <span class="av sm">${avatarHtml(avOk(r.avatar) ? r.avatar : "", r.nick)}</span>
     <div><div class="nm">${esc(r.nick)}</div><div class="sb">總資產 ${money(r.value)}　領取 ${r.weeks} 週</div></div>
@@ -3023,6 +3064,7 @@ function simInit() {
     if (act === "login-open") openLogin("登入後才能參加模擬交易。");
     else if (act === "resend") { b.disabled = true; await simSyncBoard(true); renderSimBoard(); }
     else if (act === "editProfile") openProfile();
+    else if (act === "refreshBoard") { b.textContent = "更新中…"; await simSyncBoard(false); renderSimBoard(); }
     else if (act === "claim") {
       b.disabled = true;
       try { await simClaim(); }
