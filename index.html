@@ -167,9 +167,9 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .shDots { display: flex; flex-wrap: wrap; gap: 4px; min-height: 12px; }
 .shMeta { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: .78rem; color: var(--muted); }
 .shMeta b { font: 600 .86rem var(--font-num); color: var(--ink); }
-.shTag { margin-left: auto; font-size: .74rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); }
+.shTag { margin-left: auto; box-sizing: border-box; width: 11em; padding: 3px 0; text-align: center; white-space: nowrap; font: 600 .74rem/1.4 var(--font-ui); border-radius: 999px; border: 1px solid var(--line); color: var(--ink); }
 .shTag.good { background: var(--profit); border-color: var(--profit); color: var(--surface); }
-.shTag.warn { border-color: var(--trapped); color: var(--trapped); }
+.shTag.bad { border-color: var(--trapped); color: var(--trapped); }
 .shMnemo { padding: 14px 16px; text-align: center; border-color: var(--profit); }
 .shMnemo .mn { font-size: .7rem; letter-spacing: .2em; color: var(--muted); margin-bottom: 4px; }
 .shMnemo .big { font: 700 1.08rem/1.5 var(--font-ui); margin: 2px 0; }
@@ -2919,7 +2919,7 @@ function storyFig(id, cfg) {
 // 成交量占比 vs 籌碼占比：用圓點數給新手看（● 還抱著，○ 已賣掉），四個價位剛好對應四種組合
 function shareFig() {
   const rows = [
-    { p: 120, seen: 9, here: 2, tag: "量大籌少・人去樓空", cls: "warn" },
+    { p: 120, seen: 9, here: 2, tag: "量大籌少・人去樓空", cls: "bad" },
     { p: 110, seen: 1, here: 0, tag: "量籌雙低・沒人在意", cls: "" },
     { p: 100, seen: 9, here: 8, tag: "量籌雙高・最可靠", cls: "good" },
     { p: 90, seen: 3, here: 3, tag: "量少籌多・老客人還在", cls: "" },
