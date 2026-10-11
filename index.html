@@ -10,15 +10,15 @@ body{margin:0;font-size:14px;-webkit-text-size-adjust:100%}
 [hidden]{display:none!important}
 </style>
 <script src="firebase-config.js"></script>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231b2744%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2326365f%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22url(%23g)%22%2F%3E%3Crect%20x%3D%2225%22%20y%3D%2216.5%22%20width%3D%2214%22%20height%3D%227%22%20rx%3D%223.5%22%20fill%3D%22%23e6c98f%22%2F%3E%3Crect%20x%3D%2219%22%20y%3D%2228.5%22%20width%3D%2226%22%20height%3D%227%22%20rx%3D%223.5%22%20fill%3D%22%23f4f6fa%22%2F%3E%3Crect%20x%3D%2213%22%20y%3D%2240.5%22%20width%3D%2238%22%20height%3D%227%22%20rx%3D%223.5%22%20fill%3D%22%23f4f6fa%22%20opacity%3D%22.6%22%2F%3E%3C%2Fsvg%3E">
-<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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">
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAADAFBMVEUiMVcdK0sgLlGgp7gAAAD09vrlyI6epbaWnbDy0pPm6e+9ws6AiJ4AVVUnOGJQVml+h5yBiqAcKkmCe24AAH8jM1oAAFUgLlEjM1ocKUglKU9veZEcKUogLlE4RWYjNFQcKUkAPz8jMlkWKEklM1s/Pz8gLVHRuIisssExOWsQHkJQU14cKUkbNVOQhnPGy9VVVVUdKktESlsgLVAAAD+zoX7Y2+NtamdhbIU5QlolNFipsL+9qYIjMVaomHpcZ4LAq4MAf38AAP9XYnwhLlJ6dG0mNWAnJ2vN0dsmNmB/iaCekXhCTmsdM1AAP38gLVUAVarawIsVKj8mNmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABDPR2ZAAABAHRSTlP+/v7/AP//////////A/7///+P/wKRA5HP0RD/Ltb/E1AESxF1BEz//wr//6kQ//8DaP9wBP//////Kv//qP///wIB/6v/Tgn/kv///yMEJwP/DM4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAW/rP1gAACLdJREFUeNrVnYl22joQhkeywZDGEAgQdghka7MnbdJ0S+/tbXv39f3f5Uq2AeN4kWRZQyYNp+c0DV/+/JqRZHsEdnLsd9iL2582m70eMRCU9HrN26OJ995uChgk/UOL/6/5tGkE10cm1Asy2vPAXVnoVocTnxGEYNgAdO+oz+SWgmY/5LCJAcw/KP8LwKiZiB0H3UFCXvMI46Z7/XiTQBzzHAk5cMeCm2E3J/YPAtBM5mkPSWUaQAfUHHs0jRE7Cv3anp+huILQMC5dYe9NnlBDVOdhD9MZMQGjoX2YBt2xr9EGYBI0AXob0RrWmRFHYAKzJ/ae3UqCRmOmGdCc2o2HxtU5jTmqNYTyRhPPzVnQFJqh0Qi4zDQAzkD2td6PQr/GyhskyMeZ3HC99HUA3bKHWMwiMvvUw4WvF9DzHlLZznRzqMrM16Bd+wwr0Yk52qc+s69W0B17SjDnSMJaH/m29qBb/R7GAEwr3gkGmXQW0C5iJaRy1H7eA8TM4dtCChr+4IsC4I4+Q7DGQmQppSn8xF3N7TFEYZaz81LqvmcPs/MkGi6Ey8WglKtdrvS/aLVbQWugTGo4RMvRkhqvcvU+IA1DFd7FUOyAPd+0CX/WUDxnnp5iJWh5O/NNPgozBt00XwIl5qNhZp8a2jaYn3bk8gaDHvVhaHwIqjnD94bHPYTpM5GZaxzEETQ3buGdZIyAmhVFaGIoTaSHINCF0By6h2EOoqT0wiAj49BK3gg7GqALpouKSmUBSkPMjN+sl4lidg6Zg4fBZbdS4Q4NQcPQlBCaY8KBA+0jE9X5RrHQMaM+8GOeCUeh9qBUb/2GSNYoAJojP9zvxsbXG3lvQJKhNUIzqvsP5WpClI93CYFc2bkAaHbl7BNjS47q5xsCRCHjFQfNmD+nIXPq8o2M1pAErNMebzKYWRxLKp2MrUno+2zmcvUT0UGsTWk4LgtE9VTYIF5uLxSaknpVCPpCDBqCJWzB0BdC0OUPRLSopCHrgn4jBv2P2FCE8JoQHVo0f0C60JqgP+mCTimD2qF3xQbiG5KneOuGPhUSuvo1M3uAUGgqiEJ5uvxAVKb8hVXEU5GKuJsuNGQkOv0TpuxMXc3K0gBmoQWoq58hVWjIznT6ocl9uZo2Mb2A7BoOYBSar7YeLo7LSQuX3+pEwNDUMDRjYp839dP66Wmdva7FDWQttgDEdda7Gk/5Zlm7CBDdZTQEHdpbhKhDc0z4ofgdJpUNaJAO9M3n5B07E9mDUpULKkAB0x7+DqPKLiOyp2muiynm7aHhYoppaKq20w8qCU8LNCWUql6dQFM6x3Y5VWKGXGUbctQJ1cKSC5o74lWe+RWoIqtD82c5Hp0XanFpDcZ83qfmaGVoJvPOVilHbDneosCk0kzmF6WccVcnYBKaMV+WcscWozYKfVLSEHdAzEFTMihpCcco9KUe6NKYmIKmZKyJuTQwBg2vBrqgLYPQFV3Ql6agqUboFwaV3tEFfWJwINZ1Qe8YhKZ3mqDrxqCZPxqolgalR7wJ+RmztoBaWwjy+xZeaZGFDtavbFu3voXHDGo3XjJqyDnRu1SemErbY7WbS0i9crmlGHfWW1BnBllrrHYMgK1rc7wtABhTen3fIsfugzHonDcPaAuZ7Ky8aU5z7HHkVVrpATH1fSQtSis+oAJ40FTpHmj/HlfT0DTvVaBCxqb4jeaqz9QAaM8qou1kVIYhAIrS6hrL3QuhWWm6uKM/uwEHDT+Kgl5clrz5e4bpudQs3rOH5Jvk6JxBZSW7FfL4baNSTDjsY1CXmKtmPREb9JMhMLCKjZOK+IoxswWHPwjHFcspMPg3tyzhtUzGU5pB9R47Vuw7MYW8Fx0hQZ3VzsKfdcTo7L+NE7ydHmpH0CEpD7UtkzN5jPWG5f9S9YVj7ZC8KW91Y0+s0E4Rw1FMapFmJ+MEobWHc/KoBk1DgzBYdX+JEdqxCtBa1B+JjSxCWwVvrUh20po11qAbeewR2uGIQPsqF+IOZejF7VOrSQfbt7Nia4F+buf9QNXT0bUgeXhq6EKEZt+1njN7hKgbVtTPBaU8pyaXp2l4GK6vrcL+0FoDn2S8gVJxobE9FsjgfSQ/FyKzVVGbMK1o16QGbhBrVbmLYRadekBMO7jYNq47VqFzUyaFxIRabFuUfdmXSpFLgPeWMwClRUAwryMJPXPrg+0dHtvB53psb7M/7JO/pkVju/Ekfm0M6jUiv0ZcTJ8TdwqKbkCgsBqnq01Ggb4x2BFtpkwUtnKN/yzhq4OEoO/xSyhNCSGK26IoplnflyEbcG1CBJpm96w2eWVCKHrLxEz0dDkpProcWvF+fpB57FEvdBPUbzXHSdu1Nlyrdu1BqzO1AzhSTXUUrTzOWJM/KnZ1IvbhJRTsd2CPVC8QYrmj22KNK4FsyjVNwXHIW4QCeTYqe9C8RWifPCNv8PjOe/WeyXYaQp1U1z7aL2Gf+UMhQVNEd+yzVs7no82fQIdyx/mPzNP79q2EP3CReTm0//Tak58/j1znx8TvXu9KpWpcZJak/w4ONziX6aSMG8zRy8MNQPiGJIrsaHd5jMRk9Cz8XOv2W8uzL1yhXA3omzUsR7vho1H2YMNV9kehu34IzUhXP5kCzfHSjR73IyA0Mva7xQl+sDzG8RrS92TQhT6IHqzEz3xMsXVyh1GThn759LCww8RsjV9S1pnDx7K1YrTGV3jJ3Io/AC8p8cHmJLuYowZjtIaNYD5IPmqQa30b7W+wAcihvBF7fOahPRxB1NLI0/7/3oXGYOxBpa49/7gSG7+g1Gq/TJ4cwQsxhwXPukts7Bl0rTuz1/2ccPiua0/aATW2M+BgHhwfl3nMMRP7rzYUdpu5sDGgPRE+5tgbj3b/AADRHLValyNfSR3dzX7A/uwjAAZ5jYv87bsdPXM3+5B07/fSn7W7xk0B3fY3nuOu5E9259jecfSTo3a72zUjdrfbPph5SfnwKgXsf6ENAYHKPBg1AAAAAElFTkSuQmCC">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231b2744%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2326365f%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22url(%23g)%22%2F%3E%3Cpath%20d%3D%22M22%2030%2031%2013%2037%2022%2042%2030z%22%20fill%3D%22%23f4f6fa%22%2F%3E%3Cpath%20d%3D%22M31%2013%2037%2022%2042%2030%2034%2030z%22%20fill%3D%22%23c9d3e6%22%2F%3E%3Cpath%20d%3D%22M12%2034H52L57%2042%2047%2053%2032%2058%2018%2052%208%2042z%22%20fill%3D%22%23f4f6fa%22%20opacity%3D%22.3%22%2F%3E%3Cpath%20d%3D%22M32%2034H52L57%2042%2047%2053%2032%2058z%22%20fill%3D%22%23000%22%20opacity%3D%22.1%22%2F%3E%3Crect%20x%3D%228%22%20y%3D%2230.4%22%20width%3D%2248%22%20height%3D%221.8%22%20rx%3D%22.9%22%20fill%3D%22%23e6c98f%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <meta name="theme-color" content="#1b2744">
-<meta name="application-name" content="籌碼王">
-<meta name="apple-mobile-web-app-title" content="籌碼王">
+<meta name="application-name" content="籌碼冰山">
+<meta name="apple-mobile-web-app-title" content="籌碼冰山">
 </head>
 <body>
-<title>籌碼王</title>
+<title>籌碼冰山</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,7 +147,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .rkS { font: 700 .95rem var(--font-num); color: var(--muted); text-align: center; }
 .tabs { overflow-x: auto; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
-.tabs button { flex: 1 0 auto; padding: 0 8px; }
+.tabs button { flex: 1 0 auto; padding: 0 5px; font-size: .82rem; }
+.tabs .cnt { margin-left: 3px; }
 .simAcct { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 .simTotal .k { font-size: .74rem; color: var(--muted); }
 .simTotal .v { font: 600 1.7rem/1.15 var(--font-num); letter-spacing: -.02em; }
@@ -312,6 +313,27 @@ svg .eq-s { fill: none; stroke: var(--profit); stroke-width: 1.8; }
 svg .eq-b { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 4 3; }
 svg .tr-up { fill: none; stroke: var(--bull); stroke-width: 2.6; stroke-linecap: round; }
 svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap: round; }
+.uidrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; font-size: .72rem; color: var(--muted); }
+.uidrow code { font: 400 .72rem var(--font-num); color: var(--ink); background: var(--bg); padding: 3px 6px; border-radius: 6px; overflow-wrap: anywhere; user-select: all; }
+.usage { display: grid; grid-template-columns: 5.5em minmax(0, 1fr) 3.5em; gap: 10px; align-items: center; padding: 4px 0; font-size: .82rem; }
+.usage .ub { height: 10px; border-radius: 5px; background: var(--bg); overflow: hidden; }
+.usage .ub i { display: block; height: 100%; background: var(--profit); border-radius: 5px; }
+.usage b { text-align: right; font: 600 .82rem var(--font-num); }
+.adm-miss { padding: 8px 0; border-bottom: 1px solid var(--grid); }
+.adm-miss:last-child { border-bottom: 0; }
+.adm-miss .nm { font-weight: 600; overflow-wrap: anywhere; }
+.adm-miss .sb { font: 400 .72rem var(--font-ui); color: var(--muted); line-height: 1.6; }
+.wtool { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; font-size: .78rem; color: var(--muted); }
+.wbtn { min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 500 .8rem var(--font-ui); cursor: pointer; }
+.wbtn.on { background: var(--profit); border-color: var(--profit); color: var(--surface); }
+.wrow.edit { grid-template-columns: minmax(0, 1fr) auto; }
+.wmain.static { cursor: default; grid-template-columns: 1.6em minmax(0, 1fr) auto; }
+.wmain.static:hover { background: transparent; }
+.wmain .rk { font: 700 .85rem var(--font-num); color: var(--muted); text-align: center; }
+.wmv { display: flex; gap: 4px; }
+.wmv button { min-height: 44px; min-width: 44px; padding: 0 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 .8rem var(--font-ui); cursor: pointer; }
+.wmv button:disabled { opacity: .3; cursor: default; }
+.wmv button:not(:disabled):active { background: var(--bg); }
 .wname .c, .wname .n, .wq .p, .wq .d { display: block; }
 .wrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 4px 6px 4px 4px; }
 .wmain { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 56px; padding: 6px 8px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; border-radius: 8px; font: inherit; }
@@ -460,9 +482,9 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logoSym" viewBox="0 0 64 64">
   <defs><linearGradient id="logoG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b2744"/><stop offset="1" stop-color="#26365f"/></linearGradient></defs>
   <rect width="64" height="64" rx="15" fill="url(#logoG)"/>
-  <rect x="25" y="16.5" width="14" height="7" rx="3.5" fill="#e6c98f"/>
-  <rect x="19" y="28.5" width="26" height="7" rx="3.5" fill="#f4f6fa"/>
-  <rect x="13" y="40.5" width="38" height="7" rx="3.5" fill="#f4f6fa" opacity=".6"/>
+  <path d="M22 30 31 13 37 22 42 30z" fill="#f4f6fa"/><path d="M31 13 37 22 42 30 34 30z" fill="#c9d3e6"/>
+  <path d="M12 34H52L57 42 47 53 32 58 18 52 8 42z" fill="#f4f6fa" opacity=".3"/><path d="M32 34H52L57 42 47 53 32 58z" fill="#000" opacity=".1"/>
+  <rect x="8" y="30.4" width="48" height="1.8" rx=".9" fill="#e6c98f"/>
 </symbol></svg>
 <main class="app">
   <div id="zoomBar" class="zoomBar" role="group" aria-label="頁面大小" hidden>
@@ -474,8 +496,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <header>
     <div class="hl">
       <div class="brand">
-        <svg class="logo" viewBox="0 0 64 64" role="img" aria-label="籌碼王"><use href="#logoSym"/></svg>
-        <h1>籌碼王</h1>
+        <svg class="logo" viewBox="0 0 64 64" role="img" aria-label="籌碼冰山"><use href="#logoSym"/></svg>
+        <h1>籌碼冰山</h1>
       </div>
       <p id="asof"></p>
     </div>
@@ -498,8 +520,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
     <button type="button" role="tab" data-tab="screen" aria-selected="false">選股</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
-    <button type="button" role="tab" data-tab="sim" aria-selected="false" hidden>模擬交易</button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
+    <button type="button" role="tab" data-tab="sim" aria-selected="false" hidden>模擬交易</button>
   </nav>
 
   <section id="pgGuide" class="page guide" hidden>
@@ -769,6 +791,13 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     </div>
   </section>
 
+  <section id="pgAdmin" class="page" hidden>
+    <h2>管理後台</h2>
+    <div class="wtool"><span id="admAsof"></span><button type="button" id="admRefresh" class="wbtn">重新整理</button></div>
+    <div id="admBody"></div>
+    <button type="button" class="info-link" id="admBack">回到網站</button>
+  </section>
+
   <section id="pgBt" class="page" hidden>
     <h2>回測：如果當時照支撐與壓力買賣，結果會怎樣？</h2>
     <div class="card rules">
@@ -1022,7 +1051,7 @@ async function selectStock(code, name) {
     cur = await loadStock(code);
     state.probe = null; state.last = code;
     state.recent = [{ code, name: cur.name }, ...state.recent.filter(r => r.code !== code)].slice(0, 6);
-    save(); setStatus(cur.stale ? `資料來源暫時查詢不了，目前顯示的是 ${cur.stale} 存下來的資料，價格可能不是最新。` : "");
+    save(); track("act_search"); setStatus(cur.stale ? `資料來源暫時查詢不了，目前顯示的是 ${cur.stale} 存下來的資料，價格可能不是最新。` : "");
     renderRecent(); render();
   } catch (e) {
     setStatus(e.message || "查詢失敗", true);
@@ -1782,6 +1811,8 @@ function openAccount(msg) {
   openCustom("我的帳號", `<div class="me"><div class="av">${user.photoURL ? `<img src="${esc(user.photoURL)}" alt="" referrerpolicy="no-referrer">` : ini}</div>
     <div><div class="nm">${esc(nm)}</div><div class="em">${esc(user.email || "")}</div></div></div>
     <p class="def">已儲存 ${watch.size} 檔自選股${sim.acc ? `，模擬交易已領取 ${sim.acc.claimedCount} 週` : ""}。</p>
+    <div class="uidrow"><span>帳號識別碼</span><code>${esc(user.uid)}</code><button type="button" class="info-link" data-act="copyUid">複製</button></div>
+    ${admin.on ? `<button type="button" class="btn" data-act="openAdmin">管理後台（流量與參賽者檢查）</button>` : ""}
     ${msg ? `<div class="msg ok">${esc(msg)}</div>` : ""}
     <button type="button" class="btn ghost" data-act="logout">登出</button>
     <h4 style="margin:18px 0 0">資料管理</h4>
@@ -1813,7 +1844,7 @@ async function doLogin() {
   const setMsg = t => { const m = $("loginMsg"); if (m) m.innerHTML = t ? `<div class="msg">${esc(t)}</div>` : ""; };
   setMsg("");
   const provider = new firebase.auth.GoogleAuthProvider();
-  try { await auth.signInWithPopup(provider); closeSheet(); }
+  try { await auth.signInWithPopup(provider); track("act_signin"); closeSheet(); }
   catch (e) {
     const c = e.code || "";
     if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return;
@@ -1826,8 +1857,10 @@ async function doLogin() {
 function onUser(u) {
   user = u || null;
   if (unsubWatch) { unsubWatch(); unsubWatch = null; }
-  watch = new Map(); watchErr = ""; pendingRm = null;
+  watch = new Map(); watchErr = ""; pendingRm = null; watchPending = null; watchMsg = ""; watchEdit = false;
   simReset(); sim.lb = [];
+  admin.on = false; traffic.skip = false;
+  if (user) checkAdmin();             // 管理員才會看到「管理後台」，而且自己的使用不計入流量
   if (user) {
     unsubWatch = wlRef().orderBy("addedAt", "desc").onSnapshot(snap => {
       watch = new Map(snap.docs.map(d => [d.id, d.data()]));
@@ -1866,19 +1899,66 @@ function renderWatch() {
   }
   if (watchErr) { el.innerHTML = `<div class="status err">${esc(watchErr)}</div>`; return; }
   if (!watch.size) { el.innerHTML = `<div class="empty">還沒有自選股。到「分析」頁查詢股票，按股價旁邊的星號就會加進來。</div>`; return; }
-  const rows = [...watch.values()].map(w => {
+  const list = watchList();                               // 畫面上由上到下的順序（已依 addedAt 由大到小；調整中則是最新的本機順序）
+  const editing = watchEdit && list.length > 1;
+  const rows = list.map((w, i) => {
     const q = quotes.get(w.code);
     let qh = `<span class="p">—</span><span class="d">${q && q.fail ? "查不到報價" : "載入中"}</span>`;
     if (q && !q.fail) {
       const cls = q.chg == null ? "" : q.chg > 0 ? "up" : q.chg < 0 ? "dn" : "";
       qh = `<span class="p">${fmt(q.close)}</span><span class="d ${cls}">${q.chg == null ? "" : spct(q.chg, 2)}</span>`;
     }
+    const nm = `<span class="wname"><span class="c">${esc(w.code)}</span><span class="n">${esc(w.name) || "&nbsp;"}</span></span><span class="wq">${qh}</span>`;
+    if (editing) {   // 調整順序模式：這一列不能點進分析，改成三顆移動按鈕
+      const c = esc(w.code);
+      return `<div class="wrow edit"><div class="wmain static"><span class="rk">${i + 1}</span>${nm}</div>
+        <div class="wmv"><button type="button" data-act="mv-top" data-code="${c}" aria-label="把 ${c} 移到最上面"${i === 0 ? " disabled" : ""}>置頂</button>
+        <button type="button" data-act="mv-up" data-code="${c}" aria-label="把 ${c} 往上移"${i === 0 ? " disabled" : ""}>▲</button>
+        <button type="button" data-act="mv-down" data-code="${c}" aria-label="把 ${c} 往下移"${i === list.length - 1 ? " disabled" : ""}>▼</button></div></div>`;
+    }
     const sure = pendingRm === w.code;
-    return `<div class="wrow"><button type="button" class="wmain" data-act="open" data-code="${esc(w.code)}" data-name="${esc(w.name)}" aria-label="分析 ${esc(w.code)} ${esc(w.name)}">
-      <span class="wname"><span class="c">${esc(w.code)}</span><span class="n">${esc(w.name) || "&nbsp;"}</span></span><span class="wq">${qh}</span></button>
+    return `<div class="wrow"><button type="button" class="wmain" data-act="open" data-code="${esc(w.code)}" data-name="${esc(w.name)}" aria-label="分析 ${esc(w.code)} ${esc(w.name)}">${nm}</button>
       <button type="button" class="wrm${sure ? " sure" : ""}" data-act="rm" data-code="${esc(w.code)}" aria-label="移除 ${esc(w.code)}">${sure ? "確認刪除" : "移除"}</button></div>`;
   });
-  el.innerHTML = `<div class="wlist">${rows.join("")}</div><p class="advnote" style="padding-top:10px">報價為最新收盤價與漲跌幅（紅漲綠跌），點股票會進入分析。</p>`;
+  const tool = list.length > 1 ? `<div class="wtool"><span>${editing ? "用「置頂」「▲」「▼」調整順序" : `共 ${list.length} 檔`}</span><button type="button" class="wbtn${editing ? " on" : ""}" data-act="wedit">${editing ? "完成" : "調整順序"}</button></div>` : "";
+  el.innerHTML = `${watchMsg ? `<div class="status err" style="margin-bottom:8px">${esc(watchMsg)}</div>` : ""}${tool}<div class="wlist">${rows.join("")}</div><p class="advnote" style="padding-top:10px">${editing ? "順序會存在雲端，換手機也一樣。新加入的股票會出現在最上面。" : "報價為最新收盤價與漲跌幅（紅漲綠跌），點股票會進入分析。"}</p>`;
+}
+let watchEdit = false;
+// 順序 = addedAt 由大到小。每次調整都把整份清單重新編號（每一檔各給一個不同的值），
+// 這樣就算原本有兩檔的 addedAt 一樣（同時加入、舊資料），結果也不會亂。
+// 畫面先照新順序顯示（watchPending），寫入排隊依序進行，快速連點也不會互相覆蓋。
+let watchPending = null, watchChain = Promise.resolve(), watchWrites = 0, watchMsg = "";
+function watchList() {
+  const base = [...watch.values()];
+  if (!watchPending) return base;
+  const by = new Map(base.map(w => [w.code, w]));
+  const out = watchPending.filter(c => by.has(c)).map(c => by.get(c));
+  for (const w of base) if (!watchPending.includes(w.code)) out.unshift(w);      // 別的裝置剛加入的，放最上面
+  return out;
+}
+function moveWatch(code, how) {
+  const codes = watchList().map(w => w.code), i = codes.indexOf(code);
+  if (i < 0) return;
+  const next = codes.slice();
+  if (how === "top") { if (i === 0) return; next.splice(i, 1); next.unshift(code); }
+  else {
+    const j = how === "up" ? i - 1 : i + 1;
+    if (j < 0 || j >= next.length) return;
+    [next[i], next[j]] = [next[j], next[i]];
+  }
+  watchPending = next; watchMsg = ""; watchWrites++;
+  renderWatch();
+  watchChain = watchChain.then(async () => {
+    const base = Date.now(), batch = fdb.batch();
+    next.forEach((c, k) => { if (watch.has(c)) batch.update(wlRef().doc(c), { addedAt: base - k * 1000 }); });
+    await batch.commit();
+  }).catch(e => {
+    watchPending = null;
+    watchMsg = e.code === "permission-denied" ? "調整順序沒有成功：沒有寫入權限，請確認 Firestore 規則已發佈。" : "調整順序沒有成功，已回到原本的順序：" + (e.message || e.code);
+  }).finally(() => {
+    if (--watchWrites <= 0) { watchWrites = 0; watchPending = null; }
+    renderWatch();
+  });
 }
 async function fetchQuotes() {
   const codes = [...watch.keys()].filter(c => { const q = quotes.get(c); return !q || Date.now() - q.t > 3e5; });
@@ -1896,7 +1976,99 @@ async function fetchQuotes() {
   };
   await Promise.all([worker(), worker(), worker()]);
 }
+/* ---------- 流量記錄器：只記次數，不記任何人的身分或內容 ----------
+   每天一筆 stats/<日期>，用遞增計數累加。事件先放在記憶體，隔一小段時間合併成一次寫入，
+   以節省 Firestore 的寫入額度。管理員（admins/<uid> 存在）自己的使用不計入。 */
+const TRAFFIC_KEYS = ["sessions", "uniques", "tab_guide", "tab_analyze", "tab_screen", "tab_watch", "tab_backtest", "tab_sim",
+  "act_search", "act_screen", "act_backtest", "act_order", "act_signin"];
+const traffic = { q: {}, timer: 0, skip: false, off: false };
+const admin = { on: false };
+function track(ev, n = 1) {
+  if (!memberOn || traffic.skip || traffic.off || !TRAFFIC_KEYS.includes(ev)) return;
+  traffic.q[ev] = (traffic.q[ev] || 0) + n;
+  if (!traffic.timer) traffic.timer = setTimeout(trafficFlush, 15000);
+}
+async function trafficFlush() {
+  clearTimeout(traffic.timer); traffic.timer = 0;
+  const q = traffic.q; traffic.q = {};
+  if (traffic.skip || traffic.off || !Object.keys(q).length || !fdb) return;
+  const day = todayTW(), payload = { day };
+  for (const k in q) payload[k] = firebase.firestore.FieldValue.increment(Math.min(q[k], 50));
+  try { await fdb.collection("stats").doc(day).set(payload, { merge: true }); }
+  catch (e) { if (e.code === "permission-denied") traffic.off = true; }   // 規則還沒發佈就先停止，免得一直失敗
+}
+const PAGE_OF = { guide: "pgGuide", analyze: "pgAnalyze", screen: "pgScreen", watch: "pgWatch", backtest: "pgBt", sim: "pgSim" };
+function trafficStart() {
+  const day = todayTW();
+  let seen = null; try { seen = localStorage.getItem("chipSeenDay"); } catch (e) {}
+  track("sessions");
+  if (seen !== day) { track("uniques"); try { localStorage.setItem("chipSeenDay", day); } catch (e) {} }   // 同一支手機每天只算一個不重複訪客
+  const first = Object.keys(PAGE_OF).find(t => !$(PAGE_OF[t]).hidden);
+  if (first) track("tab_" + first);
+  addEventListener("pagehide", trafficFlush);
+}
+async function checkAdmin() {
+  admin.on = false;
+  if (user && fdb) { try { admin.on = (await fdb.collection("admins").doc(user.uid).get()).exists; } catch (e) {} }
+  traffic.skip = admin.on;
+  if (admin.on) traffic.q = {};
+}
+
+/* ---------- 管理後台（只有管理員看得到）---------- */
+const ADM_LABEL = { tab_guide: "新手專區", tab_analyze: "分析", tab_screen: "選股", tab_watch: "自選股", tab_backtest: "回測", tab_sim: "模擬交易",
+  act_search: "查詢股票", act_screen: "執行選股", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
+async function adminLoad() {
+  const el = $("admBody");
+  if (!admin.on) { el.innerHTML = `<div class="empty">你沒有管理員權限。</div>`; return; }
+  el.innerHTML = `<div class="status">載入中…</div>`;
+  const sections = [];
+  // 1. 流量
+  try {
+    const snap = await fdb.collection("stats").orderBy("day", "desc").limit(30).get();
+    const days = snap.docs.map(d => d.data());
+    const sum = (arr, k) => arr.reduce((a, d) => a + (d[k] || 0), 0);
+    const today = days.filter(d => d.day === todayTW()), d7 = days.slice(0, 7), d30 = days;
+    const card = (t, arr) => `<div class="stat"><div class="k">${t}</div><div class="v">${sum(arr, "sessions").toLocaleString("en-US")} 次</div><div class="h">不重複訪客 ${sum(arr, "uniques").toLocaleString("en-US")}</div></div>`;
+    // 每日趨勢（最近 14 天，舊的在左）
+    const trend = days.slice(0, 14).reverse(), W = 340, H = 150, L = 28, B = 128, T = 10, mx = Math.max(1, ...trend.map(d => d.sessions || 0));
+    const bw = (W - L - 6) / Math.max(1, trend.length);
+    let g = `<line class="gridl" x1="${L}" x2="${W - 6}" y1="${B}" y2="${B}"/><text class="axt" x="${L - 5}" y="${T + 4}" text-anchor="end">${mx}</text><text class="axt" x="${L - 5}" y="${B + 3}" text-anchor="end">0</text>`;
+    trend.forEach((d, i) => {
+      const x = L + bw * i, h1 = (B - T) * (d.sessions || 0) / mx, h2 = (B - T) * (d.uniques || 0) / mx;
+      g += `<rect class="bar-p" x="${(x + bw * 0.12).toFixed(1)}" y="${(B - h1).toFixed(1)}" width="${(bw * 0.38).toFixed(1)}" height="${h1.toFixed(1)}"/><rect x="${(x + bw * 0.52).toFixed(1)}" y="${(B - h2).toFixed(1)}" width="${(bw * 0.38).toFixed(1)}" height="${h2.toFixed(1)}" style="fill:var(--muted);opacity:.7"/>`;
+      if (i % 3 === 0 || i === trend.length - 1) g += `<text class="axt" x="${(x + bw / 2).toFixed(1)}" y="${B + 14}" text-anchor="middle">${d.day.slice(5)}</text>`;
+    });
+    // 功能使用（最近 7 天）
+    const use = Object.keys(ADM_LABEL).map(k => [k, sum(d7, k)]), umax = Math.max(1, ...use.map(u => u[1]));
+    const useHtml = use.map(([k, n]) => `<div class="usage"><span>${ADM_LABEL[k]}</span><span class="ub"><i style="width:${(n / umax * 100).toFixed(1)}%"></i></span><b>${n.toLocaleString("en-US")}</b></div>`).join("");
+    sections.push(`<h2>流量</h2><section class="stats">${card("今天", today)}${card("近 7 天", d7)}${card("近 30 天", d30)}<div class="stat"><div class="k">有紀錄的天數</div><div class="v">${days.length} 天</div><div class="h">最多顯示 30 天</div></div></section>
+      <div class="card"><div class="gGroupT" style="padding:4px 8px">最近 14 天（藍：造訪次數，灰：不重複訪客）</div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${g}</svg></div>
+      <h2>功能使用（近 7 天）</h2><div class="card" style="padding:10px 14px">${useHtml}</div>
+      <p class="advnote">「不重複訪客」是同一支手機每天只算一次；跨日的人會重複計算。流量只計算已設定 Firebase 的版本，管理員自己的使用不計入。數字僅供參考，因為任何人都能對計數器寫入。</p>`);
+  } catch (e) { sections.push(`<h2>流量</h2><div class="status err">${esc(e.code === "permission-denied" ? "沒有讀取權限：請確認 Firestore 規則已更新並發佈，且你的帳號已被加入管理員。" : "讀取流量失敗：" + (e.message || e.code))}</div>`); }
+  // 2. 參賽者檢查：有多少人加入模擬交易、有多少人在排行榜上、哪些人沒上榜
+  try {
+    const [accSnap, lbSnap] = await Promise.all([fdb.collectionGroup("sim").get(), fdb.collection("leaderboard").get()]);
+    const accs = accSnap.docs.filter(d => d.id === "account").map(d => ({ uid: d.ref.parent.parent.id, ...d.data() }));
+    const onBoard = new Set(lbSnap.docs.map(d => d.id));
+    const missing = accs.filter(a => !onBoard.has(a.uid));
+    const orphan = [...onBoard].filter(u => !accs.some(a => a.uid === u)).length;
+    const why = a => !a.claimedCount ? "加入了但還沒領到資金，所以沒有成績" : Object.keys(a.holdings || {}).length ? "有持股；可能是查不到報價、規則沒更新，或加入後沒有再打開模擬交易頁" : "還沒送出成績；可能是規則沒更新，或加入後沒有再打開模擬交易頁";
+    sections.push(`<h2>模擬交易參賽者檢查</h2><section class="stats">
+      <div class="stat"><div class="k">已加入的帳戶</div><div class="v">${accs.length} 位</div><div class="h">有模擬交易帳戶</div></div>
+      <div class="stat"><div class="k">排行榜上的人數</div><div class="v">${onBoard.size} 位</div><div class="h">排行榜有成績紀錄</div></div>
+      <div class="stat"><div class="k">沒出現在排行榜</div><div class="v ${missing.length ? "dn" : ""}">${missing.length} 位</div><div class="h">有帳戶但沒有成績</div></div>
+      <div class="stat"><div class="k">榜上無對應帳戶</div><div class="v">${orphan} 筆</div><div class="h">帳戶已刪除的舊成績</div></div></section>
+      ${missing.length ? `<div class="card" style="padding:6px 12px">${missing.map(a => `<div class="adm-miss"><div class="nm">${esc(a.nick || "（沒有暱稱）")}　<span class="sb">領取 ${a.claimedCount || 0} 週・現金 ${money(a.cash || 0)}・持股 ${Object.keys(a.holdings || {}).length} 檔</span></div><div class="sb">${why(a)}</div></div>`).join("")}</div>` : `<div class="empty">所有已加入的帳戶都已經在排行榜上。</div>`}
+      <p class="advnote">這份檢查會讀取所有模擬交易帳戶，只顯示暱稱與統計，不顯示持股內容。成績要等本人打開「模擬交易」頁才會送出，所以剛加入的人可能暫時沒有成績。</p>`);
+  } catch (e) { sections.push(`<h2>模擬交易參賽者檢查</h2><div class="status err">${esc(e.code === "permission-denied" ? "沒有讀取權限：請確認 Firestore 規則已更新並發佈（需要允許管理員讀取所有模擬交易帳戶）。" : "檢查失敗：" + (e.message || e.code))}</div>`); }
+  el.innerHTML = sections.join("");
+  $("admAsof").textContent = "更新於 " + new Date().toLocaleTimeString("zh-TW", { hour12: false });
+}
 function showTab(t) {
+  if (t === "admin" && !admin.on) t = "analyze";
+  $("pgAdmin").hidden = t !== "admin";
+  if (t === "admin") adminLoad();
   $("pgGuide").hidden = t !== "guide";
   if (t !== "guide") { try { localStorage.setItem("chipGuideSeen", "1"); } catch (e) {} }
   $("pgAnalyze").hidden = t !== "analyze";
@@ -1909,6 +2081,7 @@ function showTab(t) {
   if (t === "backtest") btOpen();
   if (t === "sim") simOpen();
   if (t === "screen") scrOpen();
+  if (t !== "admin") track("tab_" + t);
   window.scrollTo(0, 0);
 }
 async function initMember() {
@@ -1921,11 +2094,18 @@ async function initMember() {
   $("gSimSec").hidden = false;
   simInit();
   $("acctBtn").addEventListener("click", () => user ? openAccount() : openLogin());
+  $("admRefresh").addEventListener("click", adminLoad);
+  $("admBack").addEventListener("click", () => showTab("analyze"));
   $("starBtn").addEventListener("click", toggleStar);
   $("sheetBody").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
     if (act === "login") doLogin();
+    else if (act === "openAdmin") { closeSheet(); showTab("admin"); }
+    else if (act === "copyUid") {
+      try { await navigator.clipboard.writeText(user.uid); b.textContent = "已複製"; }
+      catch (err) { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "已選取，請長按複製"; }
+    }
     else if (act === "logout") { closeSheet(); auth.signOut(); }
     else if (act === "delSim" || act === "delAll") {
       if (delArm !== act) {                       // 第一次：只切換成確認狀態
@@ -1946,6 +2126,8 @@ async function initMember() {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const a = b.dataset.act;
     if (a === "login-open") openLogin();
+    else if (a === "wedit") { watchEdit = !watchEdit; pendingRm = null; renderWatch(); }
+    else if (a === "mv-top" || a === "mv-up" || a === "mv-down") moveWatch(b.dataset.code, a.slice(3));
     else if (a === "open") { showTab("analyze"); selectStock(b.dataset.code, b.dataset.name); }
     else if (a === "rm") {
       const code = b.dataset.code;
@@ -1963,6 +2145,7 @@ async function initMember() {
   auth = firebase.auth(); fdb = firebase.firestore();
   auth.getRedirectResult().catch(() => {});
   auth.onAuthStateChanged(onUser);
+  trafficStart();
   renderAcct();
 }
 
@@ -2206,7 +2389,7 @@ async function btRunClick() {
   if (o.start < $("btStart").min) { setBtHint(`起始日最早是 ${$("btStart").min}，之前的資料用來暖機。`, true); return; }
   bt.running = true; $("btRun").disabled = true; $("btRun").textContent = "計算中…"; setBtHint("");
   await new Promise(r => setTimeout(r, 30));
-  try { renderBt(runBacktest(st, o), o, st); }
+  try { renderBt(runBacktest(st, o), o, st); track("act_backtest"); }
   catch (e) { setBtHint(e.message || "回測失敗", true); $("btOut").innerHTML = ""; }
   finally { bt.running = false; $("btRun").disabled = false; $("btRun").textContent = "開始回測"; }
 }
@@ -2434,12 +2617,15 @@ async function simQuote(code) {
   sim.quotes.set(code, n);
   return n;
 }
-function simValue(acc) {
+// 總資產 = 現金 + 持股 × 最新收盤價。查不到某檔報價時：預設回傳 null（畫面顯示「更新報價中」）；
+// 傳入 approx = true 時，那一檔改用成本估算，這樣排行榜不會因為查價失敗就整個漏掉這位參賽者
+function simValue(acc, approx) {
   let v = acc.cash;
   for (const [c, h] of Object.entries(acc.holdings || {})) {
     const q = sim.quotes.get(c);
-    if (!q) return null;
-    v += h.qty * q.close;
+    if (q) v += h.qty * q.close;
+    else if (approx) v += h.cost;
+    else return null;
   }
   return v;
 }
@@ -2541,33 +2727,39 @@ async function simCancel(id) {
 }
 
 /* 排行榜 */
-async function simPushBoard() {
-  const a = sim.acc, v = simValue(a);
-  if (!a || v == null || !a.claimedCount) return;
+async function simPushBoard(force) {
+  const a = sim.acc;
+  if (!a || !a.claimedCount) return;
+  const v = simValue(a, true);                       // 查不到的報價用成本估算，不要因此不上榜
   const invested = a.claimedCount * SIM_WEEKLY, value = Math.round(v), ret = value / invested - 1;
   const key = [a.nick, invested, value].join("|");
-  if (key === sim.lastPush) return;
+  if (!force && key === sim.lastPush) return;
   await fdb.collection("leaderboard").doc(user.uid).set({ nick: a.nick, invested, value, ret, weeks: a.claimedCount, updatedAt: Date.now() });
-  sim.lastPush = key;
+  sim.lastPush = key; sim.pushErr = "";
 }
 async function simLoadBoard() {
   const snap = await fdb.collection("leaderboard").orderBy(sim.lbSort, "desc").limit(20).get();
   sim.lb = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+  sim.boardErr = "";
   renderSimBoard();
+}
+const simErrText = (e, what) => e.code === "permission-denied" ? `${what}沒有權限：請確認 Firestore 規則已更新並發佈（需要新版規則）。` : `${what}失敗：${e.message || e.code}`;
+// 上傳我的成績 + 重新載入排行榜；兩件事分開處理，其中一件失敗不會害另一件也不做
+async function simSyncBoard(force) {
+  try { await simPushBoard(force); } catch (e) { sim.pushErr = simErrText(e, "上傳你的成績到排行榜"); }
+  try { await simLoadBoard(); } catch (e) { sim.boardErr = simErrText(e, "載入排行榜"); renderSimBoard(); }
 }
 async function simAfterLoad() {
   if (!sim.acc) return;
   if (sim.busy) { sim.again = true; return; }
   sim.busy = true;
   try {
-    await simProcess();
+    try { await simProcess(); } catch (e) { setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已依設定教學發佈。" : (e.message || "更新失敗"), true); }
     const codes = Object.keys((sim.acc || {}).holdings || {});
     for (const c of codes) { try { await simQuote(c); } catch (e) {} }
     renderSim();
-    await simPushBoard();
-    await simLoadBoard();
-  } catch (e) {
-    setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已依設定教學發佈。" : (e.message || "更新失敗"), true);
+    await simSyncBoard(false);
+    renderSimBoard();
   } finally {
     sim.busy = false;
     if (sim.again) { sim.again = false; simAfterLoad(); }
@@ -2633,8 +2825,15 @@ function renderSim() {
 }
 function renderSimBoard() {
   const el = $("simBoard");
-  if (!sim.lb.length) { el.innerHTML = `<div class="empty">排行榜還沒有資料。</div>`; return; }
-  el.innerHTML = sim.lb.map((r, i) => `<div class="brow${user && r.uid === user.uid ? " me" : ""}"><span class="rk${i < 3 ? " top" : ""}">${i + 1}</span>
+  const mine = user && sim.lb.some(r => r.uid === user.uid);
+  // 提醒：我的成績有沒有在榜上；沒有的話，說明原因並提供「重新送出」
+  let notice = "";
+  if (sim.boardErr) notice = `<div class="status err">${esc(sim.boardErr)}</div>`;
+  else if (sim.pushErr) notice = `<div class="status err">${esc(sim.pushErr)}<br><button type="button" class="info-link" data-act="resend">重新送出我的成績</button></div>`;
+  else if (sim.acc && sim.acc.claimedCount && !mine && sim.lb.length < 20) notice = `<div class="status err">你的成績還沒有出現在排行榜上。<button type="button" class="info-link" data-act="resend">重新送出我的成績</button></div>`;
+  if (!sim.lb.length) { el.innerHTML = `${notice}<div class="empty">排行榜還沒有資料。</div>`; return; }
+  el.innerHTML = notice + `<p class="advnote" style="padding:0 2px 8px">${sim.lb.length >= 20 ? "顯示前 20 名" : `目前共 ${sim.lb.length} 位參賽者`}（依${sim.lbSort === "ret" ? "報酬率" : "總資產"}排序）</p>`
+    + sim.lb.map((r, i) => `<div class="brow${user && r.uid === user.uid ? " me" : ""}"><span class="rk${i < 3 ? " top" : ""}">${i + 1}</span>
     <div><div class="nm">${esc(r.nick)}</div><div class="sb">總資產 ${money(r.value)}　領取 ${r.weeks} 週</div></div>
     <div class="rt ${signCls(r.ret)}">${spct(r.ret, 2)}</div></div>`).join("")
     + `<p class="advnote" style="padding-top:8px">報酬率 = 總資產 ÷ 累計投入本金 − 1。成交價取自真實開盤價，但這是友善版，排名僅供同樂。</p>`;
@@ -2701,23 +2900,25 @@ function simInit() {
   $("simPlace").addEventListener("click", async () => {
     if (sim.busy) return;
     setSimMsg(""); $("simPlace").disabled = true;
-    try { const after = await simPlace(); setSimMsg(`已送出預約單，預計 ${after} 起第一個交易日的開盤價成交。`); }
+    try { const after = await simPlace(); track("act_order"); setSimMsg(`已送出預約單，預計 ${after} 起第一個交易日的開盤價成交。`); }
     catch (e) { setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已發佈。" : (e.message || "送出失敗"), true); }
     finally { $("simPlace").disabled = false; }
   });
   $("simSort").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
     sim.lbSort = b.dataset.k; [...$("simSort").children].forEach(c => c.setAttribute("aria-pressed", c === b));
-    simLoadBoard().catch(() => {});
+    simLoadBoard().catch(err => { sim.boardErr = simErrText(err, "載入排行榜"); renderSimBoard(); });
   });
   $("pgSim").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
     if (act === "login-open") openLogin("登入後才能參加模擬交易。");
+    else if (act === "resend") { b.disabled = true; await simSyncBoard(true); renderSimBoard(); }
     else if (act === "claim") {
       b.disabled = true;
-      try { await simClaim(); await simPushBoard(); simLoadBoard().catch(() => {}); }
-      catch (err) { setSimMsg(err.code === "permission-denied" ? "領取失敗：請確認手機的日期時間正確，以及 Firestore 規則已發佈。" : err.message, true); b.disabled = false; }
+      try { await simClaim(); }
+      catch (err) { setSimMsg(err.code === "permission-denied" ? "領取失敗：請確認手機的日期時間正確，以及 Firestore 規則已發佈。" : err.message, true); b.disabled = false; return; }
+      await simSyncBoard(true); renderSimBoard();      // 領取成功後立刻更新排行榜（累計投入變了）
     } else if (act === "cancel") { try { await simCancel(b.dataset.id); } catch (err) { setSimMsg(err.message, true); } }
     else if (act === "join") {
       const nick = $("simNick").value.trim(), m = $("simJoinMsg");
@@ -2840,6 +3041,7 @@ async function scrRun() {
     $("scrOut").innerHTML = `<div class="status err">目前剩下的查詢額度只有約 ${fmLeft()} 次，不夠分析這些股票（要保留 ${FM_RESERVE} 次給一般查詢）。請稍後再試，或在「進階參數」填入 FinMind token。</div>`;
     return;
   }
+  track("act_screen");
   scr.running = true; scr.stop = false; scr.failed = 0; scr.limited = false;
   scr.limitMsg = plan.deferred.length ? `為了保留查詢額度給一般使用，這次先分析了 ${plan.allowed.length} 檔；等額度恢復（約 1 小時內）或填入 FinMind token 後，再按一次「開始篩選」就會接著做。` : "";
   const queue = plan.allowed.slice(), total = queue.length;
