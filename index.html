@@ -313,6 +313,10 @@ svg .eq-s { fill: none; stroke: var(--profit); stroke-width: 1.8; }
 svg .eq-b { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 4 3; }
 svg .tr-up { fill: none; stroke: var(--bull); stroke-width: 2.6; stroke-linecap: round; }
 svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap: round; }
+.admstat { margin-top: 10px; padding: 8px 10px; border-radius: 8px; background: var(--bg); font-size: .76rem; line-height: 1.65; color: var(--muted); }
+.admstat b { color: var(--ink); font-weight: 600; }
+.admstat.ok { border-left: 3px solid var(--profit); color: var(--ink); }
+.admstat.bad { background: var(--warn-bg); color: var(--warn-ink); }
 .uidrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; font-size: .72rem; color: var(--muted); }
 .uidrow code { font: 400 .72rem var(--font-num); color: var(--ink); background: var(--bg); padding: 3px 6px; border-radius: 6px; overflow-wrap: anywhere; user-select: all; }
 .usage { display: grid; grid-template-columns: 5.5em minmax(0, 1fr) 3.5em; gap: 10px; align-items: center; padding: 4px 0; font-size: .82rem; }
@@ -1812,6 +1816,7 @@ function openAccount(msg) {
     <div><div class="nm">${esc(nm)}</div><div class="em">${esc(user.email || "")}</div></div></div>
     <p class="def">已儲存 ${watch.size} 檔自選股${sim.acc ? `，模擬交易已領取 ${sim.acc.claimedCount} 週` : ""}。</p>
     <div class="uidrow"><span>帳號識別碼</span><code>${esc(user.uid)}</code><button type="button" class="info-link" data-act="copyUid">複製</button></div>
+    ${adminStatusHtml()}
     ${admin.on ? `<button type="button" class="btn" data-act="openAdmin">管理後台（流量與參賽者檢查）</button>` : ""}
     ${msg ? `<div class="msg ok">${esc(msg)}</div>` : ""}
     <button type="button" class="btn ghost" data-act="logout">登出</button>
@@ -2007,11 +2012,25 @@ function trafficStart() {
   if (first) track("tab_" + first);
   addEventListener("pagehide", trafficFlush);
 }
+// admin.status：checking 檢查中 / on 是管理員 / none 找不到你的 admins 文件 / denied 規則沒發佈（讀不到）/ error 其他錯誤
 async function checkAdmin() {
-  admin.on = false;
-  if (user && fdb) { try { admin.on = (await fdb.collection("admins").doc(user.uid).get()).exists; } catch (e) {} }
+  admin.on = false; admin.status = "checking";
+  if (user && fdb) {
+    try { admin.on = (await fdb.collection("admins").doc(user.uid).get()).exists; admin.status = admin.on ? "on" : "none"; }
+    catch (e) { admin.status = e.code === "permission-denied" ? "denied" : "error"; admin.err = e.message || e.code || ""; }
+  }
   traffic.skip = admin.on;
   if (admin.on) traffic.q = {};
+}
+// 帳號視窗裡的「管理員狀態」說明：讓人知道為什麼沒有看到管理後台按鈕
+function adminStatusHtml() {
+  const s = admin.status;
+  const T = { checking: "檢查中…",
+    on: "已啟用。下方有「管理後台」按鈕。",
+    none: "目前不是管理員：在 Firestore 的 admins 集合裡，找不到文件 ID 等於上面識別碼的文件。請確認集合名稱是 admins、文件 ID 和識別碼完全一樣（沒有多餘的空格）。",
+    denied: "讀取失敗：Firestore 規則還沒有更新並發佈。請把新版 firestore.rules 整份貼上並按「發佈」。",
+    error: "讀取失敗：" + esc(admin.err || "未知原因") };
+  return `<div class="admstat ${s === "on" ? "ok" : s === "checking" ? "" : "bad"}"><b>管理員狀態</b>　${T[s] || ""}</div>`;
 }
 
 /* ---------- 管理後台（只有管理員看得到）---------- */
@@ -2093,7 +2112,12 @@ async function initMember() {
   document.querySelector('#tabs [data-tab="sim"]').hidden = false;
   $("gSimSec").hidden = false;
   simInit();
-  $("acctBtn").addEventListener("click", () => user ? openAccount() : openLogin());
+  $("acctBtn").addEventListener("click", () => {
+    if (!user) return openLogin();
+    openAccount();
+    // 每次打開都重新檢查管理員身分，剛建立 admins 文件的人不用重新整理網頁
+    checkAdmin().then(() => { if (!$("sheet").hidden && $("sheetT").textContent === "我的帳號") openAccount(); });
+  });
   $("admRefresh").addEventListener("click", adminLoad);
   $("admBack").addEventListener("click", () => showTab("analyze"));
   $("starBtn").addEventListener("click", toggleStar);
