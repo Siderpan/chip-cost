@@ -105,11 +105,18 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .rngSl { position: relative; height: 36px; }
 .rngTrack { position: absolute; left: 11px; right: 11px; top: 16px; height: 4px; border-radius: 2px; background: var(--grid); }
 .rngFill { position: absolute; top: 0; bottom: 0; background: var(--profit); border-radius: 2px; }
-.rngSl input[type="range"] { position: absolute; left: 0; top: 0; width: 100%; height: 36px; margin: 0; padding: 0; border: 0; background: transparent; -webkit-appearance: none; appearance: none; pointer-events: none; }
+/* 兩個把手各讓出一個把手（22px）的寬度：左把手往左靠、右把手往右靠，縮到最短區間時只會並排、不會疊在一起 */
+.rngSl input[type="range"] { position: absolute; top: 0; width: calc(100% - 22px); height: 36px; margin: 0; padding: 0; border: 0; background: transparent; -webkit-appearance: none; appearance: none; pointer-events: none; }
+.rngSl input.rA { left: 0; }
+.rngSl input.rB { left: 22px; }
+.rngNudge { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rngNudge span { flex: 1; text-align: center; font-size: .68rem; color: var(--muted); line-height: 1.4; }
+.rngNudge button { min-height: 40px; min-width: 76px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 500 .8rem var(--font-ui); cursor: pointer; }
+.rngNudge button:disabled { opacity: .4; cursor: default; }
 .rngSl input[type="range"]::-webkit-slider-runnable-track { background: transparent; height: 36px; }
 .rngSl input[type="range"]::-moz-range-track { background: transparent; }
-.rngSl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; width: 22px; height: 22px; margin-top: 7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); cursor: grab; }
-.rngSl input[type="range"]::-moz-range-thumb { pointer-events: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); cursor: grab; }
+.rngSl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; pointer-events: auto; box-sizing: border-box; width: 22px; height: 22px; margin-top: 7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); box-shadow: 0 1px 3px rgba(0, 0, 0, .25); cursor: grab; }
+.rngSl input[type="range"]::-moz-range-thumb { pointer-events: auto; box-sizing: border-box; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 2px solid var(--profit); cursor: grab; }
 .rngSl input[type="range"]:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--profit); outline-offset: 2px; }
 .seg.fill { display: flex; width: 100%; }
 .seg.fill button { flex: 1 1 0; min-width: 0; padding: 0 6px; min-height: 44px; font-size: .86rem; white-space: nowrap; }
@@ -1445,13 +1452,19 @@ function mountRange(el, o) {
   const pre = [["3 個月", 63], ["6 個月", 126], ["1 年", 250], ["2 年", 500], ["3 年", 750]].filter(p => p[1] < n * 0.95).concat([["全部", n]]);
   el.innerHTML = `<div class="rng"><div class="rngTop"><span class="rngLbl" aria-live="polite"></span><div class="rngPre">${pre.map(([t, d]) => `<button type="button" data-d="${d}">${t}</button>`).join("")}</div></div>
     <div class="rngSl"><div class="rngTrack"><i class="rngFill"></i></div>
-    <input type="range" class="rA" min="0" max="${n - 1}" step="1" aria-label="顯示區間的起點"><input type="range" class="rB" min="0" max="${n - 1}" step="1" aria-label="顯示區間的終點"></div></div>`;
+    <input type="range" class="rA" min="0" max="${n - 1}" step="1" aria-label="顯示區間的起點"><input type="range" class="rB" min="0" max="${n - 1}" step="1" aria-label="顯示區間的終點"></div>
+    <div class="rngNudge"><button type="button" data-n="-1" aria-label="把區間往前移">‹ 往前移</button><span>區間很短時，用這兩顆按鈕左右移動</span><button type="button" data-n="1" aria-label="把區間往後移">往後移 ›</button></div></div>`;
   const q = s => el.querySelector(s), A = q(".rA"), B = q(".rB"), fill = q(".rngFill"), lbl = q(".rngLbl");
+  // 兩個把手各讓出一個把手的寬度（見 CSS），所以即使區間縮到最短，兩個把手也只會並排，不會疊在一起
   const paint = () => {
     A.value = a; B.value = b;
-    fill.style.left = (a / (n - 1) * 100) + "%"; fill.style.width = ((b - a) / (n - 1) * 100) + "%";
+    const fa = a / (n - 1), fb = b / (n - 1);
+    fill.style.left = `calc((100% - 22px) * ${fa})`;
+    fill.style.width = `calc((100% - 22px) * ${fb - fa} + 22px)`;
     lbl.textContent = `${o.date(a)} ～ ${o.date(b)}（${b - a + 1} 個交易日）`;
     el.querySelectorAll(".rngPre button").forEach(btn => btn.setAttribute("aria-pressed", b === n - 1 && b - a + 1 === +btn.dataset.d));
+    el.querySelector('[data-n="-1"]').disabled = a <= 0;
+    el.querySelector('[data-n="1"]').disabled = b >= n - 1;
   };
   const emit = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; o.onChange(a, b); }); };
   A.addEventListener("input", () => { a = Math.min(+A.value, b - minSpan); paint(); emit(); });
@@ -1459,6 +1472,13 @@ function mountRange(el, o) {
   q(".rngPre").addEventListener("click", e => {
     const btn = e.target.closest("button"); if (!btn) return;
     a = Math.max(0, n - Math.min(+btn.dataset.d, n)); b = n - 1; paint(); o.onChange(a, b);
+  });
+  // 整段區間往前或往後平移，每次移動區間長度的一半（至少 5 個交易日），長度不變
+  q(".rngNudge").addEventListener("click", e => {
+    const btn = e.target.closest("button[data-n]"); if (!btn) return;
+    const len = b - a, step = Math.max(5, Math.round((len + 1) / 2)), dir = +btn.dataset.n;
+    a = Math.min(n - 1 - len, Math.max(0, a + dir * step)); b = a + len;
+    paint(); o.onChange(a, b);
   });
   paint();
 }
@@ -1524,10 +1544,11 @@ function drawChart(R) {
     .map(o => ({ ...o, y: y(o.z.peak) + 3.5 })).sort((a, b) => a.y - b.y);
   for (let i = 1; i < tags.length; i++) if (tags[i].y - tags[i - 1].y < 12) tags[i].y = tags[i - 1].y + 12;
   for (const o of tags) g += `<text class="tag ${o.c}" x="${xp + pw - 4}" y="${o.y}" text-anchor="end">${o.t} ${f0(o.z.peak)}</text>`;
-  const nx = 4;
+  // 區間很短（不到約 5 個月）時，標籤改成「月/日」並減少數量，否則會出現好幾個一樣的「年/月」擠在一起
+  const shortRange = tail.length < 120, nx = shortRange ? 2 : 4;
   for (let k = 0; k <= nx; k++) {
     const i = Math.round(k * (tail.length - 1) / nx), d = tail[i].d;
-    g += `<text class="axt" x="${x(i)}" y="${H - mb + 14}" text-anchor="${k === 0 ? "start" : k === nx ? "end" : "middle"}">${d.slice(2, 4)}/${d.slice(5, 7)}</text>`;
+    g += `<text class="axt" x="${x(i)}" y="${H - mb + 14}" text-anchor="${k === 0 ? "start" : k === nx ? "end" : "middle"}">${shortRange ? `${d.slice(5, 7)}/${d.slice(8, 10)}` : `${d.slice(2, 4)}/${d.slice(5, 7)}`}</text>`;
   }
   g += `<text class="cap" x="${W - mr}" y="${H - mb + 14}" text-anchor="end">${chipMode ? "籌碼" : "成交量"}占比 0–${(pmax * 100).toFixed(1)}%</text>`;
   if (state.probe != null) {
@@ -2108,7 +2129,7 @@ function drawBtChart(R, el) {
   g += `<path class="eq-s" d="${es.map((v, i) => `${i ? "L" : "M"}${x(i + off).toFixed(1)} ${y2(v * 100).toFixed(1)}`).join("")}"/>`;
   for (let k = 0; k <= 4; k++) {
     const i = Math.round(k * (N - 1) / 4), d = win[i].d;
-    g += `<text class="axt" x="${x(i + off)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 4 ? "end" : "middle"}">${d.slice(2, 4)}/${d.slice(5, 7)}</text>`;
+    g += `<text class="axt" x="${x(i + off)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 4 ? "end" : "middle"}">${N < 120 ? `${d.slice(5, 7)}/${d.slice(8, 10)}` : `${d.slice(2, 4)}/${d.slice(5, 7)}`}</text>`;
   }
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="回測的價格與交易標記，以及資產曲線">${g}</svg>`;
 }
