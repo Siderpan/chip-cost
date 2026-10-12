@@ -158,6 +158,33 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .mktHead .v { font: 600 1.7rem/1.15 var(--font-num); letter-spacing: -.02em; }
 .mktHead .r { font: 600 .92rem var(--font-num); text-align: right; }
 .mktSpark { width: 100%; height: 64px; display: block; margin: 8px 0 6px; }
+.champ { padding: 14px 16px; margin-bottom: 10px; border-color: var(--trapped); }
+.champ .ch { display: flex; align-items: center; gap: 8px; font: 700 .86rem var(--font-ui); color: var(--trapped); }
+.champ .ch svg { flex: none; }
+.champ .cm { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.champ .cm .av { width: 52px; height: 52px; flex: none; }
+.champ .cm .nm { font: 700 1.15rem var(--font-ui); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.champ .cm .sb { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+.champ .cm .rt { margin-left: auto; font: 700 1.3rem var(--font-num); text-align: right; white-space: nowrap; }
+.champ .runners { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .78rem; color: var(--muted); display: grid; gap: 4px; }
+.champ .runners b { font-family: var(--font-num); color: var(--ink); }
+.champ .tip { font-size: .76rem; color: var(--muted); line-height: 1.6; margin: 8px 0 0; }
+.verdict { padding: 12px 14px; margin: 10px 0; }
+.vdHead { display: flex; gap: 12px; align-items: center; }
+.vdScore { font: 700 2.3rem/1 var(--font-num); letter-spacing: -.03em; white-space: nowrap; }
+.vdScore small { font: 500 .8rem var(--font-num); color: var(--muted); letter-spacing: 0; margin-left: 2px; }
+.vdTag { display: inline-block; font: 700 .82rem/1.4 var(--font-ui); padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); }
+.vdTag.good { background: var(--profit); border-color: var(--profit); color: var(--surface); }
+.vdTag.bad { border-color: var(--trapped); color: var(--trapped); }
+.vdSum { font-size: .8rem; color: var(--muted); line-height: 1.5; margin-top: 4px; }
+.vdRows { display: grid; gap: 10px; margin-top: 12px; }
+.vdRow .t { display: flex; justify-content: space-between; align-items: baseline; font-size: .8rem; }
+.vdRow .t b { font-weight: 600; }
+.vdRow .t span { font: 500 .78rem var(--font-num); color: var(--muted); }
+.vdBar { height: 6px; border-radius: 3px; background: var(--line); margin: 4px 0 4px; overflow: hidden; }
+.vdBar i { display: block; height: 100%; border-radius: 3px; background: var(--profit); }
+.vdRow p { margin: 0; font-size: .76rem; line-height: 1.55; color: var(--muted); }
+.vdNote { font-size: .72rem; color: var(--muted); line-height: 1.55; margin: 10px 0 0; }
 .shDot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.6px solid var(--muted); vertical-align: -1px; box-sizing: border-box; }
 .shDot.on { background: var(--profit); border-color: var(--profit); }
 .shCard { padding: 12px 14px; }
@@ -734,6 +761,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div id="years" class="seg" role="group" aria-label="回溯年數"></div>
   </section>
 
+  <section id="verdict" class="card verdict" hidden></section>
   <section id="stats" class="stats"></section>
   <section id="stCard" class="zones stcard"></section>
   <div id="warn" class="warn" hidden></div>
@@ -856,6 +884,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <h2>模擬交易：每週領 100 萬，用真實開盤價成交</h2>
     <div id="simGate"></div>
     <div id="simMain" class="page" hidden>
+      <div id="simChamp"></div>
       <div id="simAcct" class="card simAcct"></div>
       <div class="card btForm simForm">
         <div class="rtitle">下預約單<button type="button" class="info" data-term="simRules" aria-label="模擬交易規則的說明">i</button></div>
@@ -886,7 +915,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <div id="simHold"></div>
       <h2>成交紀錄</h2>
       <div id="simTrades"></div>
-      <div class="simBoardHead"><h2>排行榜</h2>
+      <div class="simBoardHead"><h2 id="simBoardTitle">排行榜</h2>
         <div id="simSort" class="seg" role="group" aria-label="排行榜排序">
           <button type="button" data-k="ret" aria-pressed="true">報酬率</button>
           <button type="button" data-k="value" aria-pressed="false">總資產</button>
@@ -1429,6 +1458,10 @@ const GLOSS = {
     def: "從你選的候選範圍裡，逐檔算出支撐與壓力，保留同時符合你設定的所有條件的股票，再依風險報酬比由高到低排序，取前 3 檔。",
     read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「位置合不合你的條件」整理出來。", "候選範圍是內建的大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "每一檔入選都會列出每個條件的實際數字，沒有黑箱。", "想知道「靠近支撐買、到壓力賣」這套想法過去有沒有用，按「回測這檔」去驗證；很多時候結果並不如預期，這是正常的。", "條件越嚴格，符合的越少；沒有任何一檔符合時，會告訴你是哪些條件擋下了大部分股票。"],
     calc: "每檔股票用載入的全部歷史資料（最多 6 年）計算，停損緩衝與無壓力時的停利和回測頁的預設值相同。" },
+  simSeason: { t: "賽季制：每一季結算一次",
+    def: "模擬交易以「一季」為一個賽季（1～3 月、4～6 月、7～9 月、10～12 月），每季結算一次成績，上一季的冠軍會放在模擬交易頁的最上方。",
+    read: ["<b>帳戶不會歸零</b>：現金、持股都照舊，只是成績每季重新計算。", "<b>季報酬率</b> =（季末總資產 − 季初資產 − 本季新領資金）÷（季初資產 + 本季新領資金）。這樣每一季都是從同一條起跑線比，不會因為領得久、累積多而占便宜。", "<b>季末資產</b>用該季最後一個交易日的收盤價計算；季末以前該成交的預約單先成交，之後的單算下一季。", "<b>怎麼結算</b>：系統沒有後台，所以由每位參賽者在新的一季<b>第一次打開網頁</b>時，自動替自己結算上一季。沒有打開的人會晚一點才進榜，所以冠軍名單會陸續補齊，名次可能還會變動。", "結算時如果資料來源暫時查不到收盤價，會稍後再試，不會算錯。"],
+    calc: "這是友善版：成績由你的瀏覽器計算後寫入，規則只擋明顯亂改，所以排名只適合朋友同樂。" },
   simRules: { t: "模擬交易規則",
     def: "用虛擬資金、真實的開盤價，練習照支撐壓力買賣，並和其他會員比報酬率。這裡沒有真的錢。",
     read: ["<b>領資金</b>：每週可以領一次 NT$ 1,000,000（以台灣時間的週一為一週的開始）。沒領的週數不能補領，領到的錢和持股都會累積。",
@@ -1436,8 +1469,12 @@ const GLOSS = {
       "<b>成交價</b>：取自 FinMind 的真實開盤價（未還原）。當天收盤後資料出來，你下次打開網頁時就會自動成交，不用一直盯著。",
       "<b>成本</b>：手續費 0.1425%（最低 1 元）；賣出再加證交稅，一般股票 0.3%、ETF 0.1%。",
       "<b>失敗的情況</b>：成交時現金不夠、或持股不夠賣，這筆預約單會顯示「未成交」。",
-      "<b>排行榜</b>：報酬率 = 總資產 ÷ 累計投入本金 − 1。總資產用最新收盤價計算。",
+      "<b>排行榜</b>：每一季結算一次，比的是「本季報酬率」（季末資產 − 季初資產 − 本季新領資金，再除以季初資產 + 本季新領資金）。總資產用最新收盤價計算。詳見「賽季制」說明。",
       "<b>友善版的限制</b>：成交價取自真實資料，但帳務是在你的瀏覽器計算後寫入雲端，懂技術的人仍然可能改資料，所以排名只適合朋友同樂，不適合有獎品的正式比賽。"] },
+  verdict: { t: "綜合評語（位置評分）",
+    def: "把「平均成本、下方支撐、上方壓力」放在一起，替現價所在的位置打一個 0～100 的分數，讓你查股票時先有個快速的參考。",
+    read: ["<b>它評的是「位置」，不是「會不會漲」</b>：分數高代表現價下有撐、上無壓、成本結構健康；分數低代表下跌缺緩衝、或上方有重重賣壓。", "<b>成本面（30 分）</b>：看獲利比例。多數人賺錢但沒有賺到爆最舒服；太低表示套牢多，太高表示隨時可能有人獲利了結。", "<b>下方支撐（35 分）</b>：最近支撐的籌碼占比和成交量占比越高、離現價越近，分數越高。下方沒有支撐是 0 分。", "<b>上方空間（35 分）</b>：最近壓力越強、越近，扣越多分。上方沒有壓力就是滿分。", "分數對照：75 以上偏強、60～74 中偏強、45～59 中性、30～44 中偏弱、30 以下偏弱。", "<b>它會隨你拉的時間區間改變</b>：區間不同，成本分布就不同，分數也會跟著變。可以換不同區間看結論是否一致。"],
+    calc: "支撐／壓力品質 = 0.6 × min(籌碼占比 ÷ 15%, 1) + 0.4 × min(成交量占比 ÷ 20%, 1)。支撐分數 = 35 × 品質 × (0.4 + 0.6 × 接近程度)，12% 以內才算接近；壓力分數 = 35 × (1 − 品質 × (1 − 空間))，10% 以上算空間充足。權重與門檻是經驗設定，不是統計出來的，請當成整理資訊的工具。" },
   mktTaiex: { t: "加權指數（TAIEX）",
     def: "台灣股市最常被拿來代表「大盤」的指數，由所有上市股票依市值加權計算而成。",
     read: ["市值大的公司影響大盤比較多，例如台積電漲 1%，對大盤的影響遠大於一檔小公司漲 1%。", "指數只在日盤（09:00～13:30）更新；下班後想知道大盤明天可能怎麼開，可以看台指期的夜盤。"],
@@ -1780,6 +1817,45 @@ function render() {
     onChange: (a, b) => { V.a = a; V.b = b; state.probe = null; refresh(compute()); } });
   refresh(compute());
 }
+/* 綜合評語：只看「現價的位置」好不好，三項加總 100 分
+   成本面 30：獲利比例落在中間最舒服（太低 = 套牢賣壓重，太高 = 獲利了結壓力）
+   下方支撐 35：最近的支撐越強（籌碼占比、成交量占比）、離現價越近，下跌越有緩衝
+   上方空間 35：最近的壓力越強、離現價越近，上漲越容易被擋 */
+function verdictOf(R) {
+  const a = R.a, price = R.price, cl = (x, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
+  const parts = [];
+  // 成本面
+  const p = a.profit, fc = p <= 0.5 ? 0.25 + 1.5 * p : p <= 0.85 ? 1 : 1 - (p - 0.85) / 0.15 * 0.45;
+  const ct = p < 0.2 ? "多數人被套，反彈到成本區容易遇到解套賣壓" : p < 0.5 ? "賺錢的人不到一半，上方還有不少套牢籌碼" : p <= 0.85 ? "多數人小賺或持平，賣壓相對輕" : "幾乎人人獲利，要留意獲利了結的賣壓";
+  parts.push({ k: "成本面", pts: 30 * fc, max: 30, txt: `現價比平均成本 ${spct(price / a.avg - 1)}，${pct(p, 0)} 的籌碼在賺錢：${ct}。` });
+  // 下方支撐
+  const S = a.sup[0];
+  if (S) {
+    const q = 0.6 * cl(S.strength / 0.15) + 0.4 * cl(S.volShare / 0.2), prox = cl(1 - Math.abs(S.dist) / 0.12);
+    const qt = q >= 0.7 ? "很扎實" : q >= 0.4 ? "普通" : "偏薄", pt = Math.abs(S.dist) <= 0.03 ? "貼近現價" : Math.abs(S.dist) <= 0.08 ? "距離適中" : "離現價有點遠";
+    parts.push({ k: "下方支撐", pts: 35 * q * (0.4 + 0.6 * prox), max: 35, txt: `最近支撐 ${fmt(S.peak)}（${spct(S.dist)}，${pt}），籌碼占比 ${pct(S.strength, 0)}、成交量占比 ${pct(S.volShare, 0)}：${qt}。` });
+  } else parts.push({ k: "下方支撐", pts: 0, max: 35, txt: "現價下方沒有明顯的籌碼堆積，下跌時缺少緩衝。" });
+  // 上方空間
+  const Z = a.res[0];
+  if (Z) {
+    const q = 0.6 * cl(Z.strength / 0.15) + 0.4 * cl(Z.volShare / 0.2), room = cl(Z.dist / 0.10);
+    const qt = q >= 0.7 ? "很重" : q >= 0.4 ? "普通" : "偏輕", pt = Z.dist <= 0.03 ? "就在眼前" : Z.dist <= 0.08 ? "距離適中" : "還有一段距離";
+    parts.push({ k: "上方空間", pts: 35 * (1 - q * (1 - room)), max: 35, txt: `最近壓力 ${fmt(Z.peak)}（${spct(Z.dist)}，${pt}），籌碼占比 ${pct(Z.strength, 0)}、成交量占比 ${pct(Z.volShare, 0)}：壓力${qt}。` });
+  } else parts.push({ k: "上方空間", pts: 35, max: 35, txt: "現價上方沒有明顯的籌碼堆積，沒有套牢賣壓擋路。" });
+  const score = Math.round(parts.reduce((s, x) => s + x.pts, 0));
+  const [label, tone] = score >= 75 ? ["位置偏強", "good"] : score >= 60 ? ["位置中偏強", "good"] : score >= 45 ? ["位置中性", ""] : score >= 30 ? ["位置中偏弱", "bad"] : ["位置偏弱", "bad"];
+  const ratio = x => x.pts / x.max, best = [...parts].sort((x, y) => ratio(y) - ratio(x))[0], worst = [...parts].sort((x, y) => ratio(x) - ratio(y))[0];
+  const sum = ratio(best) - ratio(worst) < 0.15 ? "三個面向的表現差不多。" : `強項是「${best.k}」，弱項是「${worst.k}」。`;
+  return { score, label, tone, parts, sum };
+}
+function renderVerdict(R) {
+  const el = $("verdict"), v = verdictOf(R);
+  el.hidden = false;
+  el.innerHTML = `<div class="vdHead"><div class="vdScore">${v.score}<small>/100</small></div>
+    <div style="min-width:0"><span class="vdTag ${v.tone}">${v.label}</span>${tip("verdict")}<div class="vdSum">${v.sum}</div></div></div>
+    <div class="vdRows">${v.parts.map(x => `<div class="vdRow"><div class="t"><b>${x.k}</b><span>${x.pts.toFixed(0)} / ${x.max}</span></div><div class="vdBar"><i style="width:${(x.pts / x.max * 100).toFixed(0)}%"></i></div><p>${x.txt}</p></div>`).join("")}</div>
+    <p class="vdNote">綜合評語只評估「現價的位置」：把平均成本、支撐、壓力放在一起看，不預測漲跌，也不是買賣建議。${R.m.coverage < 0.9 ? "<b>目前模型涵蓋率偏低，分數僅供參考，建議拉長時間區間。</b>" : ""}</p>`;
+}
 // 區間改變時：重算並更新所有數字、色帶、圖表（不重建拉條，才不會拖到一半被重設）
 function refresh(R) {
   const st = R.st, a = R.a, m = R.m;
@@ -1793,6 +1869,7 @@ function refresh(R) {
     stat("集中度", pct(a.conc), "越小越集中", "conc") +
     stat("累計換手", m.cumTurnover.toFixed(1) + " 次", `${R.rows.length} 個交易日`, "turnover") +
     stat("模型涵蓋率", pct(m.coverage), m.coverage < 0.9 ? "偏低，可拉長區間" : "足夠", "coverage");
+  renderVerdict(R);
   const w = [];
   if (m.coverage < 0.9) w.push(`涵蓋率只有 ${pct(m.coverage, 0)}：這段期間換手不足，較遠的支撐與壓力僅供參考。可把時間區間拉長。`);
   if (m.capped) w.push(`有 ${m.capped} 天換手率超過 100%，已截為 100%，請確認流通股數是否正確。`);
@@ -1954,7 +2031,8 @@ function openAccount(msg) {
 async function deleteSimData() {
   const uid = user.uid;
   if (sim.unsub) { sim.unsub(); sim.unsub = null; }
-  await fdb.collection("leaderboard").doc(uid).delete();
+  await fdb.collection("leaderboard").doc(uid).delete();                       // 舊版（還沒有賽季制）的排行榜紀錄
+  for (let s = seasonOf(Date.now()), n = 0; n < 8; n++, s = seasonPrev(s)) await boardRef(s, uid).delete();   // 近 8 季的成績
   await fdb.collection("users").doc(uid).collection("sim").doc("account").delete();
   simReset(); sim.lb = [];
   if (!$("pgSim").hidden) simOpen(); else renderSim();
@@ -2193,7 +2271,7 @@ async function adminLoad() {
   } catch (e) { sections.push(`<h2>流量</h2><div class="status err">${esc(e.code === "permission-denied" ? "沒有讀取權限：請確認 Firestore 規則已更新並發佈，且你的帳號已被加入管理員。" : "讀取流量失敗：" + (e.message || e.code))}</div>`); }
   // 2. 參賽者檢查：有多少人加入模擬交易、有多少人在排行榜上、哪些人沒上榜
   try {
-    const [accSnap, lbSnap] = await Promise.all([fdb.collectionGroup("sim").get(), fdb.collection("leaderboard").get()]);
+    const [accSnap, lbSnap] = await Promise.all([fdb.collectionGroup("sim").get(), fdb.collection("boards").doc(seasonOf(Date.now())).collection("entries").get()]);
     const accs = accSnap.docs.filter(d => d.id === "account").map(d => ({ uid: d.ref.parent.parent.id, ...d.data() }));
     const onBoard = new Set(lbSnap.docs.map(d => d.id));
     const missing = accs.filter(a => !onBoard.has(a.uid));
@@ -3003,11 +3081,26 @@ const weekMonday = w => new Date((w * 7 - 3) * 864e5).toISOString().slice(0, 10)
 const money = n => "NT$ " + Math.round(n).toLocaleString("en-US");
 const taxRate = code => /^00\d{2,4}[A-Z]?$/.test(code) ? 0.001 : 0.003;             // ETF 證交稅 0.1%，一般股票 0.3%
 const simRef = () => fdb.collection("users").doc(user.uid).collection("sim").doc("account");
+/* 賽季：每一季（台灣日曆季 1～3、4～6、7～9、10～12 月）結算一次成績。帳戶不歸零，持股照舊，
+   每季的成績 = 這一季「增加了多少」：(季末資產 − 季初資產 − 本季新領資金) ÷ (季初資產 + 本季新領資金)。 */
+const seasonOf = ms => { const d = twDate(ms); return `${d.slice(0, 4)}Q${Math.floor((+d.slice(5, 7) - 1) / 3) + 1}`; };
+const seasonNext = s => +s[5] === 4 ? `${+s.slice(0, 4) + 1}Q1` : `${s.slice(0, 4)}Q${+s[5] + 1}`;
+const seasonPrev = s => +s[5] === 1 ? `${+s.slice(0, 4) - 1}Q4` : `${s.slice(0, 4)}Q${+s[5] - 1}`;
+const seasonStart = s => `${s.slice(0, 4)}-${String((+s[5] - 1) * 3 + 1).padStart(2, "0")}-01`;
+const seasonEnd = s => new Date(Date.UTC(+s.slice(0, 4), +s[5] * 3, 0)).toISOString().slice(0, 10);
+const seasonName = s => `${s.slice(0, 4)} 第 ${s[5]} 季`;
+const mmdd = d => d.slice(5).replace("-", "/");
+const boardRef = (s, uid) => fdb.collection("boards").doc(s).collection("entries").doc(uid);
+// 本季報酬：base 是上一季結束時存下來的起點（資產與已領週數）；沒有 base 的舊帳戶，從頭算起
+function simSeasonRet(a, v) {
+  const b = a.base || { v: 0, claimed: 0 }, dep = Math.max(0, a.claimedCount - b.claimed) * SIM_WEEKLY, denom = b.v + dep;
+  return denom > 0 ? (v - b.v - dep) / denom : 0;
+}
 const simId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
 function simReset() {
   if (sim.unsub) { sim.unsub(); sim.unsub = null; }
-  sim.acc = null; sim.loaded = false; sim.err = ""; sim.lastPush = ""; sim.pick = null;
+  sim.acc = null; sim.loaded = false; sim.err = ""; sim.lastPush = ""; sim.pick = null; sim.champ = null;
 }
 // 預約單的成交日：開盤前（09:00 前）下的單，當天開盤成交；之後下的單，下一個交易日開盤成交
 function simAfterDate(ms) { return twMinutes(ms) < 9 * 60 ? twDate(ms) : twDate(ms + 864e5); }
@@ -3078,20 +3171,21 @@ function applyFills(a, fills) {
   }
   return { cash, holdings, orders, trades: trades.slice(0, 200) };
 }
-async function simProcess() {
-  const acc = sim.acc, today = twDate(Date.now());
-  const due = (acc.orders || []).filter(o => o.after <= today);
+// cap：只處理到這一天為止（結算上一季時，只成交季末以前的單，之後的單留給下一季）
+async function simProcess(cap, accIn) {
+  const acc = accIn || sim.acc, today = twDate(Date.now()), lim = cap && cap < today ? cap : today;
+  const due = (acc.orders || []).filter(o => o.after <= lim);
   if (!due.length) return;
   const rowsBy = new Map();
   for (const code of new Set(due.map(o => o.code))) {
     const start = due.filter(o => o.code === code).map(o => o.after).sort()[0];
-    try { rowsBy.set(code, (await fm("TaiwanStockPrice", { data_id: code, start_date: start })).filter(r => r.open > 0).sort((a, b) => a.date < b.date ? -1 : 1)); }
-    catch (e) { if (/上限/.test(e.message)) throw e; }
+    try { rowsBy.set(code, (await fm("TaiwanStockPrice", { data_id: code, start_date: start, ...(cap ? { end_date: cap } : {}) })).filter(r => r.open > 0).sort((a, b) => a.date < b.date ? -1 : 1)); }
+    catch (e) { if (e.limit || /上限/.test(e.message)) throw e; }
   }
   const fills = [];
   for (const o of due) {
     const r = (rowsBy.get(o.code) || []).find(x => x.date >= o.after);   // 還沒有資料（今天還沒收盤）就先等
-    if (r) fills.push({ id: o.id, price: r.open, date: r.date });
+    if (r && (!cap || r.date <= cap)) fills.push({ id: o.id, price: r.open, date: r.date });
   }
   if (!fills.length) return;
   await fdb.runTransaction(async tx => {
@@ -3101,13 +3195,60 @@ async function simProcess() {
 }
 
 async function simJoin(nick) {
-  await simRef().set({ nick, cash: 0, claimWeek: 0, claimedCount: 0, holdings: {}, orders: [], trades: [], createdAt: Date.now() });
+  await simRef().set({ nick, cash: 0, claimWeek: 0, claimedCount: 0, holdings: {}, orders: [], trades: [], createdAt: Date.now(), base: { season: seasonOf(Date.now()), v: 0, claimed: 0 } });
   await simClaim();
+}
+// 某檔股票在某一天（含）以前的最後一個收盤價；查不到（停牌、下市）回傳 0。結果存起來，重試時不用再查
+async function simCloseAt(code, end) {
+  const key = `sc:${code}:${end}`, c = lsRead(key);
+  if (c) return c.v;
+  const start = new Date(Date.parse(end) - 14 * 864e5).toISOString().slice(0, 10);
+  const rows = (await fm("TaiwanStockPrice", { data_id: code, start_date: start, end_date: end })).filter(r => r.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
+  const v = rows.length ? rows[rows.length - 1].close : 0;
+  lsWrite(key, { v });
+  return v;
+}
+// 結算 S 這一季：成交季末以前的預約單 → 用季末收盤價算資產 → 把成績寫進那一季的排行榜（final）→ 把季末資產存成下一季的起點
+async function simFinalize(S) {
+  const end = seasonEnd(S);
+  const fresh = async () => (await simRef().get()).data();
+  let a = await fresh();
+  if (!a.base || a.base.season !== S) return;
+  await simProcess(end, a);
+  a = await fresh();
+  if (!a.base || a.base.season !== S) return;
+  let v = a.cash;
+  for (const [code, h] of Object.entries(a.holdings || {})) { const p = await simCloseAt(code, end); v += p > 0 ? h.qty * p : h.cost; }
+  v = Math.round(v);
+  const ret = simSeasonRet(a, v);
+  if (a.claimedCount) {
+    let av = avOk(a.avatar) ? a.avatar : "";
+    if (!av && a.pubPhoto !== false) av = await googlePhotoAvatar().catch(() => "");
+    await boardRef(S, user.uid).set({ nick: a.nick, invested: a.claimedCount * SIM_WEEKLY, value: v, ret, weeks: a.claimedCount, updatedAt: Date.now(), season: S, final: true, ...(av ? { avatar: av } : {}) });
+  }
+  await fdb.runTransaction(async tx => {
+    const cur = (await tx.get(simRef())).data();
+    if (!cur.base || cur.base.season !== S) return;          // 另一台裝置已經結算過了
+    tx.update(simRef(), { base: { season: seasonNext(S), v, claimed: cur.claimedCount } });
+  });
+}
+// 打開模擬交易時：還沒有 base 的帳戶補上起點；已經跨季的帳戶，一季一季補結算
+async function simRollover() {
+  const a = sim.acc, cur = seasonOf(Date.now());
+  if (!a) return;
+  if (!a.base) { await simRef().update({ base: { season: cur, v: 0, claimed: 0 } }); return; }
+  let n = 0;
+  while (n++ < 8) {
+    const b = (await simRef().get()).data().base;
+    if (!b || b.season >= cur) break;
+    await simFinalize(b.season);
+  }
 }
 async function simClaim() {
   const W = weekIdx(Date.now());
   await fdb.runTransaction(async tx => {
     const a = (await tx.get(simRef())).data();
+    if (!a.base || a.base.season < seasonOf(Date.now())) throw new Error("正在結算上一季的成績，請稍後幾秒再領取。");
     if (a.claimWeek >= W) throw new Error("這一週已經領過了。");
     tx.update(simRef(), { cash: a.cash + SIM_WEEKLY, claimWeek: W, claimedCount: a.claimedCount + 1 });
   });
@@ -3239,36 +3380,49 @@ async function saveNick() {
 
 /* 排行榜 */
 async function simPushBoard(force) {
-  const a = sim.acc;
+  const a = sim.acc, S = seasonOf(Date.now());
   if (!a || !a.claimedCount) return;
+  if (!a.base || a.base.season !== S) return;        // 還沒結算完上一季（simRollover 會先處理），結算好才送本季的成績
   const v = simValue(a, true);                       // 查不到的報價用成本估算，不要因此不上榜
-  const invested = a.claimedCount * SIM_WEEKLY, value = Math.round(v), ret = value / invested - 1;
+  const invested = a.claimedCount * SIM_WEEKLY, value = Math.round(v), ret = simSeasonRet(a, value);
   // 排行榜的頭像：自己上傳的優先；沒上傳就用 Google 頭貼（會員可以在個人檔案裡關掉，關掉就只顯示暱稱的第一個字）
   let av = avOk(a.avatar) ? a.avatar : "";
   if (!av && a.pubPhoto !== false) av = await googlePhotoAvatar();
-  const key = [a.nick, invested, value, strHash(av)].join("|");     // 用內容的雜湊值判斷頭像有沒有變；只比長度的話，換成長度一樣的圖就會被誤認為沒變而不上傳
+  const key = [S, a.nick, invested, value, ret.toFixed(6), strHash(av)].join("|");     // 用內容的雜湊值判斷頭像有沒有變；只比長度的話，換成長度一樣的圖就會被誤認為沒變而不上傳
   if (!force && key === sim.lastPush) return;
-  await fdb.collection("leaderboard").doc(user.uid).set({ nick: a.nick, invested, value, ret, weeks: a.claimedCount, updatedAt: Date.now(), ...(av ? { avatar: av } : {}) });
+  await boardRef(S, user.uid).set({ nick: a.nick, invested, value, ret, weeks: a.claimedCount, updatedAt: Date.now(), season: S, ...(av ? { avatar: av } : {}) });
   sim.lastPush = key; sim.pushErr = "";
 }
 async function simLoadBoard() {
-  const snap = await fdb.collection("leaderboard").orderBy(sim.lbSort, "desc").limit(20).get();
+  const S = seasonOf(Date.now());
+  const snap = await fdb.collection("boards").doc(S).collection("entries").orderBy(sim.lbSort, "desc").limit(20).get();
   sim.lb = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
   sim.boardErr = "";
   renderSimBoard();
+}
+// 上一季的冠軍：只看已經「結算」（final）的成績；有些人要等到新的一季第一次打開網頁才會結算，所以名單會陸續補齊
+async function simLoadChamp() {
+  const P = seasonPrev(seasonOf(Date.now()));
+  try {
+    const snap = await fdb.collection("boards").doc(P).collection("entries").orderBy("ret", "desc").limit(50).get();
+    const rows = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(r => r.final === true);
+    sim.champ = { season: P, top: rows.slice(0, 3), n: rows.length };
+  } catch (e) { sim.champ = null; }
+  renderSimChamp();
 }
 const simErrText = (e, what) => e.code === "permission-denied" ? `${what}沒有權限：請確認 Firestore 規則已更新並發佈（需要新版規則）。` : `${what}失敗：${e.message || e.code}`;
 // 上傳我的成績 + 重新載入排行榜；兩件事分開處理，其中一件失敗不會害另一件也不做
 async function simSyncBoard(force) {
   try { await simPushBoard(force); } catch (e) { sim.pushErr = simErrText(e, "上傳你的成績到排行榜"); }
   try { await simLoadBoard(); } catch (e) { sim.boardErr = simErrText(e, "載入排行榜"); renderSimBoard(); }
+  await simLoadChamp();
 }
 async function simAfterLoad() {
   if (!sim.acc) return;
   if (sim.busy) { sim.again = true; return; }
   sim.busy = true;
   try {
-    try { await simProcess(); } catch (e) { setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已依設定教學發佈。" : (e.message || "更新失敗"), true); }
+    try { await simRollover(); await simProcess(); } catch (e) { setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已依設定教學發佈。" : (e.message || "更新失敗"), true); }
     const codes = Object.keys((sim.acc || {}).holdings || {});
     for (const c of codes) { try { await simQuote(c); } catch (e) {} }
     renderSim();
@@ -3308,10 +3462,12 @@ function renderSim() {
   const a = sim.acc, W = weekIdx(Date.now()), canClaim = a.claimWeek < W;
   const v = simValue(a), invested = a.claimedCount * SIM_WEEKLY, pnl = v == null ? null : v - invested, ret = v == null ? null : v / invested - 1;
   const holdVal = v == null ? null : v - a.cash, reserved = simReserved(a), proceeds = simSellProceeds(a);
+  const sret = v == null ? null : simSeasonRet(a, v);
   $("simAcct").innerHTML = `<div class="simHead"><button type="button" class="avBtn" data-act="editProfile" aria-label="更換頭像或修改暱稱">${avatarHtml(avOk(a.avatar) ? a.avatar : (user.photoURL || ""), a.nick)}<span class="avEdit" aria-hidden="true">✎</span></button>
     <div class="simWho"><div class="nm">${esc(a.nick)}</div><button type="button" class="info-link" data-act="editProfile">編輯頭像與暱稱</button></div></div>
     <div class="simTotal"><div class="k">總資產</div><div class="v">${v == null ? "更新報價中…" : money(v)}</div>
-    <div class="r ${signCls(pnl)}">${ret == null ? "" : `${spct(ret, 2)}　${pnl >= 0 ? "+" : "−"}${money(Math.abs(pnl)).slice(4)}`}${tip("simRules")}</div></div>
+    <div class="r ${signCls(sret)}">${sret == null ? "" : `本季 ${spct(sret, 2)}`}${tip("simRules")}</div>
+    <div class="r ${signCls(pnl)}" style="font-weight:500;font-size:.8rem;color:var(--muted)">${ret == null ? "" : `累計 ${spct(ret, 2)}　${pnl >= 0 ? "+" : "−"}${money(Math.abs(pnl)).slice(4)}`}</div></div>
     <div class="simGrid"><div><div class="k">現金</div><div class="v">${money(a.cash)}</div></div>
       <div><div class="k">持股市值</div><div class="v">${holdVal == null ? "—" : money(holdVal)}</div></div>
       <div><div class="k">累計投入本金${tip("simInvested")}</div><div class="v">${money(invested)}</div></div>
@@ -3341,10 +3497,32 @@ function renderSim() {
     <div><div class="t">${nameOf(t.code, t.name)}　${t.qty.toLocaleString("en-US")} 股</div><div class="s">${t.d}　${t.ok ? `開盤價 ${fmt(t.price)}　手續費 ${t.fee}${t.tax ? "　證交稅 " + t.tax : ""}` : esc(t.note || "")}</div></div>
     <div class="pn ${signCls(t.pnl)}">${t.pnl == null ? "" : (t.pnl >= 0 ? "+" : "−") + Math.abs(t.pnl).toLocaleString("en-US")}<small>${t.pnl == null ? "" : "已實現損益"}</small></div></div>`).join("")
     : `<div class="empty">還沒有成交紀錄。</div>`;
-  renderSimBoard(); renderSimForm();
+  renderSimBoard(); renderSimForm(); renderSimChamp();
+}
+// 頁面最上方：上一季冠軍（還沒有已結算的成績時，顯示賽季說明與結算倒數）
+function renderSimChamp() {
+  const el = $("simChamp"); if (!el) return;
+  const S = seasonOf(Date.now()), end = seasonEnd(S), c = sim.champ;
+  const left = Math.max(0, Math.round((Date.parse(end) - Date.parse(twDate(Date.now()))) / 864e5));
+  const trophy = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5"/><path d="M12 14v4M8.5 20h7"/></svg>`;
+  const pt = r => `<span class="${signCls(r.ret)}">${spct(r.ret, 2)}</span>`;
+  if (c && c.top.length) {
+    const w = c.top[0];
+    el.innerHTML = `<div class="card champ"><div class="ch">${trophy}<span>${seasonName(c.season)}　冠軍</span>${tip("simSeason")}</div>
+      <div class="cm"><span class="av">${avatarHtml(avOk(w.avatar) ? w.avatar : "", w.nick)}</span>
+        <div style="min-width:0"><div class="nm">${esc(w.nick)}${user && w.uid === user.uid ? "（你）" : ""}</div><div class="sb">季末總資產 ${money(w.value)}　領取 ${w.weeks} 週</div></div>
+        <div class="rt ${signCls(w.ret)}">${spct(w.ret, 2)}<div class="sb" style="font-weight:400">季報酬</div></div></div>
+      ${c.top.length > 1 ? `<div class="runners">${c.top.slice(1).map((r, i) => `<div>${i === 0 ? "亞軍" : "季軍"}　<b>${esc(r.nick)}</b>　${pt(r)}</div>`).join("")}</div>` : ""}
+      <p class="tip">已結算 ${c.n} 位。有些人要等到新的一季第一次打開網頁才會結算，名單會陸續補齊，名次可能還會變動。現在是 ${seasonName(S)}，${mmdd(end)} 結算。</p></div>`;
+  } else {
+    el.innerHTML = `<div class="card champ"><div class="ch">${trophy}<span>${seasonName(S)}　賽季進行中</span>${tip("simSeason")}</div>
+      <p class="tip" style="margin-top:6px;font-size:.84rem;color:var(--ink)">每一季（${mmdd(seasonStart(S))}～${mmdd(end)}）結算一次成績，<b>上一季的冠軍會放在這裡</b>。距離本季結算還有 <b>${left}</b> 天。</p>
+      <p class="tip">${c ? "上一季還沒有人結算成績。" : "目前還沒有上一季的成績可以顯示。"}本季的即時排名在下方的排行榜。</p></div>`;
+  }
 }
 function renderSimBoard() {
-  const el = $("simBoard");
+  const el = $("simBoard"), S = seasonOf(Date.now());
+  $("simBoardTitle").textContent = `${seasonName(S)}排行榜（${mmdd(seasonEnd(S))} 結算）`;
   const mine = user && sim.lb.some(r => r.uid === user.uid);
   // 提醒：我的成績有沒有在榜上；沒有的話，說明原因並提供「重新送出」
   let notice = "";
@@ -3352,12 +3530,12 @@ function renderSimBoard() {
   else if (sim.pushErr) notice = `<div class="status err">${esc(sim.pushErr)}<br><button type="button" class="info-link" data-act="resend">重新送出我的成績</button></div>`;
   else if (sim.acc && sim.acc.claimedCount && !mine && sim.lb.length < 20) notice = `<div class="status err">你的成績還沒有出現在排行榜上。<button type="button" class="info-link" data-act="resend">重新送出我的成績</button></div>`;
   if (!sim.lb.length) { el.innerHTML = `${notice}<div class="empty">排行榜還沒有資料。</div>`; return; }
-  el.innerHTML = notice + `<p class="advnote" style="padding:0 2px 8px">${sim.lb.length >= 20 ? "顯示前 20 名" : `目前共 ${sim.lb.length} 位參賽者`}（依${sim.lbSort === "ret" ? "報酬率" : "總資產"}排序）　<button type="button" class="info-link" style="min-height:32px" data-act="refreshBoard">重新整理排行榜</button></p>`
+  el.innerHTML = notice + `<p class="advnote" style="padding:0 2px 8px">${sim.lb.length >= 20 ? "顯示前 20 名" : `目前共 ${sim.lb.length} 位參賽者`}（依${sim.lbSort === "ret" ? "本季報酬率" : "總資產"}排序）　<button type="button" class="info-link" style="min-height:32px" data-act="refreshBoard">重新整理排行榜</button></p>`
     + sim.lb.map((r, i) => `<div class="brow${user && r.uid === user.uid ? " me" : ""}"><span class="rk${i < 3 ? " top" : ""}">${i + 1}</span>
     <span class="av sm">${avatarHtml(avOk(r.avatar) ? r.avatar : "", r.nick)}</span>
     <div><div class="nm">${esc(r.nick)}</div><div class="sb">總資產 ${money(r.value)}　領取 ${r.weeks} 週</div></div>
     <div class="rt ${signCls(r.ret)}">${spct(r.ret, 2)}</div></div>`).join("")
-    + `<p class="advnote" style="padding-top:8px">報酬率 = 總資產 ÷ 累計投入本金 − 1。成交價取自真實開盤價，但這是友善版，排名僅供同樂。</p>`;
+    + `<p class="advnote" style="padding-top:8px">本季報酬率 =（總資產 − 季初資產 − 本季新領資金）÷（季初資產 + 本季新領資金）。成交價取自真實開盤價，但這是友善版，排名僅供同樂。</p>`;
 }
 function renderSimForm() {
   const a = sim.acc;
