@@ -185,6 +185,19 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .vdBar i { display: block; height: 100%; border-radius: 3px; background: var(--profit); }
 .vdRow p { margin: 0; font-size: .76rem; line-height: 1.55; color: var(--muted); }
 .vdNote { font-size: .72rem; color: var(--muted); line-height: 1.55; margin: 10px 0 0; }
+.heatCard { padding: 10px; }
+.heatMap { position: relative; width: 100%; aspect-ratio: 340 / 400; container-type: inline-size; border-radius: 6px; overflow: hidden; background: var(--bg); }
+.heatMap button { position: absolute; box-sizing: border-box; border: 1px solid var(--surface); margin: 0; padding: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; line-height: 1.25; cursor: pointer; font-family: var(--font-ui); }
+.heatMap button.sel { outline: 2px solid var(--ink); outline-offset: -2px; z-index: 2; }
+.heatMap button .c { font-weight: 700; } .heatMap button .p { font-family: var(--font-num); }
+.heatLg { display: flex; align-items: center; gap: 8px; font-size: .72rem; color: var(--muted); margin: 8px 0 2px; }
+.heatLg .bar { flex: 1; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--bear), var(--line), var(--bull)); }
+.heatPick { min-height: 44px; margin-top: 8px; font-size: .84rem; line-height: 1.6; }
+.heatPick b { font-family: var(--font-num); }
+.heatTop { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+.heatTop h4 { margin: 0 0 4px; font-size: .78rem; color: var(--muted); font-weight: 600; }
+.heatTop .r { display: flex; justify-content: space-between; gap: 6px; font-size: .8rem; line-height: 1.8; }
+.heatTop .r span:last-child { font-family: var(--font-num); white-space: nowrap; }
 .shDot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.6px solid var(--muted); vertical-align: -1px; box-sizing: border-box; }
 .shDot.on { background: var(--profit); border-color: var(--profit); }
 .shCard { padding: 12px 14px; }
@@ -841,6 +854,13 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <div id="mcTotalNote" class="status" style="margin-top:6px"></div>
       <div id="mcOut" class="mcOut"></div>
     </div>
+    <div class="simBoardHead"><h2>大盤權重熱力圖</h2>
+      <div id="heatMode" class="seg" role="group" aria-label="顏色代表什麼">
+        <button type="button" data-m="chg" aria-pressed="true">漲跌幅</button>
+        <button type="button" data-m="pts" aria-pressed="false">貢獻點數</button>
+      </div>
+    </div>
+    <div id="heatBody"></div>
   </section>
 
   <section id="pgScreen" class="page" hidden>
@@ -2317,7 +2337,7 @@ function mktParse(px, fu) {
   return { idx, fut };
 }
 async function mktLoad(force) {
-  mktTotalLoad(force);
+  mktTotalLoad(force); heatLoad(force);
   if (mkt.loading) return;
   if (!force && mkt.idx && Date.now() - mkt.at < MKT_TTL) { mktRender(); return; }
   mkt.loading = true; mkt.err = ""; mkt.stale = 0; mktRender();
@@ -2447,6 +2467,95 @@ function mcApplyTotal() {
       + (mkt.totErr ? "，這次更新失敗，用的是上次存下來的" : "") + "。可以直接改成別的數字。";
   } else { f.value = ""; note.textContent = mkt.totErr ? "自動取得上市總市值失敗，請手動填入「兆元」數字，或稍後重新整理。" : "取得上市總市值中…"; }
   mcRender();
+  if (heat.list) heatRender();                      // 熱力圖的權重用同一個總市值，數字到了就更新
+}
+/* 大盤權重熱力圖：面積 = 權重（個股市值 ÷ 上市總市值），顏色 = 今天的漲跌幅（紅漲綠跌）或對大盤的貢獻點數
+   資料：證交所「每日收盤行情」（收盤價、漲跌）+「外資及陸資投資持股統計」（發行股數），和上市總市值用的是同一批資料 */
+const heat = { list: null, top: null, date: "", idx: 0, at: 0, loading: false, err: "", mode: "chg", sel: "" };
+const HEAT_N = 36, HEAT_TTL = 10 * 60e3;
+async function heatLoad(force) {
+  if (heat.loading) return;
+  if (!force && heat.list && Date.now() - heat.at < HEAT_TTL) { heatRender(); return; }
+  heat.loading = true; heat.err = ""; heatRender();
+  try {
+    const [sh, mi] = await Promise.all([twseGet(`${TWSE}/fund/MI_QFIIS?selectType=ALLBUT0999&response=json`), twseGet(`${TWSE}/afterTrading/MI_INDEX?type=ALLBUT0999&response=json`)]);
+    const tb = (mi.tables || []).find(t => t.fields && t.fields.includes("證券代號") && t.fields.includes("收盤價"));
+    if (sh.stat !== "OK" || mi.stat !== "OK" || !tb) throw new Error("資料不完整");
+    const f = n => tb.fields.indexOf(n), ci = f("證券代號"), ni = f("證券名稱"), pi = f("收盤價"), si = f("漲跌(+/-)"), di = f("漲跌價差");
+    const px = new Map(tb.data.map(r => [r[ci], r]));
+    const all = [];
+    for (const r of sh.data) {
+      const code = r[0];
+      if (!/^[1-9]\d{3}$/.test(code) || /^91/.test(code)) continue;
+      const q = px.get(code), shares = num(r[3]);
+      if (!q || !(shares > 0)) continue;
+      const close = num(q[pi]), sign = String(q[si]).replace(/<[^>]*>/g, "").trim(), diff = num(q[di]) * (sign === "+" ? 1 : sign === "-" ? -1 : 0);
+      if (!(close > 0)) continue;
+      const prev = close - diff;
+      all.push({ c: code, n: q[ni], mc: shares * close, chg: prev > 0 ? diff / prev : 0, p: close });
+    }
+    if (all.length < 500) throw new Error("資料不完整");
+    // 加權指數前一日收盤：用來把「權重 × 漲跌幅」換算成點數
+    let idx = 0;
+    for (const t of mi.tables || []) {
+      const row = (t.data || []).find(r => r[0] === "發行量加權股價指數");
+      if (row && t.fields) { const close = num(row[1]), s = String(row[2]).replace(/<[^>]*>/g, "").trim(), d = num(row[3]) * (s === "+" ? 1 : s === "-" ? -1 : 0); idx = close - d; break; }
+    }
+    const sum = all.reduce((s, x) => s + x.mc, 0);
+    all.sort((a, b) => b.mc - a.mc);
+    heat.sum = sum; heat.idx = idx; heat.date = isoDate(mi.date || ""); heat.at = Date.now();
+    heat.list = all.slice(0, 80);
+    heat.all = all;
+  } catch (e) { heat.err = "熱力圖資料暫時讀不到，請稍後按「重新整理」。"; }
+  heat.loading = false; heatRender();
+}
+function heatSquarify(items, W, H) {                 // 方形樹狀圖（squarified treemap）：items 要由大到小排序，v 是面積權重
+  const total = items.reduce((s, i) => s + i.v, 0), scale = W * H / total, out = [];
+  let x = 0, y = 0, w = W, h = H, row = [];
+  const worst = (r, side) => { const s = r.reduce((a, i) => a + i.a, 0), mx = Math.max(...r.map(i => i.a)), mn = Math.min(...r.map(i => i.a)); return Math.max(side * side * mx / (s * s), s * s / (side * side * mn)); };
+  const lay = r => {
+    const s = r.reduce((a, i) => a + i.a, 0);
+    if (w >= h) { const cw = s / h; let yy = y; for (const i of r) { const ih = i.a / cw; out.push({ ...i, x, y: yy, w: cw, h: ih }); yy += ih; } x += cw; w -= cw; }
+    else { const rh = s / w; let xx = x; for (const i of r) { const iw = i.a / rh; out.push({ ...i, x: xx, y, w: iw, h: rh }); xx += iw; } y += rh; h -= rh; }
+  };
+  for (const it of items.map(i => ({ ...i, a: i.v * scale }))) {
+    const side = Math.min(w, h);
+    if (!row.length || worst([...row, it], side) <= worst(row, side)) row.push(it); else { lay(row); row = [it]; }
+  }
+  if (row.length) lay(row);
+  return out;
+}
+const heatPts = (s, total) => (s.mc / total) * s.chg * heat.idx;      // 這檔今天讓大盤漲跌了幾點（權重 × 漲跌幅 × 前一日指數）
+function heatRender() {
+  const el = $("heatBody"); if (!el) return;
+  if (!heat.list) { el.innerHTML = heat.err ? `<div class="status err">${esc(heat.err)}</div>` : `<div class="empty">載入中…</div>`; return; }
+  const total = (mkt.tot && mkt.tot.total) || heat.sum, top = heat.list.slice(0, HEAT_N), rest = Math.max(0, total - top.reduce((s, x) => s + x.mc, 0));
+  const W = 340, H = 400, pts = top.map(s => heatPts(s, total)), maxP = Math.max(1e-9, ...pts.map(Math.abs));
+  const items = top.map((s, i) => ({ v: s.mc, s, pts: pts[i] })); items.push({ v: rest, other: true });
+  const mode = heat.mode;
+  const tile = r => {
+    const px = v => (v / W * 100).toFixed(3), py = v => (v / H * 100).toFixed(3);
+    const pos = `left:${px(r.x)}%;top:${py(r.y)}%;width:${px(r.w)}%;height:${py(r.h)}%;`;
+    if (r.other) return `<button type="button" disabled style="${pos}background:var(--line);color:var(--muted);font-size:${(10 / W * 100).toFixed(2)}cqw"><span>其他 ${(rest / total * 100).toFixed(0)}%</span></button>`;
+    const val = mode === "chg" ? r.s.chg : r.pts, t = Math.min(1, Math.abs(val) / (mode === "chg" ? 0.05 : maxP)), mix = Math.round(14 + 76 * t);
+    const col = val > 0 ? "var(--bull)" : val < 0 ? "var(--bear)" : "var(--muted)", fg = t > 0.5 ? "#fff" : "var(--ink)";
+    const size = Math.sqrt(r.w * r.h), fs = Math.min(15, Math.max(0, size / 4.6)), small = r.w < 30 || r.h < 20;
+    const txt = size < 17 ? "" : small ? `<span class="c" style="font-size:${(fs / W * 100).toFixed(2)}cqw">${esc(r.s.c)}</span>`
+      : `<span class="c" style="font-size:${(fs / W * 100).toFixed(2)}cqw">${esc(r.s.n)}</span>${r.h > 30 ? `<span class="p" style="font-size:${(fs * 0.86 / W * 100).toFixed(2)}cqw">${mode === "chg" ? spct(r.s.chg, 2) : (r.pts >= 0 ? "+" : "−") + Math.abs(r.pts).toFixed(0) + " 點"}</span>` : ""}`;
+    return `<button type="button" data-code="${esc(r.s.c)}" class="${heat.sel === r.s.c ? "sel" : ""}" aria-label="${esc(r.s.c + " " + r.s.n)}" style="${pos}background:color-mix(in srgb, ${col} ${mix}%, var(--surface));color:${fg}">${txt}</button>`;
+  };
+  const rects = heatSquarify(items, W, H);
+  const stock = heat.all.find(s => s.c === heat.sel) || top[0];
+  const pick = () => { const p = heatPts(stock, total); return `<b>${esc(stock.c)} ${esc(stock.n)}</b>　權重 <b>${(stock.mc / total * 100).toFixed(2)}%</b>　收盤 <b>${fmt(stock.p)}</b>　漲跌 <b class="${signCls(stock.chg)}">${spct(stock.chg, 2)}</b><br>今天讓大盤約 <b class="${signCls(p)}">${p >= 0 ? "+" : "−"}${fmt(Math.abs(p), 1)} 點</b>`; };
+  const ranked = heat.all.map(s => ({ s, p: heatPts(s, total) })).sort((a, b) => b.p - a.p);
+  const row = x => `<div class="r"><span>${esc(x.s.n)}</span><span class="${signCls(x.p)}">${x.p >= 0 ? "+" : "−"}${fmt(Math.abs(x.p), 1)}</span></div>`;
+  const up = ranked.slice(0, 5), dn = ranked.slice(-5).reverse();
+  el.innerHTML = `<div class="card heatCard"><div class="heatMap" role="group" aria-label="大盤權重熱力圖">${rects.map(tile).join("")}</div>
+    <div class="heatLg"><span>${mode === "chg" ? "跌" : "拖累"}</span><span class="bar"></span><span>${mode === "chg" ? "漲" : "拉抬"}</span></div>
+    <div class="heatPick" aria-live="polite">${pick()}</div>
+    <div class="heatTop"><div><h4>今天拉抬大盤最多</h4>${up.map(row).join("")}</div><div><h4>今天拖累大盤最多</h4>${dn.map(row).join("")}</div></div>
+    <p class="advnote" style="padding-top:8px">${esc(heat.date)} 收盤資料。面積 = 權重（市值 ÷ 上市總市值），只畫權重最大的 ${HEAT_N} 檔，其餘合併成「其他」。顏色：${mode === "chg" ? "紅漲綠跌，漲跌幅 ±5% 顏色最深" : "看這檔對大盤的點數貢獻（權重 × 漲跌幅 × 前一日指數），紅 = 拉抬、綠 = 拖累"}。點方塊看細節。這是估算值，和官方權重會有些許出入。</p>
+    ${heat.err ? `<div class="status err">${esc(heat.err)}（目前顯示的是上次載入的資料）</div>` : ""}</div>`;
 }
 /* 個股占大盤計算器 */
 function mcRender() {
@@ -2518,6 +2627,8 @@ function mktInit() {
   $("mcTotalNote").addEventListener("click", e => { if (e.target.closest('[data-act="totAuto"]')) { lsDel("mktTotalManual"); mcApplyTotal(); } });
   for (const id of ["mcPrice", "mcShares", "mcPct"]) $(id).addEventListener("input", mcRender);
   $("mktBody").addEventListener("click", e => { if (e.target.closest('[data-act="mktRefresh"]')) mktLoad(true); });
+  $("heatMode").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; heat.mode = b.dataset.m; [...$("heatMode").children].forEach(c => c.setAttribute("aria-pressed", c === b)); heatRender(); });
+  $("heatBody").addEventListener("click", e => { const b = e.target.closest("button[data-code]"); if (b) { heat.sel = b.dataset.code; heatRender(); } });
   mcRender();
 }
 function showTab(t) {
