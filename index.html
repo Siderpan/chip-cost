@@ -185,6 +185,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .vdBar i { display: block; height: 100%; border-radius: 3px; background: var(--profit); }
 .vdRow p { margin: 0; font-size: .76rem; line-height: 1.55; color: var(--muted); }
 .vdNote { font-size: .72rem; color: var(--muted); line-height: 1.55; margin: 10px 0 0; }
+.lblRow { display: flex; align-items: center; gap: 4px; font-size: .76rem; color: var(--muted); margin-top: 2px; }
+.seg button:disabled { opacity: .4; cursor: not-allowed; }
 .heatCard { padding: 10px; }
 .heatMap { position: relative; width: 100%; aspect-ratio: 340 / 400; container-type: inline-size; border-radius: 6px; overflow: hidden; background: var(--bg); }
 .heatMap button { position: absolute; box-sizing: border-box; border: 1px solid var(--surface); margin: 0; padding: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; line-height: 1.25; cursor: pointer; font-family: var(--font-ui); }
@@ -923,8 +925,20 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         </div>
         <div class="two">
           <label class="fld" for="simQty"><span>數量</span><input id="simQty" type="number" inputmode="numeric" min="1" step="1" value="1"></label>
-          <label class="fld" for="simUnit"><span>單位</span><select id="simUnit"><option value="1000">張（1,000 股）</option><option value="1">股（零股）</option></select></label>
+          <label class="fld" for="simUnit"><span>單位</span><select id="simUnit"><option value="1000">張（1,000 股）</option><option value="1">股（零股，限價）</option></select></label>
         </div>
+        <div class="lblRow"><span>委託方式</span><button type="button" class="info" data-term="orderTypes" aria-label="委託方式的說明">i</button></div>
+        <div id="simType" class="seg" role="group" aria-label="委託方式">
+          <button type="button" data-t="mkt" aria-pressed="true">市價</button>
+          <button type="button" data-t="lmt" aria-pressed="false">限價</button>
+          <button type="button" data-t="stp" aria-pressed="false">觸價單</button>
+        </div>
+        <div id="simPriceBox" class="two" hidden>
+          <label class="fld" for="simPrice"><span id="simPriceLbl">限價（元）</span><input id="simPrice" type="number" inputmode="decimal" min="0" step="0.01"></label>
+          <label class="fld" for="simDir" id="simDirBox"><span>觸發條件</span><select id="simDir"><option value="ge">股價漲到 ≥ 觸發價</option><option value="le">股價跌到 ≤ 觸發價</option></select></label>
+        </div>
+        <label class="fld" for="simDays" id="simDaysBox" hidden><span>委託有效期</span><select id="simDays"><option value="1">當日有效（ROD）</option><option value="5">長效單：5 個營業日</option><option value="10">長效單：10 個營業日</option><option value="20">長效單：20 個營業日</option></select></label>
+        <div id="simRule" class="status"></div>
         <div id="simEst" class="status"></div>
         <button id="simPlace" type="button" class="btn">送出預約單</button>
         <div id="simMsg" class="status" hidden></div>
@@ -1478,6 +1492,16 @@ const GLOSS = {
     def: "從你選的候選範圍裡，逐檔算出支撐與壓力，保留同時符合你設定的所有條件的股票，再依風險報酬比由高到低排序，取前 3 檔。",
     read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「位置合不合你的條件」整理出來。", "候選範圍是內建的大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "每一檔入選都會列出每個條件的實際數字，沒有黑箱。", "想知道「靠近支撐買、到壓力賣」這套想法過去有沒有用，按「回測這檔」去驗證；很多時候結果並不如預期，這是正常的。", "條件越嚴格，符合的越少；沒有任何一檔符合時，會告訴你是哪些條件擋下了大部分股票。"],
     calc: "每檔股票用載入的全部歷史資料（最多 6 年）計算，停損緩衝與無壓力時的停利和回測頁的預設值相同。" },
+  orderTypes: { t: "委託方式：市價、限價、觸價單",
+    def: "和真實下單一樣，你可以決定「用什麼價格、什麼條件」成交。這裡有三種方式，都可以搭配當日有效或長效單。",
+    read: ["<b>市價單</b>：不指定價格，下一個交易日的開盤價成交。最簡單，但你下單時不知道會成交在哪。",
+      "<b>限價單</b>：指定你願意的價格。<b>買單</b>只在股價跌到限價（含）以下才成交；<b>賣單</b>只在股價漲到限價（含）以上才成交。開盤價就比你的限價更划算時，會用開盤價成交。",
+      "<b>觸價單（條件單）</b>：股價碰到你設的觸發價後，才改用市價成交。賣出時，「跌到」某價就是<b>停損</b>、「漲到」某價就是<b>停利</b>；買進時，「漲到」是<b>突破追買</b>、「跌到」是<b>逢低買進</b>。跳空越過觸發價時，用開盤價成交（所以停損可能比設定的價格更差）。",
+      "<b>有效期</b>：「當日有效（ROD）」只看第一個交易日，沒成交就作廢；「長效單」最多可以掛 5、10、20 個營業日，期間內碰到價格就成交，到期沒成交就作廢。市價單一律當日。",
+      "<b>價格規則</b>：價格要符合升降單位（例如 100～500 元的股票，每 0.5 元一檔），而且不能超出前一日收盤價的 ±10%（漲跌停）。",
+      "<b>零股</b>只能用限價單，一次最多 999 股；1,000 股以上請用「張」。",
+      "買單會先「圈存」資金：限價單按限價、市價單按最新收盤價估算，避免同時下很多單、錢不夠。"],
+    calc: "只有日 K 資料，沒辦法知道盤中價格的先後順序，所以用當天的開盤、最高、最低判斷會不會成交；漲停鎖死（買不到）或跌停鎖死（賣不掉）時視為沒成交。成交量不足、排隊順序、交割（T+2）都沒有模擬，真實下單會有差異。" },
   simSeason: { t: "賽季制：每一季結算一次",
     def: "模擬交易以「一季」為一個賽季（1～3 月、4～6 月、7～9 月、10～12 月），每季結算一次成績，上一季的冠軍會放在模擬交易頁的最上方。",
     read: ["<b>帳戶不會歸零</b>：現金、持股都照舊，只是成績每季重新計算。", "<b>季報酬率</b> =（季末總資產 − 季初資產 − 本季新領資金）÷（季初資產 + 本季新領資金）。這樣每一季都是從同一條起跑線比，不會因為領得久、累積多而占便宜。", "<b>季末資產</b>用該季最後一個交易日的收盤價計算；季末以前該成交的預約單先成交，之後的單算下一季。", "<b>怎麼結算</b>：系統沒有後台，所以由每位參賽者在新的一季<b>第一次打開網頁</b>時，自動替自己結算上一季。沒有打開的人會晚一點才進榜，所以冠軍名單會陸續補齊，名次可能還會變動。", "結算時如果資料來源暫時查不到收盤價，會稍後再試，不會算錯。"],
@@ -1485,7 +1509,7 @@ const GLOSS = {
   simRules: { t: "模擬交易規則",
     def: "用虛擬資金、真實的開盤價，練習照支撐壓力買賣，並和其他會員比報酬率。這裡沒有真的錢。",
     read: ["<b>領資金</b>：每週可以領一次 NT$ 1,000,000（以台灣時間的週一為一週的開始）。沒領的週數不能補領，領到的錢和持股都會累積。",
-      "<b>下單</b>：下的是預約單。開盤前（09:00 前）下的單，當天開盤成交；其他時間下的單，下一個交易日開盤成交。遇到假日會順延到下一個有開盤的日子。",
+      "<b>下單</b>：下的是預約單，可以選市價、限價或觸價單（停損、停利），也可以設長效單，詳見「委託方式」說明。開盤前（09:00 前）下的單，當天生效；其他時間下的單，下一個交易日生效。遇到假日會順延到下一個有開盤的日子。",
       "<b>成交價</b>：取自 FinMind 的真實開盤價（未還原）。當天收盤後資料出來，你下次打開網頁時就會自動成交，不用一直盯著。",
       "<b>成本</b>：手續費 0.1425%（最低 1 元）；賣出再加證交稅，一般股票 0.3%、ETF 0.1%。",
       "<b>失敗的情況</b>：成交時現金不夠、或持股不夠賣，這筆預約單會顯示「未成交」。",
@@ -3184,7 +3208,7 @@ function guideDemo() {
 
 /* ---------- 模擬交易：每週領 100 萬，預約單用真實開盤價成交 ---------- */
 const SIM_WEEKLY = 1000000, SIM_MAX_ORDERS = 20, SIM_FEE = 0.001425;
-const sim = { acc: null, loaded: false, err: "", unsub: null, quotes: new Map(), pick: null, side: "buy", lb: [], lbSort: "ret", busy: false, again: false, lastPush: "" };
+const sim = { acc: null, loaded: false, err: "", unsub: null, quotes: new Map(), pick: null, side: "buy", otype: "mkt", lb: [], lbSort: "ret", busy: false, again: false, lastPush: "" };
 const twDate = ms => new Date(ms + 8 * 3600e3).toISOString().slice(0, 10);          // 台灣日期
 const twMinutes = ms => { const d = new Date(ms + 8 * 3600e3); return d.getUTCHours() * 60 + d.getUTCMinutes(); };
 const weekIdx = ms => Math.floor((Math.floor((ms + 8 * 3600e3) / 864e5) + 3) / 7);  // 以台灣時間週一為一週的開始，要和 firestore.rules 的 weekOf 一致
@@ -3248,6 +3272,42 @@ function simSellProceeds(acc) {
   return (acc.orders || []).filter(o => o.side === "sell").reduce((s, o) => s + o.est * o.qty * (1 - SIM_FEE - taxRate(o.code)), 0);
 }
 
+/* 委託方式（參考台股實際下單）
+   市價：開盤價成交（和以前一樣）。
+   限價：買單 價格 ≤ 限價 才成交（開盤就比限價便宜，用開盤價成交；否則盤中碰到限價就用限價成交）；賣單反過來。
+   觸價單：股價碰到觸發價後，改用市價成交（跳空時用開盤價）。賣單「跌到」是停損，「漲到」是停利。
+   有效期：當日有效（ROD，只看第一個交易日）或長效單（最多 N 個營業日，到期沒成交就作廢）。
+   只有日 K 資料，沒辦法知道盤中的先後順序，所以用「當天最高、最低、開盤」判斷會不會成交；漲停鎖死、跌停鎖死時視為買不到、賣不掉。 */
+const tickOf = (p, code) => /^00\d{2,4}[A-Z]?$/.test(code) ? (p < 50 ? 0.01 : 0.05) : p < 10 ? 0.01 : p < 50 ? 0.05 : p < 100 ? 0.1 : p < 500 ? 0.5 : p < 1000 ? 1 : 5;
+const onTick = (p, code) => { const t = tickOf(p, code); return Math.abs(Math.round(p / t) * t - p) < 1e-6; };
+const limitUp = (ref, code) => { const p = ref * 1.1, t = tickOf(p, code); return Math.floor(p / t + 1e-9) * t; };
+const limitDown = (ref, code) => { const p = ref * 0.9, t = tickOf(p, code); return Math.ceil(p / t - 1e-9) * t; };
+const odTypeOf = o => o.type || "mkt";
+function odLabel(o) {
+  const t = odTypeOf(o), days = o.days || 1, life = days > 1 ? `長效 ${days} 個營業日` : "當日有效";
+  return t === "lmt" ? `限價 ${fmt(o.price)}　${life}` : t === "stp" ? `觸價 ${o.dir === "ge" ? "≥" : "≤"} ${fmt(o.price)} 後市價　${life}` : "市價　開盤價成交";
+}
+// 判斷一張預約單在這幾個交易日（bars，由舊到新）會不會成交。回傳 null＝還要再等；{price,date,how}＝成交；{fail,date}＝到期沒成交
+function judgeOrder(o, bars, prevClose) {
+  const t = odTypeOf(o), need = t === "mkt" ? 1 : (o.days || 1), buy = o.side === "buy";
+  for (let i = 0; i < Math.min(bars.length, need); i++) {
+    const b = bars[i], prev = i ? bars[i - 1].close : prevClose;
+    if (t === "mkt") return { price: b.open, date: b.date };
+    const lockedUp = prev && b.min === b.max && b.max >= limitUp(prev, o.code) - 1e-9, lockedDn = prev && b.min === b.max && b.min <= limitDown(prev, o.code) + 1e-9;
+    if (buy && lockedUp || !buy && lockedDn) continue;                 // 鎖死在漲停（買不到）或跌停（賣不掉）
+    if (t === "lmt") {
+      if (buy) { if (b.open <= o.price) return { price: b.open, date: b.date, how: `限價 ${fmt(o.price)}` }; if (b.min <= o.price) return { price: o.price, date: b.date, how: `限價 ${fmt(o.price)}` }; }
+      else { if (b.open >= o.price) return { price: b.open, date: b.date, how: `限價 ${fmt(o.price)}` }; if (b.max >= o.price) return { price: o.price, date: b.date, how: `限價 ${fmt(o.price)}` }; }
+    } else {
+      const how = `觸價 ${o.dir === "ge" ? "≥" : "≤"} ${fmt(o.price)}`;
+      if (o.dir === "ge" && b.max >= o.price) return { price: Math.max(b.open, o.price), date: b.date, how };
+      if (o.dir === "le" && b.min <= o.price) return { price: Math.min(b.open, o.price), date: b.date, how };
+    }
+  }
+  if (bars.length >= need) return { fail: t === "mkt" ? "查無成交價" : `委託到期，價格沒有成交到（${odLabel(o).split("　")[0]}）`, date: bars[need - 1].date };
+  return null;
+}
+
 /* 成交：純函式，傳入帳戶和「訂單 id → 開盤價」，回傳要寫回去的欄位 */
 function applyFills(a, fills) {
   let cash = a.cash;
@@ -3258,8 +3318,9 @@ function applyFills(a, fills) {
     const o = orders.find(x => x.id === f.id);
     if (!o) continue;
     orders = orders.filter(x => x.id !== f.id);
+    if (f.fail) { trades.unshift({ id: o.id, d: f.date, code: o.code, name: o.name, side: o.side, qty: o.qty, price: 0, fee: 0, tax: 0, ok: false, note: f.fail }); continue; }
     const amt = f.price * o.qty, fee = Math.max(1, Math.round(amt * SIM_FEE));
-    const t = { id: o.id, d: f.date, code: o.code, name: o.name, side: o.side, qty: o.qty, price: f.price, fee, tax: 0, ok: true };
+    const t = { id: o.id, d: f.date, code: o.code, name: o.name, side: o.side, qty: o.qty, price: f.price, fee, tax: 0, ok: true, ...(f.how ? { how: f.how } : {}) };
     if (o.side === "buy") {
       if (cash < amt + fee) { t.ok = false; t.fee = 0; t.note = "資金不足，未成交"; }
       else {
@@ -3289,14 +3350,17 @@ async function simProcess(cap, accIn) {
   if (!due.length) return;
   const rowsBy = new Map();
   for (const code of new Set(due.map(o => o.code))) {
-    const start = due.filter(o => o.code === code).map(o => o.after).sort()[0];
+    const start = new Date(Date.parse(due.filter(o => o.code === code).map(o => o.after).sort()[0]) - 7 * 864e5).toISOString().slice(0, 10);   // 多抓幾天，才知道第一天的前一日收盤（判斷漲跌停鎖死用）
     try { rowsBy.set(code, (await fm("TaiwanStockPrice", { data_id: code, start_date: start, ...(cap ? { end_date: cap } : {}) })).filter(r => r.open > 0).sort((a, b) => a.date < b.date ? -1 : 1)); }
     catch (e) { if (e.limit || /上限/.test(e.message)) throw e; }
   }
   const fills = [];
   for (const o of due) {
-    const r = (rowsBy.get(o.code) || []).find(x => x.date >= o.after);   // 還沒有資料（今天還沒收盤）就先等
-    if (r && (!cap || r.date <= cap)) fills.push({ id: o.id, price: r.open, date: r.date });
+    const rows = rowsBy.get(o.code) || [], i0 = rows.findIndex(x => x.date >= o.after);
+    if (i0 < 0) continue;                                              // 還沒有資料（今天還沒收盤）就先等
+    const bars = rows.slice(i0).filter(x => !cap || x.date <= cap);
+    const res = judgeOrder(o, bars, i0 > 0 ? rows[i0 - 1].close : 0);
+    if (res) fills.push({ id: o.id, ...res });
   }
   if (!fills.length) return;
   await fdb.runTransaction(async tx => {
@@ -3367,10 +3431,22 @@ async function simClaim() {
 async function simPlace() {
   const p = sim.pick;
   if (!p) throw new Error("請先選擇一檔股票。");
-  const qty = Math.round((+$("simQty").value) * (+$("simUnit").value));
+  const unit = +$("simUnit").value, qty = Math.round((+$("simQty").value) * unit), type = sim.otype;
   if (!(qty >= 1) || qty > 10000000) throw new Error("數量不正確。");
+  if (unit === 1 && qty > 999) throw new Error("零股一次最多 999 股，1,000 股以上請改用「張」。");
+  if (unit === 1 && type !== "lmt") throw new Error("零股只能用限價單。");
   const q = await simQuote(p.code);
-  const now = Date.now(), after = simAfterDate(now);
+  const now = Date.now(), after = simAfterDate(now), order = { type };
+  if (type !== "mkt") {
+    const price = +$("simPrice").value;
+    if (!(price > 0)) throw new Error(type === "lmt" ? "請輸入限價。" : "請輸入觸發價。");
+    if (!onTick(price, p.code)) throw new Error(`價格要符合升降單位，這檔每 ${tickOf(price, p.code)} 元為一檔。`);
+    const lo = limitDown(q.close, p.code), hi = limitUp(q.close, p.code);
+    if (price < lo - 1e-9 || price > hi + 1e-9) throw new Error(`價格超出漲跌停範圍（${fmt(lo)} ～ ${fmt(hi)}，以最新收盤 ${fmt(q.close)} 為基準）。`);
+    order.price = price; order.days = +$("simDays").value || 1;
+    if (type === "stp") order.dir = $("simDir").value;
+  }
+  const est = type === "mkt" ? q.close : order.price;           // 買單先「圈存」的價格：限價單用限價，市價單用最新收盤
   await fdb.runTransaction(async tx => {
     const a = (await tx.get(simRef())).data(), orders = a.orders || [];
     if (orders.length >= SIM_MAX_ORDERS) throw new Error(`預約單最多 ${SIM_MAX_ORDERS} 筆，請先取消不需要的。`);
@@ -3379,9 +3455,9 @@ async function simPlace() {
       if (qty > have - pending) throw new Error(`可賣的股數只有 ${have - pending} 股。`);
     } else {
       const reserved = orders.filter(o => o.side === "buy").reduce((s, o) => s + o.est * o.qty * (1 + SIM_FEE), 0);
-      if (q.close * qty * (1 + SIM_FEE) > a.cash - reserved) throw new Error(`現金不夠（可用約 ${money(a.cash - reserved)}）。`);
+      if (est * qty * (1 + SIM_FEE) > a.cash - reserved) throw new Error(`現金不夠（可用約 ${money(a.cash - reserved)}）。`);
     }
-    tx.update(simRef(), { orders: [...orders, { id: simId(), code: p.code, name: p.name || "", side: sim.side, qty, createdAt: now, after, est: q.close }] });
+    tx.update(simRef(), { orders: [...orders, { id: simId(), code: p.code, name: p.name || "", side: sim.side, qty, createdAt: now, after, est, ...order }] });
   });
   return after;
 }
@@ -3592,7 +3668,7 @@ function renderSim() {
   // 預約單
   const nameOf = (c, n) => `${esc(c)}${n ? " " + esc(n) : ""}`;
   $("simOrders").innerHTML = (a.orders || []).length ? (a.orders || []).map(o => `<div class="orow"><span class="pill ${o.side === "buy" ? "buy" : "sell"}">${o.side === "buy" ? "買進" : "賣出"}</span>
-    <div><div class="t">${nameOf(o.code, o.name)}　${o.qty.toLocaleString("en-US")} 股</div><div class="s">預計 ${o.after} 起第一個交易日的開盤價成交</div></div>
+    <div><div class="t">${nameOf(o.code, o.name)}　${o.qty.toLocaleString("en-US")} 股</div><div class="s">${odLabel(o)}${odTypeOf(o) === "mkt" ? "" : `；${o.after} 起生效`}${odTypeOf(o) === "mkt" ? `（${o.after} 起第一個交易日）` : ""}</div></div>
     <button type="button" class="x" data-act="cancel" data-id="${esc(o.id)}">取消</button></div>`).join("")
     : `<div class="empty">目前沒有預約單。下單後，會在下一個開盤用真實的開盤價成交。</div>`;
   // 持股
@@ -3605,7 +3681,7 @@ function renderSim() {
   }).join("") : `<div class="empty">目前沒有持股。</div>`;
   // 成交紀錄
   $("simTrades").innerHTML = (a.trades || []).length ? (a.trades || []).slice(0, 30).map(t => `<div class="orow" style="grid-template-columns:auto minmax(0,1fr) auto"><span class="pill ${t.ok ? (t.side === "buy" ? "buy" : "sell") : "no"}">${t.ok ? (t.side === "buy" ? "買進" : "賣出") : "未成交"}</span>
-    <div><div class="t">${nameOf(t.code, t.name)}　${t.qty.toLocaleString("en-US")} 股</div><div class="s">${t.d}　${t.ok ? `開盤價 ${fmt(t.price)}　手續費 ${t.fee}${t.tax ? "　證交稅 " + t.tax : ""}` : esc(t.note || "")}</div></div>
+    <div><div class="t">${nameOf(t.code, t.name)}　${t.qty.toLocaleString("en-US")} 股</div><div class="s">${t.d}　${t.ok ? `${t.how ? `${esc(t.how)}，成交價` : "開盤價"} ${fmt(t.price)}　手續費 ${t.fee}${t.tax ? "　證交稅 " + t.tax : ""}` : esc(t.note || "")}</div></div>
     <div class="pn ${signCls(t.pnl)}">${t.pnl == null ? "" : (t.pnl >= 0 ? "+" : "−") + Math.abs(t.pnl).toLocaleString("en-US")}<small>${t.pnl == null ? "" : "已實現損益"}</small></div></div>`).join("")
     : `<div class="empty">還沒有成交紀錄。</div>`;
   renderSimBoard(); renderSimForm(); renderSimChamp();
@@ -3667,10 +3743,25 @@ function renderSimForm() {
   $("simPicked").innerHTML = p ? `目前選擇：<b>${esc(p.code)}${p.name ? " " + esc(p.name) : ""}</b>${q ? `　最新收盤 ${fmt(q.close)}（${q.date}）` : "　報價載入中…"}` : "";
   const qty = Math.round((+$("simQty").value || 0) * (+$("simUnit").value));
   const have = p && a ? ((a.holdings[p.code] || {}).qty || 0) : 0;
+  // 委託方式：零股只能限價；市價以外要填價格、可選有效期
+  const odd = +$("simUnit").value === 1;
+  if (odd) sim.otype = "lmt";
+  const ty = sim.otype, needP = ty !== "mkt", price = +$("simPrice").value;
+  [...$("simType").children].forEach(b => { b.setAttribute("aria-pressed", b.dataset.t === ty); b.disabled = odd && b.dataset.t !== "lmt"; });
+  $("simPriceBox").hidden = !needP; $("simDirBox").hidden = ty !== "stp"; $("simDaysBox").hidden = !needP;
+  $("simPriceLbl").textContent = ty === "lmt" ? "限價（元）" : "觸發價（元）";
+  if (p && q) $("simPrice").step = tickOf(price > 0 ? price : q.close, p.code);
+  const buy = sim.side === "buy", dir = $("simDir").value;
+  const how = ty === "mkt" ? "<b>市價單</b>：下一個交易日的開盤價成交，下單當下看不到成交價。"
+    : ty === "lmt" ? `<b>限價單</b>：${buy ? "當天成交價有跌到你的限價（含）以下才會買進；開盤價就比限價便宜，會用開盤價成交。" : "當天成交價有漲到你的限價（含）以上才會賣出；開盤價就比限價高，會用開盤價成交。"}`
+    : `<b>觸價單${!buy && dir === "le" ? "（停損）" : !buy ? "（停利）" : dir === "ge" ? "（突破追買）" : "（逢低買進）"}</b>：股價${dir === "ge" ? "漲到" : "跌到"}觸發價後，改用市價${buy ? "買進" : "賣出"}；跳空越過觸發價時用開盤價成交。`;
+  const range = p && q ? `　升降單位 ${tickOf(price > 0 ? price : q.close, p.code)} 元，漲跌停範圍 ${fmt(limitDown(q.close, p.code))} ～ ${fmt(limitUp(q.close, p.code))}（以最新收盤為基準）。` : "";
+  $("simRule").innerHTML = how + (needP ? `${range}${+$("simDays").value > 1 ? "長效單到期仍沒成交就作廢。" : "當日有效：只看第一個交易日，沒成交就作廢。"}` : "") + (odd ? "<br>零股只能用限價單，一次最多 999 股。" : "");
+  $("simRule").className = "status"; $("simRule").style.cssText = "line-height:1.6";
   let est = "";
   if (p && q && qty > 0) {
-    const amt = q.close * qty;
-    est = `預估約 ${money(amt)}（以最新收盤估算，實際用開盤價成交，手續費約 ${Math.max(1, Math.round(amt * SIM_FEE)).toLocaleString("en-US")} 元）。${sim.side === "sell" ? `目前持有 ${have.toLocaleString("en-US")} 股。` : ""}預計 ${simAfterDate(Date.now())} 起第一個交易日的開盤價成交。`;
+    const refP = needP && price > 0 ? price : q.close, amt = refP * qty;
+    est = `預估約 ${money(amt)}（以${needP && price > 0 ? "你設定的價格" : "最新收盤"}估算，手續費約 ${Math.max(1, Math.round(amt * SIM_FEE)).toLocaleString("en-US")} 元）。${sim.side === "sell" ? `目前持有 ${have.toLocaleString("en-US")} 股。` : ""}預計 ${simAfterDate(Date.now())} 起${needP ? "生效" : "第一個交易日的開盤價成交"}。`;
   }
   if (a) {
     const resv = simReserved(a), v = simValue(a, true), pro = simSellProceeds(a);
@@ -3681,9 +3772,9 @@ function renderSimForm() {
 async function simPick(code, name) {
   code = String(code).trim().toUpperCase();
   sim.pick = { code, name: name || (info.find(s => s[0] === code) || [])[1] || "" };
-  $("simQ").value = ""; $("simSugg").hidden = true; setSimMsg("");
+  $("simQ").value = ""; $("simSugg").hidden = true; setSimMsg(""); $("simPrice").value = "";      // 換股票時，舊的價格不能帶過來
   renderSimForm();
-  try { await simQuote(code); } catch (e) { setSimMsg(e.message, true); sim.pick = null; }
+  try { const q = await simQuote(code); if (sim.otype !== "mkt" && !+$("simPrice").value) $("simPrice").value = q.close; } catch (e) { setSimMsg(e.message, true); sim.pick = null; }
   renderSimForm();
 }
 function simInit() {
@@ -3711,10 +3802,18 @@ function simInit() {
   });
   $("simSide").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { sim.side = b.dataset.s; renderSimForm(); } });
   $("simQty").addEventListener("input", renderSimForm); $("simUnit").addEventListener("change", renderSimForm);
+  $("simType").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b || b.disabled) return;
+    sim.otype = b.dataset.t;
+    const q = sim.pick && sim.quotes.get(sim.pick.code);
+    if (sim.otype !== "mkt" && !+$("simPrice").value && q) $("simPrice").value = q.close;       // 第一次切過來時，先帶入最新收盤價當參考
+    renderSimForm();
+  });
+  for (const id of ["simPrice", "simDir", "simDays"]) $(id).addEventListener("input", renderSimForm);
   $("simPlace").addEventListener("click", async () => {
     if (sim.busy) return;
     setSimMsg(""); $("simPlace").disabled = true;
-    try { const after = await simPlace(); track("act_order"); setSimMsg(`已送出預約單，預計 ${after} 起第一個交易日的開盤價成交。`); }
+    try { const after = await simPlace(); track("act_order"); setSimMsg(sim.otype === "mkt" ? `已送出預約單，預計 ${after} 起第一個交易日的開盤價成交。` : `已送出${sim.otype === "lmt" ? "限價單" : "觸價單"}，${after} 起生效。`); }
     catch (e) { setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已發佈。" : (e.message || "送出失敗"), true); }
     finally { $("simPlace").disabled = false; }
   });
