@@ -275,6 +275,32 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .trd { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; padding: 8px 12px 10px; background: color-mix(in srgb, var(--bg) 60%, transparent); font-size: .76rem; border-top: 1px dashed var(--line); }
 .trd > div { display: flex; justify-content: space-between; gap: 8px; } .trd span { color: var(--muted); } .trd b { font: 600 .78rem var(--font-num); text-align: right; }
 .tmore { display: block; margin: 4px auto 8px; }
+/* 管理後台 */
+.admTabs { position: sticky; top: 52px; z-index: 12; margin-bottom: 12px; }
+.admTabs button { min-height: 40px; font-size: .84rem; }
+.admBodyIn { display: flex; flex-direction: column; gap: 12px; }
+.admBodyIn h2 { margin-bottom: -4px; }
+.stat .h.up { color: var(--bull); } .stat .h.dn { color: var(--bear); }
+.usage2 { display: grid; grid-template-columns: 5.2em minmax(0, 1fr) 3.4em 3em; gap: 8px; align-items: center; padding: 3px 0; font-size: .8rem; }
+.usage2 .ub { height: 9px; border-radius: 5px; background: var(--bg); overflow: hidden; } .usage2 .ub i { display: block; height: 100%; background: var(--profit); border-radius: 5px; }
+.usage2 b { text-align: right; font: 600 .8rem var(--font-num); } .usage2 em { font: .7rem var(--font-num); font-style: normal; text-align: right; color: var(--muted); }
+.usage2 em.up { color: var(--bull); } .usage2 em.dn { color: var(--bear); }
+.ins { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .84rem; line-height: 1.55; } .ins:last-child { border-bottom: 0; }
+.ins i { flex: none; width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; background: var(--muted); }
+.ins.warn i { background: var(--trapped); } .ins.ok i { background: var(--bear); }
+.fun { position: relative; display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 8px 10px; margin: 4px 0; border-radius: 6px; font-size: .84rem; overflow: hidden; background: var(--bg); }
+.fun .fb { position: absolute; left: 0; top: 0; bottom: 0; background: color-mix(in srgb, var(--profit) 22%, transparent); }
+.fun span, .fun b, .fun em { position: relative; } .fun b { font: 600 .84rem var(--font-num); } .fun em { font: .74rem var(--font-num); font-style: normal; color: var(--muted); min-width: 3.4em; text-align: right; }
+.dr { display: grid; grid-template-columns: 3.6em repeat(4, minmax(0, 1fr)); gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: .8rem; } .dr:last-child { border-bottom: 0; }
+.dr b { text-align: right; font: 600 .8rem var(--font-num); } .dr.hd { color: var(--muted); font-size: .7rem; } .dr.hd b { font: 600 .7rem var(--font-ui); }
+.mfil { display: flex; gap: 8px; } .mfil input, .mfil select { min-width: 0; min-height: 40px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); padding: 0 10px; font: .86rem var(--font-ui); } .mfil input { flex: 1.2; } .mfil select { flex: 1; }
+.mchips { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); } .mchips button { min-height: 36px; font-size: .74rem; padding: 0 2px; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 3px; width: 100%; } .mchips button i { font: .64rem var(--font-num); font-style: normal; opacity: .75; }
+.mrow { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) .7fr .9fr; gap: 6px; align-items: center; padding: 10px; border-top: 1px solid var(--line); cursor: pointer; min-height: 54px; } .mrow:first-child { border-top: 0; }
+.mrow.open { background: color-mix(in srgb, var(--profit) 7%, transparent); } .mrow:focus-visible { outline: 2px solid var(--profit); outline-offset: -2px; }
+.mrow .m1 { display: flex; flex-direction: column; gap: 3px; min-width: 0; align-items: flex-start; } .mrow .m1 b { font-size: .88rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mrow small { display: block; font-size: .62rem; color: var(--muted); font-weight: 400; } .mrow .m2, .mrow .m3, .mrow .m4 { text-align: right; font: 600 .8rem var(--font-num); }
+.tg { font: 600 .64rem var(--font-ui); padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); } .tg.good { background: var(--profit); border-color: var(--profit); color: var(--surface); } .tg.bad { border-color: var(--trapped); color: var(--trapped); }
+.mdet { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 14px; padding: 8px 12px 12px; font-size: .76rem; background: color-mix(in srgb, var(--bg) 60%, transparent); border-top: 1px dashed var(--line); } .mdet > div { display: flex; justify-content: space-between; gap: 8px; } .mdet span { color: var(--muted); } .mdet b { font: 600 .78rem var(--font-num); text-align: right; }
 .lblRow { display: flex; align-items: center; gap: 4px; font-size: .76rem; color: var(--muted); margin-top: 2px; }
 .seg button:disabled { opacity: .4; cursor: not-allowed; }
 .odH { margin: 6px 0 0; font-size: .95rem; }
@@ -2468,56 +2494,253 @@ function adminStatusHtml() {
   return `<div class="admstat ${s === "on" ? "ok" : s === "checking" ? "" : "bad"}"><b>管理員狀態</b>　${T[s] || ""}</div>`;
 }
 
-/* ---------- 管理後台（只有管理員看得到）---------- */
+/* ---------- 管理後台（只有管理員看得到）----------
+   資料來源：stats/<日期>（每日流量計數）、所有人的模擬交易帳戶（collectionGroup "sim"）、本季與上一季排行榜。
+   分成五個分頁：總覽（重點數字與自動提醒）、流量、會員、交易、檢查。載入一次後在瀏覽器裡計算，切換分頁不會重新讀取資料。 */
 const ADM_LABEL = { tab_guide: "新手專區", tab_analyze: "分析", tab_market: "大盤指數", tab_screen: "選股", tab_watch: "自選股", tab_backtest: "回測", tab_sim: "模擬交易",
   act_search: "查詢股票", act_screen: "執行選股", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
-async function adminLoad() {
+const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["ck", "檢查"]];
+const adm = { data: null, loading: false, err: "", tab: "ov", range: 30, sort: "last", q: "", filt: "all", open: "", watch: null, watchBusy: false };
+const n0 = v => Math.round(v).toLocaleString("en-US");
+const dayMs = d => Date.parse(d + "T00:00:00+08:00");
+const dAgo = ms => Math.max(0, Math.floor((Date.now() - ms) / 864e5));
+const delta = (a, b) => b > 0 ? `${a >= b ? "+" : "−"}${Math.abs((a / b - 1) * 100).toFixed(0)}%` : (a > 0 ? "新" : "—");
+const dcls = (a, b) => b > 0 ? (a >= b ? "up" : "dn") : "";
+async function adminLoad(force) {
   const el = $("admBody");
   if (!admin.on) { el.innerHTML = `<div class="empty">你沒有管理員權限。</div>`; return; }
-  el.innerHTML = `<div class="status">載入中…</div>`;
-  const sections = [];
-  // 1. 流量
+  if (adm.loading) return;
+  if (!force && adm.data && Date.now() - adm.data.at < 5 * 60e3) { admRender(); return; }
+  adm.loading = true; adm.err = ""; admRender();
   try {
-    const snap = await fdb.collection("stats").orderBy("day", "desc").limit(30).get();
-    const days = snap.docs.map(d => d.data());
-    const sum = (arr, k) => arr.reduce((a, d) => a + (d[k] || 0), 0);
-    const today = days.filter(d => d.day === todayTW()), d7 = days.slice(0, 7), d30 = days;
-    const card = (t, arr) => `<div class="stat"><div class="k">${t}</div><div class="v">${sum(arr, "sessions").toLocaleString("en-US")} 次</div><div class="h">不重複訪客 ${sum(arr, "uniques").toLocaleString("en-US")}</div></div>`;
-    // 每日趨勢（最近 14 天，舊的在左）
-    const trend = days.slice(0, 14).reverse(), W = 340, H = 150, L = 28, B = 128, T = 10, mx = Math.max(1, ...trend.map(d => d.sessions || 0));
-    const bw = (W - L - 6) / Math.max(1, trend.length);
-    let g = `<line class="gridl" x1="${L}" x2="${W - 6}" y1="${B}" y2="${B}"/><text class="axt" x="${L - 5}" y="${T + 4}" text-anchor="end">${mx}</text><text class="axt" x="${L - 5}" y="${B + 3}" text-anchor="end">0</text>`;
-    trend.forEach((d, i) => {
-      const x = L + bw * i, h1 = (B - T) * (d.sessions || 0) / mx, h2 = (B - T) * (d.uniques || 0) / mx;
-      g += `<rect class="bar-p" x="${(x + bw * 0.12).toFixed(1)}" y="${(B - h1).toFixed(1)}" width="${(bw * 0.38).toFixed(1)}" height="${h1.toFixed(1)}"/><rect x="${(x + bw * 0.52).toFixed(1)}" y="${(B - h2).toFixed(1)}" width="${(bw * 0.38).toFixed(1)}" height="${h2.toFixed(1)}" style="fill:var(--muted);opacity:.7"/>`;
-      if (i % 3 === 0 || i === trend.length - 1) g += `<text class="axt" x="${(x + bw / 2).toFixed(1)}" y="${B + 14}" text-anchor="middle">${d.day.slice(5)}</text>`;
+    const cur = seasonOf(Date.now()), prev = seasonPrev(cur);
+    const [st, as, b1, b0] = await Promise.all([
+      fdb.collection("stats").orderBy("day", "desc").limit(90).get(),
+      fdb.collectionGroup("sim").get(),
+      fdb.collection("boards").doc(cur).collection("entries").get(),
+      fdb.collection("boards").doc(prev).collection("entries").get()]);
+    const stats = st.docs.map(d => d.data()).sort((a, b) => a.day < b.day ? -1 : 1);
+    const now = Date.now();
+    const accs = as.docs.filter(d => d.id === "account").map(d => {
+      const a = { uid: d.ref.parent.parent.id, ...d.data() };
+      const tds = (a.trades || []).map(t => dayMs(t.d)), ods = (a.orders || []).map(o => o.createdAt || 0);
+      a.lastAct = Math.max(a.createdAt || 0, ...tds, ...ods);
+      a.hasAct = tds.length + ods.length > 0;
+      a.cashHold = (a.cash || 0) + Object.values(a.holdings || {}).reduce((s, h) => s + (h.cost || 0), 0);       // 沒有即時報價時，用成本估算資產
+      return a;
     });
-    // 功能使用（最近 7 天）
-    const use = Object.keys(ADM_LABEL).map(k => [k, sum(d7, k)]), umax = Math.max(1, ...use.map(u => u[1]));
-    const useHtml = use.map(([k, n]) => `<div class="usage"><span>${ADM_LABEL[k]}</span><span class="ub"><i style="width:${(n / umax * 100).toFixed(1)}%"></i></span><b>${n.toLocaleString("en-US")}</b></div>`).join("");
-    sections.push(`<h2>流量</h2><section class="stats">${card("今天", today)}${card("近 7 天", d7)}${card("近 30 天", d30)}<div class="stat"><div class="k">有紀錄的天數</div><div class="v">${days.length} 天</div><div class="h">最多顯示 30 天</div></div></section>
-      <div class="card"><div class="gGroupT" style="padding:4px 8px">最近 14 天（藍：造訪次數，灰：不重複訪客）</div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${g}</svg></div>
-      <h2>功能使用（近 7 天）</h2><div class="card" style="padding:10px 14px">${useHtml}</div>
-      <p class="advnote">「不重複訪客」是同一支手機每天只算一次；跨日的人會重複計算。流量只計算已設定 Firebase 的版本，管理員自己的使用不計入。數字僅供參考，因為任何人都能對計數器寫入。</p>`);
-  } catch (e) { sections.push(`<h2>流量</h2><div class="status err">${esc(e.code === "permission-denied" ? "沒有讀取權限：請確認 Firestore 規則已更新並發佈，且你的帳號已被加入管理員。" : "讀取流量失敗：" + (e.message || e.code))}</div>`); }
-  // 2. 參賽者檢查：有多少人加入模擬交易、有多少人在排行榜上、哪些人沒上榜
+    adm.data = { stats, accs, cur, prev, bCur: new Map(b1.docs.map(d => [d.id, d.data()])), bPrev: new Map(b0.docs.map(d => [d.id, d.data()])), at: now };
+  } catch (e) { adm.err = e.code === "permission-denied" ? "沒有讀取權限：請確認 Firestore 規則已更新並發佈（整份重新貼上），且你的帳號已被加入管理員。" : "讀取失敗：" + (e.message || e.code); }
+  adm.loading = false; admRender();
+}
+function admSeries(days) {                                         // 把每日紀錄補成「連續日期」，沒有紀錄的日子算 0
+  const map = new Map(adm.data.stats.map(s => [s.day, s])), out = [];
+  for (let i = days - 1; i >= 0; i--) { const d = twDate(Date.now() - i * 864e5); out.push({ day: d, ...(map.get(d) || { sessions: 0, uniques: 0 }), _empty: !map.has(d) }); }
+  return out;
+}
+const admSum = (arr, k) => arr.reduce((a, d) => a + (d[k] || 0), 0);
+function admChart(series, opts = {}) {
+  const W = 340, H = 168, L = 34, R = 6, T = 10, B = 24, n = series.length, mx = Math.max(1, ...series.map(d => Math.max(d.sessions || 0, d.uniques || 0)));
+  const niceMx = (() => { const m = Math.pow(10, Math.floor(Math.log10(mx))); return [1, 2, 5, 10].map(f => f * m).find(v => v >= mx) || mx; })();
+  const bw = (W - L - R) / n, Y = v => B === 0 ? 0 : (H - B) - (H - B - T) * v / niceMx;
+  let g = "";
+  for (const t of [0, niceMx / 2, niceMx]) g += `<line class="gridl" x1="${L}" x2="${W - R}" y1="${Y(t).toFixed(1)}" y2="${Y(t).toFixed(1)}"/><text class="axt" x="${L - 4}" y="${(Y(t) + 3).toFixed(1)}" text-anchor="end">${t % 1 ? t.toFixed(1) : n0(t)}</text>`;
+  series.forEach((d, i) => {
+    const x = L + bw * i, s = d.sessions || 0, u = d.uniques || 0;
+    g += `<rect x="${(x + bw * 0.1).toFixed(1)}" y="${Y(s).toFixed(1)}" width="${Math.max(1, bw * 0.8).toFixed(1)}" height="${(H - B - Y(s)).toFixed(1)}" style="fill:var(--profit);opacity:${d._empty ? 0.25 : 0.85}"><title>${d.day}　造訪 ${s}　不重複 ${u}</title></rect>`;
+    if ((n <= 14 || i % Math.ceil(n / 7) === 0 || i === n - 1)) g += `<text class="axt" x="${(x + bw / 2).toFixed(1)}" y="${H - 8}" text-anchor="middle">${d.day.slice(5).replace("-", "/")}</text>`;
+  });
+  const ma = series.map((_, i) => { const a = series.slice(Math.max(0, i - 6), i + 1); return a.reduce((s, d) => s + (d.sessions || 0), 0) / a.length; });
+  if (n >= 10) g += `<polyline points="${ma.map((v, i) => `${(L + bw * (i + 0.5)).toFixed(1)},${Y(v).toFixed(1)}`).join(" ")}" fill="none" style="stroke:var(--trapped)" stroke-width="2" stroke-linejoin="round"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="每日造訪次數">${g}</svg>
+    <div class="mktLg"><span><i class="dot" style="background:var(--profit)"></i>造訪次數</span>${n >= 10 ? `<span><i class="ln" style="border-color:var(--trapped)"></i>7 日平均</span>` : ""}<span class="rg">淡色 = 當天沒有紀錄</span></div>`;
+}
+function admUsage(arr, prevArr) {
+  const use = Object.keys(ADM_LABEL).map(k => [k, admSum(arr, k), admSum(prevArr, k)]), tot = Math.max(1, use.filter(u => u[0].startsWith("tab_")).reduce((s, u) => s + u[1], 0)), umax = Math.max(1, ...use.map(u => u[1]));
+  const grp = (pfx, title) => `<div class="gGroupT" style="padding:6px 0 2px">${title}</div>` + use.filter(u => u[0].startsWith(pfx)).sort((a, b) => b[1] - a[1]).map(([k, n, p]) =>
+    `<div class="usage2"><span>${ADM_LABEL[k]}</span><span class="ub"><i style="width:${(n / umax * 100).toFixed(1)}%"></i></span><b>${n0(n)}</b><em class="${dcls(n, p)}">${delta(n, p)}</em></div>`).join("");
+  return grp("tab_", "頁籤被打開的次數") + grp("act_", "功能被使用的次數");
+}
+function admInsights(D) {
+  const L = [], s7 = admSeries(7), p7 = admSeries(14).slice(0, 7);
+  const a = admSum(s7, "sessions"), b = admSum(p7, "sessions");
+  L.push([b > 0 && a < b * 0.7 ? "warn" : "info", `近 7 天造訪 ${n0(a)} 次，前 7 天 ${n0(b)} 次（${delta(a, b)}）。不重複訪客 ${n0(admSum(s7, "uniques"))}。`]);
+  const empty = admSeries(14).filter(d => d._empty).length;
+  if (empty >= 5) L.push(["warn", `最近 14 天有 ${empty} 天沒有任何造訪紀錄，可能是真的沒人用，也可能是流量記錄被規則擋住（請確認規則是最新版）。`]);
+  const tabs = Object.keys(ADM_LABEL).filter(k => k.startsWith("tab_")).map(k => [k, admSum(s7, k)]).sort((x, y) => y[1] - x[1]), tt = Math.max(1, tabs.reduce((s, t) => s + t[1], 0));
+  if (tabs[0][1] > 0) L.push(["info", `最常被打開的是「${ADM_LABEL[tabs[0][0]]}」（占 ${Math.round(tabs[0][1] / tt * 100)}%），最少的是「${ADM_LABEL[tabs[tabs.length - 1][0]]}」（${tabs[tabs.length - 1][1]} 次）。`]);
+  const A = D.accs, act7 = A.filter(x => x.hasAct && dAgo(x.lastAct) <= 7).length, sleepers = A.filter(x => x.claimedCount && dAgo(x.lastAct) > 14).length;
+  L.push([A.length && act7 / A.length < 0.3 ? "warn" : "info", `模擬交易會員 ${A.length} 位，近 7 天有下單或成交的 ${act7} 位（${A.length ? Math.round(act7 / A.length * 100) : 0}%）。`]);
+  if (sleepers) L.push(["warn", `有 ${sleepers} 位會員超過 14 天沒有任何下單或成交（沉睡會員），可以到「會員」頁篩選看看。`]);
+  const noCash = A.filter(x => !x.claimedCount).length; if (noCash) L.push(["info", `${noCash} 位會員加入後還沒領過模擬資金。`]);
+  const off = A.filter(x => x.claimedCount && x.base && x.base.season === D.cur && !D.bCur.has(x.uid)).length; if (off) L.push(["warn", `${off} 位本季有領資金卻沒出現在排行榜（可能還沒打開過模擬交易頁，或規則沒更新）。`]);
+  const pend = A.filter(x => x.claimedCount && (!x.base || x.base.season < D.cur)).length; if (pend) L.push(["info", `${pend} 位會員還沒結算上一季成績（要等他們新的一季第一次打開網頁）。`]);
+  if (!L.some(x => x[0] === "warn")) L.push(["ok", "沒有發現異常。"]);
+  return L;
+}
+function admOverview(D) {
+  const s7 = admSeries(7), p7 = admSeries(14).slice(0, 7), s30 = admSeries(30), td = s7[6], yd = s7[5];
+  const card = (k, v, h, cls) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="h ${cls || ""}">${h}</div></div>`;
+  const A = D.accs, wk = Date.now() - 7 * 864e5, newW = A.filter(x => (x.createdAt || 0) >= wk).length, act7 = A.filter(x => x.hasAct && dAgo(x.lastAct) <= 7).length;
+  const a = admSum(s7, "sessions"), b = admSum(p7, "sessions"), ua = admSum(s7, "uniques"), ub = admSum(p7, "uniques");
+  const su = admSum(s30, "sessions"), sg = admSum(s30, "act_signin"), od = admSum(s30, "act_order");
+  const fun = (lab, v, base) => `<div class="fun"><div class="fb" style="width:${Math.max(4, base ? v / base * 100 : 0).toFixed(1)}%"></div><span>${lab}</span><b>${n0(v)}</b><em>${base ? (v / base * 100).toFixed(1) + "%" : ""}</em></div>`;
+  return `<section class="stats">
+    ${card("今天造訪", n0(td.sessions || 0) + " 次", `昨天 ${n0(yd.sessions || 0)}（${delta(td.sessions || 0, yd.sessions || 0)}）`, dcls(td.sessions || 0, yd.sessions || 0))}
+    ${card("近 7 天造訪", n0(a) + " 次", `比前 7 天 ${delta(a, b)}`, dcls(a, b))}
+    ${card("近 7 天不重複訪客", n0(ua), `比前 7 天 ${delta(ua, ub)}`, dcls(ua, ub))}
+    ${card("模擬交易會員", A.length + " 位", `近 7 天新增 ${newW} 位`)}
+    ${card("近 7 天活躍會員", act7 + " 位", A.length ? `占會員 ${Math.round(act7 / A.length * 100)}%` : "—")}
+    ${card("本季上榜", D.bCur.size + " 位", `${D.cur} 排行榜`)}</section>
+    <h2>需要注意的事</h2><div class="card" style="padding:6px 14px">${admInsights(D).map(([lv, t]) => `<div class="ins ${lv}"><i></i><span>${esc(t)}</span></div>`).join("")}</div>
+    <h2>使用漏斗（近 30 天）</h2><div class="card" style="padding:12px 14px">${fun("造訪", su, su)}${fun("登入", sg, su)}${fun("模擬下單", od, su)}
+      <p class="advnote" style="padding:6px 0 0">造訪、登入、下單都是「次數」，不是人數；同一個人會重複計算，所以只當趨勢參考。</p></div>`;
+}
+function admTraffic(D) {
+  const n = adm.range, S = admSeries(n), P = admSeries(Math.min(90, n * 2)).slice(0, Math.min(90, n * 2) - n);
+  const wd = [0, 1, 2, 3, 4, 5, 6].map(w => { const xs = S.filter(d => new Date(d.day + "T00:00:00Z").getUTCDay() === w); return { w, v: xs.length ? admSum(xs, "sessions") / xs.length : 0 }; });
+  const wmax = Math.max(1, ...wd.map(x => x.v)), name = "日一二三四五六";
+  const rows = [...S].reverse().slice(0, 14).map(d => `<div class="dr"><span>${d.day.slice(5).replace("-", "/")}</span><b>${d.sessions || 0}</b><b>${d.uniques || 0}</b><b>${d.act_signin || 0}</b><b>${d.act_order || 0}</b></div>`).join("");
+  return `<div class="seg" role="group" aria-label="資料範圍" id="admRange">${[7, 14, 30, 60, 90].map(r => `<button type="button" data-r="${r}" aria-pressed="${r === n}">${r} 天</button>`).join("")}</div>
+    <section class="stats">
+      <div class="stat"><div class="k">造訪次數</div><div class="v">${n0(admSum(S, "sessions"))}</div><div class="h ${dcls(admSum(S, "sessions"), admSum(P, "sessions"))}">比前 ${P.length} 天 ${delta(admSum(S, "sessions"), admSum(P, "sessions"))}</div></div>
+      <div class="stat"><div class="k">不重複訪客</div><div class="v">${n0(admSum(S, "uniques"))}</div><div class="h ${dcls(admSum(S, "uniques"), admSum(P, "uniques"))}">比前 ${P.length} 天 ${delta(admSum(S, "uniques"), admSum(P, "uniques"))}</div></div>
+      <div class="stat"><div class="k">日均造訪</div><div class="v">${(admSum(S, "sessions") / n).toFixed(1)}</div><div class="h">最高 ${n0(Math.max(...S.map(d => d.sessions || 0)))} 次／天</div></div>
+      <div class="stat"><div class="k">登入次數</div><div class="v">${n0(admSum(S, "act_signin"))}</div><div class="h">下單 ${n0(admSum(S, "act_order"))} 次</div></div></section>
+    <div class="card" style="padding:10px 8px">${admChart(S)}</div>
+    <h2>一週哪天最多人用</h2><div class="card" style="padding:10px 14px">${wd.map(x => `<div class="usage"><span>週${name[x.w]}</span><span class="ub"><i style="width:${(x.v / wmax * 100).toFixed(1)}%"></i></span><b>${x.v.toFixed(1)}</b></div>`).join("")}<p class="advnote" style="padding:4px 0 0">平均每天的造訪次數（所選的 ${n} 天）。</p></div>
+    <h2>功能使用（${n} 天，和前 ${P.length} 天比）</h2><div class="card" style="padding:6px 14px 10px">${admUsage(S, P)}</div>
+    <h2>每日明細（最近 14 天）</h2><div class="card" style="padding:4px 12px"><div class="dr hd"><span>日期</span><b>造訪</b><b>不重複</b><b>登入</b><b>下單</b></div>${rows}</div>
+    <button type="button" class="info-link" data-act="admCsv" data-k="stats">下載每日流量（CSV）</button>
+    <p class="advnote">「不重複訪客」是同一支手機每天只算一次；跨日的人會重複計算。流量只計算已設定 Firebase 的版本，管理員自己的使用不計入。數字僅供參考，因為任何人都能對計數器寫入。</p>`;
+}
+function admMemberRows(D) {
+  const vOf = x => { const b = D.bCur.get(x.uid); return b ? b.value : x.cashHold; };
+  let rows = D.accs.map(x => ({ x, val: vOf(x), ret: D.bCur.has(x.uid) ? D.bCur.get(x.uid).ret : null, idle: dAgo(x.lastAct), onBoard: D.bCur.has(x.uid) }));
+  const f = adm.filt, q = adm.q.trim().toLowerCase();
+  rows = rows.filter(r => (f === "all" || (f === "act" && r.x.hasAct && r.idle <= 7) || (f === "sleep" && r.x.claimedCount && r.idle > 14) || (f === "off" && r.x.claimedCount && !r.onBoard) || (f === "nocash" && !r.x.claimedCount)) && (!q || String(r.x.nick || "").toLowerCase().includes(q)));
+  const k = adm.sort, key = { last: r => -r.idle, val: r => r.val, ret: r => r.ret == null ? -Infinity : r.ret, join: r => r.x.createdAt || 0, weeks: r => r.x.claimedCount || 0 }[k];
+  rows.sort((a, b) => key(b) - key(a));
+  return rows;
+}
+function admMembers(D) {
+  const rows = admMemberRows(D), A = D.accs;
+  const cnt = { all: A.length, act: A.filter(x => x.hasAct && dAgo(x.lastAct) <= 7).length, sleep: A.filter(x => x.claimedCount && dAgo(x.lastAct) > 14).length, off: A.filter(x => x.claimedCount && !D.bCur.has(x.uid)).length, nocash: A.filter(x => !x.claimedCount).length };
+  // 每週新加入人數（最近 8 週）
+  const wk = Array.from({ length: 8 }, (_, i) => { const end = Date.now() - i * 7 * 864e5, st = end - 7 * 864e5; return { lab: twDate(st).slice(5).replace("-", "/"), v: A.filter(x => (x.createdAt || 0) > st && (x.createdAt || 0) <= end).length }; }).reverse(), wmx = Math.max(1, ...wk.map(w => w.v));
+  const tag = r => !r.x.claimedCount ? ["未領資金", ""] : r.idle > 14 ? ["沉睡", "bad"] : r.x.hasAct && r.idle <= 7 ? ["活躍", "good"] : ["一般", ""];
+  const list = rows.map(r => {
+    const t = tag(r), open = adm.open === r.x.uid, hs = Object.entries(r.x.holdings || {});
+    return `<div class="mrow${open ? " open" : ""}" role="button" tabindex="0" data-act="admOpen" data-id="${esc(r.x.uid)}"><div class="m1"><b>${esc(r.x.nick || "（沒有暱稱）")}</b><span class="tg ${t[1]}">${t[0]}</span></div>
+      <div class="m2"><span>${n0(r.val)}</span><small>${D.bCur.has(r.x.uid) ? "資產" : "資產(估)"}</small></div>
+      <div class="m3 ${r.ret == null ? "" : signCls(r.ret)}">${r.ret == null ? "—" : spct(r.ret, 1)}<small>本季</small></div>
+      <div class="m4">${r.x.hasAct ? (r.idle === 0 ? "今天" : r.idle + " 天前") : "沒有紀錄"}<small>最近動作</small></div></div>
+      ${open ? `<div class="mdet"><div><span>加入日</span><b>${r.x.createdAt ? twDate(r.x.createdAt) : "—"}</b></div><div><span>已領取</span><b>${r.x.claimedCount || 0} 週</b></div><div><span>現金</span><b>${n0(r.x.cash || 0)}</b></div><div><span>成交紀錄</span><b>${(r.x.trades || []).length} 筆</b></div><div><span>預約中</span><b>${(r.x.orders || []).length} 筆</b></div><div><span>本季排行榜</span><b>${r.onBoard ? "有" : "沒有"}</b></div>
+        <div style="grid-column:1/-1"><span>持股</span><b style="font-family:var(--font-ui)">${hs.length ? hs.map(([c, h]) => esc(c + " " + (h.name || ""))).join("、") : "沒有"}</b></div></div>` : ""}`;
+  }).join("");
+  return `<section class="stats">
+    <div class="stat"><div class="k">會員總數</div><div class="v">${A.length}</div><div class="h">近 7 天新增 ${wk[7].v}</div></div>
+    <div class="stat"><div class="k">近 7 天活躍</div><div class="v">${cnt.act}</div><div class="h">${A.length ? Math.round(cnt.act / A.length * 100) : 0}% 有下單或成交</div></div>
+    <div class="stat"><div class="k">沉睡（超過 14 天）</div><div class="v ${cnt.sleep ? "dn" : ""}">${cnt.sleep}</div><div class="h">有領資金但沒動作</div></div>
+    <div class="stat"><div class="k">平均已領週數</div><div class="v">${A.length ? (A.reduce((s, x) => s + (x.claimedCount || 0), 0) / A.length).toFixed(1) : "—"}</div><div class="h">愈高代表愈常回來領</div></div></section>
+    <h2>每週新加入（最近 8 週）</h2><div class="card" style="padding:10px 14px">${wk.map(w => `<div class="usage"><span>${w.lab}</span><span class="ub"><i style="width:${(w.v / wmx * 100).toFixed(1)}%"></i></span><b>${w.v}</b></div>`).join("")}</div>
+    <h2>會員名單</h2>
+    <div class="mfil"><input id="admQ" type="search" placeholder="用暱稱搜尋" value="${esc(adm.q)}" aria-label="用暱稱搜尋"><select id="admSort" aria-label="排序">${[["last", "最近有動作"], ["val", "資產"], ["ret", "本季報酬"], ["join", "加入時間"], ["weeks", "領取週數"]].map(([k, t]) => `<option value="${k}"${adm.sort === k ? " selected" : ""}>排序：${t}</option>`).join("")}</select></div>
+    <div class="seg mchips" id="admFilt" role="group" aria-label="篩選">${[["all", "全部"], ["act", "活躍"], ["sleep", "沉睡"], ["off", "沒上榜"], ["nocash", "未領資金"]].map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${adm.filt === k}">${t}<i>${cnt[k]}</i></button>`).join("")}</div>
+    <div class="card" style="padding:0;overflow:hidden">${list || `<div class="empty" style="border:0">沒有符合的會員。</div>`}</div>
+    <button type="button" class="info-link" data-act="admCsv" data-k="members">下載會員名單（CSV）</button>
+    <p class="advnote">只顯示暱稱與統計，沒有 Email。「資產(估)」是現金加上持股成本，因為沒上榜的人沒有即時報價；上榜的人用排行榜上的總資產。「最近動作」是最近一次下單或成交（沒有就用加入日）。</p>`;
+}
+function admTrades(D) {
+  const A = D.accs, all = A.flatMap(x => (x.trades || []).map(t => ({ ...t, uid: x.uid })));
+  const ok = all.filter(t => t.ok), fail = all.filter(t => !t.ok), sells = ok.filter(t => t.pnl != null), wins = sells.filter(t => t.pnl > 0).length;
+  const buys = ok.filter(t => t.side === "buy").length, sellN = ok.filter(t => t.side === "sell").length;
+  const amt = ok.reduce((s, t) => s + t.price * t.qty, 0), costs = ok.reduce((s, t) => s + (t.fee || 0) + (t.tax || 0), 0), pl = sells.reduce((s, t) => s + t.pnl, 0);
+  const hold = new Map(); for (const x of A) for (const [c, h] of Object.entries(x.holdings || {})) { const o = hold.get(c) || { n: h.name || c, holders: 0, cost: 0 }; o.holders++; o.cost += h.cost || 0; hold.set(c, o); }
+  const tr = new Map(); for (const t of ok) { const o = tr.get(t.code) || { n: t.name || t.code, cnt: 0, buy: 0, sell: 0 }; o.cnt++; o[t.side]++; tr.set(t.code, o); }
+  const top = (m, f, n = 8) => [...m.entries()].sort((a, b) => f(b[1]) - f(a[1])).slice(0, n);
+  const hot = top(hold, o => o.holders * 1e12 + o.cost), hmx = Math.max(1, ...hot.map(h => h[1].holders)), act = top(tr, o => o.cnt), amx = Math.max(1, ...act.map(a => a[1].cnt));
+  const kind = t => !t.how ? "市價" : String(t.how).startsWith("限價") ? "限價" : "觸價", mix = { 市價: 0, 限價: 0, 觸價: 0 }; ok.forEach(t => mix[kind(t)]++);
+  const pend = A.flatMap(x => x.orders || []), pm = { 市價: 0, 限價: 0, 觸價: 0 }; pend.forEach(o => { pm[o.type === "lmt" ? "限價" : o.type === "stp" ? "觸價" : "市價"]++; });
+  const why = { 委託到期: 0, 資金不足: 0, 持股不足: 0, 其他: 0 }; fail.forEach(t => { const n = String(t.note || ""); why[/到期/.test(n) ? "委託到期" : /資金/.test(n) ? "資金不足" : /持股/.test(n) ? "持股不足" : "其他"]++; });
+  const days = Array.from({ length: 14 }, (_, i) => twDate(Date.now() - (13 - i) * 864e5)), byDay = days.map(d => ({ d, v: ok.filter(t => t.d === d).length })), dmx = Math.max(1, ...byDay.map(x => x.v));
+  const bar = (lab, v, mx, txt) => `<div class="usage"><span>${lab}</span><span class="ub"><i style="width:${(v / mx * 100).toFixed(1)}%"></i></span><b>${txt == null ? v : txt}</b></div>`;
+  const share = (m, tot) => Object.entries(m).map(([k, v]) => bar(k, v, Math.max(1, tot), tot ? `${v}（${Math.round(v / tot * 100)}%）` : "0")).join("");
+  return `<section class="stats">
+    <div class="stat"><div class="k">成交筆數</div><div class="v">${n0(ok.length)}</div><div class="h">買 ${buys}／賣 ${sellN}　未成交 ${fail.length}</div></div>
+    <div class="stat"><div class="k">賣出勝率</div><div class="v">${sells.length ? Math.round(wins / sells.length * 100) + "%" : "—"}</div><div class="h">${wins} / ${sells.length} 筆賺錢</div></div>
+    <div class="stat"><div class="k">成交金額合計</div><div class="v">${amt >= 1e8 ? (amt / 1e8).toFixed(1) + " 億" : n0(amt / 1e4) + " 萬"}</div><div class="h">模擬的錢</div></div>
+    <div class="stat"><div class="k">全體已實現損益</div><div class="v ${signCls(pl)}">${sells.length ? (pl >= 0 ? "+" : "−") + n0(Math.abs(pl)) : "—"}</div><div class="h">手續費＋稅 ${n0(costs)}</div></div></section>
+    <h2>最多人持有</h2><div class="card" style="padding:8px 14px">${hot.length ? hot.map(([c, o]) => bar(`${c} ${esc(o.n)}`, o.holders, hmx, `${o.holders} 人`)).join("") : `<div class="empty" style="border:0">目前沒有持股。</div>`}</div>
+    <h2>最常被交易（成交筆數）</h2><div class="card" style="padding:8px 14px">${act.length ? act.map(([c, o]) => bar(`${c} ${esc(o.n)}`, o.cnt, amx, `${o.cnt}（買${o.buy}賣${o.sell}）`)).join("") : `<div class="empty" style="border:0">還沒有成交。</div>`}</div>
+    <h2>委託方式</h2><div class="card" style="padding:8px 14px"><div class="gGroupT" style="padding:2px 0">已成交</div>${share(mix, ok.length)}<div class="gGroupT" style="padding:8px 0 2px">預約中</div>${share(pm, pend.length)}</div>
+    <h2>未成交的原因</h2><div class="card" style="padding:8px 14px">${share(why, fail.length)}</div>
+    <h2>每日成交筆數（最近 14 天）</h2><div class="card" style="padding:8px 14px">${byDay.map(x => bar(x.d.slice(5).replace("-", "/"), x.v, dmx)).join("")}</div>
+    <p class="advnote">每位會員只保留最近 200 筆成交，所以這裡是「還留在帳戶裡的紀錄」，不是歷史全部。資料來自所有人的模擬交易帳戶。</p>`;
+}
+async function admLoadWatch() {
+  adm.watchBusy = true; admRender();
   try {
-    const [accSnap, lbSnap] = await Promise.all([fdb.collectionGroup("sim").get(), fdb.collection("boards").doc(seasonOf(Date.now())).collection("entries").get()]);
-    const accs = accSnap.docs.filter(d => d.id === "account").map(d => ({ uid: d.ref.parent.parent.id, ...d.data() }));
-    const onBoard = new Set(lbSnap.docs.map(d => d.id));
-    const missing = accs.filter(a => !onBoard.has(a.uid));
-    const orphan = [...onBoard].filter(u => !accs.some(a => a.uid === u)).length;
-    const why = a => !a.claimedCount ? "加入了但還沒領到資金，所以沒有成績" : Object.keys(a.holdings || {}).length ? "有持股；可能是查不到報價、規則沒更新，或加入後沒有再打開模擬交易頁" : "還沒送出成績；可能是規則沒更新，或加入後沒有再打開模擬交易頁";
-    sections.push(`<h2>模擬交易參賽者檢查</h2><section class="stats">
-      <div class="stat"><div class="k">已加入的帳戶</div><div class="v">${accs.length} 位</div><div class="h">有模擬交易帳戶</div></div>
-      <div class="stat"><div class="k">排行榜上的人數</div><div class="v">${onBoard.size} 位</div><div class="h">排行榜有成績紀錄</div></div>
-      <div class="stat"><div class="k">沒出現在排行榜</div><div class="v ${missing.length ? "dn" : ""}">${missing.length} 位</div><div class="h">有帳戶但沒有成績</div></div>
-      <div class="stat"><div class="k">榜上無對應帳戶</div><div class="v">${orphan} 筆</div><div class="h">帳戶已刪除的舊成績</div></div></section>
-      ${missing.length ? `<div class="card" style="padding:6px 12px">${missing.map(a => `<div class="adm-miss"><div class="nm">${esc(a.nick || "（沒有暱稱）")}　<span class="sb">領取 ${a.claimedCount || 0} 週・現金 ${money(a.cash || 0)}・持股 ${Object.keys(a.holdings || {}).length} 檔</span></div><div class="sb">${why(a)}</div></div>`).join("")}</div>` : `<div class="empty">所有已加入的帳戶都已經在排行榜上。</div>`}
-      <p class="advnote">這份檢查會讀取所有模擬交易帳戶，只顯示暱稱與統計，不顯示持股內容。成績要等本人打開「模擬交易」頁才會送出，所以剛加入的人可能暫時沒有成績。</p>`);
-  } catch (e) { sections.push(`<h2>模擬交易參賽者檢查</h2><div class="status err">${esc(e.code === "permission-denied" ? "沒有讀取權限：請確認 Firestore 規則已更新並發佈（需要允許管理員讀取所有模擬交易帳戶）。" : "檢查失敗：" + (e.message || e.code))}</div>`); }
-  el.innerHTML = sections.join("");
-  $("admAsof").textContent = "更新於 " + new Date().toLocaleTimeString("zh-TW", { hour12: false });
+    const snap = await fdb.collectionGroup("watchlist").get(), m = new Map(), users = new Set();
+    snap.docs.forEach(d => { const x = d.data(); users.add(d.ref.parent.parent.id); const o = m.get(x.code) || { n: x.name || x.code, c: 0 }; o.c++; m.set(x.code, o); });
+    adm.watch = { docs: snap.docs.length, users: users.size, top: [...m.entries()].sort((a, b) => b[1].c - a[1].c).slice(0, 15), at: Date.now() };
+  } catch (e) { adm.watch = { err: e.code === "permission-denied" ? "沒有讀取權限：請把新版 firestore.rules 整份重新貼上並發佈（新增了管理員讀取自選股的規則）。" : "讀取失敗：" + (e.message || e.code) }; }
+  adm.watchBusy = false; admRender();
+}
+function admCheck(D) {
+  const A = D.accs, missing = A.filter(a => !D.bCur.has(a.uid) && a.claimedCount), orphan = [...D.bCur.keys()].filter(u => !A.some(a => a.uid === u)).length;
+  const why = a => Object.keys(a.holdings || {}).length ? "有持股；可能是查不到報價、規則沒更新，或加入後沒有再打開模擬交易頁" : "還沒送出成績；可能是規則沒更新，或加入後沒有再打開模擬交易頁";
+  const pending = A.filter(a => a.claimedCount && (!a.base || a.base.season < D.cur)), finals = [...D.bPrev.values()].filter(b => b.final === true).length;
+  const sizes = A.map(a => [a, JSON.stringify(a).length]).sort((x, y) => y[1] - x[1]).slice(0, 5);
+  const W = adm.watch;
+  const wHtml = !W ? `<p class="advnote" style="padding:0 0 8px">看看大家都在自選哪些股票。會讀取所有人的自選股清單（每筆算一次讀取），人數多的時候請不要常按。</p><button type="button" class="btn" data-act="admWatch"${adm.watchBusy ? " disabled" : ""}>${adm.watchBusy ? "讀取中…" : "載入熱門自選股"}</button>`
+    : W.err ? `<div class="status err">${esc(W.err)}</div><button type="button" class="info-link" data-act="admWatch">再試一次</button>`
+    : `<div class="gGroupT" style="padding:0 0 4px">${W.users} 位會員、共 ${W.docs} 檔自選（讀取了 ${W.docs} 次）</div>${W.top.map(([c, o]) => `<div class="usage"><span>${esc(c)} ${esc(o.n)}</span><span class="ub"><i style="width:${(o.c / W.top[0][1].c * 100).toFixed(1)}%"></i></span><b>${o.c} 人</b></div>`).join("")}<button type="button" class="info-link" data-act="admWatch">重新載入</button>`;
+  return `<section class="stats">
+    <div class="stat"><div class="k">已加入的帳戶</div><div class="v">${A.length} 位</div><div class="h">有模擬交易帳戶</div></div>
+    <div class="stat"><div class="k">${D.cur} 排行榜</div><div class="v">${D.bCur.size} 位</div><div class="h">有成績紀錄</div></div>
+    <div class="stat"><div class="k">有領資金卻沒上榜</div><div class="v ${missing.length ? "dn" : ""}">${missing.length} 位</div><div class="h">需要追蹤</div></div>
+    <div class="stat"><div class="k">榜上無對應帳戶</div><div class="v">${orphan} 筆</div><div class="h">帳戶已刪除的舊成績</div></div></section>
+    ${missing.length ? `<div class="card" style="padding:6px 12px">${missing.map(a => `<div class="adm-miss"><div class="nm">${esc(a.nick || "（沒有暱稱）")}　<span class="sb">領取 ${a.claimedCount || 0} 週・現金 ${money(a.cash || 0)}・持股 ${Object.keys(a.holdings || {}).length} 檔</span></div><div class="sb">${why(a)}</div></div>`).join("")}</div>` : `<div class="empty">所有有領資金的帳戶都已經在排行榜上。</div>`}
+    <h2>賽季結算（${D.prev}）</h2><div class="card" style="padding:10px 14px;font-size:.84rem;line-height:1.7">已結算 <b>${finals}</b> 位；還沒結算 <b>${pending.length}</b> 位${pending.length ? "：" + pending.slice(0, 12).map(a => esc(a.nick || "?")).join("、") + (pending.length > 12 ? "…" : "") : ""}。<br><span style="color:var(--muted);font-size:.76rem">還沒結算的人要等到他們新的一季第一次打開網頁；冠軍名單會隨著大家結算而更新。</span></div>
+    <h2>帳戶資料大小</h2><div class="card" style="padding:8px 14px">${sizes.map(([a, n]) => `<div class="usage"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.nick || "?")}</span><span class="ub"><i style="width:${Math.min(100, n / 1048576 * 100 * 4).toFixed(1)}%"></i></span><b>${(n / 1024).toFixed(0)} KB</b></div>`).join("") || `<div class="empty" style="border:0">沒有資料。</div>`}<p class="advnote" style="padding:4px 0 0">Firestore 單一文件上限 1 MB。成交紀錄最多 200 筆、頭像最多 16 KB，一般遠低於上限；柱子拉長 4 倍放大，快滿代表要處理。</p></div>
+    <h2>熱門自選股</h2><div class="card" style="padding:12px 14px">${wHtml}</div>
+    <p class="advnote">這份檢查會讀取所有模擬交易帳戶，只顯示暱稱與統計，不顯示持股內容。成績要等本人打開「模擬交易」頁才會送出。</p>`;
+}
+function admRender() {
+  const el = $("admBody"); if (!el) return;
+  if (!admin.on) { el.innerHTML = `<div class="empty">你沒有管理員權限。</div>`; return; }
+  const bar = `<div class="admTabs seg" id="admTabs" role="tablist" aria-label="後台分頁">${ADM_TABS.map(([k, t]) => `<button type="button" role="tab" data-t="${k}" aria-selected="${adm.tab === k}">${t}</button>`).join("")}</div>`;
+  $("admAsof").textContent = adm.data ? "更新於 " + new Date(adm.data.at).toLocaleTimeString("zh-TW", { hour12: false }) : "";
+  if (adm.loading && !adm.data) { el.innerHTML = bar + `<div class="status">載入中…</div>`; return; }
+  if (adm.err && !adm.data) { el.innerHTML = bar + `<div class="status err">${esc(adm.err)}</div>`; return; }
+  const D = adm.data, body = { ov: admOverview, tr: admTraffic, mb: admMembers, tx: admTrades, ck: admCheck }[adm.tab](D);
+  const keep = document.activeElement && document.activeElement.id === "admQ" ? document.activeElement.selectionStart : null;
+  el.innerHTML = bar + (adm.err ? `<div class="status err">${esc(adm.err)}</div>` : "") + `<div class="admBodyIn">${body}</div>`;
+  if (keep != null) { const q = $("admQ"); q.focus(); q.setSelectionRange(keep, keep); }       // 重新畫面時，搜尋框維持游標位置
+}
+function admCsv(kind) {
+  const D = adm.data; if (!D) return;
+  const esc2 = v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`, rows = [];
+  if (kind === "stats") { const keys = ["sessions", "uniques", ...Object.keys(ADM_LABEL)]; rows.push(["日期", ...keys.map(k => ADM_LABEL[k] || (k === "sessions" ? "造訪" : "不重複訪客"))]); D.stats.forEach(s => rows.push([s.day, ...keys.map(k => s[k] || 0)])); }
+  else { rows.push(["暱稱", "加入日", "已領週數", "現金", "資產(估)", "本季報酬", "持股檔數", "成交筆數", "最近動作(天前)", "本季上榜"]); admMemberRows(D).forEach(r => rows.push([r.x.nick || "", r.x.createdAt ? twDate(r.x.createdAt) : "", r.x.claimedCount || 0, Math.round(r.x.cash || 0), Math.round(r.val), r.ret == null ? "" : (r.ret * 100).toFixed(2) + "%", Object.keys(r.x.holdings || {}).length, (r.x.trades || []).length, r.x.hasAct ? r.idle : "", r.onBoard ? "是" : "否"])); }
+  const blob = new Blob(["﻿" + rows.map(r => r.map(esc2).join(",")).join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `chip-${kind}-${twDate(Date.now())}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function admInit() {
+  const el = $("admBody");
+  el.addEventListener("click", e => {
+    const t = e.target.closest("#admTabs button"); if (t) { adm.tab = t.dataset.t; admRender(); window.scrollTo({ top: 0 }); return; }
+    const r = e.target.closest("#admRange button"); if (r) { adm.range = +r.dataset.r; admRender(); return; }
+    const f = e.target.closest("#admFilt button"); if (f) { adm.filt = f.dataset.f; adm.open = ""; admRender(); return; }
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    if (b.dataset.act === "admOpen") { adm.open = adm.open === b.dataset.id ? "" : b.dataset.id; admRender(); }
+    else if (b.dataset.act === "admCsv") admCsv(b.dataset.k);
+    else if (b.dataset.act === "admWatch") admLoadWatch();
+  });
+  el.addEventListener("input", e => { if (e.target.id === "admQ") { adm.q = e.target.value; admRender(); } });
+  el.addEventListener("change", e => { if (e.target.id === "admSort") { adm.sort = e.target.value; admRender(); } });
+  el.addEventListener("keydown", e => { const r = e.target.closest(".mrow[data-act]"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); r.click(); } });
 }
 /* ───── 大盤指數：加權指數（TAIEX）、台指期夜盤、個股占大盤計算器 ───── */
 const mkt = { idx: null, fut: null, at: 0, loading: false, err: "", stale: 0, stock: null, busy: false };
@@ -3158,7 +3381,7 @@ async function initMember() {
     // 每次打開都重新檢查管理員身分，剛建立 admins 文件的人不用重新整理網頁
     checkAdmin().then(() => { if (!$("sheet").hidden && $("sheetT").textContent === "我的帳號") openAccount(); });
   });
-  $("admRefresh").addEventListener("click", adminLoad);
+  $("admRefresh").addEventListener("click", () => adminLoad(true)); admInit();
   $("admBack").addEventListener("click", () => showTab("analyze"));
   $("starBtn").addEventListener("click", toggleStar);
   $("sheetBody").addEventListener("change", e => {
