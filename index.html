@@ -187,7 +187,39 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .vdNote { font-size: .72rem; color: var(--muted); line-height: 1.55; margin: 10px 0 0; }
 .lblRow { display: flex; align-items: center; gap: 4px; font-size: .76rem; color: var(--muted); margin-top: 2px; }
 .seg button:disabled { opacity: .4; cursor: not-allowed; }
-.heatCard { padding: 10px; }
+.odH { margin: 6px 0 0; font-size: .95rem; }
+.odGrid { display: grid; gap: 10px; }
+.odGrid .odS { font-weight: 700; color: var(--ink); margin: 2px 0 4px; }
+.rotCard { padding: 10px; }
+.rotSvg { width: 100%; height: auto; display: block; touch-action: manipulation; margin-top: 6px; }
+.rotSvg .qr { fill: color-mix(in srgb, var(--bull) 7%, transparent); }
+.rotSvg .qg { fill: color-mix(in srgb, var(--bear) 7%, transparent); }
+.rotSvg .ax { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: .7; }
+.rotSvg text { font-family: var(--font-ui); fill: var(--muted); }
+.rotSvg .q { font-size: 9.5px; opacity: .9; font-weight: 600; }
+.rotSvg .tk { font-size: 9px; font-family: var(--font-num); }
+.rotSvg .dt { font: 700 13px var(--font-num); fill: var(--ink); opacity: .75; }
+.rotSvg .lb { font-size: 10.5px; fill: var(--ink); font-weight: 700; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.rotSvg .lb.big { font-size: 13px; }
+.rotSvg circle.b { cursor: pointer; stroke: var(--surface); stroke-width: 1.2; transition: opacity .25s; }
+.rotSvg circle.b.out { stroke: var(--ink); stroke-dasharray: 3 2; }
+.rotSvg circle.b.sel { stroke: var(--ink); stroke-width: 2.4; stroke-dasharray: none; }
+.rotSvg .tr { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; opacity: .55; }
+.rotSvg .td { fill: var(--surface); stroke: var(--ink); stroke-width: 1.2; }
+.rotSvg .tl { font-size: 8.5px; font-family: var(--font-num); fill: var(--ink); opacity: .8; }
+.rotChips { display: grid; gap: 6px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rotChip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 1px; font-family: var(--font-ui); min-width: 0; }
+.rotChip span { font-size: .68rem; color: var(--muted); }
+.rotChip b { font-size: .88rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rotChip i { font: 700 .8rem var(--font-num); font-style: normal; }
+.rotChip.in i, .rotChip.up i { color: var(--bull); } .rotChip.out i { color: var(--bear); }
+.rotCtl { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.rotPlay { width: 42px; height: 42px; flex: none; border-radius: 50%; border: 0; background: var(--profit); color: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.rotCtl input[type=range] { flex: 1; min-width: 0; accent-color: var(--profit); }
+.rotDay { font: 600 .82rem var(--font-num); min-width: 3.2em; text-align: right; }
+.rotSel { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: .78rem; color: var(--muted); }
+.rotSel select { flex: 1; min-width: 0; min-height: 40px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 0 10px; font: 500 .9rem var(--font-ui); }
+.rotProg { font-size: .8rem; color: var(--muted); padding: 24px 6px; text-align: center; }.heatCard { padding: 10px; }
 .heatMap { position: relative; width: 100%; aspect-ratio: 340 / 400; container-type: inline-size; border-radius: 6px; overflow: hidden; background: var(--bg); }
 .heatMap button { position: absolute; box-sizing: border-box; border: 1px solid var(--surface); margin: 0; padding: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; line-height: 1.25; cursor: pointer; font-family: var(--font-ui); }
 .heatMap button.sel { outline: 2px solid var(--ink); outline-offset: -2px; z-index: 2; }
@@ -216,6 +248,30 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .shMnemo .mn { font-size: .7rem; letter-spacing: .2em; color: var(--muted); margin-bottom: 4px; }
 .shMnemo .big { font: 700 1.08rem/1.5 var(--font-ui); margin: 2px 0; }
 .shMnemo .sm { font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 8px 0 0; text-align: left; }
+.mktTx { width: 100%; height: auto; display: block; touch-action: pan-y; margin: 4px 0 4px; }
+.mktTx .gd { stroke: var(--line); stroke-width: 1; }
+.mktTx .tk { font: 9px var(--font-num); fill: var(--muted); }
+.mktTx .ln { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+.mktTx .ar { fill: currentColor; opacity: .09; }
+.mktTx .lastdot { fill: currentColor; stroke: var(--surface); stroke-width: 1.5; }
+.mktTx .xh { stroke: var(--ink); stroke-width: 1; opacity: .5; }
+.mktTx .xd { fill: var(--surface); stroke: var(--ink); stroke-width: 1.6; }
+.mktTx.up { color: var(--bull); } .mktTx.dn { color: var(--bear); }
+.mktNightSvg .ln.all { stroke: var(--muted); stroke-width: 1.1; opacity: .75; }
+.mktNightSvg .seg { stroke: var(--profit); stroke-width: 2.4; stroke-linecap: round; }
+.mktNightSvg .nd { fill: var(--profit); stroke: var(--surface); stroke-width: 1; }
+.mktNightSvg .dd { fill: var(--muted); }
+.mktNightSvg .roll { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: .7; }
+.mktNightSvg .rl { font: 8.5px var(--font-ui); fill: var(--muted); }
+.mktNightSvg .lastv { font: 700 10px var(--font-num); fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+.mktRng { display: flex; gap: 6px; margin: 6px 0 2px; }
+.mktRng button { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 4px 12px; font: 600 .74rem var(--font-ui); cursor: pointer; min-height: 30px; }
+.mktRng button[aria-pressed="true"] { background: var(--profit); border-color: var(--profit); color: var(--surface); }
+.mktRead { font-size: .8rem; color: var(--muted); min-height: 1.4em; line-height: 1.5; }
+.mktRead b { color: var(--ink); font-family: var(--font-num); }
+.mktLg .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+.mktLg .dot.nd { background: var(--profit); } .mktLg .dot.dd { background: var(--muted); }
+.mktLg .ln.roll { border-top: 1px dashed var(--muted); height: 0; }
 .mktLg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .72rem; color: var(--muted); margin: 0 0 4px; align-items: center; }
 .mktLg .ln { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--profit); vertical-align: middle; margin-right: 5px; }
 .mktLg .ln.dash { border-top: 2px dashed var(--muted); }
@@ -735,9 +791,19 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <h3>想實際練習？玩模擬交易</h3>
       <div class="card gSteps">
         <div class="gStep"><i>1</i><div><b>每週領 100 萬虛擬資金</b><p>用 Google 登入後，每週可以領一次，領到的錢和持股會一直累積。這裡沒有真的錢。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>用真實開盤價下預約單</b><p>09:00 以前下的單，當天開盤成交；之後下的單，下一個交易日開盤成交。收盤資料出來後，下次打開網頁就會自動成交。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>下預約單，用真實股價成交</b><p>09:00 以前下的單，當天生效；之後下的單，下一個交易日生效。收盤資料出來後，下次打開網頁就會自動成交。下單方式有三種，往下看。</p></div></div>
         <div class="gStep"><i>3</i><div><b>拿支撐與壓力去驗證，和大家比報酬率</b><p>先在「分析」頁找支撐壓力，也可以先去「回測」看看過去有沒有效，再到排行榜和其他會員比賽。排名只供同樂。</p></div></div>
       </div>
+      <h4 class="odH">下單方式有三種</h4>
+      <div class="odGrid">
+        <div class="card gMini"><div class="gName">市價單</div><p class="odS">「照當天開盤價，馬上成交」</p><p>不指定價格，下一個交易日開盤價成交。最簡單，但<b>下單時不知道會成交在哪</b>。</p></div>
+        <div class="card gMini"><div class="gName">限價單</div><p class="odS">「這個價錢以內，我才要」</p><p><b>買單</b>：股價跌到你的限價（含）以下才買。<b>賣單</b>：漲到你的限價（含）以上才賣。價格好但可能<b>買不到、賣不掉</b>。</p></div>
+        <div class="card gMini"><div class="gName">觸價單（停損、停利）</div><p class="odS">「設好警鈴，碰到才動手」</p><p>賣出時，<b>跌到</b>某價自動賣＝<b>停損</b>（防止虧更多）；<b>漲到</b>某價自動賣＝<b>停利</b>（落袋為安）。碰到後用市價成交。</p></div>
+      </div>
+      <div class="card shMnemo"><div class="mn">口訣</div>
+        <p class="big">市價求成交，限價求價格，觸價求保護。</p>
+        <p class="sm"><b>當日有效</b>：只掛一天，沒成交就作廢；<b>長效單</b>：最多掛 5、10 或 20 個營業日，碰到價格就成交。<b>價格規則</b>：要符合升降單位、不能超出前一日收盤的 ±10%（漲跌停）；零股只能用限價單。可以先用「停損」的想法搭配支撐位：跌破支撐就認賠，這也是回測頁用的規則。</p></div>
+      <button type="button" class="info-link" data-term="orderTypes">委託方式的詳細說明</button>
       <button type="button" class="btn" data-go="sim">去模擬交易</button>
     </div>
 
@@ -863,6 +929,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       </div>
     </div>
     <div id="heatBody"></div>
+    <div class="simBoardHead"><h2>近期資金輪動</h2><button type="button" class="info" data-term="rotation" aria-label="資金輪動泡泡圖的說明">i</button></div>
+    <div id="rotBody"></div>
   </section>
 
   <section id="pgScreen" class="page" hidden>
@@ -1515,6 +1583,16 @@ const GLOSS = {
       "<b>失敗的情況</b>：成交時現金不夠、或持股不夠賣，這筆預約單會顯示「未成交」。",
       "<b>排行榜</b>：每一季結算一次，比的是「本季報酬率」（季末資產 − 季初資產 − 本季新領資金，再除以季初資產 + 本季新領資金）。總資產用最新收盤價計算。詳見「賽季制」說明。",
       "<b>友善版的限制</b>：成交價取自真實資料，但帳務是在你的瀏覽器計算後寫入雲端，懂技術的人仍然可能改資料，所以排名只適合朋友同樂，不適合有獎品的正式比賽。"] },
+  rotation: { t: "資金輪動泡泡圖",
+    def: "看最近市場的錢，從哪些類股流出、流向哪些類股。每顆泡泡是一個類股（半導體、金融、航運…）。",
+    read: ["<b>動畫</b>：一格 = 一個交易日，泡泡會一天一天移動，總共 10 個交易日。可以按播放鍵、拖曳時間軸，或停在某一天慢慢看。",
+      "<b>橫軸（左右）</b>：資金占比的變化。最近 3 日平均，這個類股占全市場成交金額的比例，和最前面 3 個交易日比，變多了還是變少了。越往右，代表資金越往這裡集中。",
+      "<b>縱軸（上下）</b>：從這 10 天的前一個交易日收盤算起，這個類股指數的累計漲跌幅。越上面漲越多。",
+      "<b>泡泡大小</b>：最近 3 日平均的成交金額占比，越大代表越多錢在這裡交易。<b>顏色</b>：紅漲綠跌。",
+      "<b>聚焦</b>：用上方的「聚焦類別」選單、重點按鈕或直接點泡泡，會淡化其他類別，只留被選的，並畫出它這 10 天走過的路。再點一次就取消。",
+      "<b>四個象限</b>：右上「資金湧入・上漲」是市場正在追的主流；右下「資金湧入・下跌」是錢進來但價格下跌，可能在承接也可能在出貨，要搭配個股看；左上「價漲量縮」是漲勢缺乏新資金跟進；左下「資金退潮」是被市場冷落。",
+      "<b>怎麼用</b>：資金輪動通常是「一個類股退潮、另一個類股湧入」。可以先看哪個類股在右上方，再到「分析」頁看裡面的個股。這是整理資訊的工具，不是買賣建議。"],
+    calc: "資金占比 = 類股成交金額 ÷ 所有類股成交金額（只含上市，上層分類如「電子」不重複計算）。橫軸 =（最近 3 日平均占比 ÷ 最前面 3 日平均占比 − 1）。縱軸 = 從起點日收盤算起的累計漲跌幅（每天的指數水準由「起點指數 + 逐日漲跌點數」還原）。資料來自證交所，每個交易日只查一次並存在手機裡。" },
   verdict: { t: "綜合評語（位置評分）",
     def: "把「平均成本、下方支撐、上方壓力」放在一起，替現價所在的位置打一個 0～100 的分數，讓你查股票時先有個快速的參考。",
     read: ["<b>它評的是「位置」，不是「會不會漲」</b>：分數高代表現價下有撐、上無壓、成本結構健康；分數低代表下跌缺緩衝、或上方有重重賣壓。", "<b>成本面（30 分）</b>：看獲利比例。多數人賺錢但沒有賺到爆最舒服；太低表示套牢多，太高表示隨時可能有人獲利了結。", "<b>下方支撐（35 分）</b>：最近支撐的籌碼占比和成交量占比越高、離現價越近，分數越高。下方沒有支撐是 0 分。", "<b>上方空間（35 分）</b>：最近壓力越強、越近，扣越多分。上方沒有壓力就是滿分。", "分數對照：75 以上偏強、60～74 中偏強、45～59 中性、30～44 中偏弱、30 以下偏弱。", "<b>它會隨你拉的時間區間改變</b>：區間不同，成本分布就不同，分數也會跟著變。可以換不同區間看結論是否一致。"],
@@ -2336,7 +2414,7 @@ async function adminLoad() {
 const mkt = { idx: null, fut: null, at: 0, loading: false, err: "", stale: 0, stock: null, busy: false };
 const MKT_TTL = 5 * 60e3;
 function mktParse(px, fu) {
-  const idx = px.filter(r => r.close > 0).sort((a, b) => a.date < b.date ? -1 : 1).slice(-90)
+  const idx = px.filter(r => r.close > 0).sort((a, b) => a.date < b.date ? -1 : 1).slice(-125)
     .map(r => ({ d: r.date, o: r.open, h: r.max, l: r.min, c: r.close, m: r.Trading_money }));
   let fut = null;
   if (fu) {
@@ -2351,23 +2429,25 @@ function mktParse(px, fu) {
       const newer = days.some(r => r.date >= nd);
       // 走勢：每天取最近到期的單月合約，分別記夜盤收盤與日盤收盤
       const pick = (list) => { const m = {}; for (const r of list) if (!m[r.date] || r.contract_date < m[r.date].contract_date) m[r.date] = r; return m; };
-      const nm = pick(nights), dm = pick(days);
-      const ser = [...new Set([...Object.keys(nm), ...Object.keys(dm)])].sort().slice(-40)
-        .map(d => ({ d, n: nm[d] ? nm[d].close : null, p: dm[d] ? dm[d].close : null }));
+      const nm = pick(nights), dm = pick(days), sess = [];
+      for (const d of [...new Set([...Object.keys(nm), ...Object.keys(dm)])].sort()) {        // 依真實時間順序：D 日的夜盤在 D 日日盤「之前」
+        if (nm[d]) sess.push({ d, k: "n", c: nm[d].close, ct: nm[d].contract_date });
+        if (dm[d]) sess.push({ d, k: "p", c: dm[d].close, ct: dm[d].contract_date });
+      }
       fut = { nd, contract: today.contract_date, o: today.open, h: today.max, l: today.min, c: today.close, v: today.volume,
-        pd: prev ? prev.date : null, pc: prev ? prev.close : null, newer, ser };
+        pd: prev ? prev.date : null, pc: prev ? prev.close : null, newer, sess: sess.slice(-60) };
     }
   }
   return { idx, fut };
 }
 async function mktLoad(force) {
-  mktTotalLoad(force); heatLoad(force);
+  mktTotalLoad(force); heatLoad(force); rotLoad(force);
   if (mkt.loading) return;
   if (!force && mkt.idx && Date.now() - mkt.at < MKT_TTL) { mktRender(); return; }
   mkt.loading = true; mkt.err = ""; mkt.stale = 0; mktRender();
   try {
     const [px, fu] = await Promise.all([
-      fm("TaiwanStockPrice", { data_id: "TAIEX", start_date: dateBack({ days: 130 }) }),
+      fm("TaiwanStockPrice", { data_id: "TAIEX", start_date: dateBack({ days: 200 }) }),
       fm("TaiwanFuturesDaily", { data_id: "TX", start_date: dateBack({ days: 62 }) }).catch(e => { if (e.limit) throw e; return null; })
     ]);
     const r = mktParse(px, fu);
@@ -2380,25 +2460,69 @@ async function mktLoad(force) {
     else mkt.err = e.message || "查詢失敗";
   } finally { mkt.loading = false; mktRender(); mcRender(); }
 }
-function mktSpark(rows) {
-  if (rows.length < 2) return "";
-  const W = 320, H = 64, p = 3, v = rows.map(r => r.c), lo = Math.min(...v), hi = Math.max(...v), sp = hi - lo || 1;
-  const pts = v.map((y, i) => `${(p + i * (W - 2 * p) / (v.length - 1)).toFixed(1)},${(H - p - (y - lo) / sp * (H - 2 * p)).toFixed(1)}`).join(" ");
-  const up = v[v.length - 1] >= v[0];
-  return `<svg class="mktSpark ${up ? "up" : "dn"}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="近 ${rows.length} 個交易日加權指數走勢"><polyline points="${pts}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`;
+// 加權指數走勢圖：折線 = 每日收盤價（和證交所公布的收盤指數逐日核對過，完全一致）。
+// 座標軸從最低到最高價之間留一點空間，有價格刻度與日期；手指（或滑鼠）在圖上移動，會顯示那一天的收盤與漲跌。
+const MKT_RNG = [["1 個月", 22], ["3 個月", 66], ["半年", 125]];
+function mktNiceTicks(lo, hi, n) {
+  const raw = (hi - lo) / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = [1, 2, 2.5, 5, 10].map(f => f * mag).find(s => s >= raw) || raw, out = [];
+  for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(v);
+  return out;
 }
-// 夜盤走勢：實線 = 夜盤收盤，虛線 = 日盤收盤（都是近月合約）；兩條線的差距就是「夜盤相對日盤的方向」
-function mktNightChart(ser) {
-  const pts = (ser || []).filter(r => r.n != null || r.p != null);
-  if (pts.length < 2) return "";
-  const W = 320, H = 120, pad = 4, vals = pts.flatMap(r => [r.n, r.p]).filter(v => v != null);
-  const lo = Math.min(...vals), hi = Math.max(...vals), sp = hi - lo || 1;
-  const X = i => pad + i * (W - 2 * pad) / (pts.length - 1), Y = v => H - pad - (v - lo) / sp * (H - 2 * pad);
-  const line = key => pts.map((r, i) => r[key] == null ? null : `${X(i).toFixed(1)},${Y(r[key]).toFixed(1)}`).filter(Boolean).join(" ");
-  return `<svg class="mktSpark mktNightSvg" style="height:120px" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="近 ${pts.length} 個交易日台指期夜盤與日盤收盤走勢">
-    <polyline points="${line("p")}" fill="none" stroke="var(--muted)" stroke-width="1.4" stroke-dasharray="4 3" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-    <polyline points="${line("n")}" fill="none" stroke="var(--profit)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>
-    <div class="mktLg"><span><i class="ln"></i>夜盤收盤</span><span><i class="ln dash"></i>日盤收盤</span><span class="rg">${esc(pts[0].d.slice(5))} ～ ${esc(pts[pts.length - 1].d.slice(5))}　區間 ${fmt(lo, 0)}～${fmt(hi, 0)}</span></div>`;
+function mktTaiexChart(all) {
+  const rows = all.slice(-Math.min(all.length, mkt.rng || 66));
+  if (rows.length < 2) return "";
+  const W = 340, H = 168, ml = 44, mr = 8, mt = 8, mb = 20, v = rows.map(r => r.c);
+  const lo0 = Math.min(...v), hi0 = Math.max(...v), padv = (hi0 - lo0) * 0.06 || 1, lo = lo0 - padv, hi = hi0 + padv;
+  const X = i => ml + i * (W - ml - mr) / (rows.length - 1), Y = y => mt + (1 - (y - lo) / (hi - lo)) * (H - mt - mb);
+  const pts = v.map((y, i) => `${X(i).toFixed(1)},${Y(y).toFixed(1)}`).join(" ");
+  const up = v[v.length - 1] >= v[0];
+  let g = "";
+  for (const t of mktNiceTicks(lo, hi, 4)) g += `<line class="gd" x1="${ml}" x2="${W - mr}" y1="${Y(t).toFixed(1)}" y2="${Y(t).toFixed(1)}"/><text class="tk" x="${ml - 4}" y="${(Y(t) + 3).toFixed(1)}" text-anchor="end">${fmt(t, 0)}</text>`;
+  for (const i of [0, Math.round((rows.length - 1) / 2), rows.length - 1]) g += `<text class="tk" x="${X(i).toFixed(1)}" y="${H - 5}" text-anchor="${i === 0 ? "start" : i === rows.length - 1 ? "end" : "middle"}">${esc(rows[i].d.slice(5).replace("-", "/"))}</text>`;
+  g += `<polygon class="ar" points="${X(0).toFixed(1)},${H - mb} ${pts} ${X(rows.length - 1).toFixed(1)},${H - mb}"/><polyline class="ln" points="${pts}"/>`;
+  g += `<circle class="lastdot" cx="${X(rows.length - 1).toFixed(1)}" cy="${Y(v[v.length - 1]).toFixed(1)}" r="3.4"/>`;
+  g += `<line class="xh" x1="0" x2="0" y1="${mt}" y2="${H - mb}" style="display:none"/><circle class="xd" r="4" style="display:none"/>`;
+  const rng = `<div class="mktRng">${MKT_RNG.filter(([, n]) => n < all.length + 30).map(([t, n]) => `<button type="button" data-rng="${n}" aria-pressed="${(mkt.rng || 66) === n}">${t}</button>`).join("")}</div>`;
+  return `${rng}<div class="mktRead" id="mktRead">${esc(rows[rows.length - 1].d)}　收盤 <b>${fmt(v[v.length - 1])}</b>　區間 ${fmt(lo0, 0)}～${fmt(hi0, 0)}</div>
+    <svg class="mktTx ${up ? "up" : "dn"}" viewBox="0 0 ${W} ${H}" data-n="${rows.length}" role="img" aria-label="近 ${rows.length} 個交易日加權指數收盤走勢">${g}</svg>`;
+}
+// 在加權指數圖上移動：找到最近的一天，顯示十字線與當天的收盤、漲跌
+function mktBindTaiex(root) {
+  const svg = root.querySelector(".mktTx"); if (!svg) return;
+  const all = mkt.idx, rows = all.slice(-Math.min(all.length, mkt.rng || 66)), W = 340, ml = 44, mr = 8, mt = 8, H = 168, mb = 20;
+  const v = rows.map(r => r.c), lo0 = Math.min(...v), hi0 = Math.max(...v), padv = (hi0 - lo0) * 0.06 || 1, lo = lo0 - padv, hi = hi0 + padv;
+  const X = i => ml + i * (W - ml - mr) / (rows.length - 1), Y = y => mt + (1 - (y - lo) / (hi - lo)) * (H - mt - mb);
+  const xh = svg.querySelector(".xh"), xd = svg.querySelector(".xd"), read = root.querySelector("#mktRead");
+  const move = e => {
+    const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(rows.length - 1, Math.round((px - ml) / (W - ml - mr) * (rows.length - 1))));
+    const prev = rows[i - 1] || (all[all.indexOf(rows[0]) - 1]), c = rows[i].c, d = prev ? c - prev.c : null;
+    xh.setAttribute("x1", X(i)); xh.setAttribute("x2", X(i)); xh.style.display = ""; xd.setAttribute("cx", X(i)); xd.setAttribute("cy", Y(c)); xd.style.display = "";
+    read.innerHTML = `${esc(rows[i].d)}　收盤 <b>${fmt(c)}</b>${d == null ? "" : `　<span class="${signCls(d)}">${d >= 0 ? "+" : "−"}${fmt(Math.abs(d))}（${spct(d / prev.c, 2)}）</span>`}`;
+  };
+  svg.addEventListener("pointermove", move); svg.addEventListener("pointerdown", move);
+}
+// 台指期走勢（依真實時間順序）：每個交易日，先有「前一晚開始的夜盤」，再有「白天的日盤」。
+// 所以時間軸是：… 日盤(昨天) → 夜盤(今天) → 日盤(今天) → 夜盤(明天) …，每一點都是該時段的收盤價。
+// 藍色 = 夜盤，灰色 = 日盤；藍色線段是「夜盤相對前一個日盤收盤」的漲跌。近月合約到期換月時，價格會有一段落差（正價差／逆價差），圖上用虛線標出「換月」。
+function mktNightChart(sess) {
+  const s = (sess || []).slice(-60);
+  if (s.length < 4) return "";
+  const W = 340, H = 168, ml = 44, mr = 8, mt = 8, mb = 20, v = s.map(r => r.c);
+  const lo0 = Math.min(...v), hi0 = Math.max(...v), padv = (hi0 - lo0) * 0.06 || 1, lo = lo0 - padv, hi = hi0 + padv;
+  const X = i => ml + i * (W - ml - mr) / (s.length - 1), Y = y => mt + (1 - (y - lo) / (hi - lo)) * (H - mt - mb);
+  let g = "";
+  for (const t of mktNiceTicks(lo, hi, 4)) g += `<line class="gd" x1="${ml}" x2="${W - mr}" y1="${Y(t).toFixed(1)}" y2="${Y(t).toFixed(1)}"/><text class="tk" x="${ml - 4}" y="${(Y(t) + 3).toFixed(1)}" text-anchor="end">${fmt(t, 0)}</text>`;
+  for (const i of [0, Math.round((s.length - 1) / 2), s.length - 1]) g += `<text class="tk" x="${X(i).toFixed(1)}" y="${H - 5}" text-anchor="${i === 0 ? "start" : i === s.length - 1 ? "end" : "middle"}">${esc(s[i].d.slice(5).replace("-", "/"))}</text>`;
+  for (let i = 1; i < s.length; i++) if (s[i].ct !== s[i - 1].ct) g += `<line class="roll" x1="${X(i - 0.5).toFixed(1)}" x2="${X(i - 0.5).toFixed(1)}" y1="${mt}" y2="${H - mb}"/><text class="rl" x="${X(i - 0.5).toFixed(1)}" y="${mt + 8}" text-anchor="middle">換月</text>`;
+  g += `<polyline class="ln all" points="${s.map((r, i) => `${X(i).toFixed(1)},${Y(r.c).toFixed(1)}`).join(" ")}"/>`;
+  for (let i = 1; i < s.length; i++) if (s[i].k === "n" && s[i].ct === s[i - 1].ct) g += `<line class="seg" x1="${X(i - 1).toFixed(1)}" x2="${X(i).toFixed(1)}" y1="${Y(s[i - 1].c).toFixed(1)}" y2="${Y(s[i].c).toFixed(1)}"/>`;
+  s.forEach((r, i) => { g += `<circle class="${r.k === "n" ? "nd" : "dd"}" cx="${X(i).toFixed(1)}" cy="${Y(r.c).toFixed(1)}" r="${r.k === "n" ? 2.6 : 1.8}"><title>${esc(r.d)} ${r.k === "n" ? "夜盤" : "日盤"} ${fmt(r.c, 0)}</title></circle>`; });
+  const last = s[s.length - 1];
+  g += `<text class="lastv" x="${(X(s.length - 1) - 4).toFixed(1)}" y="${(Y(last.c) - 7).toFixed(1)}" text-anchor="end">${fmt(last.c, 0)}</text>`;
+  return `<svg class="mktTx mktNightSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="台指期近月夜盤與日盤收盤，依時間順序">${g}</svg>
+    <div class="mktLg"><span><i class="dot nd"></i>夜盤收盤</span><span><i class="dot dd"></i>日盤收盤</span><span><i class="ln roll"></i>換月</span><span class="rg">${esc(s[0].d.slice(5))} ～ ${esc(last.d.slice(5))}</span></div>
+    <div class="nt" style="margin-top:2px">時間順序：前一個日盤 → 夜盤 → 當天日盤。藍色線段是夜盤相對前一個日盤的漲跌。</div>`;
 }
 function mktRender() {
   const el = $("mktBody"); if (!el) return;
@@ -2410,10 +2534,10 @@ function mktRender() {
   const sgn = (x, d = 2) => (x >= 0 ? "+" : "−") + fmt(Math.abs(x), d);
   const taiex = `<div class="card mktCard"><div class="mktHead"><div><div class="k">加權指數（TAIEX）${tip("mktTaiex")}　${esc(L.d)}</div><div class="v">${fmt(L.c)}</div></div>
     <div class="r ${signCls(chg)}">${sgn(chg)}<br>${spct(pc, 2)}</div></div>
-    ${mktSpark(rs)}
+    ${mktTaiexChart(rs)}
     <div class="simGrid"><div><div class="k">開盤</div><div class="v">${fmt(L.o)}</div></div><div><div class="k">成交金額</div><div class="v">${fmt(L.m / 1e8, 0)} 億</div></div>
       <div><div class="k">最高</div><div class="v">${fmt(L.h)}</div></div><div><div class="k">最低</div><div class="v">${fmt(L.l)}</div></div></div>
-    <div class="nt">走勢圖為近 ${rs.length} 個交易日的收盤價。</div></div>`;
+    <div class="nt">走勢圖為每日收盤價，已和證交所公布的收盤指數逐日核對。在圖上滑動可以看每一天。</div></div>`;
   let night;
   const F = mkt.fut;
   if (!F) {
@@ -2424,13 +2548,14 @@ function mktRender() {
     const est = gap ? L.c + d : null;
     night = `<div class="card mktCard"><div class="mktHead"><div><div class="k">台指期夜盤（近月 ${esc(ym)}）${tip("mktNight")}　${esc(F.nd)}</div><div class="v">${fmt(F.c, 0)}</div></div>
       <div class="r ${signCls(d)}">${d == null ? "" : sgn(d, 0) + "<br>" + spct(dp, 2)}</div></div>
-      ${mktNightChart(F.ser)}
+      ${mktNightChart(F.sess)}
       <div class="simGrid"><div><div class="k">夜盤開盤</div><div class="v">${fmt(F.o, 0)}</div></div><div><div class="k">夜盤成交量</div><div class="v">${Number(F.v).toLocaleString("en-US")} 口</div></div>
         <div><div class="k">夜盤最高</div><div class="v">${fmt(F.h, 0)}</div></div><div><div class="k">夜盤最低</div><div class="v">${fmt(F.l, 0)}</div></div>
         ${est != null ? `<div><div class="k">對照前一日盤收盤</div><div class="v">${fmt(F.pc, 0)}（${esc(F.pd)}）</div></div><div><div class="k">依此推估大盤開盤約</div><div class="v ${signCls(d)}">${fmt(est, 0)}</div></div>` : ""}</div>
       <div class="nt">${F.newer ? "這份夜盤已經過去，後面日盤已經開盤，只當參考。" : (F.pc == null ? "" : `漲跌 = 夜盤收盤 − 前一個日盤收盤（${esc(F.pd)}）。`)}${est != null ? "「推估大盤開盤」= 加權指數最新收盤 + 夜盤漲跌點數，只是粗估，實際開盤會有誤差。" : ""}</div></div>`;
   }
   el.innerHTML = bar + err + taiex + night;
+  mktBindTaiex(el);
 }
 /* 上市股票總市值（不佔用 FinMind 額度，都是 www.twse.com.tw 的 JSON，可以從網頁直接讀）
    1) 優先用證交所官方公布的「上市公司總市值」（金融友善服務專區使用的 homeApi/mkt_cap，單位億元，最近 5 個交易日）；
@@ -2581,6 +2706,221 @@ function heatRender() {
     <p class="advnote" style="padding-top:8px">${esc(heat.date)} 收盤資料。面積 = 權重（市值 ÷ 上市總市值），只畫權重最大的 ${HEAT_N} 檔，其餘合併成「其他」。顏色：${mode === "chg" ? "紅漲綠跌，漲跌幅 ±5% 顏色最深" : "看這檔對大盤的點數貢獻（權重 × 漲跌幅 × 前一日指數），紅 = 拉抬、綠 = 拖累"}。點方塊看細節。這是估算值，和官方權重會有些許出入。</p>
     ${heat.err ? `<div class="status err">${esc(heat.err)}（目前顯示的是上次載入的資料）</div>` : ""}</div>`;
 }
+/* 近期資金輪動：動畫泡泡圖（上市各類股，最近 10 個交易日）
+   每一格動畫 = 一個交易日。泡泡位置：
+     橫軸 = 資金占比變化：最近 3 日平均占比，相對最前面 3 個交易日的平均占比（%）。越右邊，錢越往這個類股集中。
+     縱軸 = 累計漲跌幅：從這 10 天的前一個交易日收盤算起的類股指數漲跌（%）。
+   泡泡大小 = 最近 3 日平均占比（越大，成交的錢越多）；紅漲綠跌。
+   資料：證交所「每日類股成交統計」（成交金額、漲跌點數）+ 起點那天的「類股價格指數」。漲跌點數逐日累加，就能還原每天的指數水準。
+   每個交易日的資料只查一次並存在手機裡。 */
+const rot = { data: null, loading: false, err: "", prog: "", sel: "", t: 0, playing: false, raf: 0, last: 0, done: false };
+const ROT_WIN = 10, ROT_DAY_MS = 900;                                // 10 個交易日，動畫每天停留約 0.9 秒
+const rotKey = n => { n = String(n).trim().replace(/類?指數$/, "").replace(/類$/, ""); return n === "航運業" ? "航運" : n; };
+const ROT_SKIP = new Set(["電子", "電子工業", "化學生技醫療"]);       // 這幾個是上層分類，底下的細分類已經各自算過，不重複放
+const rocIso = s => { const m = String(s).match(/^(\d{2,3})\/(\d{2})\/(\d{2})$/); return m ? `${+m[1] + 1911}-${m[2]}-${m[3]}` : ""; };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+let rotLast = 0;
+async function rotGet(url) {                                         // 證交所對連續查詢有頻率限制，所以每次至少間隔 0.7 秒
+  const wait = rotLast + 700 - Date.now(); if (wait > 0) await sleep(wait);
+  rotLast = Date.now();
+  return twseGet(url);
+}
+async function rotTradingDates() {
+  const c = lsRead("rotDates");
+  if (c && Date.now() - c.t < 3600e3) return c.d;
+  const now = new Date(Date.now() + 8 * 3600e3), ym = (y, m) => `${y}${String(m).padStart(2, "0")}01`;
+  const y = now.getUTCFullYear(), m = now.getUTCMonth() + 1, py = m === 1 ? y - 1 : y, pm = m === 1 ? 12 : m - 1;
+  const out = [];
+  for (const d of [ym(py, pm), ym(y, m)]) {
+    const j = await rotGet(`${TWSE}/afterTrading/FMTQIK?date=${d}&response=json`);
+    if (j.stat === "OK") for (const r of j.data || []) { const iso = rocIso(r[0]); if (iso) out.push(iso); }
+  }
+  out.sort();
+  if (out.length) lsWrite("rotDates", { t: Date.now(), d: out });
+  return out;
+}
+async function rotLoad(force) {
+  if (rot.loading) return;
+  if (!force && rot.data && Date.now() - rot.data.at < 15 * 60e3) { rot.autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches; rotRender(); return; }   // 每次回到這一頁，動畫重播一次
+  rot.loading = true; rot.err = ""; rot.prog = "準備中…"; rotRender();
+  try {
+    const dates = (await rotTradingDates()).slice(-(ROT_WIN + 1));
+    if (dates.length < ROT_WIN + 1) throw new Error("交易日資料不足");
+    const days = dates.slice(1), need = [["ind", dates[0]], ...days.map(d => ["bf", d])], store = {};
+    let done = 0;
+    for (const [kind, d] of need) {
+      const key = `rot2:${kind}:${d}`;
+      let v = lsRead(key);
+      if (!v) {                                                    // 歷史日期的資料不會再變，存起來之後不用再抓
+        rot.prog = `載入資料中… ${done + 1} / ${need.length}（第一次比較久，之後只補新的一天）`; rotRender();
+        if (kind === "bf") {
+          const j = await rotGet(`${TWSE}/afterTrading/BFIAMU?date=${d.replace(/-/g, "")}&response=json`);
+          if (j.stat !== "OK" || !(j.data || []).length) throw new Error(`${d} 的類股成交資料暫時讀不到`);
+          v = {}; for (const r of j.data) v[rotKey(r[0])] = [num(r[2]), num(r[4])];       // [成交金額, 漲跌點數]
+        } else {
+          const j = await rotGet(`${TWSE}/afterTrading/MI_INDEX?date=${d.replace(/-/g, "")}&type=IND&response=json`);
+          const tb = (j.tables || []).find(t => t.fields && t.fields[0] === "指數");
+          if (j.stat !== "OK" || !tb) throw new Error(`${d} 的類股指數資料暫時讀不到`);
+          v = {}; for (const r of tb.data) v[rotKey(r[0])] = num(r[1]);
+        }
+        lsWrite(key, v);
+      }
+      store[`${kind}:${d}`] = v; done++;
+    }
+    const L0 = store[`ind:${dates[0]}`];
+    const names = Object.keys(store[`bf:${days[days.length - 1]}`]).filter(n => !ROT_SKIP.has(n) && L0[n] > 0 && days.every(d => store[`bf:${d}`][n] && store[`bf:${d}`][n][0] > 0));
+    const tot = days.map(d => names.reduce((s, n) => s + store[`bf:${d}`][n][0], 0));
+    const secs = names.map(n => {
+      const amt = days.map(d => store[`bf:${d}`][n][0]), sh = amt.map((a, i) => a / tot[i]);
+      let lvl = L0[n]; const y = days.map(d => { lvl += store[`bf:${d}`][n][1]; return (lvl / L0[n] - 1) * 100; });
+      const sh3 = sh.map((_, i) => { const a = sh.slice(Math.max(0, i - 2), i + 1); return a.reduce((s, v) => s + v, 0) / a.length; });
+      const base = (sh[0] + sh[1] + sh[2]) / 3;
+      return { n, amt, sh, sh3, y, x: sh3.map(v => (v / base - 1) * 100), base, total: amt.reduce((s, v) => s + v, 0) };
+    });
+    if (secs.length < 10) throw new Error("可用的類股資料不足");
+    secs.sort((a, b) => b.total - a.total);
+    rot.data = { secs, days, from: dates[0], at: Date.now() };
+    if (!rot.sel || !secs.some(s => s.n === rot.sel)) rot.sel = "";
+    rot.t = 0; rot.done = false; rot.autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  } catch (e) { rot.err = `資金輪動資料暫時讀不到：${e.message || "未知原因"}。已經載入的天數會保留，稍後按「再試一次」會從中斷的地方繼續。`; }
+  rot.loading = false; rot.prog = ""; rotRender();
+}
+// 畫面骨架只建一次；之後每一格動畫只更新泡泡的位置、大小、標籤，所以動起來很順
+const ROT = { W: 340, H: 384, ml: 36, mr: 10, mt: 12, mb: 28 };
+const rotEase = f => f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2;
+function rotScales() {
+  const d = rot.data, all = (k) => d.secs.flatMap(s => s[k]);
+  const pctl = (arr, q) => { const a = [...arr].sort((p, q2) => p - q2); return a[Math.min(a.length - 1, Math.floor(q * a.length))]; };
+  const xm = Math.min(60, Math.max(15, Math.ceil(pctl(all("x").map(Math.abs), 0.9) / 5) * 5)), ym = Math.max(3, Math.ceil(pctl(all("y").map(Math.abs), 0.92)));
+  const smax = Math.max(...all("sh3"));
+  const cl = (v, m) => Math.max(-m, Math.min(m, v));
+  const { W, H, ml, mr, mt, mb } = ROT;
+  // 圖框內側各留一圈空間（左右 14、上下 18），貼在邊緣的大泡泡和標籤才不會被切到
+  return { xm, ym, smax, X: v => ml + 14 + (cl(v, xm) + xm) / (2 * xm) * (W - ml - mr - 28), Y: v => mt + 18 + (1 - (cl(v, ym) + ym) / (2 * ym)) * (H - mt - mb - 36), R: v => 6 + Math.sqrt(v / smax) * 16, out: (x, y) => Math.abs(x) > xm || Math.abs(y) > ym };
+}
+const rotFill = y => { const t = Math.min(1, Math.abs(y) / 5), c = y > 0 ? "var(--bull)" : y < 0 ? "var(--bear)" : "var(--muted)"; return `color-mix(in srgb, ${c} ${Math.round(55 + 45 * t)}%, var(--surface))`; };
+function rotRender() {
+  const el = $("rotBody"); if (!el) return;
+  const d = rot.data;
+  if (rot.raf) { cancelAnimationFrame(rot.raf); rot.raf = 0; }
+  rot.playing = false;
+  if (!d) { el.innerHTML = rot.loading ? `<div class="card rotCard"><div class="rotProg">${esc(rot.prog || "載入中…")}</div></div>` : rot.err ? `<div class="status err">${esc(rot.err)}<br><button type="button" class="info-link" data-act="rotRetry">再試一次</button></div>` : ""; return; }
+  const sc = rot.sc = rotScales(), { W, H, ml, mr, mt, mb } = ROT, X = sc.X, Y = sc.Y;
+  const last = d.secs.length ? d.days.length - 1 : 0;
+  // 重點摘要：最後一天，資金占比增加／減少最多、累計漲最多的類股（點了就會聚焦）
+  const byX = [...d.secs].sort((a, b) => b.x[last] - a.x[last]), byY = [...d.secs].sort((a, b) => b.y[last] - a.y[last]);
+  const chip = (cls, lab, s, v) => `<button type="button" class="rotChip ${cls}" data-n="${esc(s.n)}"><span>${lab}</span><b>${esc(s.n)}</b><i>${v}</i></button>`;
+  const sg = (v, dgt = 0) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(dgt)}%`;
+  const hi = byX[0], lo = byX[byX.length - 1], up = byY[0];
+  const chips = chip("in", "資金流入最多", hi, sg(hi.x[last])) + chip("out", "資金流出最多", lo, sg(lo.x[last])) + chip("up", "累計漲最多", up, sg(up.y[last], 1));
+  let g = `<rect x="${X(0)}" y="${mt}" width="${W - mr - X(0)}" height="${Y(0) - mt}" class="qr"/><rect x="${ml}" y="${Y(0)}" width="${X(0) - ml}" height="${H - mb - Y(0)}" class="qg"/>`;
+  g += `<rect x="${ml}" y="${mt}" width="${W - ml - mr}" height="${H - mt - mb}" fill="none" stroke="var(--line)"/>`;
+  g += `<line class="ax" x1="${X(0)}" x2="${X(0)}" y1="${mt}" y2="${H - mb}"/><line class="ax" x1="${ml}" x2="${W - mr}" y1="${Y(0)}" y2="${Y(0)}"/>`;
+  g += `<text class="q" x="${W - mr - 5}" y="${mt + 13}" text-anchor="end">資金湧入・上漲</text><text class="q" x="${ml + 5}" y="${mt + 13}">價漲量縮</text>`
+     + `<text class="q" x="${W - mr - 5}" y="${H - mb - 7}" text-anchor="end">資金湧入・下跌</text><text class="q" x="${ml + 5}" y="${H - mb - 7}">資金退潮</text>`;
+  for (const t of [-sc.ym, -sc.ym / 2, 0, sc.ym / 2, sc.ym]) g += `<text class="tk" x="${ml - 4}" y="${Y(t) + 3}" text-anchor="end">${t > 0 ? "+" : ""}${t.toFixed(t % 1 ? 1 : 0)}%</text>`;
+  for (const t of [-sc.xm, 0, sc.xm]) g += `<text class="tk" x="${X(t)}" y="${H - mb + 13}" text-anchor="middle">${t > 0 ? "+" : ""}${t}%</text>`;
+  g += `<text class="q" x="${(ml + W - mr) / 2}" y="${H - 3}" text-anchor="middle">資金占比變化（相對前 3 日）→</text><text class="q" x="10" y="${(mt + H - mb) / 2}" text-anchor="middle" transform="rotate(-90 10 ${(mt + H - mb) / 2})">累計漲跌 →</text>`;
+  g += `<g id="rotTrail"></g>`;
+  const order = d.secs.map((s, i) => i);                                  // secs 已依成交金額由大到小排好；大的先畫在底下
+  g += order.map(i => `<circle class="b" data-n="${esc(d.secs[i].n)}" r="6"><title>${esc(d.secs[i].n)}</title></circle>`).join("");
+  g += order.map(i => `<text class="lb" data-n="${esc(d.secs[i].n)}" text-anchor="middle"></text>`).join("");
+  g += `<text id="rotDate" class="dt" x="${W - mr - 6}" y="${H - mb - 22}" text-anchor="end"></text>`;
+  el.innerHTML = `<div class="card rotCard">
+    <div class="rotChips">${chips}</div>
+    <div class="rotCtl"><button type="button" class="rotPlay" id="rotPlay" aria-label="播放或暫停"></button>
+      <input id="rotScrub" type="range" min="0" max="${last}" step="0.01" value="0" aria-label="拖曳時間軸，看每一天的位置">
+      <span class="rotDay" id="rotDay"></span></div>
+    <label class="rotSel"><span>聚焦類別</span><select id="rotSelBox"><option value="">全部類別</option>${[...d.secs].sort((a, b) => a.n < b.n ? -1 : 1).map(s => `<option value="${esc(s.n)}"${rot.sel === s.n ? " selected" : ""}>${esc(s.n)}</option>`).join("")}</select></label>
+    <svg class="rotSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="近 10 個交易日類股資金輪動動畫泡泡圖">${g}</svg>
+    <div class="heatPick" id="rotPick" aria-live="polite"></div>
+    <p class="advnote" style="padding-top:8px">動畫一格 = 一個交易日（${esc(d.days[0].slice(5))}～${esc(d.days[last].slice(5))}），泡泡會一天一天移動。<b>往右 = 資金越來越集中</b>，<b>往上 = 累計漲幅越大</b>，泡泡越大 = 成交的錢越多，紅漲綠跌。選一個類別會淡化其他類別，並畫出它這 10 天走過的路。起點是 ${esc(d.from.slice(5))} 的收盤。只含上市類股。虛線外框的泡泡超出圖的範圍，被貼在邊緣，請看下方的實際數字。</p>
+    ${rot.err ? `<div class="status err">${esc(rot.err)}</div>` : ""}</div>`;
+  $("rotSelBox").value = rot.sel;
+  rotFrame(rot.t);
+  rotSyncUi();
+  if (rot.autoplay) { rot.autoplay = false; rot.t = 0; rotFrame(0); rotPlay(true); }
+}
+function rotSyncUi() {
+  const b = $("rotPlay"); if (!b) return;
+  b.innerHTML = rot.playing ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>`
+    : rot.done ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v5h5"/></svg>`
+    : `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>`;
+  b.setAttribute("aria-label", rot.playing ? "暫停" : rot.done ? "重播" : "播放");
+}
+function rotPlay(on) {
+  if (rot.raf) { cancelAnimationFrame(rot.raf); rot.raf = 0; }
+  rot.playing = on;
+  if (on) {
+    const last = rot.data.days.length - 1;
+    if (rot.t >= last - 1e-3) rot.t = 0;                              // 播完再按，就從頭開始
+    rot.done = false; rot.last = performance.now();
+    const loop = now => {
+      if (!rot.playing) return;
+      if ($("pgMarket").hidden || document.hidden) { rot.last = now; rot.raf = requestAnimationFrame(loop); return; }      // 切到別的分頁就先停住，回來再繼續
+      rot.t = Math.min(last, rot.t + (now - rot.last) / ROT_DAY_MS); rot.last = now;
+      rotFrame(rot.t);
+      if (rot.t >= last) { rot.playing = false; rot.done = true; rot.raf = 0; rotSyncUi(); return; }
+      rot.raf = requestAnimationFrame(loop);
+    };
+    rot.raf = requestAnimationFrame(loop);
+  }
+  rotSyncUi();
+}
+// 把時間 t（0～9，可以是小數）的畫面畫出來：位置、大小在兩個交易日之間平滑過渡
+function rotFrame(t) {
+  const d = rot.data, svg = document.querySelector("#rotBody .rotSvg"); if (!d || !svg) return;
+  const sc = rot.sc, last = d.days.length - 1, i = Math.min(last, Math.floor(t)), f = rotEase(t - i), j = Math.min(last, i + 1), sel = rot.sel;
+  const lerp = (a, b) => a + (b - a) * f;
+  const pos = d.secs.map(s => ({ s, x: lerp(s.x[i], s.x[j]), y: lerp(s.y[i], s.y[j]), v: lerp(s.sh3[i], s.sh3[j]) }));
+  const byName = {}; pos.forEach(p => byName[p.s.n] = p);
+  svg.querySelectorAll("circle.b").forEach(c => {
+    const p = byName[c.dataset.n], on = sel === p.s.n;
+    c.setAttribute("cx", sc.X(p.x).toFixed(1)); c.setAttribute("cy", sc.Y(p.y).toFixed(1)); c.setAttribute("r", (sc.R(p.v) * (on ? 1.15 : 1)).toFixed(1));
+    c.style.fill = rotFill(p.y);
+    c.style.opacity = sel ? (on ? 1 : 0.13) : 0.88;
+    c.classList.toggle("sel", on); c.classList.toggle("out", sc.out(p.x, p.y));
+  });
+  // 名稱標籤：有聚焦就只標被選的；沒有聚焦時，大的泡泡先標，會互相蓋住的就跳過
+  const boxes = [], show = new Map();
+  const cand = sel ? [byName[sel]] : [...pos].sort((a, b) => b.v - a.v);
+  for (const p of cand) {
+    const r = sc.R(p.v), cx = sc.X(p.x), cy0 = sc.Y(p.y), cy = r < 11 && !sel ? cy0 - r - 3 : cy0;       // 小泡泡的名字放在上方，才不會蓋住泡泡
+    const w = Math.min(5, p.s.n.length) * 10 + 4, b = [cx - w / 2, cy - 10, cx + w / 2, cy + 3];
+    if (!sel && (b[0] < ROT.ml || b[2] > ROT.W - ROT.mr || boxes.some(o => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]))) continue;
+    boxes.push(b); show.set(p.s.n, [cx, cy]);
+  }
+  svg.querySelectorAll("text.lb").forEach(tx => {
+    const p = show.get(tx.dataset.n);
+    if (!p) { tx.style.display = "none"; return; }
+    const s = byName[tx.dataset.n].s;
+    tx.style.display = ""; tx.setAttribute("x", p[0].toFixed(1)); tx.setAttribute("y", (p[1] + 3.5).toFixed(1)); tx.textContent = s.n.length > 5 ? s.n.slice(0, 5) : s.n;
+    tx.classList.toggle("big", sel === s.n);
+  });
+  // 被選類別的軌跡：過去每一天的位置連成線
+  const tr = svg.querySelector("#rotTrail");
+  if (sel) {
+    const s = byName[sel].s, pts = [];
+    for (let k = 0; k <= i; k++) pts.push([sc.X(s.x[k]), sc.Y(s.y[k])]);
+    const cur = byName[sel]; pts.push([sc.X(cur.x), sc.Y(cur.y)]);
+    tr.innerHTML = `<polyline class="tr" points="${pts.map(p => p.map(v => v.toFixed(1)).join(",")).join(" ")}"/>` + pts.slice(0, -1).map((p, k) => `<circle class="td" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6"/><text class="tl" x="${p[0].toFixed(1)}" y="${(p[1] - 6).toFixed(1)}" text-anchor="middle">${esc(d.days[k].slice(8))}</text>`).join("");
+  } else tr.innerHTML = "";
+  // 日期、時間軸、說明文字
+  const di = Math.round(t), dd = d.days[Math.min(last, di)];
+  svg.querySelector("#rotDate").textContent = `${dd.slice(5).replace("-", "/")}　第 ${Math.min(last, di) + 1} / ${last + 1} 日`;
+  const sc2 = $("rotScrub"); if (sc2 && document.activeElement !== sc2) sc2.value = t;
+  $("rotDay").textContent = dd.slice(5).replace("-", "/");
+  const s0 = sel ? byName[sel] : null, sg = (v, dgt = 0) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(dgt)}%`;
+  if (s0) {
+    const s = s0.s, k = Math.min(last, di);
+    $("rotPick").innerHTML = `<b>${esc(s.n)}</b>　${esc(dd.slice(5).replace("-", "/"))}：累計漲跌 <b class="${signCls(s.y[k])}">${sg(s.y[k], 2)}</b>　資金占比 <b>${(s.sh3[k] * 100).toFixed(1)}%</b>（起始 ${(s.base * 100).toFixed(1)}%，<span class="${signCls(s.x[k])}">${sg(s.x[k])}</span>）<br>當日成交金額 <b>${fmt(s.amt[k] / 1e8, 0)} 億</b>`;
+  } else $("rotPick").innerHTML = `沒有聚焦時顯示整體：按<b>播放</b>看資金怎麼流動，或點上方的重點、選單、泡泡聚焦單一類別。`;
+}
+function rotSelect(n) {
+  rot.sel = rot.sel === n ? "" : n;                                   // 再點一次同一個，就取消聚焦
+  const s = $("rotSelBox"); if (s) s.value = rot.sel;
+  rotFrame(rot.t);
+}
 /* 個股占大盤計算器 */
 function mcRender() {
   const out = $("mcOut"); if (!out) return;
@@ -2650,8 +2990,22 @@ function mktInit() {
   });
   $("mcTotalNote").addEventListener("click", e => { if (e.target.closest('[data-act="totAuto"]')) { lsDel("mktTotalManual"); mcApplyTotal(); } });
   for (const id of ["mcPrice", "mcShares", "mcPct"]) $(id).addEventListener("input", mcRender);
-  $("mktBody").addEventListener("click", e => { if (e.target.closest('[data-act="mktRefresh"]')) mktLoad(true); });
+  $("mktBody").addEventListener("click", e => {
+    if (e.target.closest('[data-act="mktRefresh"]')) { mktLoad(true); return; }
+    const b = e.target.closest("button[data-rng]"); if (b) { mkt.rng = +b.dataset.rng; mktRender(); }
+  });
   $("heatMode").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; heat.mode = b.dataset.m; [...$("heatMode").children].forEach(c => c.setAttribute("aria-pressed", c === b)); heatRender(); });
+  $("rotBody").addEventListener("click", e => {
+    if (e.target.closest('[data-act="rotRetry"]')) { rotLoad(true); return; }
+    if (e.target.closest("#rotPlay")) { rotPlay(!rot.playing); return; }
+    const c = e.target.closest("circle[data-n], .rotChip[data-n]"); if (c) rotSelect(c.dataset.n);
+  });
+  $("rotBody").addEventListener("change", e => { if (e.target.id === "rotSelBox") { rot.sel = e.target.value; rotFrame(rot.t); } });
+  $("rotBody").addEventListener("input", e => {
+    if (e.target.id !== "rotScrub") return;
+    if (rot.playing) rotPlay(false);                                // 手動拖曳時間軸，就先暫停動畫
+    rot.t = +e.target.value; rot.done = false; rotFrame(rot.t); rotSyncUi();
+  });
   $("heatBody").addEventListener("click", e => { const b = e.target.closest("button[data-code]"); if (b) { heat.sel = b.dataset.code; heatRender(); } });
   mcRender();
 }
