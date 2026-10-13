@@ -220,6 +220,34 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .vdBar i { display: block; height: 100%; border-radius: 3px; background: var(--profit); }
 .vdRow p { margin: 0; font-size: .76rem; line-height: 1.55; color: var(--muted); }
 .vdNote { font-size: .72rem; color: var(--muted); line-height: 1.55; margin: 10px 0 0; }
+/* 持股明細：表格式 */
+.sortbar { display: flex; gap: 6px; font-size: .74rem; color: var(--muted); align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+.sortbar button { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 0 11px; min-height: 32px; font: 500 .76rem var(--font-ui); cursor: pointer; }
+.sortbar button[aria-pressed="true"] { color: var(--profit); border-color: var(--profit); font-weight: 600; }
+.sortbar .hint { margin-left: auto; font-size: .7rem; }
+.tblB { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.tblB .th, .tblB .tr, .tblB .tot { display: grid; grid-template-columns: minmax(0, 1.25fr) .8fr 1fr 1fr; align-items: center; padding: 0 10px; }
+.tblB .th { background: var(--bg); color: var(--muted); font: 600 .7rem var(--font-ui); min-height: 32px; }
+.tblB .th span:not(:first-child), .tblB .tr > div:not(:first-child), .tblB .tot div:not(:first-child) { text-align: right; }
+.tblB .tr { min-height: 56px; border-top: 1px solid var(--line); cursor: pointer; font: .84rem var(--font-num); font-variant-numeric: tabular-nums; }
+.tblB .tr:nth-of-type(odd) { background: color-mix(in srgb, var(--bg) 55%, transparent); }
+.tblB .tr.open { background: color-mix(in srgb, var(--profit) 8%, transparent); }
+.tblB .tr:focus-visible { outline: 2px solid var(--profit); outline-offset: -2px; }
+.tblB .tr .n { font: 700 .9rem var(--font-ui); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tblB .tr .c { font: 500 .68rem var(--font-num); color: var(--muted); }
+.tblB .tr small { display: block; font-size: .68rem; color: var(--muted); }
+.tblB .tr small.up { color: var(--bull); } .tblB .tr small.dn { color: var(--bear); }
+.tblB .tr .up small, .tblB .tr .dn small { color: inherit; }
+.tblB .tot { padding-block: 9px; border-top: 2px solid var(--line); background: var(--bg); font: 700 .84rem var(--font-num); }
+.tblB .tot div:first-child { font-family: var(--font-ui); }
+.hdet { padding: 10px 12px 12px; border-top: 1px dashed var(--line); background: color-mix(in srgb, var(--bg) 60%, transparent); font-size: .78rem; }
+.hdet .g { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+.hdet .g > div { display: flex; justify-content: space-between; gap: 8px; }
+.hdet .g span { color: var(--muted); } .hdet .g b { font: 600 .8rem var(--font-num); }
+.hdet .why { margin: 8px 0 0; color: var(--muted); font-size: .72rem; line-height: 1.55; }
+.hdet .act { display: flex; gap: 8px; margin-top: 10px; }
+.hdet .act button { flex: 1; min-height: 44px; border: 0; border-radius: 8px; font: 700 .92rem var(--font-ui); color: #fff; cursor: pointer; }
+.hdet .buy { background: var(--bull); } .hdet .sell { background: var(--bear); }
 .lblRow { display: flex; align-items: center; gap: 4px; font-size: .76rem; color: var(--muted); margin-top: 2px; }
 .seg button:disabled { opacity: .4; cursor: not-allowed; }
 .odH { margin: 6px 0 0; font-size: .95rem; }
@@ -3687,7 +3715,7 @@ async function simQuote(code) {
   if (q && Date.now() - q.t < 3e5) return q;
   const rows = (await fm("TaiwanStockPrice", { data_id: code, start_date: dateBack({ days: 14 }) })).filter(x => x.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
   if (!rows.length) throw new Error(`查不到 ${code} 的報價`);
-  const r = rows[rows.length - 1], n = { close: r.close, date: r.date, t: Date.now() };
+  const r = rows[rows.length - 1], n = { close: r.close, prev: rows.length > 1 ? rows[rows.length - 2].close : 0, date: r.date, t: Date.now() };       // prev = 前一個交易日收盤，算「今日漲跌」用
   sim.quotes.set(code, n);
   return n;
 }
@@ -4114,13 +4142,7 @@ function renderSim() {
     <button type="button" class="x" data-act="cancel" data-id="${esc(o.id)}">取消</button></div>`).join("")
     : `<div class="empty">目前沒有預約單。下單後，會在下一個開盤用真實的開盤價成交。</div>`;
   // 持股
-  const hs = Object.entries(a.holdings || {});
-  $("simHold").innerHTML = hs.length ? hs.map(([c, h]) => {
-    const q = sim.quotes.get(c), mv = q ? h.qty * q.close : null, pl = mv == null ? null : mv - h.cost;
-    return `<div class="orow" style="grid-template-columns:minmax(0,1fr) auto"><div><div class="t">${nameOf(c, h.name)}</div>
-      <div class="s">${h.qty.toLocaleString("en-US")} 股　均價 ${fmt(h.cost / h.qty)}　${q ? "收盤 " + fmt(q.close) : "報價更新中"}</div></div>
-      <div class="pn ${signCls(pl)}">${pl == null ? "—" : spct(pl / h.cost, 2)}<small>${mv == null ? "" : money(mv)}</small></div></div>`;
-  }).join("") : `<div class="empty">目前沒有持股。</div>`;
+  renderSimHold(a);
   // 成交紀錄
   $("simTrades").innerHTML = (a.trades || []).length ? (a.trades || []).slice(0, 30).map(t => `<div class="orow" style="grid-template-columns:auto minmax(0,1fr) auto"><span class="pill ${t.ok ? (t.side === "buy" ? "buy" : "sell") : "no"}">${t.ok ? (t.side === "buy" ? "買進" : "賣出") : "未成交"}</span>
     <div><div class="t">${nameOf(t.code, t.name)}　${t.qty.toLocaleString("en-US")} 股</div><div class="s">${t.d}　${t.ok ? `${t.how ? `${esc(t.how)}，成交價` : "開盤價"} ${fmt(t.price)}　手續費 ${t.fee}${t.tax ? "　證交稅 " + t.tax : ""}` : esc(t.note || "")}</div></div>
@@ -4148,6 +4170,42 @@ function renderSimChamp() {
       <p class="tip" style="margin-top:6px;font-size:.84rem;color:var(--ink)">每一季（${mmdd(seasonStart(S))}～${mmdd(end)}）結算一次成績，<b>上一季的冠軍會放在這裡</b>。距離本季結算還有 <b>${left}</b> 天。</p>
       <p class="tip">${c ? "上一季還沒有人結算成績。" : "目前還沒有上一季的成績可以顯示。"}本季的即時排名在下方的排行榜。</p></div>`;
   }
+}
+/* 持股明細：表格式（商品／庫存／成本・現價／損益・報酬率），點一檔展開明細，可以直接帶入買進或賣出 */
+function renderSimHold(a) {
+  const el = $("simHold");
+  const rows = Object.entries(a.holdings || {}).map(([code, h]) => {
+    const q = sim.quotes.get(code), mv = q ? h.qty * q.close : null, pl = mv == null ? null : mv - h.cost;
+    const pend = (a.orders || []).filter(o => o.side === "sell" && o.code === code).reduce((s, o) => s + o.qty, 0);
+    return { code, h, q, mv, pl, rt: pl == null ? null : pl / h.cost, avg: h.cost / h.qty, free: h.qty - pend, pend };
+  });
+  if (!rows.length) { el.innerHTML = `<div class="empty">目前沒有持股。</div>`; return; }
+  const key = sim.hSort || "mv", val = r => r[key] == null ? -Infinity : r[key];
+  rows.sort((x, y) => val(y) - val(x));
+  const lots = q => q % 1000 === 0 ? `${q / 1000} 張` : `${q.toLocaleString("en-US")} 股`;
+  const known = rows.filter(r => r.mv != null), tMv = known.reduce((s, r) => s + r.mv, 0), tPl = known.reduce((s, r) => s + r.pl, 0), allKnown = known.length === rows.length;
+  const detail = r => {
+    const q = r.q, dp = q && q.prev > 0 ? q.close / q.prev - 1 : null, day = dp == null ? null : (q.close - q.prev) * r.h.qty;
+    const fee = q ? Math.max(1, Math.round(r.mv * SIM_FEE)) : 0, tx = q ? Math.round(r.mv * taxRate(r.code)) : 0, net = q ? r.mv - fee - tx - r.h.cost : null;
+    const cell = (k, v) => `<div><span>${k}</span><b>${v}</b></div>`;
+    return `<div class="hdet"><div class="g">${cell("可賣股數", r.free.toLocaleString("en-US"))}${cell("預約賣出中", r.pend.toLocaleString("en-US"))}
+      ${cell("買進均價", fmt(r.avg))}${cell("總成本", Math.round(r.h.cost).toLocaleString("en-US"))}
+      ${cell("今日漲跌", dp == null ? "—" : `<span class="${signCls(dp)}">${spct(dp, 2)}</span>`)}${cell("今日損益（估）", day == null ? "—" : `<span class="${signCls(day)}">${day >= 0 ? "+" : "−"}${Math.round(Math.abs(day)).toLocaleString("en-US")}</span>`)}
+      ${cell("賣出手續費", q ? fee.toLocaleString("en-US") : "—")}${cell("賣出證交稅", q ? tx.toLocaleString("en-US") : "—")}</div>
+      ${net == null ? "" : `<p class="why">若以現價全部賣出，扣掉手續費與證交稅後，實現損益約 <b class="${signCls(net)}">${net >= 0 ? "+" : "−"}${Math.round(Math.abs(net)).toLocaleString("en-US")}</b>。實際成交價取下個交易日開盤價，會有出入。</p>`}
+      <div class="act"><button type="button" class="buy" data-act="holdTrade" data-side="buy" data-code="${esc(r.code)}">買進</button><button type="button" class="sell" data-act="holdTrade" data-side="sell" data-code="${esc(r.code)}">賣出</button></div></div>`;
+  };
+  const sg = (n, d = 0) => (n >= 0 ? "+" : "−") + Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+  el.innerHTML = `<div class="sortbar">排序：${[["mv", "市值"], ["pl", "損益"], ["rt", "報酬率"]].map(([k, t]) => `<button type="button" data-act="holdSort" data-k="${k}" aria-pressed="${key === k}">${t}</button>`).join("")}<span class="hint">點一檔看明細</span></div>
+    <div class="tblB"><div class="th"><span>商品</span><span>庫存</span><span>成本／現價</span><span>損益／報酬率</span></div>
+    ${rows.map(r => {
+      const dp = r.q && r.q.prev > 0 ? r.q.close / r.q.prev - 1 : 0, open = sim.hOpen === r.code;
+      return `<div class="tr${open ? " open" : ""}" role="button" tabindex="0" data-act="holdOpen" data-code="${esc(r.code)}" aria-expanded="${open}"><div><div class="n">${esc(r.h.name || r.code)}</div><div class="c">${esc(r.code)}</div></div>
+        <div>${lots(r.h.qty)}<small>${r.h.qty.toLocaleString("en-US")} 股</small></div>
+        <div>${fmt(r.avg)}<small class="${signCls(dp)}">${r.q ? fmt(r.q.close) : "更新中"}</small></div>
+        <div class="${signCls(r.pl)}">${r.pl == null ? "—" : sg(r.pl)}<small>${r.rt == null ? "" : spct(r.rt, 2)}</small></div></div>${open ? detail(r) : ""}`;
+    }).join("")}
+    <div class="tot"><div>合計</div><div></div><div>${allKnown ? Math.round(tMv).toLocaleString("en-US") : "—"}</div><div class="${signCls(tPl)}">${allKnown ? sg(tPl) : "—"}</div></div></div>`;
 }
 function renderSimBoard() {
   const el = $("simBoard"), S = seasonOf(Date.now());
@@ -4264,12 +4322,20 @@ function simInit() {
     sim.lbSort = b.dataset.k; [...$("simSort").children].forEach(c => c.setAttribute("aria-pressed", c === b));
     simLoadBoard().catch(err => { sim.boardErr = simErrText(err, "載入排行榜"); renderSimBoard(); });
   });
+  $("simHold").addEventListener("keydown", e => { const r = e.target.closest(".tr[data-act]"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); r.click(); } });
   $("pgSim").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
     if (act === "login-open") openLogin("登入後才能參加模擬交易。");
     else if (act === "resend") { b.disabled = true; await simSyncBoard(true); renderSimBoard(); }
     else if (act === "editProfile") openProfile();
+    else if (act === "holdOpen") { sim.hOpen = sim.hOpen === b.dataset.code ? "" : b.dataset.code; renderSimHold(sim.acc); }
+    else if (act === "holdSort") { sim.hSort = b.dataset.k; renderSimHold(sim.acc); }
+    else if (act === "holdTrade") {                                  // 從持股明細直接帶入買進／賣出，並捲到下單區
+      sim.side = b.dataset.side; const h = (sim.acc.holdings || {})[b.dataset.code] || {};
+      renderSimForm(); document.querySelector(".simForm").scrollIntoView({ behavior: "smooth", block: "start" });
+      await simPick(b.dataset.code, h.name || "");
+    }
     else if (act === "refreshBoard") { b.textContent = "更新中…"; await simSyncBoard(false); renderSimBoard(); }
     else if (act === "claim") {
       b.disabled = true;
