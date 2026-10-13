@@ -248,6 +248,31 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .hdet .act { display: flex; gap: 8px; margin-top: 10px; }
 .hdet .act button { flex: 1; min-height: 44px; border: 0; border-radius: 8px; font: 700 .92rem var(--font-ui); color: #fff; cursor: pointer; }
 .hdet .buy { background: var(--bull); } .hdet .sell { background: var(--bear); }
+/* 成交紀錄 */
+.tfil { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.tfil .seg { flex: 1 1 220px; }
+.tfil .seg button { min-height: 36px; font-size: .76rem; white-space: nowrap; padding: 0 4px; }
+.tfil .seg button i { font: 500 .66rem var(--font-num); font-style: normal; margin-left: 3px; opacity: .75; }
+.tfil select { flex: 1 1 130px; min-width: 0; min-height: 36px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); padding: 0 8px; font: 500 .8rem var(--font-ui); }
+.tsum { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; }
+.tsum span { display: block; font-size: .64rem; color: var(--muted); }
+.tsum b { font: 600 .86rem var(--font-num); display: block; white-space: nowrap; }
+.tsum em { font: .62rem var(--font-num); font-style: normal; color: var(--muted); }
+.tgrp { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+.tgrp .th2 { display: flex; justify-content: space-between; background: var(--bg); padding: 6px 10px; font: 600 .74rem var(--font-ui); color: var(--muted); }
+.tgrp .th2 b { font-family: var(--font-num); }
+.trw { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 10px; border-top: 1px solid var(--line); cursor: pointer; min-height: 52px; }
+.trw:first-of-type { border-top: 0; }
+.trw.open { background: color-mix(in srgb, var(--profit) 7%, transparent); }
+.trw:focus-visible { outline: 2px solid var(--profit); outline-offset: -2px; }
+.trw .n { font: 700 .88rem var(--font-ui); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trw .n i { font: 500 .68rem var(--font-num); font-style: normal; color: var(--muted); margin-left: 6px; }
+.trw .q { font: .74rem var(--font-num); color: var(--muted); margin-top: 1px; }
+.trw .p { font: 700 .92rem var(--font-num); text-align: right; white-space: nowrap; }
+.trw .p small { display: block; font: 400 .64rem var(--font-ui); color: var(--muted); }
+.trd { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; padding: 8px 12px 10px; background: color-mix(in srgb, var(--bg) 60%, transparent); font-size: .76rem; border-top: 1px dashed var(--line); }
+.trd > div { display: flex; justify-content: space-between; gap: 8px; } .trd span { color: var(--muted); } .trd b { font: 600 .78rem var(--font-num); text-align: right; }
+.tmore { display: block; margin: 4px auto 8px; }
 .lblRow { display: flex; align-items: center; gap: 4px; font-size: .76rem; color: var(--muted); margin-top: 2px; }
 .seg button:disabled { opacity: .4; cursor: not-allowed; }
 .odH { margin: 6px 0 0; font-size: .95rem; }
@@ -4144,10 +4169,7 @@ function renderSim() {
   // 持股
   renderSimHold(a);
   // 成交紀錄
-  $("simTrades").innerHTML = (a.trades || []).length ? (a.trades || []).slice(0, 30).map(t => `<div class="orow" style="grid-template-columns:auto minmax(0,1fr) auto"><span class="pill ${t.ok ? (t.side === "buy" ? "buy" : "sell") : "no"}">${t.ok ? (t.side === "buy" ? "買進" : "賣出") : "未成交"}</span>
-    <div><div class="t">${nameOf(t.code, t.name)}　${t.qty.toLocaleString("en-US")} 股</div><div class="s">${t.d}　${t.ok ? `${t.how ? `${esc(t.how)}，成交價` : "開盤價"} ${fmt(t.price)}　手續費 ${t.fee}${t.tax ? "　證交稅 " + t.tax : ""}` : esc(t.note || "")}</div></div>
-    <div class="pn ${signCls(t.pnl)}">${t.pnl == null ? "" : (t.pnl >= 0 ? "+" : "−") + Math.abs(t.pnl).toLocaleString("en-US")}<small>${t.pnl == null ? "" : "已實現損益"}</small></div></div>`).join("")
-    : `<div class="empty">還沒有成交紀錄。</div>`;
+  renderSimTrades(a);
   renderSimBoard(); renderSimForm(); renderSimChamp();
 }
 // 頁面最上方：上一季冠軍（還沒有已結算的成績時，顯示賽季說明與結算倒數）
@@ -4207,7 +4229,38 @@ function renderSimHold(a) {
     }).join("")}
     <div class="tot"><div>合計</div><div></div><div>${allKnown ? Math.round(tMv).toLocaleString("en-US") : "—"}</div><div class="${signCls(tPl)}">${allKnown ? sg(tPl) : "—"}</div></div></div>`;
 }
-function renderSimBoard() {
+/* 成交紀錄：依日期分組、可以篩選（全部／買進／賣出／未成交、單一股票）、有合計、預設只顯示最近 20 筆，點一筆展開細節 */
+function renderSimTrades(a) {
+  const el = $("simTrades"), all = a.trades || [];
+  if (!all.length) { el.innerHTML = `<div class="empty">還沒有成交紀錄。</div>`; return; }
+  const f = sim.tFilter || "all", code = sim.tCode || "";
+  const kind = t => !t.ok ? "fail" : t.side;
+  const cnt = k => all.filter(t => k === "all" || kind(t) === k).length;
+  const codes = [...new Map(all.map(t => [t.code, t.name])).entries()];
+  const list = all.filter(t => (f === "all" || kind(t) === f) && (!code || t.code === code));
+  const num = n => Math.round(n).toLocaleString("en-US"), sg = n => (n >= 0 ? "+" : "−") + num(Math.abs(n));
+  const sells = list.filter(t => t.ok && t.pnl != null), pl = sells.reduce((s, t) => s + t.pnl, 0), win = sells.filter(t => t.pnl > 0).length;
+  const cost = list.filter(t => t.ok).reduce((s, t) => s + (t.fee || 0) + (t.tax || 0), 0);
+  const show = list.slice(0, sim.tShow || 20), wd = d => "日一二三四五六"[new Date(d + "T00:00:00Z").getUTCDay()];
+  const groups = []; for (const t of show) { const g = groups[groups.length - 1]; if (g && g.d === t.d) g.rows.push(t); else groups.push({ d: t.d, rows: [t] }); }
+  const row = t => {
+    const open = sim.tOpen === t.id, tag = !t.ok ? "未成交" : t.side === "buy" ? "買進" : "賣出", amt = t.ok ? t.price * t.qty : 0;
+    return `<div class="trw${open ? " open" : ""}" role="button" tabindex="0" data-act="tradeOpen" data-id="${esc(t.id)}" aria-expanded="${open}">
+      <span class="pill ${t.ok ? (t.side === "buy" ? "buy" : "sell") : "no"}">${tag}</span>
+      <div class="m"><div class="n">${esc(t.name || t.code)}<i>${esc(t.code)}</i></div><div class="q">${t.qty.toLocaleString("en-US")} 股${t.ok ? `　@ ${fmt(t.price)}` : ""}</div></div>
+      <div class="p ${signCls(t.pnl)}">${t.pnl == null ? "" : sg(t.pnl)}<small>${t.pnl == null ? "" : "已實現"}</small></div></div>
+      ${open ? `<div class="trd">${t.ok ? `<div><span>成交方式</span><b>${t.how ? esc(t.how) : "市價（開盤價）"}</b></div><div><span>成交金額</span><b>${num(amt)}</b></div><div><span>手續費</span><b>${num(t.fee || 0)}</b></div><div><span>證交稅</span><b>${num(t.tax || 0)}</b></div>` : `<div style="grid-column:1/-1"><span>原因</span><b>${esc(t.note || "未成交")}</b></div>`}</div>` : ""}`;
+  };
+  el.innerHTML = `<div class="tfil"><div class="seg" role="group" aria-label="成交紀錄篩選">${[["all", "全部"], ["buy", "買進"], ["sell", "賣出"], ["fail", "未成交"]].map(([k, n]) => `<button type="button" data-act="tradeFilter" data-k="${k}" aria-pressed="${f === k}">${n}<i>${cnt(k)}</i></button>`).join("")}</div>
+      ${codes.length > 1 ? `<select id="tradeCode" aria-label="只看某一檔股票"><option value="">全部股票</option>${codes.map(([c, n]) => `<option value="${esc(c)}"${code === c ? " selected" : ""}>${esc(c)} ${esc(n || "")}</option>`).join("")}</select>` : ""}</div>
+    <div class="tsum"><div><span>筆數</span><b>${list.length}</b></div><div><span>已實現損益</span><b class="${signCls(pl)}">${sells.length ? sg(pl) : "—"}</b></div><div><span>賣出勝率</span><b>${sells.length ? Math.round(win / sells.length * 100) + "%" : "—"}</b><em>${sells.length ? win + "/" + sells.length : ""}</em></div><div><span>費用合計</span><b>${num(cost)}</b></div></div>
+    ${list.length ? groups.map(g => {
+      const gp = g.rows.filter(t => t.ok && t.pnl != null).reduce((s, t) => s + t.pnl, 0), has = g.rows.some(t => t.ok && t.pnl != null);
+      return `<div class="tgrp"><div class="th2"><span>${esc(g.d.slice(5).replace("-", "/"))}（${wd(g.d)}）</span><span>${g.rows.length} 筆${has ? `　<b class="${signCls(gp)}">${sg(gp)}</b>` : ""}</span></div>${g.rows.map(row).join("")}</div>`;
+    }).join("") : `<div class="empty">這個條件下沒有紀錄。</div>`}
+    ${list.length > show.length ? `<button type="button" class="info-link tmore" data-act="tradeMore">顯示更多（還有 ${list.length - show.length} 筆）</button>` : (list.length > 20 ? `<button type="button" class="info-link tmore" data-act="tradeLess">收合，只看最近 20 筆</button>` : "")}
+    <p class="advnote">只保留最近 200 筆成交紀錄；損益是賣出時的已實現損益（已扣手續費與證交稅），買進和未成交沒有損益。</p>`;
+}function renderSimBoard() {
   const el = $("simBoard"), S = seasonOf(Date.now());
   $("simBoardTitle").textContent = `${seasonName(S)}排行榜（${mmdd(seasonEnd(S))} 結算）`;
   const mine = user && sim.lb.some(r => r.uid === user.uid);
@@ -4323,6 +4376,8 @@ function simInit() {
     simLoadBoard().catch(err => { sim.boardErr = simErrText(err, "載入排行榜"); renderSimBoard(); });
   });
   $("simHold").addEventListener("keydown", e => { const r = e.target.closest(".tr[data-act]"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); r.click(); } });
+  $("simTrades").addEventListener("keydown", e => { const r = e.target.closest(".trw[data-act]"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); r.click(); } });
+  $("simTrades").addEventListener("change", e => { if (e.target.id === "tradeCode") { sim.tCode = e.target.value; sim.tShow = 20; sim.tOpen = ""; renderSimTrades(sim.acc); } });
   $("pgSim").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
@@ -4330,6 +4385,10 @@ function simInit() {
     else if (act === "resend") { b.disabled = true; await simSyncBoard(true); renderSimBoard(); }
     else if (act === "editProfile") openProfile();
     else if (act === "holdOpen") { sim.hOpen = sim.hOpen === b.dataset.code ? "" : b.dataset.code; renderSimHold(sim.acc); }
+    else if (act === "tradeOpen") { sim.tOpen = sim.tOpen === b.dataset.id ? "" : b.dataset.id; renderSimTrades(sim.acc); }
+    else if (act === "tradeFilter") { sim.tFilter = b.dataset.k; sim.tShow = 20; sim.tOpen = ""; renderSimTrades(sim.acc); }
+    else if (act === "tradeMore") { sim.tShow = (sim.tShow || 20) + 20; renderSimTrades(sim.acc); }
+    else if (act === "tradeLess") { sim.tShow = 20; renderSimTrades(sim.acc); $("simTrades").scrollIntoView({ block: "start" }); }
     else if (act === "holdSort") { sim.hSort = b.dataset.k; renderSimHold(sim.acc); }
     else if (act === "holdTrade") {                                  // 從持股明細直接帶入買進／賣出，並捲到下單區
       sim.side = b.dataset.side; const h = (sim.acc.holdings || {})[b.dataset.code] || {};
