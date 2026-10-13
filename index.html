@@ -276,8 +276,21 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .trd > div { display: flex; justify-content: space-between; gap: 8px; } .trd span { color: var(--muted); } .trd b { font: 600 .78rem var(--font-num); text-align: right; }
 .tmore { display: block; margin: 4px auto 8px; }
 /* 管理後台 */
-.admTabs { position: sticky; top: 52px; z-index: 12; margin-bottom: 12px; }
-.admTabs button { min-height: 40px; font-size: .84rem; }
+.admTabs { position: sticky; top: 52px; z-index: 12; margin-bottom: 12px; overflow-x: auto; scrollbar-width: none; }
+.admTabs::-webkit-scrollbar { display: none; }
+.admTabs button { min-height: 40px; font-size: .84rem; flex: 1 0 auto; padding: 0 14px; white-space: nowrap; }
+.fld textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 10px; font: 400 .95rem/1.5 var(--font-ui); resize: vertical; min-width: 0; }
+.ann { display: flex; gap: 10px; align-items: flex-start; border-radius: 10px; padding: 10px 12px; border: 1px solid var(--line); background: var(--surface); font-size: .86rem; line-height: 1.55; }
+.ann .at { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; overflow-wrap: anywhere; } .ann .at b { font-size: .9rem; }
+.ann .ax { flex: none; border: 0; background: transparent; color: inherit; opacity: .7; font: 400 1.4rem/1 var(--font-ui); cursor: pointer; min-width: 32px; min-height: 32px; display: flex; align-items: center; justify-content: center; margin: -6px -6px 0 0; padding: 0; }
+.ann-info { border-color: var(--profit); }
+.ann-warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-ink); }
+.ann-ok { border-color: var(--bear); background: color-mix(in srgb, var(--bear) 10%, var(--surface)); }
+#annBar:empty { display: none; }
+.rep .rh { display: flex; flex-direction: column; gap: 2px; padding-bottom: 8px; border-bottom: 1px solid var(--line); } .rep .rh b { font-size: 1rem; } .rep .rh span { font-size: .72rem; color: var(--muted); }
+.rep h4 { margin: 12px 0 2px; font-size: .74rem; color: var(--muted); font-weight: 600; letter-spacing: .04em; }
+.rrow { display: grid; grid-template-columns: minmax(0, 1fr) auto 6.5em; gap: 8px; align-items: baseline; padding: 4px 0; font-size: .84rem; border-bottom: 1px dashed var(--line); } .rrow:last-child { border-bottom: 0; }
+.rrow b { font: 600 .88rem var(--font-num); text-align: right; } .rrow em { font: .72rem var(--font-num); font-style: normal; color: var(--muted); text-align: right; } .rrow em.up { color: var(--bull); } .rrow em.dn { color: var(--bear); }
 .admBodyIn { display: flex; flex-direction: column; gap: 12px; }
 .admBodyIn h2 { margin-bottom: -4px; }
 .stat .h.up { color: var(--bull); } .stat .h.dn { color: var(--bear); }
@@ -287,7 +300,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .usage2 em.up { color: var(--bull); } .usage2 em.dn { color: var(--bear); }
 .ins { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .84rem; line-height: 1.55; } .ins:last-child { border-bottom: 0; }
 .ins i { flex: none; width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; background: var(--muted); }
-.ins.warn i { background: var(--trapped); } .ins.ok i { background: var(--bear); }
+.ins.lv-warn i { background: var(--trapped); } .ins.lv-ok i { background: var(--bear); }
 .fun { position: relative; display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 8px 10px; margin: 4px 0; border-radius: 6px; font-size: .84rem; overflow: hidden; background: var(--bg); }
 .fun .fb { position: absolute; left: 0; top: 0; bottom: 0; background: color-mix(in srgb, var(--profit) 22%, transparent); }
 .fun span, .fun b, .fun em { position: relative; } .fun b { font: 600 .84rem var(--font-num); } .fun em { font: .74rem var(--font-num); font-style: normal; color: var(--muted); min-width: 3.4em; text-align: right; }
@@ -751,6 +764,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <rect x="8" y="30.4" width="48" height="1.8" rx=".9" fill="#e6c98f"/>
 </symbol></svg>
 <main class="app">
+  <div id="annBar"></div>
   <div id="zoomBar" class="zoomBar" role="group" aria-label="頁面大小" hidden>
     <span class="zl">頁面大小</span>
     <button id="zOut" type="button" aria-label="縮小頁面">A<small>−</small></button>
@@ -2499,7 +2513,7 @@ function adminStatusHtml() {
    分成五個分頁：總覽（重點數字與自動提醒）、流量、會員、交易、檢查。載入一次後在瀏覽器裡計算，切換分頁不會重新讀取資料。 */
 const ADM_LABEL = { tab_guide: "新手專區", tab_analyze: "分析", tab_market: "大盤指數", tab_screen: "選股", tab_watch: "自選股", tab_backtest: "回測", tab_sim: "模擬交易",
   act_search: "查詢股票", act_screen: "執行選股", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
-const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["ck", "檢查"]];
+const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["ck", "檢查"], ["an", "公告"], ["rp", "報表"]];
 const adm = { data: null, loading: false, err: "", tab: "ov", range: 30, sort: "last", q: "", filt: "all", open: "", watch: null, watchBusy: false };
 const n0 = v => Math.round(v).toLocaleString("en-US");
 const dayMs = d => Date.parse(d + "T00:00:00+08:00");
@@ -2531,7 +2545,7 @@ async function adminLoad(force) {
     });
     adm.data = { stats, accs, cur, prev, bCur: new Map(b1.docs.map(d => [d.id, d.data()])), bPrev: new Map(b0.docs.map(d => [d.id, d.data()])), at: now };
   } catch (e) { adm.err = e.code === "permission-denied" ? "沒有讀取權限：請確認 Firestore 規則已更新並發佈（整份重新貼上），且你的帳號已被加入管理員。" : "讀取失敗：" + (e.message || e.code); }
-  adm.loading = false; admRender();
+  adm.loading = false; admRender(); if (adm.data) repAuto();
 }
 function admSeries(days) {                                         // 把每日紀錄補成「連續日期」，沒有紀錄的日子算 0
   const map = new Map(adm.data.stats.map(s => [s.day, s])), out = [];
@@ -2592,7 +2606,7 @@ function admOverview(D) {
     ${card("模擬交易會員", A.length + " 位", `近 7 天新增 ${newW} 位`)}
     ${card("近 7 天活躍會員", act7 + " 位", A.length ? `占會員 ${Math.round(act7 / A.length * 100)}%` : "—")}
     ${card("本季上榜", D.bCur.size + " 位", `${D.cur} 排行榜`)}</section>
-    <h2>需要注意的事</h2><div class="card" style="padding:6px 14px">${admInsights(D).map(([lv, t]) => `<div class="ins ${lv}"><i></i><span>${esc(t)}</span></div>`).join("")}</div>
+    <h2>需要注意的事</h2><div class="card" style="padding:6px 14px">${admInsights(D).map(([lv, t]) => `<div class="ins lv-${lv}"><i></i><span>${esc(t)}</span></div>`).join("")}</div>
     <h2>使用漏斗（近 30 天）</h2><div class="card" style="padding:12px 14px">${fun("造訪", su, su)}${fun("登入", sg, su)}${fun("模擬下單", od, su)}
       <p class="advnote" style="padding:6px 0 0">造訪、登入、下單都是「次數」，不是人數；同一個人會重複計算，所以只當趨勢參考。</p></div>`;
 }
@@ -2707,6 +2721,155 @@ function admCheck(D) {
     <h2>熱門自選股</h2><div class="card" style="padding:12px 14px">${wHtml}</div>
     <p class="advnote">這份檢查會讀取所有模擬交易帳戶，只顯示暱稱與統計，不顯示持股內容。成績要等本人打開「模擬交易」頁才會送出。</p>`;
 }
+/* ───── 公告：管理員在後台發布，所有使用者（不用登入）打開網站時，最上方會看到 ─────
+   存在 config/announcement（任何人可以讀、只有管理員可以寫）。使用者按 × 之後，同一則公告不會再出現（改內容重新發布就會再出現）。 */
+const ann = { doc: null, at: 0 };
+async function annLoad() {
+  if (!fdb) return;
+  try { const s = await fdb.collection("config").doc("announcement").get(); ann.doc = s.exists ? s.data() : null; ann.at = Date.now(); } catch (e) { return; }
+  annRender();
+}
+function annRender() {
+  const el = $("annBar"); if (!el) return;
+  const a = ann.doc; let seen = ""; try { seen = localStorage.getItem("chipAnnSeen") || ""; } catch (e) {}
+  if (!a || !a.active || !a.text || (a.expiresAt && Date.now() > a.expiresAt) || String(a.updatedAt) === seen) { el.innerHTML = ""; return; }
+  const lv = ["info", "warn", "ok"].includes(a.level) ? a.level : "info";
+  el.innerHTML = `<div class="ann ann-${lv}" role="status"><div class="at">${a.title ? `<b>${esc(a.title)}</b>` : ""}<span>${esc(a.text)}</span></div><button type="button" class="ax" id="annClose" aria-label="關閉這則公告">×</button></div>`;
+  $("annClose").onclick = () => { try { localStorage.setItem("chipAnnSeen", String(a.updatedAt)); } catch (e) {} el.innerHTML = ""; };
+}
+const annForm = { title: "", text: "", level: "info", days: "7", loaded: false };
+function admAnnouncement() {
+  const a = ann.doc, live = a && a.active && (!a.expiresAt || Date.now() < a.expiresAt);
+  if (!annForm.loaded && a) { Object.assign(annForm, { title: a.title || "", text: a.text || "", level: a.level || "info" }); }
+  annForm.loaded = true;
+  const lv = annForm.level, prev = annForm.text.trim() ? `<div class="ann ann-${lv}"><div class="at">${annForm.title ? `<b>${esc(annForm.title)}</b>` : ""}<span>${esc(annForm.text)}</span></div><span class="ax" aria-hidden="true">×</span></div>` : `<div class="empty">輸入內容後，這裡會顯示使用者看到的樣子。</div>`;
+  return `<div class="card" style="padding:12px 14px"><div class="gGroupT" style="padding:0 0 6px">目前狀態</div>
+    <div style="font-size:.86rem;line-height:1.6">${live ? `<b class="dn" style="color:var(--bear)">公告中</b>　${esc(a.title ? a.title + "：" : "")}${esc(a.text)}<br><span style="color:var(--muted);font-size:.76rem">${new Date(a.updatedAt).toLocaleString("zh-TW", { hour12: false })} 發布${a.expiresAt ? "，" + new Date(a.expiresAt).toLocaleDateString("zh-TW") + " 到期" : "，沒有期限"}</span>` : `<span style="color:var(--muted)">${a && a.active ? "上一則公告已到期" : "目前沒有公告"}</span>`}</div>
+    ${live ? `<button type="button" class="btn ghost" style="margin-top:10px" data-act="annOff">下架這則公告</button>` : ""}</div>
+    <h2>發布新公告</h2>
+    <div class="card btForm" style="gap:10px">
+      <label class="fld" for="annTitle"><span>標題（選填，最多 40 字）</span><input id="annTitle" maxlength="40" value="${esc(annForm.title)}" placeholder="例如：系統維護通知"></label>
+      <label class="fld" for="annText"><span>內容（必填，最多 300 字）<em id="annCnt" style="font-style:normal;float:right">${annForm.text.length}/300</em></span><textarea id="annText" maxlength="300" rows="4" placeholder="例如：今晚 23:00 到 23:30 進行維護，這段時間可能無法登入。">${esc(annForm.text)}</textarea></label>
+      <div class="two"><label class="fld" for="annLevel"><span>類型</span><select id="annLevel">${[["info", "一般通知"], ["warn", "重要提醒"], ["ok", "好消息"]].map(([k, t]) => `<option value="${k}"${lv === k ? " selected" : ""}>${t}</option>`).join("")}</select></label>
+        <label class="fld" for="annDays"><span>顯示多久</span><select id="annDays">${[["1", "1 天"], ["3", "3 天"], ["7", "7 天"], ["14", "14 天"], ["30", "30 天"], ["0", "不設期限"]].map(([k, t]) => `<option value="${k}"${annForm.days === k ? " selected" : ""}>${t}</option>`).join("")}</select></label></div>
+      <div class="gGroupT" style="padding:2px 0">預覽</div><div id="annPrev">${prev}</div>
+      <button type="button" class="btn" data-act="annPub">發布公告</button><div id="annMsg" class="status" hidden></div></div>
+    <p class="advnote">公告會顯示在網站最上方，包含沒有登入的訪客。使用者按 × 之後同一則不會再出現；改內容重新發布，所有人會再看到一次。公告存在 Firestore，需要已經發佈新版規則（有 config 的規則）。</p>`;
+}
+async function admAnnPublish() {
+  const msg = $("annMsg"), say = (t, err) => { msg.hidden = false; msg.className = "status" + (err ? " err" : ""); msg.textContent = t; };
+  const text = annForm.text.trim(); if (!text) { say("請先輸入公告內容。", true); return; }
+  const days = +annForm.days, now = Date.now();
+  try {
+    await fdb.collection("config").doc("announcement").set({ title: annForm.title.trim(), text, level: annForm.level, active: true, updatedAt: now, expiresAt: days ? now + days * 864e5 : null });
+    ann.doc = { title: annForm.title.trim(), text, level: annForm.level, active: true, updatedAt: now, expiresAt: days ? now + days * 864e5 : null };
+    try { localStorage.removeItem("chipAnnSeen"); } catch (e) {}
+    annRender(); admRender(); const m2 = $("annMsg"); if (m2) { m2.hidden = false; m2.className = "status"; m2.textContent = "已發布。使用者下次打開網站（或回到網站）時就會看到。"; }
+  } catch (e) { say(e.code === "permission-denied" ? "沒有寫入權限：請把新版 firestore.rules 整份重新貼上並發佈（新增了公告的規則）。" : "發布失敗：" + (e.message || e.code), true); }
+}
+async function admAnnOff() {
+  try { await fdb.collection("config").doc("announcement").set({ ...ann.doc, active: false, updatedAt: Date.now() }); ann.doc = { ...ann.doc, active: false }; annRender(); admRender(); }
+  catch (e) { adm.err = e.code === "permission-denied" ? "沒有寫入權限：請確認新版規則已發佈。" : "下架失敗：" + (e.message || e.code); admRender(); }
+}
+
+/* ───── 定期報表：每週（週一～週日）、每月各一份，存在 reports/<編號>，只有管理員讀寫 ─────
+   沒有伺服器可以定時執行，所以採「補產生」：管理員每次打開後台，會自動檢查「上一個完整的週／月」有沒有報表，沒有就補一份並存起來。
+   流量數字取自每日計數器（隨時可以重算）；會員與交易的數字是「產生當下」的快照，所以愈早打開後台，快照愈接近那一期的實際狀況。 */
+const rep = { list: null, kind: "week", sel: "", busy: false, msg: "", live: null };
+const addDays = (d, n) => new Date(Date.parse(d + "T00:00:00Z") + n * 864e5).toISOString().slice(0, 10);
+function repPeriod(kind, ref) {                                       // ref：參考日期（含在這一期內）
+  if (kind === "week") { const w = weekIdx(dayMs(ref) + 12 * 3600e3), from = weekMonday(w); return { kind, id: `w-${from}`, from, to: addDays(from, 6), label: `${from.slice(5).replace("-", "/")}～${addDays(from, 6).slice(5).replace("-", "/")}` }; }
+  const ym = ref.slice(0, 7), last = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7), 0)).toISOString().slice(0, 10);
+  return { kind, id: `m-${ym}`, from: ym + "-01", to: last, label: `${+ym.slice(0, 4)} 年 ${+ym.slice(5, 7)} 月` };
+}
+function repPrevPeriod(p) { return repPeriod(p.kind, addDays(p.from, -1)); }
+function repBuild(D, p, partial) {
+  const inP = d => d >= p.from && d <= p.to, pp = repPrevPeriod(p), inPP = d => d >= pp.from && d <= pp.to;
+  const S = D.stats.filter(s => inP(s.day)), P = D.stats.filter(s => inPP(s.day)), sm = (arr, k) => arr.reduce((a, d) => a + (d[k] || 0), 0);
+  const days = Math.round((Date.parse(p.to) - Date.parse(p.from)) / 864e5) + 1;
+  const tabs = {}, acts = {}; for (const k of Object.keys(ADM_LABEL)) (k.startsWith("tab_") ? tabs : acts)[k] = sm(S, k);
+  const A = D.accs, t0 = dayMs(p.from), t1 = dayMs(p.to) + 864e5;
+  const actIn = x => (x.trades || []).some(t => inP(t.d)) || (x.orders || []).some(o => o.createdAt >= t0 && o.createdAt < t1);
+  const all = A.flatMap(x => (x.trades || []).filter(t => inP(t.d))), ok = all.filter(t => t.ok), sells = ok.filter(t => t.pnl != null);
+  const cnt = new Map(); ok.forEach(t => { const o = cnt.get(t.code) || { n: t.name || t.code, c: 0 }; o.c++; cnt.set(t.code, o); });
+  const held = new Map(); A.forEach(x => Object.entries(x.holdings || {}).forEach(([c, h]) => { const o = held.get(c) || { n: h.name || c, c: 0 }; o.c++; held.set(c, o); }));
+  const top = m => [...m.entries()].sort((a, b) => b[1].c - a[1].c).slice(0, 5).map(([c, o]) => [c, o.n, o.c]);
+  return { id: p.id, kind: p.kind, from: p.from, to: p.to, label: p.label, partial: !!partial, createdAt: Date.now(), days, daysWithData: S.length,
+    traffic: { sessions: sm(S, "sessions"), uniques: sm(S, "uniques"), signins: sm(S, "act_signin"), orders: sm(S, "act_order"), prevSessions: sm(P, "sessions"), prevUniques: sm(P, "uniques"), prevDaysWithData: P.length, tabs, acts },
+    members: { total: A.length, joined: A.filter(x => (x.createdAt || 0) >= t0 && (x.createdAt || 0) < t1).length, active: A.filter(actIn).length, sleepers: A.filter(x => x.claimedCount && dAgo(x.lastAct) > 14).length, noCash: A.filter(x => !x.claimedCount).length, onBoard: D.bCur.size },
+    trades: { count: ok.length, buy: ok.filter(t => t.side === "buy").length, sell: ok.filter(t => t.side === "sell").length, fail: all.length - ok.length, wins: sells.filter(t => t.pnl > 0).length, sells: sells.length, pnl: sells.reduce((s, t) => s + t.pnl, 0), amount: Math.round(ok.reduce((s, t) => s + t.price * t.qty, 0)), fees: ok.reduce((s, t) => s + (t.fee || 0) + (t.tax || 0), 0), top: top(cnt), held: top(held) } };
+}
+function repSummary(r) {
+  const T = r.traffic, M = r.members, X = r.trades, L = [];
+  L.push(`${r.kind === "week" ? "週報" : "月報"}　${r.label}（${r.from} ～ ${r.to}）${r.partial ? "（到目前為止）" : ""}`);
+  L.push(`流量：造訪 ${n0(T.sessions)} 次（前一期 ${n0(T.prevSessions)}，${delta(T.sessions, T.prevSessions)}），不重複訪客 ${n0(T.uniques)}（${delta(T.uniques, T.prevUniques)}）；登入 ${n0(T.signins)} 次、模擬下單 ${n0(T.orders)} 次。`);
+  const tab = Object.entries(T.tabs).sort((a, b) => b[1] - a[1])[0]; if (tab && tab[1] > 0) L.push(`最常被打開的頁籤：${ADM_LABEL[tab[0]]}（${n0(tab[1])} 次）。`);
+  L.push(`會員：共 ${M.total} 位，這一期新加入 ${M.joined} 位，有下單或成交的 ${M.active} 位，沉睡 ${M.sleepers} 位，本季上榜 ${M.onBoard} 位。`);
+  L.push(`交易：成交 ${n0(X.count)} 筆（買 ${X.buy}／賣 ${X.sell}），未成交 ${X.fail} 筆；賣出勝率 ${X.sells ? Math.round(X.wins / X.sells * 100) + "%" : "—"}，已實現損益 ${X.sells ? (X.pnl >= 0 ? "+" : "−") + n0(Math.abs(X.pnl)) : "—"}。`);
+  if (X.top.length) L.push(`最常被交易：${X.top.map(t => `${t[1]}(${t[2]})`).join("、")}。`);
+  if (r.daysWithData < r.days) L.push(`注意：這一期有 ${r.days - r.daysWithData} 天沒有流量紀錄。`);
+  return L.join("\n");
+}
+async function repAuto() {                                           // 管理員打開後台時：補產生「上一個完整的週與月」
+  if (rep.busy || !adm.data) return;
+  rep.busy = true;
+  try {
+    if (!rep.list) { const s = await fdb.collection("reports").orderBy("createdAt", "desc").limit(80).get(); rep.list = s.docs.map(d => d.data()); }
+    const today = twDate(Date.now()), made = [];
+    for (const kind of ["week", "month"]) {
+      const cur = repPeriod(kind, today), last = repPeriod(kind, addDays(cur.from, -1));
+      if (!rep.list.some(r => r.id === last.id)) { const r = repBuild(adm.data, last, false); await fdb.collection("reports").doc(r.id).set(r); rep.list.unshift(r); made.push(r.label); }
+    }
+    if (made.length) rep.msg = `已自動補產生報表：${made.join("、")}。`;
+  } catch (e) { rep.err = e.code === "permission-denied" ? "報表沒辦法讀寫：請把新版 firestore.rules 整份重新貼上並發佈（新增了 reports 的規則）。" : "報表載入失敗：" + (e.message || e.code); }
+  rep.busy = false; if (adm.tab === "rp") admRender();
+}
+function repHtml(r) {
+  const T = r.traffic, M = r.members, X = r.trades, row = (k, v, sub) => `<div class="rrow"><span>${k}</span><b>${v}</b>${sub ? `<em class="${sub[1] || ""}">${sub[0]}</em>` : "<em></em>"}</div>`;
+  const tabs = Object.entries(T.tabs).sort((a, b) => b[1] - a[1]).filter(x => x[1] > 0).slice(0, 4), tt = Math.max(1, Object.values(T.tabs).reduce((s, v) => s + v, 0));
+  const lst = (arr, unit) => arr.length ? arr.map(t => `<div class="rrow"><span>${esc(t[0])} ${esc(t[1])}</span><b>${t[2]}${unit}</b><em></em></div>`).join("") : `<div class="rrow"><span style="color:var(--muted)">沒有資料</span><b></b><em></em></div>`;
+  return `<div class="card rep"><div class="rh"><b>${r.kind === "week" ? "週報" : "月報"}　${esc(r.label)}</b><span>${r.from} ～ ${r.to}${r.partial ? "　到目前為止" : ""}</span><span>產生於 ${new Date(r.createdAt).toLocaleString("zh-TW", { hour12: false })}</span></div>
+    <h4>流量</h4>${row("造訪次數", n0(T.sessions), [`比前一期 ${delta(T.sessions, T.prevSessions)}`, dcls(T.sessions, T.prevSessions)])}${row("不重複訪客", n0(T.uniques), [`比前一期 ${delta(T.uniques, T.prevUniques)}`, dcls(T.uniques, T.prevUniques)])}${row("登入", n0(T.signins))}${row("模擬下單", n0(T.orders))}
+    <h4>最常被打開的頁籤</h4>${tabs.map(([k, v]) => row(ADM_LABEL[k], n0(v), [`${Math.round(v / tt * 100)}%`])).join("") || row("—", "")}
+    <h4>會員（產生當下的快照）</h4>${row("會員總數", M.total)}${row("這一期新加入", M.joined)}${row("這一期有下單或成交", M.active)}${row("沉睡（超過 14 天）", M.sleepers)}${row("未領資金", M.noCash)}${row("本季上榜", M.onBoard)}
+    <h4>交易（這一期的成交）</h4>${row("成交筆數", n0(X.count), [`買 ${X.buy}／賣 ${X.sell}`])}${row("未成交", X.fail)}${row("賣出勝率", X.sells ? Math.round(X.wins / X.sells * 100) + "%" : "—", [`${X.wins}/${X.sells}`])}${row("已實現損益", X.sells ? (X.pnl >= 0 ? "+" : "−") + n0(Math.abs(X.pnl)) : "—")}${row("成交金額", X.amount >= 1e8 ? (X.amount / 1e8).toFixed(1) + " 億" : n0(X.amount / 1e4) + " 萬")}${row("手續費＋稅", n0(X.fees))}
+    <h4>最常被交易</h4>${lst(X.top, " 筆")}<h4>最多人持有</h4>${lst(X.held, " 人")}
+    ${r.daysWithData < r.days ? `<p class="advnote">這一期有 ${r.days - r.daysWithData} 天沒有流量紀錄。</p>` : ""}</div>
+    <div class="two" style="gap:8px"><button type="button" class="btn ghost" data-act="repCopy">複製摘要文字</button><button type="button" class="btn ghost" data-act="repCsv">下載 CSV</button></div>`;
+}
+function admReports(D) {
+  if (rep.err && !rep.list) return `<div class="status err">${esc(rep.err)}</div>`;
+  if (!rep.list) { if (!rep.busy) repAuto(); return `<div class="status">載入報表中…</div>`; }
+  const list = rep.list.filter(r => r.kind === rep.kind).sort((a, b) => a.from < b.from ? 1 : -1);
+  const cur = rep.live || (rep.sel && rep.list.find(r => r.id === rep.sel)) || list[0];
+  const trend = list.slice(0, 8).reverse(), mx = Math.max(1, ...trend.map(r => r.traffic.sessions)), mm = Math.max(1, ...trend.map(r => r.members.total));
+  return `<div class="seg" id="repKind" role="group" aria-label="報表種類"><button type="button" data-k="week" aria-pressed="${rep.kind === "week"}">週報</button><button type="button" data-k="month" aria-pressed="${rep.kind === "month"}">月報</button></div>
+    ${rep.msg ? `<div class="status">${esc(rep.msg)}</div>` : ""}${rep.err ? `<div class="status err">${esc(rep.err)}</div>` : ""}
+    <div class="card" style="padding:12px 14px;font-size:.82rem;line-height:1.65">每次打開後台，系統會自動補產生「上一個完整的${rep.kind === "week" ? "週（週一到週日）" : "月"}」的報表並存起來。沒有伺服器能定時執行，所以最晚在你下次打開後台時補上。</div>
+    <div class="two" style="gap:8px"><button type="button" class="btn ghost" data-act="repLive">看${rep.kind === "week" ? "本週" : "本月"}到目前為止</button><button type="button" class="btn ghost" data-act="repRegen">重新產生上一${rep.kind === "week" ? "週" : "月"}</button></div>
+    ${trend.length > 1 ? `<h2>最近 ${trend.length} 期趨勢</h2><div class="card" style="padding:8px 14px">${trend.map(r => `<div class="usage2" style="grid-template-columns:6.4em minmax(0,1fr) 3.4em 3.6em"><span>${esc(r.label.replace(/ 年 /, "/").replace(" 月", ""))}</span><span class="ub"><i style="width:${(r.traffic.sessions / mx * 100).toFixed(1)}%"></i></span><b>${n0(r.traffic.sessions)}</b><em>${r.members.total} 位</em></div>`).join("")}<p class="advnote" style="padding:4px 0 0">條：造訪次數；右邊：當期快照的會員數。</p></div>` : ""}
+    <h2>報表列表</h2><div class="card" style="padding:0;overflow:hidden">${list.map(r => `<div class="mrow rrw${cur && cur.id === r.id && !rep.live ? " open" : ""}" role="button" tabindex="0" data-act="repOpen" data-id="${esc(r.id)}" style="grid-template-columns:minmax(0,1.3fr) 1fr 1fr"><div class="m1"><b>${esc(r.label)}</b></div><div class="m2">${n0(r.traffic.sessions)}<small>造訪</small></div><div class="m3">${r.members.joined}<small>新會員</small></div></div>`).join("") || `<div class="empty" style="border:0">還沒有報表。打開後台後會自動補產生。</div>`}</div>
+    ${cur ? `<h2>${rep.live ? "即時報表" : "報表內容"}</h2>${repHtml(cur)}` : ""}`;
+}
+function repCsvText(r) {
+  const T = r.traffic, M = r.members, X = r.trades, rows = [["項目", "數值"], ["種類", r.kind === "week" ? "週報" : "月報"], ["期間", `${r.from} ~ ${r.to}`], ["造訪次數", T.sessions], ["前一期造訪次數", T.prevSessions], ["不重複訪客", T.uniques], ["登入次數", T.signins], ["模擬下單次數", T.orders]];
+  Object.entries(T.tabs).forEach(([k, v]) => rows.push([ADM_LABEL[k], v])); Object.entries(T.acts).forEach(([k, v]) => rows.push([ADM_LABEL[k], v]));
+  rows.push(["會員總數", M.total], ["新加入", M.joined], ["有動作", M.active], ["沉睡", M.sleepers], ["未領資金", M.noCash], ["本季上榜", M.onBoard], ["成交筆數", X.count], ["買進", X.buy], ["賣出", X.sell], ["未成交", X.fail], ["賣出勝率", X.sells ? (X.wins / X.sells * 100).toFixed(1) + "%" : ""], ["已實現損益", X.pnl], ["成交金額", X.amount], ["手續費與稅", X.fees]);
+  return "﻿" + rows.map(r => r.map(v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+}
+
+function annPrev() {                                                 // 打字時即時更新預覽與字數（不重畫整頁，才不會打到一半失去游標）
+  const lv = annForm.level, el = $("annPrev"), c = $("annCnt"); if (c) c.textContent = `${annForm.text.length}/300`; if (!el) return;
+  el.innerHTML = annForm.text.trim() ? `<div class="ann ann-${lv}"><div class="at">${annForm.title ? `<b>${esc(annForm.title)}</b>` : ""}<span>${esc(annForm.text)}</span></div><span class="ax" aria-hidden="true">×</span></div>` : `<div class="empty">輸入內容後，這裡會顯示使用者看到的樣子。</div>`;
+}
+async function regenReport() {
+  try {
+    const cur = repPeriod(rep.kind, twDate(Date.now())), last = repPeriod(rep.kind, addDays(cur.from, -1)), r = repBuild(adm.data, last, false);
+    await fdb.collection("reports").doc(r.id).set(r);
+    rep.list = [r, ...(rep.list || []).filter(x => x.id !== r.id)]; rep.sel = r.id; rep.live = null; rep.msg = `已重新產生 ${r.label} 的報表（會員與交易用現在的快照）。`;
+  } catch (e) { rep.err = e.code === "permission-denied" ? "沒有寫入權限：請確認新版規則已發佈。" : "重新產生失敗：" + (e.message || e.code); }
+  admRender();
+}
 function admRender() {
   const el = $("admBody"); if (!el) return;
   if (!admin.on) { el.innerHTML = `<div class="empty">你沒有管理員權限。</div>`; return; }
@@ -2714,7 +2877,7 @@ function admRender() {
   $("admAsof").textContent = adm.data ? "更新於 " + new Date(adm.data.at).toLocaleTimeString("zh-TW", { hour12: false }) : "";
   if (adm.loading && !adm.data) { el.innerHTML = bar + `<div class="status">載入中…</div>`; return; }
   if (adm.err && !adm.data) { el.innerHTML = bar + `<div class="status err">${esc(adm.err)}</div>`; return; }
-  const D = adm.data, body = { ov: admOverview, tr: admTraffic, mb: admMembers, tx: admTrades, ck: admCheck }[adm.tab](D);
+  const D = adm.data, body = { ov: admOverview, tr: admTraffic, mb: admMembers, tx: admTrades, ck: admCheck, an: admAnnouncement, rp: admReports }[adm.tab](D);
   const keep = document.activeElement && document.activeElement.id === "admQ" ? document.activeElement.selectionStart : null;
   el.innerHTML = bar + (adm.err ? `<div class="status err">${esc(adm.err)}</div>` : "") + `<div class="admBodyIn">${body}</div>`;
   if (keep != null) { const q = $("admQ"); q.focus(); q.setSelectionRange(keep, keep); }       // 重新畫面時，搜尋框維持游標位置
@@ -2737,9 +2900,24 @@ function admInit() {
     if (b.dataset.act === "admOpen") { adm.open = adm.open === b.dataset.id ? "" : b.dataset.id; admRender(); }
     else if (b.dataset.act === "admCsv") admCsv(b.dataset.k);
     else if (b.dataset.act === "admWatch") admLoadWatch();
+    else if (b.dataset.act === "annPub") admAnnPublish();
+    else if (b.dataset.act === "annOff") admAnnOff();
+    else if (b.dataset.act === "repOpen") { rep.sel = b.dataset.id; rep.live = null; admRender(); }
+    else if (b.dataset.act === "repLive") { rep.live = repBuild(adm.data, repPeriod(rep.kind, twDate(Date.now())), true); admRender(); }
+    else if (b.dataset.act === "repRegen") { regenReport(); }
+    else if (b.dataset.act === "repCopy") { const r = rep.live || (rep.list || []).find(x => x.id === rep.sel) || (rep.list || []).filter(x => x.kind === rep.kind).sort((a, b2) => a.from < b2.from ? 1 : -1)[0]; if (r) navigator.clipboard.writeText(repSummary(r)).then(() => { b.textContent = "已複製"; }).catch(() => { b.textContent = "複製失敗"; }); }
+    else if (b.dataset.act === "repCsv") { const r = rep.live || (rep.list || []).find(x => x.id === rep.sel) || (rep.list || []).filter(x => x.kind === rep.kind).sort((a, b2) => a.from < b2.from ? 1 : -1)[0]; if (r) { const bl = new Blob([repCsvText(r)], { type: "text/csv;charset=utf-8" }), a = document.createElement("a"); a.href = URL.createObjectURL(bl); a.download = `chip-report-${r.id}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); } }
   });
-  el.addEventListener("input", e => { if (e.target.id === "admQ") { adm.q = e.target.value; admRender(); } });
-  el.addEventListener("change", e => { if (e.target.id === "admSort") { adm.sort = e.target.value; admRender(); } });
+  el.addEventListener("input", e => {
+    if (e.target.id === "admQ") { adm.q = e.target.value; admRender(); }
+    else if (e.target.id === "annTitle" || e.target.id === "annText") { annForm[e.target.id === "annTitle" ? "title" : "text"] = e.target.value; annPrev(); }
+  });
+  el.addEventListener("click", e => { const k = e.target.closest("#repKind button"); if (k) { rep.kind = k.dataset.k; rep.sel = ""; rep.live = null; admRender(); } });
+  el.addEventListener("change", e => {
+    if (e.target.id === "admSort") { adm.sort = e.target.value; admRender(); }
+    else if (e.target.id === "annLevel") { annForm.level = e.target.value; annPrev(); }
+    else if (e.target.id === "annDays") annForm.days = e.target.value;
+  });
   el.addEventListener("keydown", e => { const r = e.target.closest(".mrow[data-act]"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); r.click(); } });
 }
 /* ───── 大盤指數：加權指數（TAIEX）、台指期夜盤、個股占大盤計算器 ───── */
@@ -3437,6 +3615,7 @@ async function initMember() {
   });
   firebase.initializeApp(FB);
   auth = firebase.auth(); fdb = firebase.firestore();
+  annLoad(); document.addEventListener("visibilitychange", () => { if (!document.hidden && Date.now() - ann.at > 10 * 60e3) annLoad(); });      // 公告：打開網站時讀一次，回到網站且超過 10 分鐘再讀一次
   auth.getRedirectResult().catch(() => {});
   auth.onAuthStateChanged(onUser);
   trafficStart();
