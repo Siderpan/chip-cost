@@ -145,9 +145,35 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .pkAct { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .pkAct .btn { margin: 0; min-height: 44px; }
 .rkS { font: 700 .95rem var(--font-num); color: var(--muted); text-align: center; }
-.tabs { overflow-x: auto; scrollbar-width: none; }
+/* 分頁列：捲動頁面時固定在最上方（長頁面也能隨時切換）；放不下時可以左右滑，邊緣有淡淡的陰影提示「還有更多」 */
+.tabs { position: sticky; top: 0; z-index: 25; margin-inline: -16px; padding-inline: 16px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity;
+  background:
+    linear-gradient(to right, var(--bg) 30%, transparent) left center / 36px 100% no-repeat local,
+    linear-gradient(to left, var(--bg) 30%, transparent) right center / 36px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.22), transparent) left center / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.22), transparent) right center / 12px 100% no-repeat scroll,
+    var(--bg); }
+.tabs button { scroll-snap-align: center; }
+.toTop { position: fixed; right: max(14px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 28; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); box-shadow: 0 2px 10px rgba(0,0,0,.18); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s, transform .2s; }
+.toTop.on { opacity: 1; pointer-events: auto; transform: none; }
+.tocWrap { position: relative; margin-inline: -16px; }
+.toc { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 16px 4px; cursor: grab; -webkit-overflow-scrolling: touch;
+  background:
+    linear-gradient(to right, var(--bg) 30%, transparent) left center / 40px 100% no-repeat local,
+    linear-gradient(to left, var(--bg) 30%, transparent) right center / 40px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.2), transparent) left center / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), transparent) right center / 12px 100% no-repeat scroll; }
+.toc.drag { cursor: grabbing; user-select: none; }
+.tocArr { position: absolute; top: 50%; transform: translateY(-55%); z-index: 2; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.2); font: 700 1.2rem/1 var(--font-ui); padding: 0 0 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.tocArr.l { left: 6px; } .tocArr.r { right: 6px; }
+.toc::-webkit-scrollbar { display: none; }
+.toc button { flex: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 0 13px; min-height: 36px; font: 500 .8rem var(--font-ui); cursor: pointer; white-space: nowrap; }
+.toc-h { font-size: .72rem; color: var(--muted); margin: 2px 0 -4px; }
+.gSec, #pgMarket h2, #pgSim h2 { scroll-margin-top: 58px; }
+.info::after { content: ""; position: absolute; inset: -14px; border-radius: 50%; }
+.info-link { min-height: 40px; }
 .tabs::-webkit-scrollbar { display: none; }
-.tabs button { flex: 1 0 auto; padding: 0 5px; font-size: .82rem; }
+.tabs button { flex: 1 0 auto; padding: 0 9px; font-size: .84rem; }
 .tabs .cnt { margin-left: 3px; }
 .simAcct { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 .simTotal .k { font-size: .74rem; color: var(--muted); }
@@ -169,7 +195,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .champ .runners { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .78rem; color: var(--muted); display: grid; gap: 4px; }
 .champ .runners b { font-family: var(--font-num); color: var(--ink); }
 .champ .tip { font-size: .76rem; color: var(--muted); line-height: 1.6; margin: 8px 0 0; }
-.verdict { padding: 12px 14px; margin: 10px 0; }
+.verdict { padding: 12px 14px; margin: 0; }
 .vdHead { display: flex; gap: 12px; align-items: center; }
 .vdScore { font: 700 2.3rem/1 var(--font-num); letter-spacing: -.03em; white-space: nowrap; }
 .vdScore small { font: 500 .8rem var(--font-num); color: var(--muted); letter-spacing: 0; margin-left: 2px; }
@@ -177,7 +203,16 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .vdTag.good { background: var(--profit); border-color: var(--profit); color: var(--surface); }
 .vdTag.bad { border-color: var(--trapped); color: var(--trapped); }
 .vdSum { font-size: .8rem; color: var(--muted); line-height: 1.5; margin-top: 4px; }
-.vdRows { display: grid; gap: 10px; margin-top: 12px; }
+.vdMini { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+.vdMini span { position: relative; overflow: hidden; font-size: .72rem; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 5px 6px; line-height: 1.3; background: var(--bg); text-align: center; white-space: nowrap; }
+.vdMini span i { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--profit); }
+.vdMini span b { color: var(--ink); font-weight: 600; display: block; }
+.vdMore { margin-top: 8px; }
+.vdMore summary { font-size: .78rem; color: var(--profit); cursor: pointer; min-height: 32px; display: flex; align-items: center; list-style: none; font-weight: 600; }
+.vdMore summary::-webkit-details-marker { display: none; }
+.vdMore summary::after { content: "▾"; margin-left: 4px; transition: transform .15s; }
+.vdMore[open] summary::after { transform: rotate(180deg); }
+.vdRows { display: grid; gap: 10px; margin-top: 8px; }
 .vdRow .t { display: flex; justify-content: space-between; align-items: baseline; font-size: .8rem; }
 .vdRow .t b { font-weight: 600; }
 .vdRow .t span { font: 500 .78rem var(--font-num); color: var(--muted); }
@@ -680,6 +715,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <p>因為<b>很多人買在那裡</b>。大家都記得自己的成本，股價回到那個價位時，就會有人想買、有人想賣。</p>
       <p>這個系統做的事很單純：把「<b>大家的成本在哪裡</b>」畫出來，幫你找出股價比較容易停下來的位置，也就是<b>支撐</b>和<b>壓力</b>。</p>
     </div>
+    <div class="toc-h">快速跳到</div>
+    <div class="tocWrap"><button type="button" class="tocArr l" id="tocL" aria-label="往左看更多" hidden>‹</button><nav id="guideToc" class="toc" aria-label="新手專區目錄（可左右滑動）"></nav><button type="button" class="tocArr r" id="tocR" aria-label="往右看更多" hidden>›</button></div>
 
     <div class="gSec">
       <h3>什麼是支撐？什麼是壓力？</h3>
@@ -768,11 +805,18 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="gSec">
       <h3>先看大環境？到「大盤指數」</h3>
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>看加權指數</b><p>最新收盤、漲跌點數和近約 90 個交易日的走勢，先知道大盤現在偏強還是偏弱。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>日盤收盤後，夜盤是最即時的市場情緒。系統會用夜盤的漲跌點數，粗估隔天大盤的開盤位置。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>看加權指數</b><p>最新收盤、漲跌點數和走勢（可選 1 個月、3 個月、半年，手指在圖上滑動看每一天），先知道大盤現在偏強還是偏弱。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>日盤收盤後，夜盤是最即時的市場情緒。圖上依時間順序畫出夜盤與日盤，系統會用夜盤的漲跌點數，粗估隔天大盤的開盤位置。</p></div></div>
         <div class="gStep"><i>3</i><div><b>算算這檔占大盤多少</b><p>輸入個股，系統會自動取得「上市股票總市值」，算出它的權重，以及它漲跌 1% 會讓大盤動幾點。</p></div></div>
+        <div class="gStep"><i>4</i><div><b>看權重熱力圖：今天是誰在帶動大盤</b><p>方塊越大，這檔占大盤越重；顏色是今天的漲跌（紅漲綠跌）。再切到「貢獻點數」，直接看每一檔讓大盤漲跌了幾點。</p></div></div>
+        <div class="gStep"><i>5</i><div><b>看資金輪動：錢正在往哪裡跑</b><p>按播放，看各類股的泡泡這 10 個交易日怎麼移動。往右代表資金越來越集中，往上代表累計漲幅越大。</p></div></div>
       </div>
-      <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨不是指數本身，推估開盤也只是粗估。支撐與壓力還是要回到個股的籌碼分布來看。</p>
+      <div class="gTwo">
+        <div class="card gMini"><div class="gName">熱力圖怎麼讀</div><p class="odS">面積看誰重，顏色看誰動。</p><p>大方塊（例如台積電）一動，大盤就跟著動；小方塊再紅，也推不動指數。想知道「今天大盤為什麼跌」，先看<b>大又綠</b>的方塊。</p></div>
+        <div class="card gMini"><div class="gName">資金輪動怎麼讀</div><p class="odS">右看錢，上看價。</p><p><b>右上</b>＝錢進來、價格漲（主流）；<b>右下</b>＝錢進來但價格跌；<b>左上</b>＝漲但沒新錢；<b>左下</b>＝被冷落。選一個類別，其他會淡化，只看它的軌跡。</p></div>
+      </div>
+      <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨不是指數本身，推估開盤也只是粗估；熱力圖、輪動圖只說明「現在錢和重心在哪」，不預測接下來。支撐與壓力還是要回到個股的籌碼分布來看，可以先從熱力圖或輪動圖找到強勢的類股，再到「分析」頁看裡面的個股。</p>
+      <button type="button" class="info-link" data-term="rotation">資金輪動泡泡圖的詳細說明</button>
       <button type="button" class="btn" data-go="market">去大盤指數</button>
     </div>
 
@@ -1097,6 +1141,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div id="snapNote">新增或更新股票：在電腦執行 <code>python chip_mobile.py 2330 2317 2454</code>，再重新開啟網頁。</div>
   </footer>
 </main>
+<button id="toTop" class="toTop" type="button" aria-label="回到頁面頂端"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <div id="sheet" class="sheetBack" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetT">
@@ -1975,9 +2020,13 @@ function renderVerdict(R) {
   el.hidden = false;
   el.innerHTML = `<div class="vdHead"><div class="vdScore">${v.score}<small>/100</small></div>
     <div style="min-width:0"><span class="vdTag ${v.tone}">${v.label}</span>${tip("verdict")}<div class="vdSum">${v.sum}</div></div></div>
-    <div class="vdRows">${v.parts.map(x => `<div class="vdRow"><div class="t"><b>${x.k}</b><span>${x.pts.toFixed(0)} / ${x.max}</span></div><div class="vdBar"><i style="width:${(x.pts / x.max * 100).toFixed(0)}%"></i></div><p>${x.txt}</p></div>`).join("")}</div>
-    <p class="vdNote">綜合評語只評估「現價的位置」：把平均成本、支撐、壓力放在一起看，不預測漲跌，也不是買賣建議。${R.m.coverage < 0.9 ? "<b>目前模型涵蓋率偏低，分數僅供參考，建議拉長時間區間。</b>" : ""}</p>`;
+    <div class="vdMini">${v.parts.map(x => `<span><i style="width:${(x.pts / x.max * 100).toFixed(0)}%"></i><b>${x.k}</b> ${x.pts.toFixed(0)}/${x.max}</span>`).join("")}</div>
+    <details class="vdMore"${vdOpen ? " open" : ""}><summary>看評分細節</summary>
+      <div class="vdRows">${v.parts.map(x => `<div class="vdRow"><div class="t"><b>${x.k}</b><span>${x.pts.toFixed(0)} / ${x.max}</span></div><div class="vdBar"><i style="width:${(x.pts / x.max * 100).toFixed(0)}%"></i></div><p>${x.txt}</p></div>`).join("")}</div>
+      <p class="vdNote">綜合評語只評估「現價的位置」：把平均成本、支撐、壓力放在一起看，不預測漲跌，也不是買賣建議。${R.m.coverage < 0.9 ? "<b>目前模型涵蓋率偏低，分數僅供參考，建議拉長時間區間。</b>" : ""}</p></details>`;
+  el.querySelector("details").addEventListener("toggle", e => { vdOpen = e.target.open; });
 }
+let vdOpen = false;                                                   // 評分細節預設收合，圖表才不會被擠到太下面；使用者展開後，換區間或換股票也維持展開
 // 區間改變時：重算並更新所有數字、色帶、圖表（不重建拉條，才不會拖到一半被重設）
 function refresh(R) {
   const st = R.st, a = R.a, m = R.m;
@@ -2057,13 +2106,18 @@ function buildControls() {
   if (LIVE) {
     $("tabs").hidden = false;
     $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showTab(b.dataset.tab); });
+    hScroller($("tabs"));                                              // 分頁列也能用滑鼠拖曳、滾輪橫向移動
     btInit();
     guideInit();
+    { const up = $("toTop"); let tick = 0;                            // 往下捲一段之後，右下角出現「回到頂端」
+      addEventListener("scroll", () => { if (tick) return; tick = requestAnimationFrame(() => { tick = 0; up.classList.toggle("on", scrollY > 700); }); }, { passive: true });
+      up.addEventListener("click", () => scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" })); }
     scrInit();
     mktInit();
     let seenGuide = false;
     try { seenGuide = !!localStorage.getItem("chipGuideSeen"); } catch (e) {}
     if (!seenGuide) showTab("guide");          // 第一次來的人先看新手專區
+    else { let last = ""; try { last = localStorage.getItem("chipTab") || ""; } catch (e) {} if (["guide", "market", "screen", "backtest"].includes(last)) showTab(last); }   // 回來的人，回到上次看的頁面（需要登入的頁面除外）
     $("searchBox").hidden = false;
     $("snapNote").hidden = true;
     renderRecent();
@@ -2688,9 +2742,10 @@ function heatRender() {
     if (r.other) return `<button type="button" disabled style="${pos}background:var(--line);color:var(--muted);font-size:${(10 / W * 100).toFixed(2)}cqw"><span>其他 ${(rest / total * 100).toFixed(0)}%</span></button>`;
     const val = mode === "chg" ? r.s.chg : r.pts, t = Math.min(1, Math.abs(val) / (mode === "chg" ? 0.05 : maxP)), mix = Math.round(14 + 76 * t);
     const col = val > 0 ? "var(--bull)" : val < 0 ? "var(--bear)" : "var(--muted)", fg = t > 0.5 ? "#fff" : "var(--ink)";
-    const size = Math.sqrt(r.w * r.h), fs = Math.min(15, Math.max(0, size / 4.6)), small = r.w < 30 || r.h < 20;
-    const txt = size < 17 ? "" : small ? `<span class="c" style="font-size:${(fs / W * 100).toFixed(2)}cqw">${esc(r.s.c)}</span>`
-      : `<span class="c" style="font-size:${(fs / W * 100).toFixed(2)}cqw">${esc(r.s.n)}</span>${r.h > 30 ? `<span class="p" style="font-size:${(fs * 0.86 / W * 100).toFixed(2)}cqw">${mode === "chg" ? spct(r.s.chg, 2) : (r.pts >= 0 ? "+" : "−") + Math.abs(r.pts).toFixed(0) + " 點"}</span>` : ""}`;
+    // 文字最小 10px 才看得清楚：方塊夠大才放「名稱＋數字」，中等的只放代碼，太小的不放字（點一下看細節）
+    const size = Math.sqrt(r.w * r.h), fs = Math.min(15, Math.max(10, size / 3.6)), big = r.w >= 40 && r.h >= 38;
+    const txt = big ? `<span class="c" style="font-size:${(fs / W * 100).toFixed(2)}cqw">${esc(r.s.n)}</span><span class="p" style="font-size:${(fs * 0.9 / W * 100).toFixed(2)}cqw">${mode === "chg" ? spct(r.s.chg, 2) : (r.pts >= 0 ? "+" : "−") + Math.abs(r.pts).toFixed(0) + " 點"}</span>`
+      : r.w >= 30 && r.h >= 17 ? `<span class="c" style="font-size:${(10 / W * 100).toFixed(2)}cqw">${esc(r.s.c)}</span>` : "";
     return `<button type="button" data-code="${esc(r.s.c)}" class="${heat.sel === r.s.c ? "sel" : ""}" aria-label="${esc(r.s.c + " " + r.s.n)}" style="${pos}background:color-mix(in srgb, ${col} ${mix}%, var(--surface));color:${fg}">${txt}</button>`;
   };
   const rects = heatSquarify(items, W, H);
@@ -3023,6 +3078,9 @@ function showTab(t) {
   $("pgMarket").hidden = t !== "market";
   if (t === "market") mktLoad();
   [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
+  try { if (t !== "admin") localStorage.setItem("chipTab", t); } catch (e) {}
+  const on = document.querySelector('#tabs [aria-selected="true"]'), tb = $("tabs");           // 目前的分頁如果被擠到螢幕外，把它捲到中間
+  if (on && tb.scrollWidth > tb.clientWidth) tb.scrollTo({ left: on.offsetLeft - (tb.clientWidth - on.offsetWidth) / 2, behavior: "smooth" });
   if (t === "watch") { renderWatch(); if (user) fetchQuotes(); }
   if (t === "backtest") btOpen();
   if (t === "sim") simOpen();
@@ -3496,8 +3554,38 @@ function shareFig() {
     <div class="shDots" role="img" aria-label="來過 ${r.seen} 人，還在 ${r.here} 人">${"<span class=\"shDot on\"></span>".repeat(r.here)}${"<span class=\"shDot\"></span>".repeat(r.seen - r.here)}</div>
     <div class="shMeta"><span>量 <b>${Math.round(r.seen / tS * 100)}%</b></span><span>籌 <b>${Math.round(r.here / tH * 100)}%</b></span><span class="shTag ${r.cls}">${r.tag}</span></div></div>`).join("");
 }
+// 橫向捲動的列（分頁、目錄）：手機用手指滑；電腦可以用滑鼠拖曳、滾輪，或按兩端的 ‹ › 箭頭（有東西被擠到畫面外才會出現）
+function hScroller(el, left, right) {
+  const sync = () => { const max = el.scrollWidth - el.clientWidth; if (left) left.hidden = max <= 2 || el.scrollLeft <= 2; if (right) right.hidden = max <= 2 || el.scrollLeft >= max - 2; };
+  el.addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync); new ResizeObserver(sync).observe(el); sync();
+  const by = dir => el.scrollBy({ left: dir * el.clientWidth * 0.7, behavior: "smooth" });
+  if (left) left.onclick = () => by(-1); if (right) right.onclick = () => by(1);
+  el.addEventListener("wheel", e => {                                  // 滑鼠滾輪：在這一列上直向滾動，改成橫向移動（已經到盡頭就還給頁面）
+    const max = el.scrollWidth - el.clientWidth;
+    if (max <= 2 || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max - 1)) return;
+    el.scrollLeft += e.deltaY; e.preventDefault();
+  }, { passive: false });
+  let sx = 0, sl = 0, down = false, moved = false;                     // 滑鼠按住拖曳（手指本來就能滑，不用處理）
+  el.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse" || e.button !== 0) return; down = true; moved = false; sx = e.clientX; sl = el.scrollLeft; });
+  addEventListener("pointermove", e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 5) { moved = true; el.classList.add("drag"); } if (moved) el.scrollLeft = sl - dx; });
+  addEventListener("pointerup", () => { if (!down) return; down = false; el.classList.remove("drag"); setTimeout(() => { moved = false; }, 0); });
+  el.addEventListener("click", e => { if (moved) { e.stopPropagation(); e.preventDefault(); } }, true);      // 拖曳結束時不要誤觸按鈕
+}
+// 新手專區很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
+function guideToc() {
+  const labels = [["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["三步驟", "三步驟開始用"], ["先看大環境", "大盤指數"], ["不知道看哪一檔", "選股"], ["想實際練習", "模擬交易"]];
+  const secs = [...document.querySelectorAll("#pgGuide .gSec")].filter(s => s.querySelector("h3")).map((s, i) => { s.id = s.id || `gs${i}`; const h = s.querySelector("h3").textContent; const m = labels.find(l => h.includes(l[0])); return m ? { s, label: m[1] } : null; }).filter(Boolean);
+  const host = $("guideToc");
+  host.innerHTML = secs.map((x, i) => `<button type="button" data-i="${i}">${x.label}</button>`).join("");
+  host.onclick = e => { const b = e.target.closest("button"); if (!b) return; const s = secs[+b.dataset.i].s; if (!s.hidden) s.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  hScroller(host, $("tocL"), $("tocR"));
+  const mo = new MutationObserver(() => { [...host.children].forEach((b, i) => b.hidden = secs[i].s.hidden); });       // 模擬交易那一段要登入才有，沒有就不顯示目錄項目
+  secs.forEach(x => mo.observe(x.s, { attributes: true, attributeFilter: ["hidden"] }));
+  [...host.children].forEach((b, i) => b.hidden = secs[i].s.hidden);
+}
 function guideInit() {
-  guideFig(); shareFig();
+  guideFig(); shareFig(); guideToc();
   // 變成支撐：先在 100 附近買、漲上去、再跌回 100 反彈
   storyFig("gStoryA", { role: "s",
     closes: [100.5, 99.5, 100.8, 100.2, 101.2, 100.6, 104, 108, 113, 118, 120, 116, 112, 108, 105, 102, 100.2, 101.8, 104.5, 107],
