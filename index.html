@@ -612,6 +612,7 @@ svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap:
 .wmv button:disabled { opacity: .3; cursor: default; }
 .wmv button:not(:disabled):active { background: var(--bg); }
 .wname .c, .wname .n, .wq .p, .wq .d { display: block; }
+.wvl { display: flex; align-items: center; gap: 6px; margin-top: 3px; } .wvl b { font: 700 .95rem var(--font-num); } .wvl .vdTag { font-size: .66rem; padding: 0 7px; white-space: nowrap; } .wvl.mute { font-size: .7rem; color: var(--muted); }
 .wrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 4px 6px 4px 4px; }
 .wmain { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 56px; padding: 6px 8px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; border-radius: 8px; font: inherit; }
 .wmain:hover { background: var(--bg); }
@@ -2404,7 +2405,8 @@ function renderWatch() {
       const cls = q.chg == null ? "" : q.chg > 0 ? "up" : q.chg < 0 ? "dn" : "";
       qh = `<span class="p">${fmt(q.close)}</span><span class="d ${cls}">${q.chg == null ? "" : spct(q.chg, 2)}</span>`;
     }
-    const nm0 = `<span class="wname"><span class="c">${esc(w.code)}</span><span class="n">${esc(w.name) || "&nbsp;"}</span></span>`, wc = wcard.get(w.code);
+    const wc = wcard.get(w.code), wv = wc && wc.v ? `<span class="wvl"><b>${wc.v.score}</b><span class="vdTag ${wc.v.tone}">${wc.v.label}</span></span>` : `<span class="wvl mute">${wc && wc.fail ? "無法評分" : wc ? "缺少股本，無法評分" : wLimit ? "評語稍後再試" : "評語載入中…"}</span>`;
+    const nm0 = `<span class="wname"><span class="c">${esc(w.code)}</span><span class="n">${esc(w.name) || "&nbsp;"}</span>${wv}</span>`;
     const sc = wc && !wc.fail ? wc.spark : q && q.spark;
     const nm = `${nm0}<span class="wq">${qh}</span>`;
     const nmL = `${nm0}${sc && sc.length > 1 ? `<span class="wspw">${wspark(sc, sc[sc.length - 1] >= sc[0])}</span>` : `<span class="wspw"></span>`}<span class="wq">${qh}</span>`;
@@ -2425,7 +2427,7 @@ function renderWatch() {
   const body = grid ? `<div class="wgrid">${list.map(watchCard).join("")}</div>` : `<div class="wlist">${rows.join("")}</div>`;
   const note = editing ? "順序會存在雲端，換手機也一樣。新加入的股票會出現在最上面。"
     : grid ? `走勢圖是近 ${WSPARK} 個交易日的收盤價；評語和分析頁的「綜合評語」是同一套算法（只評估現價的位置，不預測漲跌，也不是買賣建議）。${wLimit ? "<b>資料查詢次數暫時用完，沒載入的評語請稍後再試。</b>" : ""}`
-    : "報價為最新收盤價與漲跌幅（紅漲綠跌），點股票會進入分析。";
+    : `報價為最新收盤價與漲跌幅（紅漲綠跌），圖是近 ${WSPARK} 個交易日走勢；評語與分析頁的「綜合評語」同一套算法，只評估現價位置，不是買賣建議。${wLimit ? "<b>資料查詢次數暫時用完，沒載入的評語請稍後再試。</b>" : ""}點股票會進入分析。`;
   el.innerHTML = `${watchMsg ? `<div class="status err" style="margin-bottom:8px">${esc(watchMsg)}</div>` : ""}${tool}${body}<p class="advnote" style="padding-top:10px">${note}</p>`;
 }
 /* ---------- 自選股「格狀」檢視：走勢簡圖 + 綜合評語 ----------
@@ -2467,13 +2469,13 @@ function watchCard(w) {
     <button type="button" class="wrm wcrm${sure ? " sure" : ""}" data-act="rm" data-code="${c}" aria-label="移除 ${c}">${sure ? "確認刪除" : "移除"}</button></div>`;
 }
 async function fetchGrid() {
-  if (wBusy || watchView !== "grid") return;
+  if (wBusy) return;
   const codes = [...watch.keys()].filter(c => !wcard.has(c));
   if (!codes.length) return;
   wBusy = true; wLimit = false;
   let i = 0;
   const worker = async () => {
-    while (i < codes.length && !wLimit && watchView === "grid") {
+    while (i < codes.length && !wLimit) {
       const c = codes[i++];
       try { wcard.set(c, wcardOf(await loadStock(c))); }
       catch (e) { if (e.limit || /上限/.test(e.message || "")) wLimit = true; else wcard.set(c, { fail: true }); }
@@ -3679,7 +3681,7 @@ async function initMember() {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const a = b.dataset.act;
     if (a === "login-open") openLogin();
-    else if (a === "wview") { watchView = b.dataset.v === "grid" ? "grid" : "list"; lsWrite("watchView", { v: watchView }); renderWatch(); if (watchView === "grid") { fetchGrid(); fetchQuotes(); } }
+    else if (a === "wview") { watchView = b.dataset.v === "grid" ? "grid" : "list"; lsWrite("watchView", { v: watchView }); renderWatch(); fetchGrid(); fetchQuotes(); }
     else if (a === "wedit") { watchEdit = !watchEdit; pendingRm = null; renderWatch(); }
     else if (a === "mv-top" || a === "mv-up" || a === "mv-down") moveWatch(b.dataset.code, a.slice(3));
     else if (a === "open") { showTab("analyze"); selectStock(b.dataset.code, b.dataset.name); }
