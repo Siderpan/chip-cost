@@ -626,6 +626,8 @@ svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap:
 .wrm:hover { background: var(--bg); color: var(--ink); }
 .wrm.sure { color: var(--surface); background: var(--bull); }
 .wlist { display: flex; flex-direction: column; gap: 8px; }
+.wlist .wmain:not(.static) { grid-template-columns: minmax(0, 1fr) 76px 64px; gap: 10px; } .wspw { display: block; height: 30px; min-width: 0; } .wspw .wsp { height: 30px; }
+@media (max-width: 360px) { .wlist .wmain:not(.static) { grid-template-columns: minmax(0, 1fr) 56px 62px; gap: 8px; } }
 .wtool .wvt { margin-left: auto; } .wvt button { min-height: 40px; padding: 0 14px; }
 .wgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 8px; }
 .wcard { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 2px; min-width: 0; }
@@ -2402,7 +2404,10 @@ function renderWatch() {
       const cls = q.chg == null ? "" : q.chg > 0 ? "up" : q.chg < 0 ? "dn" : "";
       qh = `<span class="p">${fmt(q.close)}</span><span class="d ${cls}">${q.chg == null ? "" : spct(q.chg, 2)}</span>`;
     }
-    const nm = `<span class="wname"><span class="c">${esc(w.code)}</span><span class="n">${esc(w.name) || "&nbsp;"}</span></span><span class="wq">${qh}</span>`;
+    const nm0 = `<span class="wname"><span class="c">${esc(w.code)}</span><span class="n">${esc(w.name) || "&nbsp;"}</span></span>`, wc = wcard.get(w.code);
+    const sc = wc && !wc.fail ? wc.spark : q && q.spark;
+    const nm = `${nm0}<span class="wq">${qh}</span>`;
+    const nmL = `${nm0}${sc && sc.length > 1 ? `<span class="wspw">${wspark(sc, sc[sc.length - 1] >= sc[0])}</span>` : `<span class="wspw"></span>`}<span class="wq">${qh}</span>`;
     if (editing) {   // 調整順序模式：這一列不能點進分析，改成三顆移動按鈕
       const c = esc(w.code);
       return `<div class="wrow edit"><div class="wmain static"><span class="rk">${i + 1}</span>${nm}</div>
@@ -2411,7 +2416,7 @@ function renderWatch() {
         <button type="button" data-act="mv-down" data-code="${c}" aria-label="把 ${c} 往下移"${i === list.length - 1 ? " disabled" : ""}>▼</button></div></div>`;
     }
     const sure = pendingRm === w.code;
-    return `<div class="wrow"><button type="button" class="wmain" data-act="open" data-code="${esc(w.code)}" data-name="${esc(w.name)}" aria-label="分析 ${esc(w.code)} ${esc(w.name)}">${nm}</button>
+    return `<div class="wrow"><button type="button" class="wmain" data-act="open" data-code="${esc(w.code)}" data-name="${esc(w.name)}" aria-label="分析 ${esc(w.code)} ${esc(w.name)}">${nmL}</button>
       <button type="button" class="wrm${sure ? " sure" : ""}" data-act="rm" data-code="${esc(w.code)}" aria-label="移除 ${esc(w.code)}">${sure ? "確認刪除" : "移除"}</button></div>`;
   });
   const grid = watchView === "grid" && !editing;
@@ -2523,9 +2528,9 @@ async function fetchQuotes() {
     while (i < codes.length && !stop) {
       const c = codes[i++];
       try {
-        const rows = (await fm("TaiwanStockPrice", { data_id: c, start_date: dateBack({ days: 14 }) })).filter(x => x.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
+        const rows = (await fm("TaiwanStockPrice", { data_id: c, start_date: dateBack({ days: 100 }) })).filter(x => x.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
         const a = rows[rows.length - 1];
-        quotes.set(c, a ? { close: a.close, chg: a.close - a.spread > 0 ? a.spread / (a.close - a.spread) : null, date: a.date, t: Date.now() } : { fail: true, t: Date.now() });
+        quotes.set(c, a ? { close: a.close, chg: a.close - a.spread > 0 ? a.spread / (a.close - a.spread) : null, date: a.date, spark: rows.slice(-WSPARK).map(x => x.close), t: Date.now() } : { fail: true, t: Date.now() });
       } catch (e) { quotes.set(c, { fail: true, t: Date.now() }); if (/上限/.test(e.message)) stop = true; }
       renderWatch();
     }
