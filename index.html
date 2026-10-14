@@ -2632,7 +2632,7 @@ function admMemberRows(D) {
   const vOf = x => { const b = D.bCur.get(x.uid); return b ? b.value : x.cashHold; };
   let rows = D.accs.map(x => ({ x, val: vOf(x), ret: D.bCur.has(x.uid) ? D.bCur.get(x.uid).ret : null, idle: dAgo(x.lastAct), onBoard: D.bCur.has(x.uid) }));
   const f = adm.filt, q = adm.q.trim().toLowerCase();
-  rows = rows.filter(r => (f === "all" || (f === "act" && r.x.hasAct && r.idle <= 7) || (f === "sleep" && r.x.claimedCount && r.idle > 14) || (f === "off" && r.x.claimedCount && !r.onBoard) || (f === "nocash" && !r.x.claimedCount)) && (!q || String(r.x.nick || "").toLowerCase().includes(q)));
+  rows = rows.filter(r => (f === "all" || (f === "act" && r.x.hasAct && r.idle <= 7) || (f === "sleep" && r.x.claimedCount && r.idle > 14) || (f === "off" && r.x.claimedCount && !r.onBoard) || (f === "nocash" && !r.x.claimedCount)) && (!q || String(r.x.nick || "").toLowerCase().includes(q) || String(r.x.gname || "").toLowerCase().includes(q)));
   const k = adm.sort, key = { last: r => -r.idle, val: r => r.val, ret: r => r.ret == null ? -Infinity : r.ret, join: r => r.x.createdAt || 0, weeks: r => r.x.claimedCount || 0 }[k];
   rows.sort((a, b) => key(b) - key(a));
   return rows;
@@ -2645,7 +2645,7 @@ function admMembers(D) {
   const tag = r => !r.x.claimedCount ? ["未領資金", ""] : r.idle > 14 ? ["沉睡", "bad"] : r.x.hasAct && r.idle <= 7 ? ["活躍", "good"] : ["一般", ""];
   const list = rows.map(r => {
     const t = tag(r), open = adm.open === r.x.uid, hs = Object.entries(r.x.holdings || {});
-    return `<div class="mrow${open ? " open" : ""}" role="button" tabindex="0" data-act="admOpen" data-id="${esc(r.x.uid)}"><div class="m1"><b>${esc(r.x.nick || "（沒有暱稱）")}</b><span class="tg ${t[1]}">${t[0]}</span></div>
+    return `<div class="mrow${open ? " open" : ""}" role="button" tabindex="0" data-act="admOpen" data-id="${esc(r.x.uid)}"><div class="m1"><b>${esc(r.x.nick || "（沒有暱稱）")}</b><span class="tg ${t[1]}">${t[0]}</span><small style="max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.x.gname ? esc(r.x.gname) : "帳戶：尚未取得"}</small></div>
       <div class="m2"><span>${n0(r.val)}</span><small>${D.bCur.has(r.x.uid) ? "資產" : "資產(估)"}</small></div>
       <div class="m3 ${r.ret == null ? "" : signCls(r.ret)}">${r.ret == null ? "—" : spct(r.ret, 1)}<small>本季</small></div>
       <div class="m4">${r.x.hasAct ? (r.idle === 0 ? "今天" : r.idle + " 天前") : "沒有紀錄"}<small>最近動作</small></div></div>
@@ -2659,11 +2659,11 @@ function admMembers(D) {
     <div class="stat"><div class="k">平均已領週數</div><div class="v">${A.length ? (A.reduce((s, x) => s + (x.claimedCount || 0), 0) / A.length).toFixed(1) : "—"}</div><div class="h">愈高代表愈常回來領</div></div></section>
     <h2>每週新加入（最近 8 週）</h2><div class="card" style="padding:10px 14px">${wk.map(w => `<div class="usage"><span>${w.lab}</span><span class="ub"><i style="width:${(w.v / wmx * 100).toFixed(1)}%"></i></span><b>${w.v}</b></div>`).join("")}</div>
     <h2>會員名單</h2>
-    <div class="mfil"><input id="admQ" type="search" placeholder="用暱稱搜尋" value="${esc(adm.q)}" aria-label="用暱稱搜尋"><select id="admSort" aria-label="排序">${[["last", "最近有動作"], ["val", "資產"], ["ret", "本季報酬"], ["join", "加入時間"], ["weeks", "領取週數"]].map(([k, t]) => `<option value="${k}"${adm.sort === k ? " selected" : ""}>排序：${t}</option>`).join("")}</select></div>
+    <div class="mfil"><input id="admQ" type="search" placeholder="用暱稱或帳戶名稱搜尋" value="${esc(adm.q)}" aria-label="用暱稱或帳戶名稱搜尋"><select id="admSort" aria-label="排序">${[["last", "最近有動作"], ["val", "資產"], ["ret", "本季報酬"], ["join", "加入時間"], ["weeks", "領取週數"]].map(([k, t]) => `<option value="${k}"${adm.sort === k ? " selected" : ""}>排序：${t}</option>`).join("")}</select></div>
     <div class="seg mchips" id="admFilt" role="group" aria-label="篩選">${[["all", "全部"], ["act", "活躍"], ["sleep", "沉睡"], ["off", "沒上榜"], ["nocash", "未領資金"]].map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${adm.filt === k}">${t}<i>${cnt[k]}</i></button>`).join("")}</div>
     <div class="card" style="padding:0;overflow:hidden">${list || `<div class="empty" style="border:0">沒有符合的會員。</div>`}</div>
     <button type="button" class="info-link" data-act="admCsv" data-k="members">下載會員名單（CSV）</button>
-    <p class="advnote">只顯示暱稱與統計，沒有 Email。「資產(估)」是現金加上持股成本，因為沒上榜的人沒有即時報價；上榜的人用排行榜上的總資產。「最近動作」是最近一次下單或成交（沒有就用加入日）。</p>`;
+    <p class="advnote">「帳戶」是會員 Google 帳戶的顯示名稱（沒有名稱時才用 Email），在會員開啟模擬交易時自動更新；舊會員要再開啟一次才會出現。「資產(估)」是現金加上持股成本，因為沒上榜的人沒有即時報價；上榜的人用排行榜上的總資產。「最近動作」是最近一次下單或成交（沒有就用加入日）。</p>`;
 }
 function admTrades(D) {
   const A = D.accs, all = A.flatMap(x => (x.trades || []).map(t => ({ ...t, uid: x.uid })));
@@ -2886,7 +2886,7 @@ function admCsv(kind) {
   const D = adm.data; if (!D) return;
   const esc2 = v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`, rows = [];
   if (kind === "stats") { const keys = ["sessions", "uniques", ...Object.keys(ADM_LABEL)]; rows.push(["日期", ...keys.map(k => ADM_LABEL[k] || (k === "sessions" ? "造訪" : "不重複訪客"))]); D.stats.forEach(s => rows.push([s.day, ...keys.map(k => s[k] || 0)])); }
-  else { rows.push(["暱稱", "加入日", "已領週數", "現金", "資產(估)", "本季報酬", "持股檔數", "成交筆數", "最近動作(天前)", "本季上榜"]); admMemberRows(D).forEach(r => rows.push([r.x.nick || "", r.x.createdAt ? twDate(r.x.createdAt) : "", r.x.claimedCount || 0, Math.round(r.x.cash || 0), Math.round(r.val), r.ret == null ? "" : (r.ret * 100).toFixed(2) + "%", Object.keys(r.x.holdings || {}).length, (r.x.trades || []).length, r.x.hasAct ? r.idle : "", r.onBoard ? "是" : "否"])); }
+  else { rows.push(["暱稱", "帳戶名稱", "加入日", "已領週數", "現金", "資產(估)", "本季報酬", "持股檔數", "成交筆數", "最近動作(天前)", "本季上榜"]); admMemberRows(D).forEach(r => rows.push([r.x.nick || "", r.x.gname || "", r.x.createdAt ? twDate(r.x.createdAt) : "", r.x.claimedCount || 0, Math.round(r.x.cash || 0), Math.round(r.val), r.ret == null ? "" : (r.ret * 100).toFixed(2) + "%", Object.keys(r.x.holdings || {}).length, (r.x.trades || []).length, r.x.hasAct ? r.idle : "", r.onBoard ? "是" : "否"])); }
   const blob = new Blob(["﻿" + rows.map(r => r.map(esc2).join(",")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `chip-${kind}-${twDate(Date.now())}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
@@ -4269,7 +4269,8 @@ async function simProcess(cap, accIn) {
 }
 
 async function simJoin(nick) {
-  await simRef().set({ nick, cash: 0, claimWeek: 0, claimedCount: 0, holdings: {}, orders: [], trades: [], createdAt: Date.now(), base: { season: seasonOf(Date.now()), v: 0, claimed: 0 } });
+  const gname = String((user && (user.displayName || user.email)) || "").slice(0, 60);
+  await simRef().set({ nick, ...(gname ? { gname } : {}), cash: 0, claimWeek: 0, claimedCount: 0, holdings: {}, orders: [], trades: [], createdAt: Date.now(), base: { season: seasonOf(Date.now()), v: 0, claimed: 0 } });
   await simClaim();
 }
 // 某檔股票在某一天（含）以前的最後一個收盤價；查不到（停牌、下市）回傳 0。結果存起來，重試時不用再查
@@ -4310,6 +4311,8 @@ async function simFinalize(S) {
 async function simRollover() {
   const a = sim.acc, cur = seasonOf(Date.now());
   if (!a) return;
+  const gn = String((user && (user.displayName || user.email)) || "").slice(0, 60);       // 讓管理員在後台認得出是哪一位會員
+  if (gn && a.gname !== gn) await simRef().update({ gname: gn }).catch(() => {});
   if (!a.base) { await simRef().update({ base: { season: cur, v: 0, claimed: 0 } }); return; }
   let n = 0;
   while (n++ < 8) {
