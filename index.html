@@ -626,6 +626,20 @@ svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap:
 .wrm:hover { background: var(--bg); color: var(--ink); }
 .wrm.sure { color: var(--surface); background: var(--bull); }
 .wlist { display: flex; flex-direction: column; gap: 8px; }
+.wtool .wvt { margin-left: auto; } .wvt button { min-height: 40px; padding: 0 14px; }
+.wgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 8px; }
+.wcard { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 2px; min-width: 0; }
+.wcmain { display: flex; flex-direction: column; gap: 6px; padding: 8px 8px 4px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; border-radius: 8px; font: inherit; min-width: 0; }
+.wcmain:hover { background: var(--bg); }
+.wch .c { font: 600 1rem var(--font-num); } .wch .n { display: block; font-size: .76rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wch .c { display: block; }
+.wcq { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; } .wcq b { font: 600 1.05rem var(--font-num); }
+.wcq .d { font: 500 .76rem var(--font-num); color: var(--muted); } .wcq .d.up { color: var(--bull); } .wcq .d.dn { color: var(--bear); }
+.wsp { display: block; width: 100%; height: 34px; } .wsp.ph { display: flex; align-items: center; font-size: .72rem; color: var(--muted); }
+.wvd { display: flex; align-items: center; gap: 8px; min-height: 24px; } .wvd.mute { font-size: .74rem; color: var(--muted); }
+.wvd .sc { font: 700 1.25rem var(--font-num); letter-spacing: -.02em; } .wvd .vdTag { font-size: .7rem; padding: 1px 8px; white-space: nowrap; }
+.wbar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; } .wbar i { display: block; height: 100%; background: var(--profit); }
+.wcrm { align-self: flex-end; min-height: 40px; }
 .seg.theme button { min-height: 36px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; }
 h1 { font-size: 1.25rem; font-weight: 700; margin: 0; letter-spacing: .02em; }
 h2 { font-size: .8rem; font-weight: 500; color: var(--muted); letter-spacing: .08em; margin: 0; }
@@ -2400,8 +2414,69 @@ function renderWatch() {
     return `<div class="wrow"><button type="button" class="wmain" data-act="open" data-code="${esc(w.code)}" data-name="${esc(w.name)}" aria-label="分析 ${esc(w.code)} ${esc(w.name)}">${nm}</button>
       <button type="button" class="wrm${sure ? " sure" : ""}" data-act="rm" data-code="${esc(w.code)}" aria-label="移除 ${esc(w.code)}">${sure ? "確認刪除" : "移除"}</button></div>`;
   });
-  const tool = list.length > 1 ? `<div class="wtool"><span>${editing ? "用「置頂」「▲」「▼」調整順序" : `共 ${list.length} 檔`}</span><button type="button" class="wbtn${editing ? " on" : ""}" data-act="wedit">${editing ? "完成" : "調整順序"}</button></div>` : "";
-  el.innerHTML = `${watchMsg ? `<div class="status err" style="margin-bottom:8px">${esc(watchMsg)}</div>` : ""}${tool}<div class="wlist">${rows.join("")}</div><p class="advnote" style="padding-top:10px">${editing ? "順序會存在雲端，換手機也一樣。新加入的股票會出現在最上面。" : "報價為最新收盤價與漲跌幅（紅漲綠跌），點股票會進入分析。"}</p>`;
+  const grid = watchView === "grid" && !editing;
+  const vt = editing ? "" : `<div class="seg wvt" role="group" aria-label="顯示方式">${[["list", "清單"], ["grid", "格狀"]].map(([k, t]) => `<button type="button" data-act="wview" data-v="${k}" aria-pressed="${watchView === k}">${t}</button>`).join("")}</div>`;
+  const tool = `<div class="wtool"><span>${editing ? "用「置頂」「▲」「▼」調整順序" : `共 ${list.length} 檔`}</span>${vt}${list.length > 1 ? `<button type="button" class="wbtn${editing ? " on" : ""}" data-act="wedit">${editing ? "完成" : "調整順序"}</button>` : ""}</div>`;
+  const body = grid ? `<div class="wgrid">${list.map(watchCard).join("")}</div>` : `<div class="wlist">${rows.join("")}</div>`;
+  const note = editing ? "順序會存在雲端，換手機也一樣。新加入的股票會出現在最上面。"
+    : grid ? `走勢圖是近 ${WSPARK} 個交易日的收盤價；評語和分析頁的「綜合評語」是同一套算法（只評估現價的位置，不預測漲跌，也不是買賣建議）。${wLimit ? "<b>資料查詢次數暫時用完，沒載入的評語請稍後再試。</b>" : ""}`
+    : "報價為最新收盤價與漲跌幅（紅漲綠跌），點股票會進入分析。";
+  el.innerHTML = `${watchMsg ? `<div class="status err" style="margin-bottom:8px">${esc(watchMsg)}</div>` : ""}${tool}${body}<p class="advnote" style="padding-top:10px">${note}</p>`;
+}
+/* ---------- 自選股「格狀」檢視：走勢簡圖 + 綜合評語 ----------
+   評語需要完整的歷史資料（和分析頁同一份，當天只查一次、存在 IndexedDB），所以格狀檢視才逐檔載入，2 檔同時進行；查詢次數用完就停。 */
+const WSPARK = 60;
+let watchView = (lsRead("watchView") || {}).v === "grid" ? "grid" : "list", wLimit = false, wBusy = false;
+const wcard = new Map();
+function wcardOf(st) {
+  const n = st.d.length, o = { spark: st.c.slice(-WSPARK), close: st.c[n - 1], chg: n > 1 ? st.c[n - 1] / st.c[n - 2] - 1 : null, v: null };
+  if (!st.shares) return o;
+  try {
+    const cut = new Date(st.d[n - 1]); cut.setFullYear(cut.getFullYear() - state.years);
+    const a0 = Math.max(0, st.d.findIndex(d => d >= cut.toISOString().slice(0, 10))), rows = allRowsOf(st).slice(a0), price = rows[rows.length - 1].c;
+    let lo = price, hi = price;
+    for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
+    const { edges, centers } = makeBins(lo, hi, BIN), m = runModel(rows, edges, st.shares, state.decay);
+    o.v = verdictOf({ a: analyze(centers, m.p, price, state.gap, m.vol), price, m });
+  } catch (e) {}
+  return o;
+}
+function wspark(c, up) {
+  const W = 120, H = 34, mn = Math.min(...c), mx = Math.max(...c), rg = mx - mn || 1;
+  const pt = c.map((v, i) => [i / (c.length - 1) * (W - 4) + 2, H - 3 - (v - mn) / rg * (H - 6)]), line = pt.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" "), l = pt[pt.length - 1];
+  const col = up == null ? "var(--muted)" : up ? "var(--bull)" : "var(--bear)";
+  return `<svg class="wsp" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="近 ${c.length} 個交易日走勢"><polygon points="2,${H} ${line} ${W - 2},${H}" style="fill:${col};opacity:.1"/><polyline points="${line}" fill="none" style="stroke:${col}" stroke-width="1.6" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="${l[0].toFixed(1)}" cy="${l[1].toFixed(1)}" r="2" style="fill:${col}"/></svg>`;
+}
+function watchCard(w) {
+  const d = wcard.get(w.code), q = quotes.get(w.code), c = esc(w.code), sure = pendingRm === w.code;
+  const chg = q && !q.fail && q.chg != null ? q.chg : d ? d.chg : null, close = q && !q.fail ? q.close : d ? d.close : null;
+  const cls = chg == null ? "" : chg > 0 ? "up" : chg < 0 ? "dn" : "";
+  let sp = `<div class="wsp ph">${d && d.fail ? "查不到走勢" : "載入中"}</div>`, vd = `<div class="wvd mute">${d && d.fail ? "無法評分" : wLimit && !d ? "稍後再試" : "評語載入中…"}</div>`;
+  if (d && !d.fail) {
+    sp = wspark(d.spark, d.spark.length > 1 ? d.spark[d.spark.length - 1] >= d.spark[0] : null);
+    vd = d.v ? `<div class="wvd"><span class="sc">${d.v.score}</span><span class="vdTag ${d.v.tone}">${d.v.label}</span></div><div class="wbar"><i style="width:${d.v.score}%"></i></div>` : `<div class="wvd mute">缺少股本，無法評分</div>`;
+  }
+  return `<div class="wcard"><button type="button" class="wcmain" data-act="open" data-code="${c}" data-name="${esc(w.name)}" aria-label="分析 ${c} ${esc(w.name)}">
+    <div class="wch"><span class="c">${c}</span><span class="n">${esc(w.name) || "&nbsp;"}</span></div>
+    <div class="wcq"><b>${close == null ? "—" : fmt(close)}</b><span class="d ${cls}">${chg == null ? "" : spct(chg, 2)}</span></div>${sp}${vd}</button>
+    <button type="button" class="wrm wcrm${sure ? " sure" : ""}" data-act="rm" data-code="${c}" aria-label="移除 ${c}">${sure ? "確認刪除" : "移除"}</button></div>`;
+}
+async function fetchGrid() {
+  if (wBusy || watchView !== "grid") return;
+  const codes = [...watch.keys()].filter(c => !wcard.has(c));
+  if (!codes.length) return;
+  wBusy = true; wLimit = false;
+  let i = 0;
+  const worker = async () => {
+    while (i < codes.length && !wLimit && watchView === "grid") {
+      const c = codes[i++];
+      try { wcard.set(c, wcardOf(await loadStock(c))); }
+      catch (e) { if (e.limit || /上限/.test(e.message || "")) wLimit = true; else wcard.set(c, { fail: true }); }
+      renderWatch();
+    }
+  };
+  await Promise.all([worker(), worker()]);
+  wBusy = false; renderWatch();
 }
 let watchEdit = false;
 // 順序 = addedAt 由大到小。每次調整都把整份清單重新編號（每一檔各給一個不同的值），
@@ -2441,6 +2516,7 @@ function moveWatch(code, how) {
   });
 }
 async function fetchQuotes() {
+  fetchGrid();
   const codes = [...watch.keys()].filter(c => { const q = quotes.get(c); return !q || Date.now() - q.t > 3e5; });
   let i = 0, stop = false;
   const worker = async () => {
@@ -3598,6 +3674,7 @@ async function initMember() {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const a = b.dataset.act;
     if (a === "login-open") openLogin();
+    else if (a === "wview") { watchView = b.dataset.v === "grid" ? "grid" : "list"; lsWrite("watchView", { v: watchView }); renderWatch(); if (watchView === "grid") { fetchGrid(); fetchQuotes(); } }
     else if (a === "wedit") { watchEdit = !watchEdit; pendingRm = null; renderWatch(); }
     else if (a === "mv-top" || a === "mv-up" || a === "mv-down") moveWatch(b.dataset.code, a.slice(3));
     else if (a === "open") { showTab("analyze"); selectStock(b.dataset.code, b.dataset.name); }
