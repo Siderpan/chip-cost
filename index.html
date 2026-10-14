@@ -607,6 +607,11 @@ svg .tr-dn { fill: none; stroke: var(--bear); stroke-width: 2.6; stroke-linecap:
 .wmain.static { cursor: default; grid-template-columns: 1.6em minmax(0, 1fr) auto; }
 .wmain.static:hover { background: transparent; }
 .wmain .rk { font: 700 .85rem var(--font-num); color: var(--muted); text-align: center; }
+.wgrip { min-height: 44px; min-width: 44px; border: 0; background: transparent; color: var(--muted); font: 700 1.1rem var(--font-ui); letter-spacing: -.12em; cursor: grab; border-radius: 8px; }
+.wrow.edit { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: pan-y; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,.08); transition: box-shadow .18s; }
+.wrow.edit.shift { transition: transform .18s ease, box-shadow .18s; }
+.wrow.edit.lift { z-index: 6; cursor: grabbing; border-color: var(--profit); box-shadow: 0 14px 30px rgba(0,0,0,.28); transition: box-shadow .18s; }
+.dragging, .dragging * { cursor: grabbing !important; }
 .wmv { display: flex; gap: 4px; }
 .wmv button { min-height: 44px; min-width: 44px; padding: 0 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 .8rem var(--font-ui); cursor: pointer; }
 .wmv button:disabled { opacity: .3; cursor: default; }
@@ -2387,6 +2392,7 @@ async function toggleStar() {
   }
 }
 function renderWatch() {
+  if (wd && wd.on) { wd.dirty = true; return; }          // 拖曳中不重畫，放開後再更新
   $("watchCount").textContent = user && watch.size ? `(${watch.size})` : "";
   const el = $("watchBody");
   if (!memberOn) { el.innerHTML = ""; return; }
@@ -2410,12 +2416,10 @@ function renderWatch() {
     const sc = wc && !wc.fail ? wc.spark : q && q.spark;
     const nm = `${nm0}<span class="wq">${qh}</span>`;
     const nmL = `${nm0}${sc && sc.length > 1 ? `<span class="wspw">${wspark(sc, sc[sc.length - 1] >= sc[0])}</span>` : `<span class="wspw"></span>`}<span class="wq">${qh}</span>`;
-    if (editing) {   // 調整順序模式：這一列不能點進分析，改成三顆移動按鈕
+    if (editing) {   // 調整順序模式：這一列不能點進分析，改成長按拖曳（鍵盤用上下方向鍵）
       const c = esc(w.code);
-      return `<div class="wrow edit"><div class="wmain static"><span class="rk">${i + 1}</span>${nm}</div>
-        <div class="wmv"><button type="button" data-act="mv-top" data-code="${c}" aria-label="把 ${c} 移到最上面"${i === 0 ? " disabled" : ""}>置頂</button>
-        <button type="button" data-act="mv-up" data-code="${c}" aria-label="把 ${c} 往上移"${i === 0 ? " disabled" : ""}>▲</button>
-        <button type="button" data-act="mv-down" data-code="${c}" aria-label="把 ${c} 往下移"${i === list.length - 1 ? " disabled" : ""}>▼</button></div></div>`;
+      return `<div class="wrow edit" data-code="${c}"><div class="wmain static"><span class="rk">${i + 1}</span>${nm}</div>
+        <button type="button" class="wgrip" data-code="${c}" aria-label="${c} 的順序：長按拖曳，或按上下方向鍵移動">⋮⋮</button></div>`;
     }
     const sure = pendingRm === w.code;
     return `<div class="wrow"><button type="button" class="wmain" data-act="open" data-code="${esc(w.code)}" data-name="${esc(w.name)}" aria-label="分析 ${esc(w.code)} ${esc(w.name)}">${nmL}</button>
@@ -2423,9 +2427,9 @@ function renderWatch() {
   });
   const grid = watchView === "grid" && !editing;
   const vt = editing ? "" : `<div class="seg wvt" role="group" aria-label="顯示方式">${[["list", "清單"], ["grid", "格狀"]].map(([k, t]) => `<button type="button" data-act="wview" data-v="${k}" aria-pressed="${watchView === k}">${t}</button>`).join("")}</div>`;
-  const tool = `<div class="wtool"><span>${editing ? "用「置頂」「▲」「▼」調整順序" : `共 ${list.length} 檔`}</span>${vt}${list.length > 1 ? `<button type="button" class="wbtn${editing ? " on" : ""}" data-act="wedit">${editing ? "完成" : "調整順序"}</button>` : ""}</div>`;
+  const tool = `<div class="wtool"><span>${editing ? "長按股票，浮起來後拖曳即可換位置" : `共 ${list.length} 檔`}</span>${vt}${list.length > 1 ? `<button type="button" class="wbtn${editing ? " on" : ""}" data-act="wedit">${editing ? "完成" : "調整順序"}</button>` : ""}</div>`;
   const body = grid ? `<div class="wgrid">${list.map(watchCard).join("")}</div>` : `<div class="wlist">${rows.join("")}</div>`;
-  const note = editing ? "順序會存在雲端，換手機也一樣。新加入的股票會出現在最上面。"
+  const note = editing ? "長按任一檔股票約半秒，它會浮起來，再上下拖曳到想要的位置放開。順序會存在雲端，換手機也一樣；新加入的股票會出現在最上面。"
     : grid ? `走勢圖是近 ${WSPARK} 個交易日的收盤價；評語和分析頁的「綜合評語」是同一套算法（只評估現價的位置，不預測漲跌，也不是買賣建議）。${wLimit ? "<b>資料查詢次數暫時用完，沒載入的評語請稍後再試。</b>" : ""}`
     : `報價為最新收盤價與漲跌幅（紅漲綠跌），圖是近 ${WSPARK} 個交易日走勢；評語與分析頁的「綜合評語」同一套算法，只評估現價位置，不是買賣建議。${wLimit ? "<b>資料查詢次數暫時用完，沒載入的評語請稍後再試。</b>" : ""}點股票會進入分析。`;
   el.innerHTML = `${watchMsg ? `<div class="status err" style="margin-bottom:8px">${esc(watchMsg)}</div>` : ""}${tool}${body}<p class="advnote" style="padding-top:10px">${note}</p>`;
@@ -2508,6 +2512,9 @@ function moveWatch(code, how) {
     if (j < 0 || j >= next.length) return;
     [next[i], next[j]] = [next[j], next[i]];
   }
+  commitWatchOrder(next);
+}
+function commitWatchOrder(next) {
   watchPending = next; watchMsg = ""; watchWrites++;
   renderWatch();
   watchChain = watchChain.then(async () => {
@@ -2520,6 +2527,74 @@ function moveWatch(code, how) {
   }).finally(() => {
     if (--watchWrites <= 0) { watchWrites = 0; watchPending = null; }
     renderWatch();
+  });
+}
+/* ---------- 長按拖曳調整順序 ----------
+   按住一列約半秒（滑鼠 0.15 秒）就會「浮起來」，這時上下拖曳，其他列會讓位，放開就換位置。
+   還沒浮起來就先移動超過 8 像素，代表使用者是想捲動頁面，會取消長按。 */
+let wd = null;
+function wdStart(st) {
+  if (wd !== st) return;
+  st.on = true; st.sy0 = scrollY; st.cy = st.y;
+  st.rects = st.list.map(r => { const b = r.getBoundingClientRect(); return { top: b.top + scrollY, h: b.height }; });
+  st.idx = st.list.indexOf(st.row); st.tgt = st.idx;
+  st.step = st.rects[st.idx].h + 8;
+  try { st.row.setPointerCapture(st.id); } catch (e) {}
+  st.row.classList.add("lift"); st.list.forEach(r => { if (r !== st.row) r.classList.add("shift"); });
+  $("watchBody").classList.add("dragging");
+  if (navigator.vibrate) navigator.vibrate(12);
+  const loop = () => {
+    if (wd !== st || !st.on) return;
+    if (st.cy < 120) scrollBy(0, -Math.min(14, (120 - st.cy) / 5 + 2)); else if (st.cy > innerHeight - 80) scrollBy(0, Math.min(14, (st.cy - innerHeight + 80) / 5 + 2));
+    wdMove(st); st.raf = requestAnimationFrame(loop);
+  };
+  st.raf = requestAnimationFrame(loop);
+}
+function wdMove(st) {
+  const dy = st.cy + scrollY - (st.y + st.sy0), R = st.rects, mid = R[st.idx].top + R[st.idx].h / 2 + dy;
+  let t = 0; R.forEach((r, j) => { if (j !== st.idx && r.top + r.h / 2 < mid) t++; });
+  st.tgt = t;
+  st.row.style.transform = `translateY(${dy}px) scale(1.02)`;
+  st.list.forEach((r, j) => {
+    if (j === st.idx) return;
+    const sh = st.idx < t && j > st.idx && j <= t ? -st.step : st.idx > t && j < st.idx && j >= t ? st.step : 0;
+    r.style.transform = sh ? `translateY(${sh}px)` : "";
+  });
+}
+function wdEnd(commit) {
+  const st = wd; wd = null;
+  if (!st) return;
+  clearTimeout(st.timer); cancelAnimationFrame(st.raf);
+  if (!st.on) return;
+  wdMove(st); $("watchBody").classList.remove("dragging");
+  st.list.forEach(r => { r.classList.remove("lift", "shift"); r.style.transform = ""; });
+  try { st.row.releasePointerCapture(st.id); } catch (e) {}
+  if (commit && st.tgt !== st.idx) {
+    const codes = st.list.map(r => r.dataset.code), [c] = codes.splice(st.idx, 1);
+    codes.splice(st.tgt, 0, c);
+    commitWatchOrder(codes);
+  } else if (st.dirty) renderWatch();
+}
+function wdBind(el) {
+  el.addEventListener("pointerdown", e => {
+    if (!watchEdit || (e.pointerType === "mouse" && e.button !== 0) || wd) return;
+    const row = e.target.closest(".wrow.edit"); if (!row) return;
+    const st = wd = { row, list: [...el.querySelectorAll(".wrow.edit")], id: e.pointerId, x: e.clientX, y: e.clientY, on: false, cy: e.clientY };
+    st.timer = setTimeout(() => wdStart(st), e.pointerType === "mouse" ? 150 : 400);
+  });
+  el.addEventListener("pointermove", e => {
+    if (!wd || e.pointerId !== wd.id) return;
+    if (!wd.on) { if (Math.hypot(e.clientX - wd.x, e.clientY - wd.y) > 8) { clearTimeout(wd.timer); wd = null; } return; }
+    wd.cy = e.clientY; wdMove(wd);
+  });
+  el.addEventListener("pointerup", e => { if (wd && e.pointerId === wd.id) wdEnd(true); });
+  el.addEventListener("pointercancel", e => { if (wd && e.pointerId === wd.id) wdEnd(false); });
+  el.addEventListener("contextmenu", e => { if (watchEdit && e.target.closest(".wrow.edit")) e.preventDefault(); });
+  document.addEventListener("touchmove", e => { if (wd && wd.on) e.preventDefault(); }, { passive: false });   // 浮起來之後，手指拖曳不要捲動頁面
+  el.addEventListener("keydown", e => {                                                                         // 鍵盤替代方案：在排序把手上按上下方向鍵
+    const g = e.target.closest(".wgrip"); if (!g || (e.key !== "ArrowUp" && e.key !== "ArrowDown")) return;
+    e.preventDefault(); moveWatch(g.dataset.code, e.key === "ArrowUp" ? "up" : "down");
+    const code = g.dataset.code; setTimeout(() => { const n = el.querySelector(`.wgrip[data-code="${CSS.escape(code)}"]`); if (n) n.focus(); }, 0);
   });
 }
 async function fetchQuotes() {
@@ -3677,6 +3752,7 @@ async function initMember() {
       }
     }
   });
+  wdBind($("watchBody"));
   $("watchBody").addEventListener("click", e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const a = b.dataset.act;
