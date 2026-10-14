@@ -145,6 +145,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .scrAdv { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 4px; } .scrAdv summary { cursor: pointer; font: 600 .84rem var(--font-ui); min-height: 40px; display: flex; align-items: center; }
 .scrAdv .hint { display: block; font-size: .7rem; color: var(--muted); line-height: 1.4; margin-top: 3px; }
 #scrScore { width: 100%; }
+.scrShared { font-size: .78rem; line-height: 1.6; padding: 8px 10px; margin-top: 6px; border: 1px solid var(--profit); border-radius: 8px; background: color-mix(in srgb, var(--profit) 7%, var(--surface)); }
 .pkRR { text-align: right; }
 .pkRR b { display: block; font: 700 1.35rem var(--font-num); }
 .pkRR small { font: 400 .66rem var(--font-ui); color: var(--muted); }
@@ -951,7 +952,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="gSec">
       <h3>不知道看哪一檔？用「篩選器」幫你篩</h3>
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>選一個候選範圍</b><p>內建的大型股、你的自選股，或最近查過的股票，不用登入就能用。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>選一個候選範圍</b><p>內建的大型股、你的自選股，或最近查過的股票，不用登入就能用。大型股每天凌晨由系統預先分析好，大家共用，不耗你的查詢額度。</p></div></div>
         <div class="gStep"><i>2</i><div><b>點一個風格</b><p>「穩健」「低接」「順勢」「先看看」，點下去條件就自動設好；想更嚴或更鬆，拉一下「位置評分至少幾分」。調整後結果會立刻更新。</p></div></div>
         <div class="gStep"><i>3</i><div><b>看位置評分最高的前 3 檔</b><p>每一檔都有 0～100 的位置評分和每個條件的實際數字。沒有人完全符合時，會列出「最接近的 3 檔」。再按「看分析」或「回測這檔」確認。</p></div></div>
       </div>
@@ -1119,6 +1120,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
           <button type="button" data-p="watch" aria-pressed="false">我的自選股</button>
           <button type="button" data-p="recent" aria-pressed="false">最近查過</button>
         </div>
+        <div id="scrShared" class="scrShared" hidden></div>
         <div id="scrPoolInfo" class="picked"></div>
         <div class="fmUsage fmBox"></div>
       </div>
@@ -1738,7 +1740,7 @@ const GLOSS = {
     calc: "風險報酬比 = (目標價 ÷ 現價 − 1) ÷ (1 − 停損價 ÷ 現價)。算法和回測頁一致。" },
   screenRules: { t: "篩選器怎麼運作",
     def: "從你選的候選範圍裡，逐檔算出支撐、壓力和「位置評分」（0～100 分，和分析頁的綜合評語同一套）。留下同時符合你條件的股票，預設依位置評分由高到低，取前 3 檔。",
-    read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「位置好不好」整理出來。", "<b>四種風格</b>：穩健（均衡）、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調分數門檻。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是內建的大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "想知道「靠近支撐買、到壓力賣」這套想法過去有沒有用，按「回測這檔」去驗證；很多時候結果並不如預期，這是正常的。"],
+    read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「位置好不好」整理出來。", "<b>四種風格</b>：穩健（均衡）、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調分數門檻。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是內建的大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "<b>大型股不耗你的額度</b>：系統每天凌晨（約 3 點）會先把內建大型股分析好存起來，所有會員共用，白天打開就能直接用。自選股和最近查過的股票如果不在這份名單內，才需要自己查詢。", "想知道「靠近支撐買、到壓力賣」這套想法過去有沒有用，按「回測這檔」去驗證；很多時候結果並不如預期，這是正常的。"],
     calc: "每檔股票用載入的全部歷史資料（最多 6 年）計算。位置評分 = 成本面 30 分 + 下方支撐 35 分 + 上方空間 35 分。停損緩衝與無壓力時的停利和回測頁的預設值相同。" },
   orderTypes: { t: "委託方式：市價、限價、觸價單",
     def: "和真實下單一樣，你可以決定「用什麼價格、什麼條件」成交。這裡有三種方式，都可以搭配當日有效或長效單。",
@@ -5027,6 +5029,28 @@ function scrSummary(c) {
   return "目前的條件：" + t.join("；") + "。";
 }
 
+/* 離峰預先篩選：系統每天凌晨（GitHub Actions）替「內建大型股」算好支撐、壓力、位置評分，存成 screener.json 給所有會員共用。
+   這裡讀進來之後直接當作「已分析」，所以大型股不耗任何人的 FinMind 查詢額度；讀不到（還沒產生、離線、本機開啟）就照舊自己查。 */
+async function scrLoadShared() {
+  scr.sharedTry = Date.now();
+  try {
+    const res = await fetch("screener.json?d=" + todayTW(), { cache: "no-cache" });
+    if (!res.ok) return;
+    const j = await res.json();
+    if (!j || j.v !== 1 || !j.metrics) return;
+    scr.shared = j;
+    for (const [code, m] of Object.entries(j.metrics)) if (!scr.metrics.has(code)) scr.metrics.set(code, { ...m, shared: true });
+    scrPoolInfo(); renderScreen();
+  } catch (e) {}
+}
+function scrSharedNote() {
+  const el = $("scrShared"), j = scr.shared;
+  if (!j) { el.hidden = true; return; }
+  const t = new Date(j.updated), hhmm2 = `${t.toLocaleDateString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric" })} ${t.toLocaleTimeString("zh-TW", { timeZone: "Asia/Taipei", hour: "2-digit", minute: "2-digit", hour12: false })}`;
+  const old = Date.now() - t.getTime() > 3 * 864e5, n = scrCodes().filter(k => scr.metrics.get(k) && scr.metrics.get(k).shared).length;
+  el.hidden = false;
+  el.innerHTML = `<b>✓ 已有系統預先算好的資料</b>（${hhmm2} 更新，資料到 ${j.asOf.slice(5).replace("-", "/")}）。${n ? `目前這個範圍有 ${n} 檔直接用這份資料，<b>不耗你的查詢額度</b>，結果立刻出來。` : "不過目前這個範圍的股票不在預先算好的名單內（名單是內建大型股），需要自己查詢。"}${old ? "<br><b>資料已經超過 3 天沒更新，之後會自動補上。</b>" : ""}`;
+}
 function scrCodes() {
   if (scr.pool === "watch") return [...watch.keys()];
   if (scr.pool === "recent") return state.recent.map(r => r.code);
@@ -5085,6 +5109,7 @@ async function scrPoolInfo() {
   [...$("scrPool").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.p === scr.pool));
   const head = scr.pool === "big" ? `內建大型股 ${n} 檔。` : scr.pool === "watch" ? (memberOn && user ? `你的自選股 ${n} 檔。` : "登入會員後才有自選股。") : `你最近查過的 ${n} 檔。`;
   $("scrPoolInfo").textContent = head;
+  scrSharedNote();
   fmUsageRender();
   const p = await scrPlan();
   if (seq !== scrInfoSeq) return;
@@ -5160,7 +5185,10 @@ async function scrRun() {
   scr.running = false; $("scrRun").disabled = false; prog.hidden = true;
   renderScreen(); scrPoolInfo();
 }
-function scrOpen() { scrPoolInfo(); renderScreen(); }
+function scrOpen() {
+  if (!scr.shared && Date.now() - (scr.sharedTry || 0) > 10 * 60e3) scrLoadShared();
+  scrPoolInfo(); renderScreen();
+}
 function scrInit() {
   $("scrPool").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { scr.pool = b.dataset.p; scrPoolInfo(); renderScreen(); } });
   ["scrScore", "scrNear", "scrStr", "scrRR", "scrCov", "scrBull", "scrSort"].forEach(id => $(id).addEventListener("input", () => { if (id !== "scrSort") scrMarkPreset(""); renderScreen(); }));
@@ -5173,6 +5201,7 @@ function scrInit() {
     else if (b.dataset.act === "scr-bt") { btPick(b.dataset.code, b.dataset.name); showTab("backtest"); }
   });
   scrPoolInfo();
+  scrLoadShared();
 }
 
 /* ---------- 頁面縮放（A− / 100% / A+） ---------- */
