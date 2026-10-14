@@ -811,10 +811,10 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
   <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
     <button type="button" role="tab" data-tab="guide" aria-selected="false">新手專區</button>
-    <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
     <button type="button" role="tab" data-tab="market" aria-selected="false">大盤指數</button>
-    <button type="button" role="tab" data-tab="screen" aria-selected="false">選股</button>
+    <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
+    <button type="button" role="tab" data-tab="screen" aria-selected="false">篩選器</button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
     <button type="button" role="tab" data-tab="sim" aria-selected="false" hidden>模擬交易</button>
   </nav>
@@ -932,14 +932,14 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     </div>
 
     <div class="gSec">
-      <h3>不知道看哪一檔？用「選股」幫你篩</h3>
+      <h3>不知道看哪一檔？用「篩選器」幫你篩</h3>
       <div class="card gSteps">
         <div class="gStep"><i>1</i><div><b>選一個候選範圍</b><p>內建的大型股、你的自選股，或最近查過的股票，不用登入就能用。</p></div></div>
         <div class="gStep"><i>2</i><div><b>設定你在意的條件</b><p>例如「離支撐不超過 5%」「趨勢要偏多」「風險報酬比至少 1.5」。調整後結果會立刻更新。</p></div></div>
         <div class="gStep"><i>3</i><div><b>看符合條件的前 3 檔</b><p>每一檔都列出每個條件的實際數字，再按「看分析」或「回測這檔」進一步確認。</p></div></div>
       </div>
       <p class="gLead"><b>這是篩選器，不是預測</b>：它只把「位置合不合你的條件」整理出來，沒有任何方法能保證哪一檔會漲。入選後建議先回測，看過去的表現再參考。</p>
-      <button type="button" class="btn" data-go="screen">去選股</button>
+      <button type="button" class="btn" data-go="screen">去篩選器</button>
     </div>
 
     <div id="gSimSec" class="gSec" hidden>
@@ -1089,13 +1089,13 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </section>
 
   <section id="pgScreen" class="page" hidden>
-    <h2>條件選股：從候選名單裡，找出最符合你條件的前 3 檔</h2>
+    <h2>條件篩選器：從候選名單裡，找出最符合你條件的前 3 檔</h2>
     <div class="card gWarn" style="padding:12px 14px">
       <div class="gName">先說清楚</div>
       <ul style="margin-top:6px">
         <li>這是<b>條件篩選器</b>，不是預測，也不是買賣建議。沒有任何方法能保證哪一檔會漲。</li>
         <li>排名依「<b>往上到壓力的空間 ÷ 跌破支撐要承擔的風險</b>」計算，空間越大、風險越小，排名越前面。</li>
-        <li>想知道這套條件過去的表現，到「回測」頁驗證。<button type="button" class="info" data-term="screenRules" aria-label="條件選股的說明">i</button></li>
+        <li>想知道這套條件過去的表現，到「回測」頁驗證。<button type="button" class="info" data-term="screenRules" aria-label="條件篩選器的說明">i</button></li>
       </ul>
     </div>
     <div class="card btForm">
@@ -1712,7 +1712,7 @@ const GLOSS = {
     def: "「往上有多少空間」除以「跌破支撐要承擔多少風險」。數字越大，代表賺的空間比賠的風險大得越多。",
     read: ["往上空間：到最近壓力峰值的距離；沒有壓力，或壓力不到 2% 時，用固定的 10%。", "停損風險：從現價到「支撐區下緣再往下 1%」的距離。", "例如空間 +9%、風險 −3%，風險報酬比就是 3。1 以下代表空間還沒有風險大。", "它描述的是「位置的條件」，不是對上漲的預測。"],
     calc: "風險報酬比 = (目標價 ÷ 現價 − 1) ÷ (1 − 停損價 ÷ 現價)。算法和回測頁一致。" },
-  screenRules: { t: "條件選股怎麼運作",
+  screenRules: { t: "條件篩選器怎麼運作",
     def: "從你選的候選範圍裡，逐檔算出支撐與壓力，保留同時符合你設定的所有條件的股票，再依風險報酬比由高到低排序，取前 3 檔。",
     read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「位置合不合你的條件」整理出來。", "候選範圍是內建的大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "每一檔入選都會列出每個條件的實際數字，沒有黑箱。", "想知道「靠近支撐買、到壓力賣」這套想法過去有沒有用，按「回測這檔」去驗證；很多時候結果並不如預期，這是正常的。", "條件越嚴格，符合的越少；沒有任何一檔符合時，會告訴你是哪些條件擋下了大部分股票。"],
     calc: "每檔股票用載入的全部歷史資料（最多 6 年）計算，停損緩衝與無壓力時的停利和回測頁的預設值相同。" },
@@ -2592,8 +2592,8 @@ function adminStatusHtml() {
 /* ---------- 管理後台（只有管理員看得到）----------
    資料來源：stats/<日期>（每日流量計數）、所有人的模擬交易帳戶（collectionGroup "sim"）、本季與上一季排行榜。
    分成五個分頁：總覽（重點數字與自動提醒）、流量、會員、交易、檢查。載入一次後在瀏覽器裡計算，切換分頁不會重新讀取資料。 */
-const ADM_LABEL = { tab_guide: "新手專區", tab_analyze: "分析", tab_market: "大盤指數", tab_screen: "選股", tab_watch: "自選股", tab_backtest: "回測", tab_sim: "模擬交易",
-  act_search: "查詢股票", act_screen: "執行選股", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
+const ADM_LABEL = { tab_guide: "新手專區", tab_market: "大盤指數", tab_analyze: "分析", tab_watch: "自選股", tab_screen: "篩選器", tab_backtest: "回測", tab_sim: "模擬交易",
+  act_search: "查詢股票", act_screen: "執行篩選", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
 const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["ck", "檢查"], ["an", "公告"], ["rp", "報表"]];
 const adm = { data: null, loading: false, err: "", tab: "ov", range: 30, sort: "last", q: "", filt: "all", open: "", watch: null, watchBusy: false };
 const n0 = v => Math.round(v).toLocaleString("en-US");
@@ -4113,7 +4113,7 @@ function hScroller(el, left, right) {
 }
 // 新手專區很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
 function guideToc() {
-  const labels = [["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["三步驟", "三步驟開始用"], ["先看大環境", "大盤指數"], ["不知道看哪一檔", "選股"], ["想實際練習", "模擬交易"]];
+  const labels = [["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["三步驟", "三步驟開始用"], ["先看大環境", "大盤指數"], ["不知道看哪一檔", "篩選器"], ["想實際練習", "模擬交易"]];
   const secs = [...document.querySelectorAll("#pgGuide .gSec")].filter(s => s.querySelector("h3")).map((s, i) => { s.id = s.id || `gs${i}`; const h = s.querySelector("h3").textContent; const m = labels.find(l => h.includes(l[0])); return m ? { s, label: m[1] } : null; }).filter(Boolean);
   const host = $("guideToc");
   host.innerHTML = secs.map((x, i) => `<button type="button" data-i="${i}">${x.label}</button>`).join("");
@@ -4901,7 +4901,7 @@ function simInit() {
   });
 }
 
-/* ---------- 條件選股：不預測，只依你設的條件排序 ---------- */
+/* ---------- 條件篩選器：不預測，只依你設的條件排序 ---------- */
 // 內建的大型股候選名單（代碼）。名稱由 FinMind 股票清單帶入；查不到資料的會自動略過
 const BIG_POOL = ["2330", "2317", "2454", "2308", "2881", "2882", "2891", "2412", "2303", "2886", "1301", "1303", "2002", "2884", "2892", "3711", "2382", "3034", "2357", "2603", "2609", "5871", "2885", "2880", "2883", "2890", "5880", "1216", "2207", "1101", "2327", "3008", "2379", "3037", "2345", "6505", "4938", "2301", "2395", "1326", "2912", "3045", "4904", "2801", "2887"];
 const scr = { pool: "big", running: false, stop: false, metrics: new Map(), failed: 0, limited: false };
