@@ -149,6 +149,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .labConf { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
 .labP { list-style: none; margin: 0; padding: 0; } .labP li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: .84rem; } .labP li:last-child { border-bottom: 0; } .labP b { font-family: var(--font-num); white-space: nowrap; }
 .labCols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .labCol { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: .78rem; line-height: 1.8; } .labCol b { display: block; font-size: .84rem; margin-bottom: 2px; }
+.labTbl > div { display: grid; grid-template-columns: 1.7fr .6fr .9fr .6fr .5fr; gap: 6px; padding: 7px 2px; border-bottom: 1px solid var(--line); font: .78rem var(--font-num); align-items: center; } .labTbl > div:last-child { border-bottom: 0; } .labTbl .hd { font: 600 .7rem var(--font-ui); color: var(--muted); } .labTbl .sum { font-weight: 700; background: color-mix(in srgb, var(--profit) 6%, transparent); }
 .labLog { font: .72rem/1.7 var(--font-num); color: var(--muted); max-height: 220px; overflow: auto; padding: 6px 2px; }
 .labPlan { font-size: .78rem; color: var(--muted); line-height: 1.7; margin-top: 10px; padding: 10px 14px; }
 .scrShared { font-size: .78rem; line-height: 1.6; padding: 8px 10px; margin-top: 6px; border: 1px solid var(--profit); border-radius: 8px; background: color-mix(in srgb, var(--profit) 7%, var(--surface)); }
@@ -1217,13 +1218,13 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <section id="pgLab" class="page" hidden>
     <h2>策略實驗室 <span class="labTag">開發中・僅管理員</span></h2>
     <div class="card scrIntro">
-      <p><b>它在做什麼？</b>把「篩選器」和「回測」接起來，自動反覆疊代：①在一整批大型股上回測每一組參數 ②依成績微調參數（多個起點同時找） ③最好的一組拿去<b>沒參與調參的最近一段期間</b>考試 ④檢查穩不穩、有沒有贏過亂買 ⑤給出「可信度」，再用這組參數替今天的股票排名。</p>
+      <p><b>它在做什麼？</b>把「篩選器」和「回測」接起來，自動反覆疊代，並用<b>滾動式驗證</b>檢查可不可信：①在一整批大型股上回測每一組參數 ②依「勝過亂買」的成績微調參數（多個起點同時找） ③像真的在過去每一年做決定一樣：只用「那一年以前」的資料調參，再去考「那一年」，連續考好幾年 ④把所有考試成績合起來，看有沒有顯著勝過亂買、每年是否一致 ⑤給出「可信度」，再用全部資料調出現在要用的參數，替今天的股票排名。訊號除了籌碼支撐，也加入「相對強弱」和「大盤多空」過濾。</p>
       <p class="advnote" style="padding:6px 0 0">調參數一定會讓過去的成績變漂亮（背答案），所以可信度只看考試那一段。如果考試沒過，它會直說，不會硬給你一份名單。</p>
     </div>
     <div class="card btForm">
       <div class="two">
-        <label class="fld" for="labTest"><span>考試期間（最近）</span><select id="labTest"><option value="6">6 個月</option><option value="9">9 個月</option><option value="12" selected>12 個月</option><option value="18">18 個月</option></select></label>
-        <label class="fld" for="labRounds"><span>每個起點最多疊代</span><input id="labRounds" type="number" inputmode="numeric" min="1" max="12" step="1" value="8"></label>
+        <label class="fld" for="labTest"><span>連續考幾年（每年一折）</span><select id="labTest"><option value="3">3 年</option><option value="4" selected>4 年</option><option value="5">5 年</option></select></label>
+        <label class="fld" for="labRounds"><span>每個起點最多疊代</span><input id="labRounds" type="number" inputmode="numeric" min="1" max="12" step="1" value="6"></label>
       </div>
       <button id="labRun" type="button" class="btn">開始疊代驗證</button>
       <button id="labStop" type="button" class="info-link" hidden>停止</button>
@@ -5233,36 +5234,41 @@ function scrInit() {
 }
 
 /* ---------- 策略實驗室（開發中，目前只有管理員看得到）----------
-   把「篩選器」和「回測」接起來，反覆疊代：
-   1. 用同一套回測規則，在「一整批大型股」上算每一組參數的成績（只用訓練期的資料）
-   2. 回授：依成績微調參數，一輪一輪往好的方向走（多個起點，避免卡在局部最佳）
-   3. 最好的一組，拿去「沒參與過調參」的驗證期考試（樣本外）
-   4. 再做穩定性檢查（參數稍微動一格還成不成立）、和隨機參數比較
-   5. 依驗證結果給「可信度」，再用這組參數替今天的股票排名
-   重點：調參一定會讓訓練期的成績變漂亮（過度配適），真正有意義的是驗證期的成績，所以可信度只看驗證期。 */
+   把「篩選器」和「回測」接起來，反覆疊代，並且用「滾動式驗證」檢查可不可信：
+   1. 用同一套回測規則，在一整批大型股上算每一組參數的成績
+   2. 回授：依「勝過亂買同天數」的成績微調參數，一輪一輪往好的方向走（多個起點）
+   3. 滾動式驗證：像真的在過去每一年做決定那樣——只用「那一年以前」的資料調參，再拿去考「那一年」（每年都是沒看過的考卷），
+      一共考好幾年，把所有考試成績合起來看，並檢查每一年的結果和參數是否一致
+   4. 最後用「全部資料」再調一次，得到現在要用的參數，替今天的股票排名
+   可信度評的是「這套調參流程」在沒看過的年份是否可靠，而不是某一組參數在訓練期有多漂亮。
+   訊號除了籌碼支撐、位置評分、趨勢，也加入「相對強弱（比大盤強多少）」與「大盤在 200 日均線之上」兩個過濾。 */
 const LAB_HIST_URL = "https://raw.githubusercontent.com/Siderpan/chip-cost/data/history.json";
-const LAB_WARM = 500, LAB_COST = 0.585, LAB_K = 6;       // 前 500 個交易日只累積籌碼不交易；來回成本 %；個股成績向整體平均收縮的強度
+const LAB_WARM = 500, LAB_COST = 0.585, LAB_K = 6, LAB_TRAIN_MIN = 2.5;   // 前 500 個交易日只累積籌碼不交易；來回成本 %；個股成績向整體平均收縮的強度；每折訓練期至少幾年
 const LAB_SPACE = {
   near: [1, 2, 3, 4, 5, 6, 8, 10, 12, 15],
   str: [0, 0.02, 0.03, 0.05, 0.08, 0.1],
   score: [0, 40, 50, 55, 60, 65, 70, 75],
   bull: [false, true],
+  rs: [-1, -0.05, 0, 0.05, 0.1],          // 近 60 天報酬要比大盤多多少（−1 = 不限）
+  mkt: [false, true],                      // 大盤要在 200 日均線之上
   stopBuf: [0.5, 1, 1.5, 2, 3, 4],
   tp: [6, 8, 10, 12, 15, 20],
   maxHold: [20, 30, 45, 60, 90]
 };
 const LAB_STARTS = [
-  { near: 5, str: 0.05, score: 60, bull: true, stopBuf: 1, tp: 10, maxHold: 60 },       // 穩健
-  { near: 3, str: 0.08, score: 55, bull: false, stopBuf: 1, tp: 10, maxHold: 45 },       // 低接
-  { near: 15, str: 0.03, score: 65, bull: true, stopBuf: 2, tp: 15, maxHold: 90 },       // 順勢
-  null                                                                                    // 隨機起點
+  { near: 5, str: 0.05, score: 60, bull: true, rs: -1, mkt: false, stopBuf: 1, tp: 10, maxHold: 60 },      // 穩健
+  { near: 3, str: 0.08, score: 55, bull: false, rs: -1, mkt: false, stopBuf: 1, tp: 10, maxHold: 45 },      // 低接
+  { near: 15, str: 0.03, score: 65, bull: true, rs: 0, mkt: true, stopBuf: 2, tp: 15, maxHold: 90 },        // 順勢
+  null                                                                                                        // 隨機起點
 ];
-const LAB_NAME = { near: "離支撐不超過", str: "支撐籌碼占比至少", score: "位置評分至少", bull: "趨勢要偏多", stopBuf: "停損放在支撐區下緣再往下", tp: "沒有壓力區時的停利", maxHold: "最多持有" };
-const labFmt = (k, v) => k === "near" || k === "stopBuf" || k === "tp" ? v + "%" : k === "str" ? Math.round(v * 100) + "%" : k === "score" ? v + " 分" : k === "bull" ? (v ? "是" : "否") : v + " 個交易日";
-const LAB = { running: false, stop: false, hist: null, sigs: null, res: null, src: "" };
+const LAB_NAME = { near: "離支撐不超過", str: "支撐籌碼占比至少", score: "位置評分至少", bull: "趨勢要偏多", rs: "近 60 天要比大盤強", mkt: "大盤在 200 日線之上才買", stopBuf: "停損放在支撐區下緣再往下", tp: "沒有壓力區時的停利", maxHold: "最多持有" };
+const labFmt = (k, v) => k === "near" || k === "stopBuf" || k === "tp" ? v + "%" : k === "str" ? Math.round(v * 100) + "%" : k === "score" ? v + " 分" : k === "bull" || k === "mkt" ? (v ? "是" : "否") : k === "rs" ? (v <= -1 ? "不限" : (v >= 0 ? "+" : "−") + Math.abs(Math.round(v * 100)) + "% 以上") : v + " 個交易日";
+const LAB = { running: false, stop: false, hist: null, sigs: null, res: null, src: "", bl: {}, noIdx: false, mk: null };
 const labYield = () => new Promise(r => setTimeout(r, 0));
-const labSnap = P => { const o = {}; for (const k in LAB_SPACE) o[k] = LAB_SPACE[k].reduce((b, v) => typeof v === "boolean" ? (P[k] === v ? v : b) : Math.abs(v - P[k]) < Math.abs(b - P[k]) ? v : b, LAB_SPACE[k][0]); return o; };
-const labRand = () => { const o = {}; for (const k in LAB_SPACE) o[k] = LAB_SPACE[k][Math.floor(Math.random() * LAB_SPACE[k].length)]; return o; };
+const labKeys = () => Object.keys(LAB_SPACE).filter(k => !(LAB.noIdx && (k === "rs" || k === "mkt")));
+const labSnap = P => { const o = {}; for (const k in LAB_SPACE) { const V = LAB_SPACE[k], pv = LAB.noIdx && (k === "rs" || k === "mkt") ? V[0] : P[k]; o[k] = V.reduce((b, v) => typeof v === "boolean" ? (pv === v ? v : b) : Math.abs(v - pv) < Math.abs(b - pv) ? v : b, V[0]); } return o; };
+const labRand = () => { const o = {}; for (const k in LAB_SPACE) o[k] = LAB.noIdx && (k === "rs" || k === "mkt") ? LAB_SPACE[k][0] : LAB_SPACE[k][Math.floor(Math.random() * LAB_SPACE[k].length)]; return o; };
+const labAddMonths = (d, m) => { const x = new Date(d + "T00:00:00Z"); x.setUTCMonth(x.getUTCMonth() + m); return x.toISOString().slice(0, 10); };
 
 async function labLoadHistory(say) {
   if (LAB.hist) return LAB.hist;
@@ -5270,10 +5276,17 @@ async function labLoadHistory(say) {
   let j = null;
   try { const r = await fetch(LAB_HIST_URL + "?d=" + todayTW(), { cache: "no-cache" }); if (r.ok) j = await r.json(); } catch (e) {}
   const out = [];
+  LAB.mk = null; LAB.noIdx = true;
   if (j && j.stocks) {
     for (const [code, s] of Object.entries(j.stocks)) {
       const t0 = Date.parse(s.b);
       out.push({ code, name: s.n, shares: s.sh, d: s.d.map(x => new Date(t0 + x * 864e5).toISOString().slice(0, 10)), o: s.o, h: s.h, l: s.l, c: s.c, v: s.v });
+    }
+    if (j.index && j.index.c && j.index.c.length > 300) {                      // 加權指數：給「相對強弱」和「大盤多空」用
+      const t0 = Date.parse(j.index.b), dates = j.index.d.map(x => new Date(t0 + x * 864e5).toISOString().slice(0, 10)), c = j.index.c, ma = new Float64Array(c.length).fill(NaN);
+      let acc = 0;
+      for (let i = 0; i < c.length; i++) { acc += c[i]; if (i >= 200) acc -= c[i - 200]; if (i >= 199) ma[i] = acc / 200; }
+      LAB.mk = { dates, c, ma }; LAB.noIdx = false;
     }
     LAB.src = `共用歷史資料（${String(j.updated).slice(0, 10)} 更新）`;
   } else {
@@ -5284,12 +5297,18 @@ async function labLoadHistory(say) {
       try { const st = await loadStock(code, 6); if (st.shares) out.push(st); } catch (e) { if (e.limit) break; }
       say(`自己查詢中 ${++n} / 30`);
     }
-    LAB.src = "自己查詢（耗用額度）";
+    LAB.src = "自己查詢（耗用額度，只有約 6 年、沒有大盤資料）";
   }
   const ok = out.filter(s => s.d.length >= LAB_WARM + 300);
   if (ok.length < 8) throw new Error(`可用的股票太少（${ok.length} 檔），無法做有意義的驗證。`);
   LAB.hist = ok;
   return ok;
+}
+// 指數在某一天（含）以前最後一個收盤與 200 日均線；用二分搜尋找位置
+function labMk(date) {
+  const D = LAB.mk.dates; let lo = 0, hi = D.length - 1, r = -1;
+  while (lo <= hi) { const m = (lo + hi) >> 1; if (D[m] <= date) { r = m; lo = m + 1; } else hi = m - 1; }
+  return r;
 }
 
 // 每檔股票、每一天的訊號：只用「當天以前」的資料算（和回測一樣是逐日累積籌碼，沒有偷看未來）。算一次，之後調參數都不用重算
@@ -5299,10 +5318,19 @@ async function labSignals(st) {
   let lo = Infinity, hi = -Infinity;
   for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
   const { edges, centers } = makeBins(lo, hi, BIN), n = centers.length;
-  const chips = new Float64Array(n), w = new Float64Array(n), pn = new Float64Array(n), vol = new Float64Array(n), vn = new Float64Array(n), zero = new Float64Array(n);
+  const chips = new Float64Array(n), w = new Float64Array(n), pn = new Float64Array(n), vol = new Float64Array(n), vn = new Float64Array(n);
   const F = () => new Float64Array(L).fill(NaN);
   const sg = { code: st.code, name: st.name || "", L, d: st.d, o: Float64Array.from(st.o), h: Float64Array.from(st.h), l: Float64Array.from(st.l), c: Float64Array.from(st.c),
-    sP: F(), sLow: F(), sStr: new Float64Array(L), rP: F(), cov: new Float64Array(L), score: new Float64Array(L), dir: Int8Array.from(superTrend(rows, state.stN, state.stM).dir) };
+    sP: F(), sLow: F(), sStr: new Float64Array(L), rP: F(), cov: new Float64Array(L), score: new Float64Array(L), rs: F(), mkt: new Uint8Array(L), dir: Int8Array.from(superTrend(rows, state.stN, state.stM).dir) };
+  if (LAB.mk) {
+    const M = LAB.mk, at = new Int32Array(L);
+    for (let i = 0; i < L; i++) at[i] = labMk(st.d[i]);
+    for (let i = 0; i < L; i++) {
+      const j = at[i];
+      if (j >= 0 && M.ma[j] === M.ma[j]) sg.mkt[i] = M.c[j] >= M.ma[j] ? 1 : 0;
+      if (i >= 60 && j >= 0 && at[i - 60] >= 0) sg.rs[i] = (st.c[i] / st.c[i - 60] - 1) - (M.c[j] / M.c[at[i - 60]] - 1);
+    }
+  }
   let tv = 0;
   for (let i = 0; i < L; i++) {
     const r = rows[i], t = Math.min(1, r.v / st.shares * state.decay);
@@ -5321,6 +5349,12 @@ async function labSignals(st) {
   return sg;
 }
 
+// 這一天訊號是否成立
+function labEntry(sg, P, i) {
+  const s = sg.sP[i], c = sg.c[i];
+  return s === s && c >= sg.sLow[i] && c / s - 1 <= P.near / 100 && sg.sStr[i] >= P.str && sg.cov[i] >= 0.6 && sg.score[i] >= P.score && (!P.bull || sg.dir[i] > 0)
+    && (P.rs <= -1 || sg.rs[i] >= P.rs) && (!P.mkt || sg.mkt[i] === 1);
+}
 // 一檔股票在 [a, b) 區間照這組參數買賣的所有交易（規則和回測頁相同：隔天開盤買，同天碰到停損和停利先算停損）
 function labSim(sg, P, a, b, out) {
   const cost = LAB_COST / 100, o = sg.o, h = sg.h, l = sg.l, c = sg.c;
@@ -5334,90 +5368,86 @@ function labSim(sg, P, a, b, out) {
       else if (i - i0 + 1 >= P.maxHold || i === b - 1) px = c[i];
       if (px === px) { out.push({ net: (px / entry) * (1 - cost) - 1, days: i - i0 + 1, i0, i1: i }); pos = false; }
     }
-    if (!pos && !pend && i < b - 1) {
-      const s = sg.sP[i];
-      if (s === s && c[i] >= sg.sLow[i] && c[i] / s - 1 <= P.near / 100 && sg.sStr[i] >= P.str && sg.cov[i] >= 0.6 && sg.score[i] >= P.score && (!P.bull || sg.dir[i] > 0)) {
-        const R = sg.rP[i];
-        pT = R === R && R >= c[i] * 1.02 ? R : c[i] * (1 + P.tp / 100); pS = sg.sLow[i] * (1 - P.stopBuf / 100); pend = true;
-      }
+    if (!pos && !pend && i < b - 1 && labEntry(sg, P, i)) {
+      const R = sg.rP[i];
+      pT = R === R && R >= c[i] * 1.02 ? R : c[i] * (1 + P.tp / 100); pS = sg.sLow[i] * (1 - P.stopBuf / 100); pend = true;
     }
   }
 }
-// 整批股票的成績。win = "train" / "test" / "all"
-function labRange(sg, win) { return win === "train" ? [LAB_WARM, sg.tr] : win === "test" ? [sg.tr, sg.L] : [LAB_WARM, sg.L]; }
-function labStats(P, win) {
-  const BL = LAB.bl[win], nets = [], exs = [], days = []; let stocks = 0, pos = 0, gw = 0, gl = 0, worst = Infinity, best = -Infinity, base = 0;
+// 區間：{ key, from, to }（日期，to 不含）。前 LAB_WARM 天一律不交易
+const labIdx = (sg, date) => { if (!sg._ix) sg._ix = new Map(); let v = sg._ix.get(date); if (v === undefined) { v = sg.d.findIndex(x => x >= date); if (v < 0) v = sg.L; sg._ix.set(date, v); } return v; };
+const labRange = (sg, w) => [Math.max(LAB_WARM, labIdx(sg, w.from)), labIdx(sg, w.to)];
+// 「隨便挑一天買、抱 h 天」的平均報酬（扣成本）：每個區間、每個持有天數各算一次。策略要贏的是這條線，不是 0
+function labBaseline(w) {
+  if (LAB.bl[w.key]) return LAB.bl[w.key];
+  const cost = LAB_COST / 100, s = new Float64Array(91), k = new Float64Array(91);
   for (const sg of LAB.sigs) {
-    const [a, b] = labRange(sg, win), t = [];
+    const [a, b] = labRange(sg, w);
+    for (let j = a; j < b; j += 2) for (let h = 1; h <= 90 && j + h - 1 < b; h++) { s[h] += (sg.c[j + h - 1] / sg.o[j]) * (1 - cost) - 1; k[h]++; }
+  }
+  return (LAB.bl[w.key] = Array.from(s, (v, h) => k[h] ? v / k[h] : 0));
+}
+// 整批股票在某區間的成績。ex = 勝過亂買同天數的超額報酬；回傳也帶「加總」，方便把好幾折合併
+function labStats(P, w) {
+  const BL = labBaseline(w), ps = {}; let n = 0, sr = 0, sb = 0, sx = 0, sxx = 0, wins = 0, gw = 0, gl = 0, days = 0, stocks = 0, pos = 0, worst = Infinity, best = -Infinity;
+  for (const sg of LAB.sigs) {
+    const [a, b] = labRange(sg, w), t = [];
     if (b - a >= 30) labSim(sg, P, a, b, t);
     if (!t.length) continue;
     stocks++; let m = 0;
     for (const x of t) {
       const bl = BL[Math.min(90, x.days)], ex = x.net - bl;
-      nets.push(x.net); exs.push(ex); days.push(x.days); base += bl; m += ex;
-      if (x.net > 0) gw += x.net; else gl -= x.net;
+      n++; sr += x.net; sb += bl; sx += ex; sxx += ex * ex; days += x.days; m += ex; if (x.net > 0) { wins++; gw += x.net; } else gl -= x.net;
       if (x.net < worst) worst = x.net; if (x.net > best) best = x.net;
     }
-    if (m > 0) pos++;
+    ps[sg.code] = m; if (m > 0) pos++;
   }
-  const n = nets.length;
-  if (!n) return { n: 0, mean: 0, base: 0, ex: 0, t: 0, win: 0, pf: 0, days: 0, breadth: 0, stocks: 0 };
-  const avg = a => a.reduce((s, x) => s + x, 0) / a.length, mean = avg(nets), ex = avg(exs), sd = Math.sqrt(exs.reduce((s, x) => s + (x - ex) ** 2, 0) / Math.max(1, n - 1));
-  return { n, mean, base: base / n, ex, t: sd > 0 ? ex / (sd / Math.sqrt(n)) : 0, win: nets.filter(x => x > 0).length / n, pf: gl > 0 ? gw / gl : gw > 0 ? 9.99 : 0,
-    days: avg(days), breadth: pos / stocks, stocks, worst, best };
+  return labFinish({ n, sr, sb, sx, sxx, wins, gw, gl, days, stocks, pos, ps, worst, best });
 }
-// 「隨便挑一天買、抱 h 天」的平均報酬（扣掉成本）：每個區間、每個持有天數各算一次。策略要贏的是這條線，不是 0
-function labBuildBaselines() {
-  const cost = LAB_COST / 100;
-  LAB.bl = {};
-  for (const win of ["train", "test", "all"]) {
-    const s = new Float64Array(91), k = new Float64Array(91);
-    for (const sg of LAB.sigs) {
-      const [a, b] = labRange(sg, win);
-      for (let j = a; j < b; j += 2) for (let h = 1; h <= 90 && j + h - 1 < b; h++) { s[h] += (sg.c[j + h - 1] / sg.o[j]) * (1 - cost) - 1; k[h]++; }
-    }
-    LAB.bl[win] = Array.from(s, (v, h) => k[h] ? v / k[h] : 0);
-  }
+function labFinish(a) {
+  const n = a.n;
+  if (!n) return { ...a, mean: 0, base: 0, ex: 0, t: 0, win: 0, pf: 0, avgDays: 0, breadth: 0 };
+  const ex = a.sx / n, sd = Math.sqrt(Math.max(0, (a.sxx - n * ex * ex) / Math.max(1, n - 1)));
+  return { ...a, mean: a.sr / n, base: a.sb / n, ex, t: sd > 0 ? ex / (sd / Math.sqrt(n)) : 0, win: a.wins / n, pf: a.gl > 0 ? a.gw / a.gl : a.gw > 0 ? 9.99 : 0, avgDays: a.days / n, breadth: a.stocks ? a.pos / a.stocks : 0 };
 }
 // 目標函數：「勝過亂買同天數」的超額報酬 t 值（超額 ÷ 標準誤，同時獎勵賺得多、樣本多、穩定），再乘上「有幾成股票贏過亂買」；交易太少直接重罰。
 // 用超額而不是絕對報酬，是為了不讓優化器靠「一直抱著」去吃大盤漲幅
-function labObj(P, win = "train") {
-  const s = labStats(P, win);
+function labObj(P, w) {
+  const s = labStats(P, w);
   if (s.n < 40) return -5 + s.n / 40;
   return s.t * (0.5 + 0.5 * s.breadth);
 }
-async function labOptimize(maxRounds, onRound) {
-  const keys = Object.keys(LAB_SPACE);
+async function labOptimize(w, maxRounds, onRound) {
+  const keys = labKeys();
   let best = null;
   for (let si = 0; si < LAB_STARTS.length && !LAB.stop; si++) {
     const P = labSnap(LAB_STARTS[si] || labRand());
     for (let round = 1; round <= maxRounds && !LAB.stop; round++) {
       let changed = false;
       for (const k of keys.slice().sort(() => Math.random() - 0.5)) {
-        const vals = LAB_SPACE[k], js = vals.map(v => labObj({ ...P, [k]: v }));
+        const vals = LAB_SPACE[k], js = vals.map(v => labObj({ ...P, [k]: v }, w));
         const num = typeof vals[0] === "number";
         const sm = js.map((j, i) => num ? 0.5 * j + 0.25 * (i ? js[i - 1] : j) + 0.25 * (i < js.length - 1 ? js[i + 1] : j) : j);   // 相鄰取平均：偏好「平坦的高原」，不挑孤立的尖峰
         const cur = vals.indexOf(P[k]);
         let bi = cur; for (let i = 0; i < vals.length; i++) if (sm[i] > sm[bi] + 1e-9) bi = i;
         if (bi !== cur) { P[k] = vals[bi]; changed = true; }
       }
-      const J = labObj(P), s = labStats(P, "train");
-      onRound({ start: si, round, J, n: s.n, mean: s.mean, P: { ...P } });
+      onRound({ start: si, round });
       await labYield();
       if (!changed) break;
     }
-    const J = labObj(P);
+    const J = labObj(P, w);
     if (!best || J > best.J) best = { P: { ...P }, J, start: si };
   }
   return best;
 }
 
-function labCandidates(P, conf) {
-  const per = [], all = [];
+function labCandidates(P, conf, W) {
+  const per = [], all = [], BL = labBaseline(W);
   for (const sg of LAB.sigs) {
     const t = []; labSim(sg, P, LAB_WARM, sg.L, t);
-    const n = t.length, m = n ? t.reduce((s, x) => s + x.net, 0) / n : 0, ex = n ? t.reduce((s, x) => s + x.net - LAB.bl.all[Math.min(90, x.days)], 0) / n : 0;
-    t.forEach(x => all.push(x.net - LAB.bl.all[Math.min(90, x.days)]));
+    const n = t.length, m = n ? t.reduce((s, x) => s + x.net, 0) / n : 0, ex = n ? t.reduce((s, x) => s + x.net - BL[Math.min(90, x.days)], 0) / n : 0;
+    t.forEach(x => all.push(x.net - BL[Math.min(90, x.days)]));
     per.push({ sg, n, m, ex, wins: t.filter(x => x.net > 0).length });
   }
   const pm = all.length ? all.reduce((s, x) => s + x, 0) / all.length : 0;
@@ -5427,8 +5457,7 @@ function labCandidates(P, conf) {
   for (const p of per) {
     const sg = p.sg, i = sg.L - 1, c = sg.c[i], s = sg.sP[i];
     if (!(s === s)) continue;
-    const dist = c / s - 1;
-    const active = c >= sg.sLow[i] && dist <= P.near / 100 && sg.sStr[i] >= P.str && sg.cov[i] >= 0.6 && sg.score[i] >= P.score && (!P.bull || sg.dir[i] > 0);
+    const dist = c / s - 1, active = labEntry(sg, P, i);
     const pr = sorted.filter(x => x < p.shr).length / Math.max(1, sorted.length - 1);
     const R = sg.rP[i], target = R === R && R >= c * 1.02 ? R : c * (1 + P.tp / 100), stop = sg.sLow[i] * (1 - P.stopBuf / 100);
     const near = dist <= P.near / 50 && c >= sg.sLow[i];
@@ -5448,35 +5477,47 @@ async function labRun() {
   const t0 = performance.now(), logs = [];
   try {
     const hist = await labLoadHistory(say);
-    LAB.sigs = [];
+    LAB.sigs = []; LAB.bl = {};
     for (let i = 0; i < hist.length && !LAB.stop; i++) { say(`計算每檔每天的訊號 ${i + 1} / ${hist.length}（${hist[i].code}）…`); LAB.sigs.push(await labSignals(hist[i])); await labYield(); }
     if (LAB.stop) throw new Error("已停止。");
-    const months = +$("labTest").value, last = LAB.sigs.reduce((m, s) => s.d[s.L - 1] > m ? s.d[s.L - 1] : m, ""), cut = new Date(Date.parse(last) - months * 30.44 * 864e5).toISOString().slice(0, 10);
-    for (const sg of LAB.sigs) { let k = sg.d.findIndex(d => d >= cut); sg.tr = k < 0 ? sg.L : Math.max(k, LAB_WARM + 250); }
-    labBuildBaselines();
-    const maxRounds = Math.min(12, Math.max(1, +$("labRounds").value || 8));
-    const best = await labOptimize(maxRounds, r => { logs.push(r); say(`疊代中：起點 ${r.start + 1}/${LAB_STARTS.length}，第 ${r.round} 輪，訓練期 ${r.n} 筆交易，平均 ${spct(r.mean, 2)}，目標分數 ${r.J.toFixed(2)}`); });
-    if (LAB.stop || !best) throw new Error("已停止。");
-    say("驗證中（樣本外考試、穩定性、隨機比較）…"); await labYield();
-    const P = best.P, tr = labStats(P, "train"), te = labStats(P, "test");
-    const baseTr = tr.base, baseTe = te.base;
-    // 穩定性：每個參數往旁邊動一格，驗證期還賺不賺
-    let nb = 0, nbOk = 0;
-    for (const k in LAB_SPACE) {
-      const vals = LAB_SPACE[k], i = vals.indexOf(P[k]);
-      for (const j of [i - 1, i + 1]) if (j >= 0 && j < vals.length) { nb++; const s = labStats({ ...P, [k]: vals[j] }, "test"); if (s.n >= 10 && s.ex > 0) nbOk++; }
+    const last = LAB.sigs.reduce((m, s) => s.d[s.L - 1] > m ? s.d[s.L - 1] : m, "");
+    const first = LAB.sigs.reduce((m, s) => s.d[LAB_WARM] < m ? s.d[LAB_WARM] : m, "9999");
+    const usable = (Date.parse(last) - Date.parse(first)) / 31557600000;
+    let K = +$("labTest").value || 4;
+    K = Math.min(K, Math.floor(usable - LAB_TRAIN_MIN));
+    if (K < 2) throw new Error(`歷史資料太短（暖機後只有約 ${usable.toFixed(1)} 年），做不了滾動式驗證。請等夜間排程產生 12 年的共用資料。`);
+    const maxRounds = Math.min(12, Math.max(1, +$("labRounds").value || 6));
+    const folds = [];
+    for (let j = 0; j < K && !LAB.stop; j++) {
+      const from = labAddMonths(last, -12 * (K - j)), to = j === K - 1 ? "9999-12-31" : labAddMonths(last, -12 * (K - j - 1));
+      const train = { key: "tr" + j, from: "0000-00-00", to: from }, test = { key: "te" + j, from, to };
+      const best = await labOptimize(train, maxRounds, r => { logs.push({ fold: j + 1, ...r }); say(`第 ${j + 1} / ${K} 折：用 ${from} 以前的資料調參（起點 ${r.start + 1}/${LAB_STARTS.length}，第 ${r.round} 輪）…`); });
+      if (LAB.stop || !best) break;
+      folds.push({ j, from, to: to === "9999-12-31" ? last : to, P: best.P, tr: labStats(best.P, train), te: labStats(best.P, test) });
     }
-    // 和隨機參數比：最佳參數在驗證期的平均報酬，贏過幾成的隨機參數
-    let beat = 0; const RN = 200;
-    for (let i = 0; i < RN; i++) { const s = labStats(labRand(), "test"); if (s.n < 10 || s.ex < te.ex) beat++; }
-    const stab = nb ? nbOk / nb : 0, rnd = beat / RN;
-    const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-    let conf = 40 * cl((te.t - 1) / 2) + 10 * cl(te.n / 40) + (tr.ex > 0 && te.t >= 1 ? 15 * cl(te.ex / tr.ex) : 0) + 15 * stab + 10 * rnd + 10 * cl(te.breadth);
-    const passed = te.n >= 20 && te.t >= 1.65;       // 驗證期要「統計上顯著勝過亂買同天數」（單尾約 5%）才算通過
-    if (!passed) conf = Math.min(conf, 35); else if (te.t < 2) conf = Math.min(conf, 55);
+    if (LAB.stop || folds.length < K) throw new Error("已停止。");
+    say("用全部資料再調一次，得到現在要用的參數…"); await labYield();
+    const ALL = { key: "all", from: "0000-00-00", to: "9999-12-31" };
+    const fin = await labOptimize(ALL, maxRounds, r => { logs.push({ fold: 0, ...r }); say(`最後一次（全部資料）：起點 ${r.start + 1}/${LAB_STARTS.length}，第 ${r.round} 輪…`); });
+    if (LAB.stop || !fin) throw new Error("已停止。");
+    // 把每一折的考試成績合併
+    const pool = { n: 0, sr: 0, sb: 0, sx: 0, sxx: 0, wins: 0, gw: 0, gl: 0, days: 0, stocks: 0, pos: 0, worst: Infinity, best: -Infinity }, ps = {};
+    for (const f of folds) { const s = f.te; for (const k of ["n", "sr", "sb", "sx", "sxx", "wins", "gw", "gl", "days"]) pool[k] += s[k]; pool.worst = Math.min(pool.worst, s.worst); pool.best = Math.max(pool.best, s.best); for (const c in s.ps) ps[c] = (ps[c] || 0) + s.ps[c]; }
+    pool.stocks = Object.keys(ps).length; pool.pos = Object.values(ps).filter(v => v > 0).length; pool.ps = ps;
+    const oos = labFinish(pool), posFolds = folds.filter(f => f.te.n >= 5 && f.te.ex > 0).length;
+    // 各折選出來的參數是否相近（越相近越像「真有規律」，越亂越像「每年都在背不同的答案」）
+    let sSum = 0, sN = 0;
+    for (const k of labKeys()) {
+      const V = LAB_SPACE[k], idx = folds.map(f => V.indexOf(f.P[k]));
+      sSum += typeof V[0] === "boolean" ? Math.max(idx.filter(x => x === 1).length, idx.filter(x => x === 0).length) / K : 1 - (Math.max(...idx) - Math.min(...idx)) / (V.length - 1); sN++;
+    }
+    const stab = sN ? sSum / sN : 0, cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+    let conf = 40 * cl((oos.t - 1) / 2) + 10 * cl(oos.n / 150) + 25 * posFolds / K + 10 * stab + 15 * cl((oos.breadth - 0.4) / 0.3);
+    const passed = oos.n >= 60 && oos.t >= 1.65 && posFolds >= Math.ceil(0.6 * K);
+    if (!passed) conf = Math.min(conf, 35); else if (oos.t < 2) conf = Math.min(conf, 55);
     conf = Math.round(conf);
-    const cands = labCandidates(P, conf);
-    LAB.res = { P, best, tr, te, baseTr, baseTe, stab, nb, nbOk, rnd, conf, passed, cands, logs, cut, last, stocks: LAB.sigs.length, secs: (performance.now() - t0) / 1000 };
+    const P = fin.P, allStats = labStats(P, ALL), cands = labCandidates(P, conf, ALL);
+    LAB.res = { P, folds, oos, posFolds, K, stab, conf, passed, allStats, cands, logs, last, first, usable, stocks: LAB.sigs.length, secs: (performance.now() - t0) / 1000, idx: !LAB.noIdx };
     labRender();
   } catch (e) { $("labOut").innerHTML = `<div class="status${/停止/.test(e.message) ? "" : " err"}">${esc(e.message || "失敗")}</div>`; }
   LAB.running = false; $("labRun").disabled = false; $("labStop").hidden = true; $("labProg").hidden = true;
@@ -5484,33 +5525,31 @@ async function labRun() {
 
 function labRender() {
   const R = LAB.res; if (!R) return;
-  const { P, tr, te } = R, f = (x, d = 2) => x == null ? "—" : spct(x, d);
+  const { P, oos } = R, f = (x, d = 2) => x == null ? "—" : spct(x, d);
   const lvl = R.conf >= 70 ? ["可信度高", "good"] : R.conf >= 50 ? ["可信度中等", ""] : ["可信度低", "bad"];
-  const head = R.passed ? (R.conf >= 70 ? "這組參數在沒看過的期間，仍然顯著勝過亂買，而且穩定。" : "這組參數在驗證期勝過亂買，但證據還不夠強，請當成參考。") : "這組參數沒有通過驗證：在沒看過的期間，沒有顯著勝過「隨便挑一天買」。下面的名單只能當成觀察清單，不要當成買進依據。";
-  const col = (t, s, base) => `<div class="labCol"><b>${t}</b><div>${s.n} 筆交易</div><div>賺錢機率 ${s.n ? Math.round(s.win * 100) + "%" : "—"}</div><div>平均每筆 <span class="${signCls(s.mean)}">${f(s.mean)}</span></div><div>亂買同天數 ${f(base)}</div><div>勝過亂買 <span class="${signCls(s.ex)}">${f(s.ex)}</span></div><div>勝過亂買的 t 值 ${s.t.toFixed(2)}</div><div>獲利因子 ${s.pf.toFixed(2)}</div></div>`;
-  let h = `<div class="card verdict"><div class="vh">驗證結論</div><div class="labConf"><div class="vdScore">${R.conf}<small>/100</small></div><div><span class="vdTag ${lvl[1]}">${lvl[0]}</span><div class="vdSum">${head}</div></div></div></div>`;
-  h += `<h2>疊代出來的參數</h2><div class="card" style="padding:10px 14px"><ul class="labP">${Object.keys(LAB_SPACE).map(k => `<li><span>${LAB_NAME[k]}</span><b>${labFmt(k, P[k])}</b></li>`).join("")}</ul>
-    <button type="button" class="btn" data-act="labApply" style="margin-top:8px">把這組參數套用到篩選器</button>
-    <p class="advnote" style="padding:6px 0 0">訓練期 ${tr.n} 筆交易（調參用）；驗證期 ${R.cut} ～ ${R.last}（調參時完全沒看過）。共 ${R.stocks} 檔、疊代 ${R.logs.length} 輪、耗時 ${R.secs.toFixed(1)} 秒。資料：${esc(LAB.src)}。</p></div>`;
-  h += `<h2>訓練期 vs 驗證期</h2><div class="labCols">${col("訓練期（調參用）", tr, R.baseTr)}${col("驗證期（考試）", te, R.baseTe)}</div>
-    <p class="advnote">看驗證期那一欄：調參只看訓練期，所以訓練期通常比較漂亮，兩邊差越大代表越像「背答案」。「亂買同天數」是隨便挑一天買、抱同樣天數的平均報酬；多頭年份連亂買都會賺，所以策略要贏過它才算有本事，優化器也是以「勝過亂買」為目標，不會靠一直抱著去吃大盤漲幅。</p>`;
-  h += `<h2>可信度怎麼來的</h2><div class="card" style="padding:10px 14px"><ul class="labP">
-    <li><span>驗證期「勝過亂買」的顯著程度（t 值）</span><b>${te.t.toFixed(2)}</b></li>
-    <li><span>驗證期交易筆數</span><b>${te.n}</b></li>
-    <li><span>驗證期有幾成股票勝過亂買</span><b>${Math.round(te.breadth * 100)}%</b></li>
-    <li><span>穩定性：參數動一格還勝過亂買的比例</span><b>${R.nbOk} / ${R.nb}</b></li>
-    <li><span>贏過隨機參數的比例</span><b>${Math.round(R.rnd * 100)}%</b></li></ul>
-    <p class="advnote" style="padding:6px 0 0">滿分 100：驗證期顯著度 40、筆數 10、和訓練期的一致性 15、穩定性 15、勝過隨機參數 10、涵蓋面 10。驗證期沒有「顯著地」勝過亂買同天數（t 值至少 1.65），可信度最高只給 35。提醒：反覆換「考試期間」重跑，等於偷看考卷，結果會變樂觀；請固定一個考試期間，不要為了好看一直換。</p></div>`;
+  const head = R.passed ? (R.conf >= 70 ? `連續 ${R.K} 年，每年都用「那年以前」的資料調參再去考那一年，合起來仍顯著勝過亂買，而且多數年份一致。` : "滾動考試合起來勝過亂買，但證據還不夠強，請當成參考。")
+    : `連續 ${R.K} 年的滾動考試，合起來沒有顯著勝過「隨便挑一天買」（${R.posFolds}／${R.K} 年有勝過）。下面的名單只能當成觀察清單，不要當成買進依據。`;
+  const kv = (a, b) => `<li><span>${a}</span><b>${b}</b></li>`;
+  let h = `<div class="card verdict"><div class="vh">驗證結論（滾動式）</div><div class="labConf"><div class="vdScore">${R.conf}<small>/100</small></div><div><span class="vdTag ${lvl[1]}">${lvl[0]}</span><div class="vdSum">${head}</div></div></div></div>`;
+  h += `<h2>每一年的考試成績</h2><div class="card" style="padding:6px 10px"><div class="labTbl"><div class="hd"><span>考試年度</span><span>筆數</span><span>勝過亂買</span><span>t 值</span><span></span></div>`
+    + R.folds.map(x => `<div><span>${x.from.slice(0, 7)} ～ ${x.to.slice(0, 7)}</span><span>${x.te.n}</span><span class="${signCls(x.te.ex)}">${f(x.te.ex, 1)}</span><span>${x.te.t.toFixed(1)}</span><span>${x.te.n >= 5 && x.te.ex > 0 ? "✓" : "✕"}</span></div>`).join("")
+    + `<div class="sum"><span>合併</span><span>${oos.n}</span><span class="${signCls(oos.ex)}">${f(oos.ex, 1)}</span><span>${oos.t.toFixed(1)}</span><span>${R.posFolds}/${R.K}</span></div></div>
+    <p class="advnote" style="padding:6px 0 0">每一年的參數，都只用「那一年以前」的資料調出來，考的是調參時完全沒看過的年份。「勝過亂買」是平均每筆比「隨便挑一天買、抱同樣天數」多賺多少；多頭年份連亂買都會賺，所以要比這個。</p></div>`;
+  h += `<h2>合併後的考試成績</h2><div class="card" style="padding:10px 14px"><ul class="labP">${kv("考試交易筆數", oos.n)}${kv("平均每筆（扣成本）", f(oos.mean))}${kv("亂買同天數", f(oos.base))}${kv("勝過亂買", f(oos.ex))}${kv("勝過亂買的 t 值", oos.t.toFixed(2))}${kv("賺錢機率", Math.round(oos.win * 100) + "%")}${kv("獲利因子", oos.pf.toFixed(2))}${kv("有幾成股票勝過亂買", Math.round(oos.breadth * 100) + "%")}${kv("各年參數是否一致", Math.round(R.stab * 100) + "%")}</ul>
+    <p class="advnote" style="padding:6px 0 0">可信度（滿分 100）：合併顯著度 40、有幾年勝過亂買 25、涵蓋面 15、筆數 10、各年參數一致 10。合併 t 值要達 1.65、至少 ${Math.ceil(0.6 * R.K)} 年勝過亂買，才算通過，否則最高只給 35。提醒：反覆換設定重跑直到好看，等於偷看考卷，結果會變樂觀。</p></div>`;
+  h += `<h2>現在要用的參數（用全部資料調的）</h2><div class="card" style="padding:10px 14px"><ul class="labP">${labKeys().map(k => kv(LAB_NAME[k], labFmt(k, P[k]))).join("")}</ul>
+    <button type="button" class="btn" data-act="labApply" style="margin-top:8px">把這組參數套用到篩選器</button><p class="advnote" style="padding:4px 0 0">篩選器目前沒有「相對強弱」「大盤多空」這兩個條件，套用時只會帶入其餘的條件。</p>
+    <p class="advnote" style="padding:6px 0 0">這組參數用了全部歷史資料（包含考過的年份）去調，所以它自己的歷史成績不能當成預期績效；可信度評的是「這套調參流程」在沒看過的年份的表現。${R.idx ? "" : "目前沒有大盤資料，「相對強弱」和「大盤多空」兩個新訊號沒有啟用。"}共 ${R.stocks} 檔、暖機後約 ${R.usable.toFixed(1)} 年資料、耗時 ${R.secs.toFixed(0)} 秒。資料：${esc(LAB.src)}。</p></div>`;
   const cs = R.cands.slice(0, 5);
-  h += `<h2>今天最有潛力的 ${cs.length} 檔（依疊代出來的參數）</h2>` + cs.map((c, i) => `<div class="pick"><div class="pkHead"><span class="rk">${i + 1}</span>
+  h += `<h2>今天最有潛力的 ${cs.length} 檔（依上面的參數）</h2>` + cs.map((c, i) => `<div class="pick"><div class="pkHead"><span class="rk">${i + 1}</span>
     <div class="pkName"><div class="c">${esc(c.code)}　${esc(c.name)}</div><div class="p">${fmt(c.price)}　（資料到 ${c.date}）</div></div><div class="pkRR"><b>${c.potential}</b><small>潛力分</small></div></div>
     <div class="pkTag"><span class="vdTag ${c.active ? "good" : ""}">${c.active ? "買進訊號成立中" : "還沒到訊號"}</span><span class="pkSum">位置評分 ${c.score}　距支撐 ${f(c.dist, 1)}</span></div>
     <ul class="why"><li class="${c.up > c.dn ? "ok" : "no"}">往上 ${f(c.up, 1)}（目標 ${fmt(c.target)}），跌破風險 −${(c.dn * 100).toFixed(1)}%（停損 ${fmt(c.stop)}）</li>
     <li class="${c.ex > 0 ? "ok" : "no"}">這組參數下，它過去共買賣 ${c.n} 次，${c.n ? `平均每筆 ${f(c.mean, 1)}（勝過亂買 ${f(c.ex, 1)}），賺錢機率 ${Math.round(c.winRate * 100)}%` : "沒有足夠的歷史交易"}</li>
     <li class="${c.rel >= 0.5 ? "ok" : "no"}">個股可信度 ${c.conf}／100${c.rel < 0.5 ? "（歷史交易次數少，數字不穩）" : ""}</li></ul>
     <div class="pkAct"><button type="button" class="btn ghost" data-act="scr-analyze" data-code="${esc(c.code)}" data-name="${esc(c.name)}">看分析</button><button type="button" class="btn ghost" data-act="scr-bt" data-code="${esc(c.code)}" data-name="${esc(c.name)}">回測這檔</button></div></div>`).join("");
-  h += `<details class="adv inner more"><summary>疊代過程（每一輪的訓練期成績）</summary><div class="labLog">${R.logs.map(r => `<div>起點 ${r.start + 1}・第 ${r.round} 輪：${r.n} 筆，平均 ${f(r.mean)}，目標 ${r.J.toFixed(2)}</div>`).join("")}</div></details>`;
-  h += `<p class="advnote" style="padding-top:8px">這是用歷史資料找規律，不是預測。調參數一定會讓過去的成績變好，所以只有「沒參與調參的驗證期」成績有參考價值；即使通過驗證，也只代表過去這段時間有效，市場改變後可能失效。不是買賣建議。</p>`;
+  h += `<details class="adv inner more"><summary>每一折選出來的參數</summary><div class="labLog">${R.folds.map(x => `<div><b>${x.from.slice(0, 7)} 起考試</b>：${labKeys().map(k => `${LAB_NAME[k]} ${labFmt(k, x.P[k])}`).join("、")}</div>`).join("")}</div></details>`;
+  h += `<p class="advnote" style="padding-top:8px">這是用歷史資料找規律，不是預測。即使通過驗證，也只代表過去這幾年有效，市場改變後可能失效。不是買賣建議。</p>`;
   $("labOut").innerHTML = h;
 }
 function labApply() {
