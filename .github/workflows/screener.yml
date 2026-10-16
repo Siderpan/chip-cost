@@ -31,3 +31,14 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add screener.json
           git diff --cached --quiet || (git commit -m "Nightly screener data" && git push)
+      - name: 發佈歷史價量到 data 分支（策略實驗室共用，每天覆蓋，不累積在 main）
+        run: |
+          test -f history.json || exit 0
+          mkdir /tmp/databr && cp history.json /tmp/databr/history.json && cd /tmp/databr
+          git init -q -b data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add history.json
+          git commit -qm "history $(date -u +%F)"
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin data
