@@ -41,10 +41,10 @@ function loadModel(html) {
 const dateBack = years => { const d = new Date(); d.setFullYear(d.getFullYear() - years); return d.toISOString().slice(0, 10); };
 
 // 和網站的 fetchStock 一樣：抓價量、除權息還原、股本
-async function fetchStock(getJson, code, years = 6) {
+async function fetchStock(getJson, code) {
   const [px, dv, sh] = await Promise.all([
-    getJson("TaiwanStockPrice", { data_id: code, start_date: dateBack(years) }),
-    getJson("TaiwanStockDividendResult", { data_id: code, start_date: dateBack(years + 1) }).catch(() => []),
+    getJson("TaiwanStockPrice", { data_id: code, start_date: dateBack(6) }),
+    getJson("TaiwanStockDividendResult", { data_id: code, start_date: dateBack(12) }).catch(() => []),
     getJson("TaiwanStockShareholding", { data_id: code, start_date: new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10) }).catch(() => [])
   ]);
   const rows = px.filter(r => r.Trading_Volume > 0 && r.max > 0 && r.min > 0 && r.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
@@ -61,14 +61,6 @@ async function fetchStock(getJson, code, years = 6) {
   return st;
 }
 
-// 取 st 從某天（含）以後的部分（篩選用 6 年，策略實驗室用 12 年，兩邊共用同一次查詢）
-function sliceFrom(st, from) {
-  const k = st.d.findIndex(d => d >= from);
-  if (k <= 0) return st;
-  const o = { code: st.code, shares: st.shares };
-  for (const f of ["d", "o", "h", "l", "c", "v"]) o[f] = st[f].slice(k);
-  return o;
-}
 // 和網站的 scrMetrics 一樣
 function metricsOf(M, st, name) {
   if (!st.shares) return null;
@@ -80,25 +72,18 @@ function metricsOf(M, st, name) {
   return { code: st.code, name, price, date: st.d[st.d.length - 1], cov: m.coverage, s1: a.sup[0] || null, r1: a.res[0] || null, bull: !!S && S.dir > 0, stDays: S ? S.days : 0, v: api.verdictOf({ a, price, m }) };
 }
 
-// 歷史價量壓縮格式（給網站的「策略實驗室」共用，省得每個人各自查詢）：日期存成「離第一天幾天」，價格取 3 位小數，成交量存張數
-function packHistory(st, name) {
-  const t0 = Date.parse(st.d[0]), rd = (a, k) => a.map(x => Math.round(x * k) / k);
-  return { n: name, sh: st.shares, b: st.d[0], d: st.d.map(x => Math.round((Date.parse(x) - t0) / 864e5)), o: rd(st.o, 1000), h: rd(st.h, 1000), l: rd(st.l, 1000), c: rd(st.c, 1000), v: st.v.map(Math.round) };
-}
-
 // 主流程。old = 上一次的 screener.json 內容（抓不到的股票沿用舊資料）
 async function buildData({ html, getJson, log = () => {}, old = null, limit = 0, gap = 700 }) {
   const M = loadModel(html);
   const pool = limit ? M.pool.slice(0, limit) : M.pool;
   let names = new Map();
   try { names = new Map((await getJson("TaiwanStockInfo", {})).map(r => [r.stock_id, r.stock_name])); } catch (e) { log("股票名稱清單讀取失敗：" + e.message); }
-  const metrics = {}, failed = [], hist = { v: 1, updated: new Date().toISOString(), stocks: {} };
+  const metrics = {}, failed = [];
   for (const code of pool) {
     try {
-      const st12 = await fetchStock(getJson, code, 12), st = sliceFrom(st12, dateBack(6));
-      if (st.d.length < 60) throw new Error(`${code} 只有 ${st.d.length} 天資料`);
+      const st = await fetchStock(getJson, code);
       const m = metricsOf(M, st, names.get(code) || (old && old.metrics[code] && old.metrics[code].name) || "");
-      if (m) { metrics[code] = m; hist.stocks[code] = packHistory(st12, m.name); log(`${code} ${m.name} 位置評分 ${m.v.score}`); } else throw new Error("沒有股本資料");
+      if (m) { metrics[code] = m;  log(`${code} ${m.name} 位置評分 ${m.v.score}`); } else throw new Error("沒有股本資料");
     } catch (e) {
       failed.push(code); log(`${code} 失敗：${e.message}`);
       if (old && old.metrics && old.metrics[code]) metrics[code] = old.metrics[code];     // 這次抓不到就沿用上次的
@@ -106,12 +91,8 @@ async function buildData({ html, getJson, log = () => {}, old = null, limit = 0,
     }
     if (gap) await sleep(gap);
   }
-  try {                                                                           // 加權指數：給策略實驗室的「相對強弱」「大盤多空」用
-    const tx = (await getJson("TaiwanStockPrice", { data_id: "TAIEX", start_date: dateBack(12) })).filter(x => x.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
-    if (tx.length > 300) { const t0 = Date.parse(tx[0].date); hist.index = { b: tx[0].date, d: tx.map(x => Math.round((Date.parse(x.date) - t0) / 864e5)), c: tx.map(x => Math.round(x.close * 100) / 100) }; }
-  } catch (e) { log("加權指數讀取失敗：" + e.message); }
   const asOf = Object.values(metrics).reduce((mx, m) => m.date > mx ? m.date : mx, "");
-  return { data: { v: 1, updated: new Date().toISOString(), asOf, pool: M.pool, failed, metrics }, hist };
+  return { v: 1, updated: new Date().toISOString(), asOf, pool: M.pool, failed, metrics };
 }
 
 async function main() {
@@ -130,10 +111,8 @@ async function main() {
   };
   let old = null;
   try { old = JSON.parse(fs.readFileSync(out, "utf8")); } catch (e) {}
-  const { data, hist } = await buildData({ html: fs.readFileSync(path.join(root, "index.html"), "utf8"), getJson, log: s => console.log(s), old, limit: +process.env.LIMIT || 0 });
+  const data = await buildData({ html: fs.readFileSync(path.join(root, "index.html"), "utf8"), getJson, log: s => console.log(s), old, limit: +process.env.LIMIT || 0 });
   if (!Object.keys(data.metrics).length) { console.error("沒有任何股票算成功，不更新。"); process.exit(1); }
-  fs.writeFileSync(path.join(root, "history.json"), JSON.stringify(hist));      // 不放進 main，由工作流程發佈到 data 分支
-  console.log(`已寫入 history.json：${Object.keys(hist.stocks).length} 檔`);
   const round = (k, v) => typeof v === "number" ? Math.round(v * 1e6) / 1e6 : v;
   const same = old && JSON.stringify(old.metrics) === JSON.stringify(JSON.parse(JSON.stringify(data.metrics, round)));
   if (same) { console.log("資料和上次相同（可能是休市日），不更新。"); return; }
