@@ -141,6 +141,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .scrPre button { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; text-align: left; min-height: 62px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; }
 .scrPre button b { font-size: .95rem; } .scrPre button small { font-size: .72rem; color: var(--muted); line-height: 1.4; }
 .scrPre button[aria-pressed="true"] { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); box-shadow: inset 0 0 0 1px var(--profit); }
+.scrPre button[data-k="rise"] { grid-column: 1 / -1; }
+.scSig { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; } .scSig span { font: 500 .72rem var(--font-ui); padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); } .scSig span.ok { color: var(--ink); border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); } .scSig span.na { border-style: dashed; }
 .scrSum { font-size: .78rem; color: var(--muted); line-height: 1.6; margin: 2px 0 6px; }
 .scrAdv { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 4px; } .scrAdv summary { cursor: pointer; font: 600 .84rem var(--font-ui); min-height: 40px; display: flex; align-items: center; }
 .scrAdv .hint { display: block; font-size: .7rem; color: var(--muted); line-height: 1.4; margin-top: 3px; }
@@ -469,6 +471,22 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .gH1 { margin: 0; font: 700 1.3rem/1.4 var(--font-ui); letter-spacing: 0; color: var(--ink); text-wrap: balance; }
 .gSec { display: flex; flex-direction: column; gap: 10px; }
 .gLead { margin: 0; font-size: .88rem; line-height: 1.75; color: var(--muted); }
+.gPath { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; } .gPath .btn { flex: 1 1 140px; }
+.gPart { display: flex; align-items: center; gap: 10px; margin: 30px 0 2px; font: 700 1.05rem var(--font-ui); } .gPart span { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--profit); color: var(--surface); font: 700 .85rem var(--font-num); }
+.gPartLead { margin: 0 0 4px; font-size: .84rem; color: var(--muted); line-height: 1.6; }
+.gThree { display: grid; gap: 8px; margin: 6px 0 10px; } .gThree .gMini { margin: 0; }
+.gNext { margin: 14px 0 0; padding-top: 10px; border-top: 1px dashed var(--line); font-size: .84rem; line-height: 1.7; color: var(--muted); } .gNext b { color: var(--ink); }
+.gLink { display: inline; min-height: 0; padding: 0 2px; border: 0; background: transparent; color: var(--profit); font: 600 .84rem var(--font-ui); text-decoration: underline; cursor: pointer; }
+.gAng { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 999px; font: 600 .66rem var(--font-ui); vertical-align: 1px; border: 1px solid var(--profit); color: var(--profit); }
+.gWG { margin: 14px 0 0; font: 700 .86rem var(--font-ui); color: var(--profit); }
+.gOne { margin: 4px 0 12px; padding: 9px 12px; border-left: 3px solid var(--profit); background: color-mix(in srgb, var(--profit) 7%, var(--surface)); border-radius: 0 8px 8px 0; font-size: .9rem; line-height: 1.7; }
+.gMapList { display: flex; flex-direction: column; } .gMapItem { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); } .gMapItem.core { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 6%, var(--surface)); }
+.gMapItem .n { font-weight: 700; font-size: .94rem; } .gMapItem .q { font-size: .82rem; color: var(--muted); line-height: 1.55; margin-top: 2px; } .gMapGo { min-height: 40px; padding: 0 14px; white-space: nowrap; }
+.gCore, .gLogin { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 999px; font: 600 .66rem var(--font-ui); vertical-align: 1px; } .gCore { background: var(--profit); color: var(--surface); } .gLogin { border: 1px solid var(--muted); color: var(--muted); }
+.gFlow { counter-reset: gf; list-style: none; padding: 0; margin: 6px 0 10px; } .gFlow li { counter-increment: gf; position: relative; padding: 7px 0 7px 36px; font-size: .88rem; line-height: 1.65; } .gFlow li::before { content: counter(gf); position: absolute; left: 0; top: 7px; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--profit); color: var(--profit); font: 700 .78rem var(--font-num); display: flex; align-items: center; justify-content: center; }
+.gDef { margin: 6px 0 10px; } .gDef dt { font: 700 .86rem var(--font-ui); margin-top: 8px; } .gDef dd { margin: 2px 0 0; font-size: .84rem; line-height: 1.7; color: var(--ink); }
+.gTip { padding: 12px 14px; margin: 8px 0; } .gTip ul { margin: 6px 0 0; padding-left: 1.2em; font-size: .86rem; line-height: 1.75; } .gTip li { margin: 3px 0; }
+.gFaq { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin-top: 8px; } .gFaq summary { cursor: pointer; padding: 11px 14px; min-height: 44px; display: flex; align-items: center; font: 600 .88rem var(--font-ui); list-style: none; } .gFaq summary::-webkit-details-marker { display: none; } .gFaq summary::before { content: "＋"; color: var(--profit); margin-right: 8px; } .gFaq[open] summary::before { content: "－"; } .gFaq .a { padding: 0 14px 12px; font-size: .85rem; line-height: 1.75; } .gFaq .a p { margin: 5px 0; }
 .gLead b { color: var(--ink); font-weight: 600; }
 .gTwo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 @media (max-width: 380px) { .gTwo { grid-template-columns: minmax(0, 1fr); } }
@@ -762,6 +780,77 @@ svg .st-dn { fill: none; stroke: var(--bear); stroke-width: 1.6; stroke-linejoin
 .stcard .zp { font-size: .92rem; }
 .stcard .zr { overflow-wrap: anywhere; }
 svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
+.tcfig svg .tc-ku { fill: var(--bull); stroke: var(--bull); } .tcfig svg .tc-kd { fill: var(--bear); stroke: var(--bear); } .tcfig svg .tc-kw { stroke-width: 1; } .tcfig svg .tc-kb { stroke-width: 0; }
+.tcfig svg .tc-bb { fill: var(--grid); opacity: .55; stroke: none; }
+.tcfig svg .tc-m20 { fill: none; stroke: var(--ink); stroke-width: 1.4; } .tcfig svg .tc-m60 { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+.tcfig svg .tc-s { stroke: var(--profit); stroke-width: 1.2; stroke-dasharray: 5 3; } .tcfig svg .tc-r { stroke: var(--trapped); stroke-width: 1.2; stroke-dasharray: 5 3; }
+.tcfig svg .tc-st { fill: var(--profit); font: 500 10px var(--font-num); stroke: var(--surface); stroke-width: 3; paint-order: stroke; } .tcfig svg .tc-rt { fill: var(--trapped); font: 500 10px var(--font-num); stroke: var(--surface); stroke-width: 3; paint-order: stroke; }
+.tcfig svg .tc-sub { fill: none; stroke: var(--profit); stroke-width: 1.5; } .tcfig svg .tc-sub2 { fill: none; stroke: var(--trapped); stroke-width: 1.5; }
+.tcfig svg .tc-up { fill: var(--bull); opacity: .75; } .tcfig svg .tc-dn { fill: var(--bear); opacity: .75; }
+.tcSum { font-size: .88rem; line-height: 1.7; margin: 0 0 8px; }
+.tcBar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--grid); margin: 4px 0 2px; } .tcBar i { display: block; } .tcBar i.bu { background: var(--bull); } .tcBar i.ne { background: var(--muted); opacity: .4; } .tcBar i.be { background: var(--bear); }
+.tcBarL { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin-bottom: 8px; }
+.tcDash { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.tcTile { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; background: var(--surface); } .tcTile .c { font-size: .8rem; font-weight: 600; } .tcTile .c small { color: var(--muted); font-weight: 400; margin-left: 4px; }
+.tcTile .v { font: 700 1.15rem var(--font-ui); margin-top: 2px; } .tcTile .n { font-size: .7rem; color: var(--muted); margin-top: 2px; }
+.tcTile.tc-bu { border-color: var(--bull); } .tcTile.tc-bu .v { color: var(--bull); } .tcTile.tc-be { border-color: var(--bear); } .tcTile.tc-be .v { color: var(--bear); }
+.tcG { position: relative; height: 8px; border-radius: 4px; background: var(--grid); margin: 10px 6px 22px; }
+.tcG .z { position: absolute; top: 0; bottom: 0; opacity: .5; } .tcG .z.hot { background: var(--trapped); } .tcG .z.cold { background: var(--profit); } .tcG .z.up { background: var(--bull); opacity: .25; } .tcG .z.dn { background: var(--bear); opacity: .25; }
+.tcG .t { position: absolute; top: 12px; font: normal .62rem var(--font-num); color: var(--muted); transform: translateX(-50%); white-space: nowrap; }
+.tcG .d { position: absolute; top: -3px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid var(--surface); background: var(--muted); box-shadow: 0 0 0 1px var(--line); }
+.tcG .d.tc-bu { background: var(--bull); } .tcG .d.tc-be { background: var(--bear); } .tcG .d.tc-ne { background: var(--muted); }
+.tcCat { font: 700 .86rem var(--font-ui); margin: 12px 0 2px; } .tcCat small { color: var(--muted); font-weight: 400; } .tcV small { opacity: .8; }
+.tcCombo { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-top: 8px; background: var(--surface); } .tcCombo.hit { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 5%, var(--surface)); }
+.tcCH { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; font-size: .86rem; } .tcParts { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+.tcP { font: 500 .7rem var(--font-ui); padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); } .tcP.tc-bu { color: var(--bull); border-color: var(--bull); } .tcP.tc-be { color: var(--bear); border-color: var(--bear); }
+.tcRead { font-size: .78rem; color: var(--muted); line-height: 1.6; margin: 2px 0; } .tcAdv { font-size: .82rem; line-height: 1.65; margin: 4px 0 0; } .tcTag.off { opacity: .55; } .tcGrpT { font: 700 .82rem var(--font-ui); margin: 8px 0 0; }
+.tcfig svg .tc-m5 { fill: none; stroke: var(--trapped); stroke-width: 1.2; }
+.tcfig svg .tc-gx { fill: var(--bull); } .tcfig svg .tc-dx { fill: var(--bear); } .tcfig svg .tc-x { stroke: var(--ink); stroke-width: 1; opacity: .55; }
+.tcfig svg .tc-tag { font: 600 10px var(--font-num); stroke: var(--surface); stroke-width: 3; paint-order: stroke; }
+.tcfig svg .tc-tp, .tcfig svg .tc-t20 { fill: var(--ink); } .tcfig svg .tc-t60 { fill: var(--muted); } .tcfig svg .tc-t5 { fill: var(--trapped); } .tcfig svg .tc-tsub { fill: var(--profit); } .tcfig svg .tc-tsub2 { fill: var(--trapped); }
+.tcfig svg .tc-zh { fill: var(--trapped); opacity: .13; } .tcfig svg .tc-zc { fill: var(--profit); opacity: .13; }
+.tcfig svg .tc-sBu2 { fill: var(--bull); } .tcfig svg .tc-sBu1 { fill: var(--bull); opacity: .4; } .tcfig svg .tc-s0 { fill: var(--muted); opacity: .22; } .tcfig svg .tc-sBe1 { fill: var(--bear); opacity: .4; } .tcfig svg .tc-sBe2 { fill: var(--bear); }
+.tcChartBox { touch-action: pan-y; }
+.tcTool { margin: 6px 0 10px; } .tcTit { font: 600 .84rem var(--font-ui); } .tcTit small { font-weight: 400; color: var(--muted); margin-left: 6px; }
+.tcTitRow { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; } .tcLinks { display: flex; gap: 12px; } .tcLinks a, .tcMore, .tgNav a { color: var(--profit); font: 500 .76rem var(--font-ui); text-decoration: none; cursor: pointer; } .tcLinks a:hover, .tcMore:hover, .tgNav a:hover { text-decoration: underline; }
+.tcG1 { display: grid; grid-template-columns: 2.4em minmax(0, 1fr); align-items: center; gap: 8px; margin-bottom: 6px; } .tcG1 > span { font-size: .74rem; color: var(--muted); }
+.tcBtns { display: grid; gap: 6px; } .tcBtns.c3 { grid-template-columns: repeat(3, 1fr); } .tcBtns.c2 { grid-template-columns: repeat(2, 1fr); }
+.tcBtns button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 38px; padding: 0 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted); font: 500 .8rem var(--font-ui); cursor: pointer; white-space: nowrap; }
+.tcBtns button i { width: 14px; height: 4px; border-radius: 2px; flex: none; border: 1px solid var(--line); }
+.tcBtns button[aria-pressed="true"] { color: var(--ink); border-color: var(--profit); background: color-mix(in srgb, var(--profit) 10%, var(--surface)); box-shadow: inset 0 0 0 1px var(--profit); } .tcBtns button:disabled { opacity: .4; cursor: not-allowed; }
+.tcG1 .seg { width: 100%; } .tcG1 .seg button { flex: 1; min-height: 38px; padding: 0 4px; }
+.tcHd { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 6px; } .tcHR { display: inline-flex; align-items: center; gap: 10px; }
+.tgNav { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0 4px; } .tgSub { margin-top: 14px; } .tgT { margin: 0 0 6px; font-size: .95rem; color: var(--profit); }
+.tgCard { padding: 12px 14px; margin-top: 8px; } .tgCard .what { margin: 4px 0; font-size: .86rem; line-height: 1.7; font-weight: 500; } .tgCard ul { margin: 4px 0; padding-left: 1.2em; font-size: .84rem; line-height: 1.7; } .tgCard li { margin: 3px 0; } .tgCard .tcWarn { margin: 8px 0 0; padding: 7px 10px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-ink); font-size: .8rem; line-height: 1.6; } .tgCard .tgCalc { margin: 8px 0 0; font-size: .76rem; color: var(--muted); line-height: 1.6; } .tgH { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+@keyframes tgFlash { 0%, 60% { box-shadow: 0 0 0 3px var(--profit); } 100% { box-shadow: 0 0 0 0 transparent; } } .tgFlash { animation: tgFlash 1.8s ease-out; border-radius: 10px; }
+.tcChips { display: flex; flex-wrap: wrap; gap: 6px; }
+.tcChips button[data-l] { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font: 500 .78rem var(--font-ui); cursor: pointer; }
+.tcChips button[data-l] i { width: 14px; height: 4px; border-radius: 2px; display: inline-block; border: 1px solid var(--line); }
+.tcChips button[data-l][aria-pressed="true"] { color: var(--ink); border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); box-shadow: inset 0 0 0 1px var(--profit); }
+.tcChips button[data-l]:disabled { opacity: .4; cursor: not-allowed; }
+.tcPres { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: .74rem; color: var(--muted); } .tcPres button { min-height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 500 .76rem var(--font-ui); cursor: pointer; } .tcPres button[aria-pressed="true"] { background: var(--profit); border-color: var(--profit); color: var(--surface); }
+.tcRd { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin: 6px 0; background: var(--surface); min-height: 112px; }
+.tcR1 { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: .86rem; flex-wrap: wrap; } .tcR1 .up { color: var(--bull); } .tcR1 .dn { color: var(--bear); } .tcR2 { font: 400 .72rem var(--font-num); color: var(--muted); margin-top: 2px; }
+.tcR3 { margin-top: 6px; font-size: .78rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; } .tcPs { display: inline-flex; gap: 4px; flex-wrap: wrap; } .tcPs i { font: normal 500 .68rem var(--font-ui); padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); } .tcPs i.tc-bu { color: var(--bull); border-color: var(--bull); } .tcPs i.tc-be { color: var(--bear); border-color: var(--bear); }
+.tcHow p { font-size: .8rem; line-height: 1.7; margin: 6px 0; }
+.tcCW { display: inline-flex; align-items: center; gap: 2px; } .tcCW .info { flex: none; }
+.tcLeg { margin-top: 6px; row-gap: 4px; } .tcSw i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin: 0 3px 0 8px; vertical-align: -2px; }
+.tcSw i.a2, .tcSwBig i.a2 { background: var(--bull); } .tcSw i.a1, .tcSwBig i.a1 { background: var(--bull); opacity: .4; } .tcSw i.a0, .tcSwBig i.a0 { background: var(--muted); opacity: .22; } .tcSw i.b1, .tcSwBig i.b1 { background: var(--bear); opacity: .4; } .tcSw i.b2, .tcSwBig i.b2 { background: var(--bear); }
+.tcHowItem { padding: 10px 0; border-top: 1px solid var(--line); } .tcHowItem:first-child { border-top: 0; } .tcHowItem h4 { margin: 0 0 4px; font-size: .88rem; } .tcHowItem ol { margin: 4px 0; padding-left: 1.4em; font-size: .8rem; line-height: 1.7; } .tcHowItem .tcNote { color: var(--muted); }
+.tcEx { width: 100%; max-width: 340px; height: auto; display: block; margin: 4px 0; background: var(--bg); border-radius: 8px; } .tcEx .tc-ku { fill: var(--bull); stroke: var(--bull); } .tcEx .tc-kd { fill: var(--bear); stroke: var(--bear); } .tcEx .tc-kw { stroke-width: 1.4; } .tcEx .tc-kb { stroke-width: 0; }
+.tcEx .tcT2 text { fill: var(--ink); font: 400 11px var(--font-ui); } .tcEx .tcT3 { font: 600 11px var(--font-ui); }
+.tcSwBig { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 6px 0; } .tcSwBig span { font-size: .72rem; line-height: 1.4; text-align: center; } .tcSwBig i { display: block; height: 14px; border-radius: 3px; margin-bottom: 3px; } .tcSwBig small { color: var(--muted); font-size: .66rem; }
+.tcDG { font: 700 .84rem var(--font-ui); margin: 12px 0 2px; color: var(--profit); } .tcDict dl { margin: 0; } .tcDict dt { font: 600 .82rem var(--font-ui); margin-top: 8px; } .tcDict dd { margin: 2px 0 0; font-size: .8rem; line-height: 1.7; color: var(--ink); }
+.tcfig svg .tc-xl { font: 600 9.5px var(--font-ui); stroke: var(--surface); stroke-width: 3; paint-order: stroke; } .tcfig svg .tc-xlG { fill: var(--bull); } .tcfig svg .tc-xlD { fill: var(--bear); }
+.tcLH { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 14px 0 4px; } .tcAll { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 500 .76rem var(--font-ui); cursor: pointer; white-space: nowrap; }
+.tcMean { margin-top: 6px; border-radius: 8px; background: var(--bg); } .tcMean summary { cursor: pointer; padding: 8px 10px; min-height: 36px; display: flex; align-items: center; font: 600 .78rem var(--font-ui); color: var(--profit); list-style: none; } .tcMean summary::-webkit-details-marker { display: none; } .tcMean summary::before { content: "＋"; margin-right: 6px; } .tcMean[open] summary::before { content: "－"; }
+.tcMB { padding: 0 12px 10px; font-size: .8rem; line-height: 1.7; } .tcMB .what { margin: 0 0 4px; font-weight: 500; } .tcMB ul { margin: 4px 0; padding-left: 1.2em; } .tcMB li { margin: 3px 0; } .tcMB .tcWarn { margin: 8px 0 0; padding: 7px 10px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-ink); font-size: .78rem; line-height: 1.6; }
+.tcfig svg .tc-pl { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
+.tcSeg { margin: 6px 0 8px; } .tcSeg button { min-height: 36px; flex: 1; }
+.tcList { display: flex; flex-direction: column; margin-top: 8px; } .tcRow { padding: 9px 2px; border-top: 1px solid var(--line); }
+.tcH { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: .86rem; } .tcV { font: 400 .76rem var(--font-num); color: var(--muted); margin-top: 2px; } .tcT { font-size: .8rem; line-height: 1.6; margin-top: 3px; }
+.tcTag { font: 600 .72rem var(--font-ui); padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+.tcTag.tc-bu { background: var(--bull); border-color: var(--bull); color: var(--surface); } .tcTag.tc-be { background: var(--bear); border-color: var(--bear); color: var(--surface); }
 
 .zones { display: flex; flex-direction: column; gap: 8px; }
 .zrow { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
@@ -830,7 +919,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
     <button type="button" role="tab" data-tab="guide" aria-selected="false">新手專區</button>
     <button type="button" role="tab" data-tab="market" aria-selected="false">大盤指數</button>
-    <button type="button" role="tab" data-tab="analyze" aria-selected="true">分析</button>
+    <button type="button" role="tab" data-tab="analyze" aria-selected="true">籌碼分析</button>
+    <button type="button" role="tab" data-tab="tech" aria-selected="false">技術分析</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
     <button type="button" role="tab" data-tab="screen" aria-selected="false">篩選器</button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
@@ -839,16 +929,67 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
   <section id="pgGuide" class="page guide" hidden>
     <div class="card gHero">
-      <div class="gKicker">新手專區・約 3 分鐘看完</div>
-      <h2 class="gH1">股價為什麼會「卡」在某些價位？</h2>
-      <p>因為<b>很多人買在那裡</b>。大家都記得自己的成本，股價回到那個價位時，就會有人想買、有人想賣。</p>
-      <p>這個系統做的事很單純：把「<b>大家的成本在哪裡</b>」畫出來，幫你找出股價比較容易停下來的位置，也就是<b>支撐</b>和<b>壓力</b>。</p>
+      <div class="gKicker">新手專區</div>
+      <h2 class="gH1">籌碼冰山：看懂一檔股票「現在好不好」</h2>
+      <p>這套系統用<b>三個角度</b>檢查一檔股票：<b>環境</b>（大盤強不強）、<b>位置</b>（大家的成本在哪、離支撐和壓力多遠）、<b>狀態</b>（趨勢和力道如何）。再把位置和狀態合起來，挑出<b>可能起漲</b>的股票，並用回測和模擬交易驗證、練習。</p>
+      <p>最核心的觀念只有一個：<b>股價會「卡」在很多人買進的價位</b>，那裡就是支撐和壓力。</p>
+      <div class="gPath"><button type="button" class="btn" data-gt="g-what">這套系統在做什麼</button><button type="button" class="btn ghost" data-gt="g-map">我想快速上手</button><button type="button" class="btn ghost" data-gt="g-concept">我想先懂原理</button><button type="button" class="btn ghost" data-gt="g-words">不懂的詞，查名詞速查</button></div>
     </div>
+
     <div class="toc-h">快速跳到</div>
     <div class="tocWrap"><button type="button" class="tocArr l" id="tocL" aria-label="往左看更多" hidden>‹</button><nav id="guideToc" class="toc" aria-label="新手專區目錄（可左右滑動）"></nav><button type="button" class="tocArr r" id="tocR" aria-label="往右看更多" hidden>›</button></div>
 
+    <div class="gSec" id="g-what">
+      <h3>這套系統在做什麼？</h3>
+      <p class="gOne">把一檔股票放在<b>三個角度</b>下檢查，合成一個判斷，再用歷史資料和模擬交易驗證、練習。</p>
+      <div class="gThree">
+        <div class="card gMini"><div class="gName">① 環境</div><p class="odS">「整體市場是強還是弱？」</p><p>看<b>大盤指數</b>：大盤、夜盤、誰在帶動、錢往哪裡跑。環境差的時候，個股再好也容易被拖累。</p></div>
+        <div class="card gMini"><div class="gName">② 位置</div><p class="odS">「現價附近有地板嗎？有天花板嗎？」</p><p>看<b>籌碼分析</b>：大家的成本集中在哪，形成<b>支撐</b>和<b>壓力</b>。算出<b>位置評分</b>（0～100 分）。</p></div>
+        <div class="card gMini"><div class="gName">③ 狀態</div><p class="odS">「趨勢和力道現在怎麼樣？」</p><p>看<b>技術分析</b>：均線、RSI、KD、MACD、量價。技術分析頁看「偏多／偏空」，篩選器把它換算成<b>技術評分</b>（0～100 分）。</p></div>
+      </div>
+      <p class="gLead"><b>合起來：</b>「篩選器」把位置評分、技術評分和七項「起漲徵兆」合成<b>綜合評分</b>，從一批股票裡列出可能起漲的幾檔。接著用「回測」驗證這類想法過去有沒有效，用「模擬交易」練習。</p>
+      <div class="card gTip"><div class="gName">三個分數，不要搞混</div>
+        <dl class="gDef">
+          <dt>位置評分（籌碼面）</dt><dd>出現在「籌碼分析」的綜合評語。看下方有沒有支撐、上方壓力輕不輕、成本面如何。</dd>
+          <dt>技術評分（技術面）</dt><dd>出現在「篩選器」。看趨勢、動能、量價整體強不強。</dd>
+          <dt>綜合評分（篩選器）</dt><dd>位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%，用來排名。</dd>
+        </dl></div>
+      <div class="card gWarn"><div class="gName">先說清楚</div><ul><li>這套系統只「整理資料、描述現在」，<b>不預測，也不保證會漲</b>。</li><li>分數高，代表「現在的狀態比較好」，不代表「之後一定會漲」。</li></ul></div>
+      <p class="gNext">↓ 知道三個角度之後，每個角度對應哪個頁籤？看下一段的地圖。</p>
+    </div>
+
+    <div class="gSec" id="g-map">
+      <h3>整套系統怎麼用？先看這張地圖</h3>
+      <p class="gOne">七個頁籤，各回答<b>一個問題</b>，也各自對應上面的一個角度。不用全部學會，從你最想知道的那個開始。</p>
+      <div class="gMapList">
+        <div class="gMapItem"><div><div class="n">大盤指數<span class="gAng">環境</span></div><div class="q">現在整體市場是強還是弱？今天誰在帶動、錢往哪裡跑？</div></div><button type="button" class="btn ghost gMapGo" data-go="market">去看看</button></div>
+        <div class="gMapItem core"><div><div class="n">籌碼分析<span class="gCore">核心</span><span class="gAng">位置</span></div><div class="q">這檔股票，大家的成本在哪？離支撐、壓力多遠？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div>
+        <div class="gMapItem"><div><div class="n">技術分析<span class="gAng">狀態</span></div><div class="q">這檔現在的趨勢和力道如何？和籌碼是同一個方向嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="tech">去看看</button></div>
+        <div class="gMapItem"><div><div class="n">自選股<span class="gLogin">要登入</span><span class="gAng">追蹤</span></div><div class="q">我常看的那幾檔，現在的走勢和位置如何？</div></div><button type="button" class="btn ghost gMapGo" data-go="watch">去看看</button></div>
+        <div class="gMapItem"><div><div class="n">篩選器<span class="gAng">合成</span></div><div class="q">不知道看哪一檔？結合籌碼面和技術面，挑出可能起漲的。</div></div><button type="button" class="btn ghost gMapGo" data-go="screen">去看看</button></div>
+        <div class="gMapItem"><div><div class="n">回測<span class="gAng">驗證</span></div><div class="q">「靠近支撐買、到壓力賣」這個想法，過去真的有效嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="backtest">去看看</button></div>
+        <div class="gMapItem"><div><div class="n">模擬交易<span class="gLogin">要登入</span><span class="gAng">練習</span></div><div class="q">用虛擬資金練習，和大家比報酬率。</div></div><button type="button" class="btn ghost gMapGo" data-go="sim">去看看</button></div>
+      </div>
+      <h4 class="odH">建議的使用順序</h4>
+      <ol class="gFlow">
+        <li><b>大盤指數</b>：先看大環境，整體偏強還是偏弱。</li>
+        <li><b>籌碼分析</b>：查一檔股票，看支撐、壓力和位置評分。</li>
+        <li><b>技術分析</b>：確認趨勢和力道，有沒有和籌碼同一個方向。</li>
+        <li><b>篩選器</b>：不知道看哪一檔時，讓系統挑出綜合評分高、可能起漲的股票，再回到第 2 步細看。</li>
+        <li><b>回測</b>：驗證「靠近支撐買、到壓力賣」過去有沒有效。</li>
+        <li><b>自選股</b>：把常看的股票存起來，天天追蹤。</li>
+        <li><b>模擬交易</b>：用虛擬資金練習，不用冒真錢的風險。</li>
+      </ol>
+      <p class="gLead"><b>哪些要登入？</b>只有「自選股」和「模擬交易」需要用 Google 登入，登入只用來辨識你的帳號。其他頁籤都不用登入。</p>
+      <p class="gNext">↓ 每個頁籤都建立在同一個基礎上：籌碼、支撐、壓力。下面先把這個觀念講清楚。</p>
+    </div>
+
+    <div class="gPart" id="g-concept"><span>A</span>先懂觀念：籌碼、支撐、壓力</div>
+    <p class="gPartLead">先從「位置」這個角度開始，因為它是整個系統的基礎。看完下面 5 段，後面每個頁面你都看得懂。</p>
+
     <div class="gSec">
       <h3>什麼是支撐？什麼是壓力？</h3>
+      <p class="gOne"><b>支撐</b>＝股價下跌時，比較容易停住的地方；<b>壓力</b>＝股價上漲時，比較容易漲不動的地方。</p>
       <div class="card gFig">
         <div id="gFigSvg" role="img" aria-label="示意圖：K 線在壓力區受阻、在支撐區反彈，右側長條顯示各價位的成本分布"></div>
         <ol class="gFigNote">
@@ -861,10 +1002,12 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div class="card gMini"><div class="gName s">支撐（地板）</div><p>股價往下跌，到這個價位附近，比較容易<b>停住、反彈</b>。</p></div>
         <div class="card gMini"><div class="gName r">壓力（天花板）</div><p>股價往上漲，到這個價位附近，比較容易遇到<b>賣壓、漲不動</b>。</p></div>
       </div>
+      <p class="gNext">↓ 接著：為什麼成本的位置，會變成地板和天花板？</p>
     </div>
 
     <div class="gSec">
       <h3>為什麼成本的位置會變成地板和天花板？</h3>
+      <p class="gOne">因為<b>很多人的成本集中在那裡</b>，股價回到那裡時，買的人和賣的人都會有反應。</p>
       <div class="card gFig"><span class="gTag s">變成支撐</span>
         <div id="gStoryA" role="img" aria-label="示意圖：股價漲上去之後跌回成本 100 元附近，在這裡反彈"></div>
         <ol class="gFigNote">
@@ -882,20 +1025,24 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         </ol>
       </div>
       <p class="gLead">所以<b>同一堆成本，會因為現在的股價在它的上面還是下面，而換角色</b>。下面讓你親手試試。</p>
+      <p class="gNext">↓ 接著：自己拖動股價，親眼看看。</p>
     </div>
 
     <div class="gSec">
       <h3>動手試試：拖動股價</h3>
+      <p class="gOne">拖動下面的滑桿，親眼看看<b>同一堆成本，怎麼在「支撐」和「壓力」之間換角色</b>。</p>
       <div class="card gDemo">
         <div id="demoChart"></div>
         <div class="gSlide"><label for="demoPrice">現在的股價</label><input id="demoPrice" type="range" min="66" max="134" step="1" value="112"><output id="demoPriceV" class="num">112</output></div>
         <div id="demoText" class="gDemoText" aria-live="polite"></div>
         <div class="legend"><span><i style="background:var(--profit)"></i>成本低於現價（帳面賺錢）</span><span><i style="background:var(--trapped)"></i>成本高於現價（被套）</span></div>
       </div>
+      <p class="gNext">↓ 接著：查股票時會同時看到兩個「占比」，它們最容易搞混。</p>
     </div>
 
     <div class="gSec">
       <h3>最容易搞混的兩個數字：成交量占比 vs 籌碼占比</h3>
+      <p class="gOne">一句話：<b>成交量占比＝來過，籌碼占比＝還在</b>。查股票時兩個數字都會看到。</p>
       <p class="gLead">想像每個價位是一間<b>房間</b>，每一位在這個價位買進的人是一個圓點：<span class="shDot on"></span> <b>還抱著股票</b>（還在房裡），<span class="shDot"></span> <b>已經賣掉</b>（已經退房）。</p>
       <div class="gTwo">
         <div class="card gMini"><div class="gName">成交量占比＝簽到簿</div><p><b>來過就算</b>，不管現在走了沒。<br>數的是 <span class="shDot on"></span>＋<span class="shDot"></span>。</p></div>
@@ -908,31 +1055,24 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <p class="big">來過又還在，才是真地板、真天花板。</p>
         <p class="sm">人為什麼會走？股價漲跌之間，買的人陸續賣掉換手，舊成本就被新成本取代。所以<b>籌碼占比會變，成交量占比是歷史紀錄，不會變</b>。</p></div>
       <button type="button" class="info-link" data-term="combo">四種組合怎麼判讀？</button>
+      <p class="gNext">↓ 接著：把常見的名詞整理一遍，看它們各自怎麼影響支撐和壓力。</p>
     </div>
 
-    <div class="gSec">
+    <div class="gSec" id="g-terms">
       <h3>各個名詞，怎麼影響支撐與壓力？</h3>
+      <p class="gOne">遇到不懂的名詞，回到這裡查。</p>
       <p class="gLead">點名詞旁邊的 <span class="gi-demo">i</span> 還有更詳細的說明。</p>
       <div id="guideTerms"></div>
       <button type="button" class="info-link" data-term="combo">兩個占比怎麼組合判讀？</button>
+      <p class="gNext">觀念到這裡就夠了。<b>下面 B 部分，一個頁籤一個頁籤說明怎麼用。</b>之後遇到不懂的詞，隨時回到「名詞速查」。</p>
     </div>
 
-    <div class="gSec">
-      <h3>三步驟開始用</h3>
-      <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>查一檔股票</b><p>到「分析」頁，輸入代碼或名稱。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>看三個地方</b><p>圖上的淡色色帶（藍色是支撐、橘色是壓力）；下方的 S1～S3、R1～R3 列表；以及模型涵蓋率夠不夠高。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>想驗證，就去回測</b><p>在「回測」頁，看看「靠近支撐買、到壓力賣」這個想法，過去真的有效嗎？</p></div></div>
-      </div>
-      <div class="gBtns">
-        <button type="button" class="btn" data-go="demo">用 2330 看範例</button>
-        <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
-        <button type="button" class="btn ghost" data-go="backtest">去回測</button>
-      </div>
-    </div>
+    <div class="gPart" id="g-pages"><span>B</span>每個頁籤怎麼用</div>
+    <p class="gPartLead">照頁籤的順序說明。每一段都先講「它回答什麼問題」，再講怎麼用，最後告訴你下一步去哪。</p>
 
-    <div class="gSec">
-      <h3>先看大環境？到「大盤指數」</h3>
+    <div class="gSec" id="g-market">
+      <h3>大盤指數：先看大環境</h3>
+      <p class="gOne">回答：<b>現在整體市場是強還是弱？今天是誰在帶動大盤？錢正在往哪裡跑？</b></p>
       <div class="card gSteps">
         <div class="gStep"><i>1</i><div><b>看加權指數</b><p>最新收盤、漲跌點數和走勢（可選 1 個月、3 個月、半年，手指在圖上滑動看每一天），先知道大盤現在偏強還是偏弱。</p></div></div>
         <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>日盤收盤後，夜盤是最即時的市場情緒。圖上依時間順序畫出夜盤與日盤，系統會用夜盤的漲跌點數，粗估隔天大盤的開盤位置。</p></div></div>
@@ -944,29 +1084,124 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div class="card gMini"><div class="gName">熱力圖怎麼讀</div><p class="odS">面積看誰重，顏色看誰動。</p><p>大方塊（例如台積電）一動，大盤就跟著動；小方塊再紅，也推不動指數。想知道「今天大盤為什麼跌」，先看<b>大又綠</b>的方塊。</p></div>
         <div class="card gMini"><div class="gName">資金輪動怎麼讀</div><p class="odS">右看錢，上看價。</p><p><b>右上</b>＝錢進來、價格漲（主流）；<b>右下</b>＝錢進來但價格跌；<b>左上</b>＝漲但沒新錢；<b>左下</b>＝被冷落。選一個類別，其他會淡化，只看它的軌跡。</p></div>
       </div>
-      <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨不是指數本身，推估開盤也只是粗估；熱力圖、輪動圖只說明「現在錢和重心在哪」，不預測接下來。支撐與壓力還是要回到個股的籌碼分布來看，可以先從熱力圖或輪動圖找到強勢的類股，再到「分析」頁看裡面的個股。</p>
+      <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨不是指數本身，推估開盤也只是粗估；熱力圖、輪動圖只說明「現在錢和重心在哪」，不預測接下來。支撐與壓力還是要回到個股的籌碼分布來看，可以先從熱力圖或輪動圖找到強勢的類股，再到「籌碼分析」頁看裡面的個股。</p>
       <button type="button" class="info-link" data-term="rotation">資金輪動泡泡圖的詳細說明</button>
       <button type="button" class="btn" data-go="market">去大盤指數</button>
+      <p class="gNext">下一步：環境看完了，挑一檔股票去 <button type="button" class="gLink" data-go="analyze">籌碼分析</button> 看位置。</p>
     </div>
 
-    <div class="gSec">
-      <h3>不知道看哪一檔？用「篩選器」幫你篩</h3>
+    <div class="gSec" id="g-chip">
+      <h3>籌碼分析：查一檔股票，三步看懂</h3>
+      <p class="gOne">回答：<b>這檔股票，大家的成本在哪？現價離「地板」和「天花板」多遠？</b>這是整個系統的核心頁面。</p>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>查一檔股票</b><p>輸入代碼或名稱（例如 2330 或 台積電），按「分析」。第一次查要下載歷史資料，需要等幾秒；同一天再查就很快。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>先看「綜合評語」</b><p>0～100 分，評估現價的位置舒不舒服：下方有沒有支撐、上方壓力輕不輕、成本面如何。按「看評分細節」可以看三部分各得幾分。分數高代表位置舒服，<b>不代表一定會漲</b>。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>再看圖和清單</b><p>圖上的淡色色帶：<b>藍色是支撐、橘色是壓力</b>；右側長條是各價位的成本。下方「壓力區 R1～R3」「支撐區 S1～S3」列出每個價位、籌碼占比、離現價多遠，越近、占比越高的越值得留意。</p></div></div>
+      </div>
+      <h4 class="odH">畫面上的數字，一句話解釋</h4>
+      <dl class="gDef">
+        <dt>平均成本</dt><dd>所有持有人成本的重心。現價高於它，代表多數人賺錢。</dd>
+        <dt>獲利比例</dt><dd>成本低於現價的人占多少。很低代表多數人被套，上方壓力重。</dd>
+        <dt>90% 籌碼區間</dt><dd>90% 的籌碼，成本落在哪個價格範圍。</dd>
+        <dt>集中度</dt><dd>成本是擠在一起還是散得很開。越小越集中，支撐壓力越明確。</dd>
+        <dt>累計換手</dt><dd>這段期間，整體股票換手了幾輪。換手越多，算出的成本越準。</dd>
+        <dt>模型涵蓋率</dt><dd><b>可不可信的指標。</b>越接近 100% 越可靠；低於 90% 時，離現價很遠的支撐壓力只當參考，可以把上方的「年數」拉長。</dd>
+      </dl>
+      <p class="gLead"><b>小技巧：</b>圖下面的滑桿可以調整分析的時間區間；手指在圖上滑動，可以看每一天的價格。「進階參數」裡的衰減係數、最小間距，不確定就維持預設。</p>
+      <div class="gBtns">
+        <button type="button" class="btn" data-go="demo">用 2330 看範例</button>
+        <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
+        <button type="button" class="btn ghost" data-go="backtest">去回測</button>
+      </div>
+      <p class="gNext">下一步：位置看完了，去 <button type="button" class="gLink" data-go="tech">技術分析</button> 看狀態，確認兩者同不同向。</p>
+    </div>
+
+    <div id="gTechSec" class="gSec">
+      <h3>技術分析：看趨勢和力道，和籌碼對照</h3>
+      <p class="gOne">回答：<b>這檔現在的趨勢和力道如何？和籌碼是不是同一個方向？</b></p>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>查股票（和「籌碼分析」共用）</b><p>在這個頁籤查，或在籌碼分析查，換一邊兩邊一起換。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>先看最上面的總結</b><p>「技術面偏多／偏空／中性」，下面四張卡片分別是趨勢、動能、波動、量價，一眼看出哪裡強、哪裡弱。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>再看圖和搭配組合</b><p>手指滑過圖，上方讀數列會顯示那一天所有的數字；圖下方的色帶看這段時間是強還是弱；「搭配組合」會告訴你目前有沒有特別的型態。</p></div></div>
+      </div>
+      <p class="gLead"><b>先記得：</b>技術指標都是用同一份價量算出來的，彼此高度相關；我們自己的回測也發現，單靠它們沒有穩定的預測力。它是幫你「讀現在的狀態」，不是預測工具。</p>
+      <p class="gLead">下面是這個頁籤所有圖、指標和名詞的詳細說明：</p>
+      <div class="tgNav"><a href="#tg-chart" data-gt="tg-chart">怎麼讀這張圖</a><a href="#tg-combo" data-gt="tg-combo">搭配組合</a><a href="#tg-ind" data-gt="tg-ind">每個指標</a><a href="#tg-dict" data-gt="tg-dict">名詞小辭典</a></div>
+      <div id="gTechBody"></div>
+      <button type="button" class="btn" data-go="tech">去技術分析</button>
+      <p class="gNext">下一步：想天天追蹤，存到 <button type="button" class="gLink" data-go="watch">自選股</button>；不知道看哪一檔，讓 <button type="button" class="gLink" data-go="screen">篩選器</button> 幫你挑。</p>
+    </div>
+
+    <div class="gSec" id="g-watch">
+      <h3>自選股：存下常看的股票</h3>
+      <p class="gOne">回答：<b>我常看的那幾檔，現在的走勢和位置如何？</b>需要用 Google 登入，換手機也看得到。</p>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>加入</b><p>在「籌碼分析」查到股票後，按股價旁邊的<b>星號</b>就加進來（最多 50 檔）。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>兩種看法：清單、格狀</b><p><b>清單</b>一行一檔：代碼名稱、近 60 個交易日的走勢圖、價格漲跌，和綜合評語分數。<b>格狀</b>是卡片版，走勢圖比較大。評語要載入歷史資料，查詢次數用完時會顯示「稍後再試」。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>調整順序、移除</b><p>按「調整順序」後，<b>長按股票約半秒</b>，它會浮起來，再拖到想要的位置放開（格狀可以往任何方向拖）。按「完成」結束。要移除，按「移除」，再按一次確認。</p></div></div>
+      </div>
+      <p class="gLead">登入只會存你的自選股代碼和名稱，不會存其他個人資料。想刪除，到右上角「我的帳號」。</p>
+      <button type="button" class="btn" data-go="watch">去自選股</button>
+      <p class="gNext">下一步：想從更多股票裡找，用 <button type="button" class="gLink" data-go="screen">篩選器</button>。</p>
+    </div>
+
+    <div class="gSec" id="g-screen">
+      <h3>篩選器：結合籌碼面和技術面，挑出可能起漲的股票</h3>
+      <p class="gOne">回答：<b>從一批股票裡，哪幾檔「位置舒服、而且技術面剛轉強」？</b>候選範圍是系統內建的 45 檔大型股（不是全市場）、你的自選股，或最近查過的股票。</p>
       <div class="card gSteps">
         <div class="gStep"><i>1</i><div><b>選一個候選範圍</b><p>內建的大型股、你的自選股，或最近查過的股票，不用登入就能用。大型股每天凌晨由系統預先分析好，大家共用，不耗你的查詢額度。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>點一個風格</b><p>「穩健」「低接」「順勢」「先看看」，點下去條件就自動設好；想更嚴或更鬆，拉一下「位置評分至少幾分」。調整後結果會立刻更新。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>看位置評分最高的前 3 檔</b><p>每一檔都有 0～100 的位置評分和每個條件的實際數字。沒有人完全符合時，會列出「最接近的 3 檔」。再按「看分析」或「回測這檔」確認。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>點一個風格</b><p><b>起漲（建議）</b>找「剛轉強、還沒過熱、位置舒服、上方有空間」的；另外有穩健、低接、順勢、先看看。點下去條件就自動設好，想更嚴或更鬆，拉「位置評分」「技術評分」「起漲徵兆」三個滑桿。調整後結果會立刻更新。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>看綜合評分最高的前 3 檔</b><p>每張卡片有綜合評分、位置評分、技術評分，以及七項起漲徵兆的 ✓／✕。沒有人完全符合時，會列出「最接近的 3 檔」。再按「看籌碼分析」或「回測這檔」確認。</p></div></div>
       </div>
-      <p class="gLead"><b>這是篩選器，不是預測</b>：它只把「位置好不好」整理出來，沒有任何方法能保證哪一檔會漲。入選後建議先回測，看過去的表現再參考。</p>
+      <h4 class="odH">綜合評分怎麼來？</h4>
+      <p class="gLead"><b>綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%</b></p>
+      <dl class="gDef">
+        <dt>位置評分（籌碼面，0～100）</dt><dd>成本面 30 ＋ 下方支撐 35 ＋ 上方空間 35。和「籌碼分析」的綜合評語同一套。</dd>
+        <dt>技術評分（技術面，0～100）</dt><dd>趨勢 30 ＋ 動能 30 ＋ 量價 20 ＋ 位置與波動 20。</dd>
+        <dt>起漲徵兆（共 7 項）</dt><dd>現在像不像「剛起漲」的七項檢查，符合越多越像：</dd>
+      </dl>
+      <ol class="gFlow">
+        <li><b>站上月線</b>：收盤在 20 日線之上，而且 20 日線沒有往下。</li>
+        <li><b>剛轉強</b>：最近 10 天內 MA20 剛上穿 MA60（黃金交叉），或股價剛站回 20 日線。</li>
+        <li><b>動能轉強</b>：最近 5 天內 MACD 柱狀剛由負轉正，或 K 剛上穿 D。</li>
+        <li><b>量能放大</b>：近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲。</li>
+        <li><b>尚未過熱</b>：RSI 低於 70，而且離 60 天低點漲幅不到 30%（沒有漲太多）。</li>
+        <li><b>籌碼位置舒服</b>：位置評分 60 分以上。</li>
+        <li><b>上方有空間</b>：最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力。</li>
+      </ol>
+      <div class="card gTip"><div class="gName">看篩選結果，要小心這三件事</div><ul>
+        <li><b>它描述的是「現在的狀態」，不是預測。</b>我們自己的回測發現，單靠技術指標沒有穩定的預測力，所以結果是「整理過的觀察清單」，不是買進訊號。</li>
+        <li><b>名單不是全市場</b>，而且預先算好的資料每天凌晨更新一次，技術面資料也一樣；剛上線時，要等到下次更新才會有技術面。</li>
+        <li><b>入選後，請到「籌碼分析」和「技術分析」看完整畫面</b>，再用「回測」驗證，不要只看分數。</li></ul></div>
+      <p class="gNext">下一步：覺得有興趣的那幾檔，去 <button type="button" class="gLink" data-go="backtest">回測</button> 驗證這類想法過去有沒有效。</p>
       <button type="button" class="btn" data-go="screen">去篩選器</button>
+    </div>
+
+    <div class="gSec" id="g-bt">
+      <h3>回測：這個買賣想法，過去有效嗎？</h3>
+      <p class="gOne">回答：<b>如果過去照「靠近支撐買、到壓力賣」做，結果會怎樣？</b>用歷史資料驗證，比憑感覺可靠。</p>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>選股票和期間</b><p>起始日之前的資料用來「暖機」（累積籌碼），所以能選的最早日期，會比資料的起點晚一些。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>按「開始回測」</b><p><b>買</b>：股價回到支撐區附近，隔天開盤買進。<b>賣</b>：漲到壓力區賣出（停利）、跌破支撐就停損、放太久時間到就賣。每天只用「當天以前」的資料，不偷看未來，已扣手續費和稅。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>看結果</b><p>先看「結論」：照規則買賣，和單純買進持有，哪個報酬高。再看「賺錢的機率」「平均每次」「過程最多回吐」（最糟的時候帳面掉多少）和「平均持有」。</p></div></div>
+      </div>
+      <div class="card gTip"><div class="gName">看回測結果，要小心這三件事</div><ul>
+        <li><b>次數太少</b>：買賣不到 10 次的結果，參考價值有限。</li>
+        <li><b>過去有效不代表未來</b>，也不是買賣建議。</li>
+        <li><b>不要為了好看一直調參數</b>：調到「完美」常常只是在背答案（過度配適），換一段期間就失靈。</li></ul></div>
+      <button type="button" class="btn" data-go="backtest">去回測</button>
+      <p class="gNext">下一步：想真的練習下單，去 <button type="button" class="gLink" data-go="sim">模擬交易</button>（要登入）。</p>
     </div>
 
     <div id="gSimSec" class="gSec" hidden>
       <h3>想實際練習？玩模擬交易</h3>
+      <p class="gOne">回答：<b>想不冒真錢的風險，練習照支撐壓力買賣？</b>需要用 Google 登入。</p>
       <div class="card gSteps">
         <div class="gStep"><i>1</i><div><b>每週領 100 萬虛擬資金</b><p>用 Google 登入後，每週可以領一次，領到的錢和持股會一直累積。這裡沒有真的錢。</p></div></div>
         <div class="gStep"><i>2</i><div><b>下預約單，用真實股價成交</b><p>09:00 以前下的單，當天生效；之後下的單，下一個交易日生效。收盤資料出來後，下次打開網頁就會自動成交。下單方式有三種，往下看。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>拿支撐與壓力去驗證，和大家比報酬率</b><p>先在「分析」頁找支撐壓力，也可以先去「回測」看看過去有沒有效，再到排行榜和其他會員比賽。排名只供同樂。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>拿支撐與壓力去驗證，和大家比報酬率</b><p>先在「籌碼分析」頁找支撐壓力，也可以先去「回測」看看過去有沒有效，再到排行榜和其他會員比賽。排名只供同樂。</p></div></div>
       </div>
+      <p class="gLead"><b>每一季結算一次成績：</b>以季度報酬率排名（新增投入的資金會扣掉），上一季的冠軍會固定顯示在模擬交易頁的最上方。排名只供同樂。</p>
       <h4 class="odH">下單方式有三種</h4>
       <div class="odGrid">
         <div class="card gMini"><div class="gName">市價單</div><p class="odS">「照當天開盤價，馬上成交」</p><p>不指定價格，下一個交易日開盤價成交。最簡單，但<b>下單時不知道會成交在哪</b>。</p></div>
@@ -980,12 +1215,40 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <button type="button" class="btn" data-go="sim">去模擬交易</button>
     </div>
 
+    <div class="gPart" id="g-qa"><span>C</span>名詞速查與常見問題</div>
+    <p class="gPartLead">遇到狀況先來這裡找。</p>
+
+    <div class="gSec" id="g-words">
+      <h3>名詞速查：看不懂的詞都在這裡</h3>
+      <p class="gOne">依「角度」分成四組。每個詞一句話；想看圖解和更詳細的說明，點頁面上的「i」，或回到前面對應的段落。</p>
+      <div class="gWG">籌碼面（位置）</div><dl class="gDef"><dt>籌碼</dt><dd>股票的持有狀態。在這裡指「每個價位，有多少人持有、成本是多少」。</dd><dt>成本</dt><dd>一個人買進這檔股票的價格。</dd><dt>支撐／壓力</dt><dd>支撐＝股價下跌時比較容易停住的價位（地板）；壓力＝股價上漲時比較容易漲不動的價位（天花板）。成本集中的地方，常變成支撐或壓力。</dd><dt>套牢／解套</dt><dd>成本比現價高、帳面虧損，叫套牢；股價漲回成本附近，叫解套，這時常有人想賣出。</dd><dt>籌碼占比</dt><dd>還抱著股票、成本落在某個價位的人，占全部持有人的比例（還在才算）。</dd><dt>成交量占比</dt><dd>這段期間，有多少比例的成交量發生在某個價位（來過就算，不管現在走了沒）。</dd><dt>平均成本／獲利比例</dt><dd>平均成本是所有持有人成本的重心；獲利比例是成本低於現價（帳面賺錢）的人占多少。</dd><dt>90% 籌碼區間／集中度</dt><dd>90% 的籌碼成本落在哪個價格範圍；集中度是成本擠不擠在一起，越小越集中，支撐壓力越明確。</dd><dt>累計換手／模型涵蓋率</dt><dd>這段期間整體換手了幾輪；涵蓋率是模型描繪得完不完整，是「可不可信」的指標，建議 90% 以上。</dd></dl>
+      <div class="gWG">技術面（狀態）</div><dl class="gDef"><dt>多頭／空頭</dt><dd>多頭＝整體在往上走；空頭＝整體在往下走。台股的顏色：紅色代表多、綠色代表空。</dd><dt>偏多／偏空</dt><dd>某個指標「現在的傾向」，不是預測。</dd><dt>均線（MA）</dt><dd>最近 N 天收盤價的平均。MA5＝一週、MA20＝一個月、MA60＝一季，可以想成這段時間買進的人平均成本。</dd><dt>多頭排列／空頭排列</dt><dd>收盤 ＞ MA20 ＞ MA60 叫多頭排列（上漲趨勢）；收盤 ＜ MA20 ＜ MA60 叫空頭排列。</dd><dt>黃金交叉／死亡交叉</dt><dd>MA20 往上穿過 MA60 叫黃金交叉（轉強）；往下穿過叫死亡交叉（轉弱）。</dd><dt>RSI</dt><dd>最近 14 天，上漲的力氣和下跌的力氣誰比較大，0～100，50 是分界。</dd><dt>KD</dt><dd>今天收盤在最近 9 天高低區間的哪個位置。K 是快線、D 是慢線，K 在 D 之上偏多。</dd><dt>MACD</dt><dd>短期平均價減長期平均價，看趨勢的力道在增強還是減弱；柱狀在 0 以上偏多。</dd><dt>布林通道</dt><dd>以 20 日線為中線，上下各 2 倍標準差，股價大約 95% 的時間待在裡面；通道變窄代表波動收斂。</dd><dt>量比</dt><dd>最近 5 天均量 ÷ 20 天均量。1 倍＝和平常一樣，超過 1.3 倍算量增。</dd><dt>過熱／超賣／鈍化</dt><dd>漲太急叫過熱，跌太深叫超賣；指標卡在極端值很久、股價卻還繼續走，叫鈍化，所以不能一看到過熱就賣。</dd><dt>SuperTrend</dt><dd>一條會跟著股價走的保護線，股價在線上面是多頭，這條線也常被當成停損參考。</dd></dl>
+      <div class="gWG">評分（合成）</div><dl class="gDef"><dt>位置評分</dt><dd>籌碼面，0～100：成本面 30 ＋ 下方支撐 35 ＋ 上方空間 35。</dd><dt>技術評分</dt><dd>技術面，0～100：趨勢 30 ＋ 動能 30 ＋ 量價 20 ＋ 位置與波動 20。</dd><dt>起漲徵兆</dt><dd>七項檢查（站上月線、剛轉強、動能轉強、量能放大、尚未過熱、籌碼位置舒服、上方有空間），符合越多越像剛起漲。</dd><dt>綜合評分</dt><dd>位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%，篩選器用它排名。</dd></dl>
+      <div class="gWG">回測與交易</div><dl class="gDef"><dt>回測</dt><dd>用過去的資料，模擬「如果當時照這套規則買賣，結果會怎樣」。</dd><dt>停利／停損</dt><dd>漲到目標價自動賣出獲利，叫停利；跌到某個價自動賣出防止虧更多，叫停損。</dd><dt>風險報酬比</dt><dd>往上到目標的空間，是跌破停損要承擔風險的幾倍。大於 1 代表賺的空間比賠的大。</dd><dt>過度配適</dt><dd>把參數調到「過去剛好最完美」，其實只是在背答案，換一段期間就失靈。</dd><dt>市價單／限價單／觸價單</dt><dd>市價＝照開盤價馬上成交；限價＝這個價錢以內我才要；觸價＝碰到某個價才動手（停損、停利用）。</dd></dl>
+    </div>
+
+    <div class="gSec" id="g-faq">
+      <h3>常見問題</h3>
+      <details class="gFaq"><summary>資料從哪裡來？多久更新？</summary><div class="a"><p>股價和成交量來自 FinMind（公開的台股資料服務），大盤和上市總市值等來自證交所公開資料。</p><p>都是<b>收盤後的日資料</b>，所以看到的是最近一個交易日的收盤，不是盤中即時價。</p></div></details>
+      <details class="gFaq"><summary>為什麼載入很慢，或顯示查詢次數用完？</summary><div class="a"><p>第一次查一檔股票，要下載約 6 年的歷史資料。FinMind 的免費額度有限（沒填 token 約每小時 300 次），用完會暫停約 1 小時，網頁會顯示預計恢復的時間。</p><p>查過的資料會存在這支手機裡，同一天再查同一檔，不會再消耗額度。想要更多額度，可以到「籌碼分析」頁最下面的「進階參數」，填入自己的 FinMind token（免費註冊）。</p><p>「篩選器」的大型股，系統每天凌晨已經先算好，大家共用，不耗你的額度。</p></div></details>
+      <details class="gFaq"><summary>一定要登入嗎？登入會存什麼？</summary><div class="a"><p><b>不用</b>。看大盤、查股票、技術分析、篩選器、回測，都不用登入。只有「自選股」和「模擬交易」需要用 Google 登入。</p><p>登入只用來辨識你的帳號，只存自選股的代碼和名稱，以及模擬交易的帳戶資料。想刪除，到右上角「我的帳號」。</p></div></details>
+      <details class="gFaq"><summary>查不到某檔股票，或要我輸入流通股數？</summary><div class="a"><p>系統支援上市櫃的股票。ETF 或剛上市的股票，有時查不到流通股數，網頁會請你手動輸入，輸入後才算得出籌碼分布。</p></div></details>
+      <details class="gFaq"><summary>為什麼同一檔股票，不同時間打開，支撐壓力會有一點不一樣？</summary><div class="a"><p>每天都有新的成交資料進來，成本分布會跟著更新；你調整分析區間、年數或進階參數，結果也會不同。這是正常的。</p></div></details>
+      <details class="gFaq"><summary>紅色和綠色是什麼意思？</summary><div class="a"><p>台股的習慣：<b>紅色代表漲、偏多，綠色代表跌、偏空</b>，和美股相反。</p><p>但「支撐／壓力」用的是<b>藍色（支撐）和橘色（壓力）</b>，不要和漲跌的紅綠搞混。</p></div></details>
+      <details class="gFaq"><summary>位置評分高，是不是代表會漲？</summary><div class="a"><p><b>不是。</b>位置評分只評估「現在的位置舒不舒服」：下方有沒有支撐、上方壓力輕不輕。它不預測漲跌。想看這種想法過去有沒有效，可以去回測驗證。</p></div></details>
+      <details class="gFaq"><summary>這是買賣建議嗎？</summary><div class="a"><p><b>不是。</b>系統只是把資料整理成容易閱讀的樣子，所有結果都是依歷史資料推算的統計傾向，過去不代表未來。投資請自己判斷。</p></div></details>
+      <details class="gFaq"><summary>位置評分、技術評分、綜合評分有什麼不同？</summary><div class="a"><p><b>位置評分</b>看籌碼面（下方有沒有支撐、上方壓力輕不輕）；<b>技術評分</b>看技術面（趨勢、動能、量價）；<b>綜合評分</b>把兩者再加上「起漲徵兆」合成一個分數，篩選器用它排名。三個分數都是描述現在的狀態，不是預測。</p></div></details>
+      <details class="gFaq"><summary>篩選器顯示「技術面還沒更新」是什麼意思？</summary><div class="a"><p>大型股的分析結果，是系統每天凌晨先算好、大家共用的。技術面是新增的項目，要等下一次夜間更新之後才有；在那之前，這些股票只用籌碼評分排名，技術條件先不通過。自選股和最近查過的股票，則是即時計算，一定有技術面。</p></div></details>
+      <details class="gFaq"><summary>「起漲徵兆」符合很多項，就是要漲了嗎？</summary><div class="a"><p><b>不是。</b>起漲徵兆只是把「現在像不像剛起漲」逐項列出來。我們自己的回測發現，單靠技術指標沒有穩定的預測力，所以符合 7 項也不保證會漲。建議再看籌碼分析、技術分析，並用回測驗證。</p></div></details>
+    </div>
+
     <div class="card gWarn">
       <div class="gName">先記得這幾件事</div>
       <ul>
         <li>支撐和壓力是<b>依成交資料推算的統計傾向</b>，不是預測。股價不一定會在支撐止跌、在壓力受阻。</li>
         <li>先看<b>模型涵蓋率</b>。太低（例如 50% 以下）時，離現價很遠的支撐壓力只當參考。</li>
         <li>常見的觀察是：壓力被<b>有效突破</b>後，有時會變成新的支撐。這是常見現象，不是保證。</li>
+        <li>技術指標、位置評分、篩選器的結果，都是「描述現在的狀態」，<b>不保證未來</b>；回測看的是過去。</li>
         <li>這個系統只是幫你讀資料，<b>不是買賣建議</b>。</li>
       </ul>
     </div>
@@ -1065,6 +1328,23 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </details>
   </div>
 
+  <section id="pgTech" class="page" hidden>
+    <h2>技術分析</h2>
+    <p class="advnote" style="padding:0 0 8px">一眼看懂趨勢、動能、波動、量價，再看指標的搭配組合，並和籌碼的支撐壓力對照。時間軸可以自己拉；股票和「籌碼分析」共用，換一邊兩邊一起換。</p>
+    <div id="techSearchBox" class="searchBox">
+      <form id="techForm" class="search" autocomplete="off">
+        <input id="techQ" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入股票代碼或名稱，例如 2330、台積電" aria-label="股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button type="submit">查詢</button>
+      </form>
+      <ul id="techSugg" class="sugg" hidden></ul>
+    </div>
+    <nav id="techStocks" class="stocks" aria-label="股票"></nav>
+    <div id="techStatus" class="status" role="status" hidden></div>
+    <section class="top"><div><div id="techName" class="sname"></div><div class="priceRow"><div id="techPrice" class="sprice"></div></div></div></section>
+    <div id="techEmpty" class="empty">先輸入股票代碼或名稱，就會顯示這檔股票的技術面分析。</div>
+    <section id="techPanel" class="card tcfig" hidden></section>
+  </section>
+
   <section id="pgWatch" class="page" hidden>
     <h2>自選股</h2>
     <div id="watchBody"></div>
@@ -1107,10 +1387,10 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </section>
 
   <section id="pgScreen" class="page" hidden>
-    <h2>篩選器：幫你從一批股票裡，挑出「位置最舒服」的前 3 檔</h2>
+    <h2>篩選器：結合籌碼面和技術面，挑出可能起漲的股票</h2>
     <div class="card scrIntro">
-      <p><b>它在做什麼？</b>幫每一檔股票打一個「<b>位置評分</b>」（0～100 分，和分析頁的「綜合評語」同一套）：分數越高，代表現價附近下方有支撐、上方壓力輕、成本面也舒服。你只要<b>選範圍、選風格、按開始</b>，不用懂任何術語。</p>
-      <p class="advnote" style="padding:6px 0 0">它只評估「現在的位置」，不預測漲跌，也不是買賣建議。<button type="button" class="info" data-term="screenRules" aria-label="篩選器的說明">i</button></p>
+      <p><b>它在做什麼？</b>每一檔股票打三種分數：<b>位置評分</b>（籌碼面：下方有支撐嗎、上方壓力輕嗎）、<b>技術評分</b>（技術面：趨勢、動能、量價），再看「<b>起漲徵兆</b>」七項（現在像不像剛起漲），合成一個<b>綜合評分</b>。你只要<b>選範圍、選風格、按開始</b>，不用懂任何術語。</p>
+      <p class="advnote" style="padding:6px 0 0">它只描述「現在的狀態」，不預測漲跌，也不是買賣建議。<button type="button" class="info" data-term="screenRules" aria-label="篩選器的說明">i</button></p>
     </div>
     <div class="card btForm">
       <div class="fld">
@@ -1127,22 +1407,25 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <div class="fld">
         <span class="step"><i>2</i>你想找哪一種？（點一個，條件就自動設好）</span>
         <div id="scrPreset" class="scrPre" role="group" aria-label="篩選風格">
-          <button type="button" data-k="steady" aria-pressed="true"><b>穩健</b><small>位置分數高，離支撐近，趨勢偏多</small></button>
+          <button type="button" data-k="rise" aria-pressed="true"><b>起漲（建議）</b><small>剛轉強、還沒過熱、位置舒服、上方有空間</small></button>
+          <button type="button" data-k="steady" aria-pressed="false"><b>穩健</b><small>位置分數高，離支撐近，趨勢偏多</small></button>
           <button type="button" data-k="dip" aria-pressed="false"><b>低接</b><small>貼近支撐，跌破也賠得少</small></button>
-          <button type="button" data-k="trend" aria-pressed="false"><b>順勢</b><small>多頭趨勢，位置還不差</small></button>
-          <button type="button" data-k="loose" aria-pressed="false"><b>先看看</b><small>幾乎不設限，單純依位置評分排名</small></button>
+          <button type="button" data-k="trend" aria-pressed="false"><b>順勢</b><small>多頭趨勢，技術面也偏強</small></button>
+          <button type="button" data-k="loose" aria-pressed="false"><b>先看看</b><small>幾乎不設限，單純依綜合評分排名</small></button>
         </div>
-        <label class="fld" for="scrScore"><span>位置評分至少 <b id="scrScoreV">60</b> 分<button type="button" class="info" data-term="verdict" aria-label="位置評分的說明">i</button></span><input id="scrScore" type="range" min="0" max="90" step="5" value="60"></label>
+        <label class="fld" for="scrScore"><span>位置評分至少 <b id="scrScoreV">50</b> 分（籌碼面）<button type="button" class="info" data-term="verdict" aria-label="位置評分的說明">i</button></span><input id="scrScore" type="range" min="0" max="90" step="5" value="50"></label>
+        <label class="fld" for="scrTech"><span>技術評分至少 <b id="scrTechV">55</b> 分（技術面）<button type="button" class="info" data-term="techScoreT" aria-label="技術評分的說明">i</button></span><input id="scrTech" type="range" min="0" max="90" step="5" value="55"></label>
+        <label class="fld" for="scrSig"><span>起漲徵兆至少 <b id="scrSigV">4</b> 項（共 7 項）<button type="button" class="info" data-term="riseSigs" aria-label="起漲徵兆的說明">i</button></span><input id="scrSig" type="range" min="0" max="7" step="1" value="4"></label>
         <p id="scrSum" class="scrSum"></p>
         <details class="scrAdv"><summary>自訂進階條件（熟手用，不改也可以）</summary>
           <div class="two">
-            <label class="fld" for="scrNear"><span>離支撐不超過 %<button type="button" class="info" data-term="btNear" aria-label="靠近支撐的說明">i</button></span><input id="scrNear" type="number" inputmode="decimal" min="0.5" max="30" step="0.5" value="5"><small class="hint">支撐像地板。越小，只留貼近地板的股票。</small></label>
-            <label class="fld" for="scrStr"><span>支撐籌碼占比至少 %<button type="button" class="info" data-term="chipShare" aria-label="籌碼占比的說明">i</button></span><input id="scrStr" type="number" inputmode="decimal" min="0" max="50" step="1" value="5"><small class="hint">地板有多厚。越大，只留有很多人成本在那的。</small></label>
-            <label class="fld" for="scrRR"><span>風險報酬比至少<button type="button" class="info" data-term="rr" aria-label="風險報酬比的說明">i</button></span><input id="scrRR" type="number" inputmode="decimal" min="0.5" max="10" step="0.1" value="1.5"><small class="hint">往上空間是跌破風險的幾倍。1.5 代表賺的空間是賠的 1.5 倍。</small></label>
+            <label class="fld" for="scrNear"><span>離支撐不超過 %<button type="button" class="info" data-term="btNear" aria-label="靠近支撐的說明">i</button></span><input id="scrNear" type="number" inputmode="decimal" min="0.5" max="30" step="0.5" value="30"><small class="hint">支撐像地板。越小，只留貼近地板的股票。</small></label>
+            <label class="fld" for="scrStr"><span>支撐籌碼占比至少 %<button type="button" class="info" data-term="chipShare" aria-label="籌碼占比的說明">i</button></span><input id="scrStr" type="number" inputmode="decimal" min="0" max="50" step="1" value="0"><small class="hint">地板有多厚。越大，只留有很多人成本在那的。</small></label>
+            <label class="fld" for="scrRR"><span>風險報酬比至少<button type="button" class="info" data-term="rr" aria-label="風險報酬比的說明">i</button></span><input id="scrRR" type="number" inputmode="decimal" min="0.5" max="10" step="0.1" value="0.5"><small class="hint">往上空間是跌破風險的幾倍。1.5 代表賺的空間是賠的 1.5 倍。</small></label>
             <label class="fld" for="scrCov"><span>模型涵蓋率至少 %<button type="button" class="info" data-term="coverage" aria-label="模型涵蓋率的說明">i</button></span><input id="scrCov" type="number" inputmode="decimal" min="0" max="100" step="5" value="60"><small class="hint">資料夠不夠完整。太低代表分數可信度差。</small></label>
           </div>
-          <label class="chk" for="scrBull"><input id="scrBull" type="checkbox" checked><span>趨勢要偏多（SuperTrend 多頭）<button type="button" class="info" data-term="supertrend" aria-label="SuperTrend 的說明">i</button></span></label>
-          <label class="fld" for="scrSort" style="margin-top:8px"><span>排名依據</span><select id="scrSort"><option value="score">位置評分（高到低）</option><option value="rr">風險報酬比（高到低）</option></select></label>
+          <label class="chk" for="scrBull"><input id="scrBull" type="checkbox"><span>趨勢要偏多（SuperTrend 多頭）<button type="button" class="info" data-term="supertrend" aria-label="SuperTrend 的說明">i</button></span></label>
+          <label class="fld" for="scrSort" style="margin-top:8px"><span>排名依據</span><select id="scrSort"><option value="comb">綜合評分（高到低）</option><option value="score">位置評分（高到低）</option><option value="tech">技術評分（高到低）</option><option value="rr">風險報酬比（高到低）</option></select></label>
         </details>
       </div>
       <button id="scrRun" type="button" class="btn">開始篩選</button>
@@ -1265,7 +1548,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
           <label class="fld" for="btTp"><span>無壓力時停利 %<button type="button" class="info" data-term="btTp" aria-label="無壓力時停利的說明">i</button></span><input id="btTp" type="number" inputmode="decimal" min="2" max="50" step="1" value="10"></label>
           <label class="fld" for="btCost"><span>來回成本 %<button type="button" class="info" data-term="btCost" aria-label="來回成本的說明">i</button></span><input id="btCost" type="number" inputmode="decimal" min="0" max="3" step="0.005" value="0.585"></label>
         </div>
-        <p class="advnote">回測也會使用「分析」頁進階參數裡的衰減係數與最小間距。</p>
+        <p class="advnote">回測也會使用「籌碼分析」頁進階參數裡的衰減係數與最小間距。</p>
       </details>
       <button id="btRun" type="button" class="btn">開始回測</button>
     </div>
@@ -1457,9 +1740,11 @@ async function fetchStock(code, years) {
   return st;
 }
 function setStatus(msg, err) {
-  const el = $("status");
-  el.hidden = !msg; el.textContent = msg || "";
-  el.className = "status" + (err ? " err" : "");
+  for (const id of ["status", "techStatus"]) {                       // 籌碼分析與技術分析共用同一個查詢狀態
+    const el = $(id);
+    el.hidden = !msg; el.textContent = msg || "";
+    el.className = "status" + (err ? " err" : "");
+  }
 }
 async function selectStock(code, name) {
   code = code.trim().toUpperCase();
@@ -1484,7 +1769,7 @@ function renderRecent() {
     return `<span class="rchip${on ? " on" : ""}"><button type="button" class="rmain" data-code="${esc(r.code)}"${on ? ' aria-current="true"' : ""}><span class="code">${esc(r.code)}</span><span class="nm">${esc(r.name) || "&nbsp;"}</span></button><button type="button" class="rx" data-rm="${esc(r.code)}" aria-label="移除 ${esc(r.code)} 的搜尋紀錄">×</button></span>`;
   });
   if (state.recent.length > 1) chips.push(`<button type="button" class="rclear" data-clear="1">${pendingClear ? "確認清除" : "清除全部"}</button>`);
-  $("stocks").innerHTML = chips.join("");
+  $("stocks").innerHTML = chips.join(""); $("techStocks").innerHTML = chips.join("");
   btRenderPicked();   // 回測頁、模擬交易頁的快速選擇和分析頁共用同一份搜尋紀錄，三邊一起更新
   if (memberOn) renderSimForm();
 }
@@ -1739,9 +2024,16 @@ const GLOSS = {
     read: ["往上空間：到最近壓力峰值的距離；沒有壓力，或壓力不到 2% 時，用固定的 10%。", "停損風險：從現價到「支撐區下緣再往下 1%」的距離。", "例如空間 +9%、風險 −3%，風險報酬比就是 3。1 以下代表空間還沒有風險大。", "它描述的是「位置的條件」，不是對上漲的預測。"],
     calc: "風險報酬比 = (目標價 ÷ 現價 − 1) ÷ (1 − 停損價 ÷ 現價)。算法和回測頁一致。" },
   screenRules: { t: "篩選器怎麼運作",
-    def: "從你選的候選範圍裡，逐檔算出支撐、壓力和「位置評分」（0～100 分，和分析頁的綜合評語同一套）。留下同時符合你條件的股票，預設依位置評分由高到低，取前 3 檔。",
-    read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「位置好不好」整理出來。", "<b>四種風格</b>：穩健（均衡）、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調分數門檻。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是內建的大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "<b>大型股不耗你的額度</b>：系統每天凌晨（約 3 點）會先把內建大型股分析好存起來，所有會員共用，白天打開就能直接用。自選股和最近查過的股票如果不在這份名單內，才需要自己查詢。", "想知道「靠近支撐買、到壓力賣」這套想法過去有沒有用，按「回測這檔」去驗證；很多時候結果並不如預期，這是正常的。"],
-    calc: "每檔股票用載入的全部歷史資料（最多 6 年）計算。位置評分 = 成本面 30 分 + 下方支撐 35 分 + 上方空間 35 分。停損緩衝與無壓力時的停利和回測頁的預設值相同。" },
+    def: "從你選的候選範圍裡，逐檔算出三種分數：位置評分（籌碼面）、技術評分（技術面）、起漲徵兆（七項檢查），合成綜合評分。留下同時符合你條件的股票，預設依綜合評分由高到低，取前 3 檔。",
+    read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「籌碼面和技術面現在的狀態」整理出來。我們自己的回測也發現，單靠技術指標沒有穩定的預測力，所以結果是觀察清單，不是買進訊號。", "<b>五種風格</b>：起漲（剛轉強、還沒過熱、位置舒服）、穩健、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是系統內建的 45 檔大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "<b>大型股不耗你的額度</b>：系統每天凌晨（約 3 點）會先把內建大型股分析好存起來，所有會員共用。自選股和最近查過的股票如果不在這份名單內，才需要自己查詢。"],
+    calc: "綜合評分 ＝ 位置評分 × 40% ＋ 技術評分 × 40% ＋ 起漲徵兆（符合項數 ÷ 7 × 100）× 20%。位置評分和籌碼分析的綜合評語同一套（成本面 30、下方支撐 35、上方空間 35）。" },
+  techScoreT: { t: "技術評分",
+    def: "把這檔股票現在的技術面狀態，換算成 0～100 分：分數越高，代表趨勢、動能、量價整體越偏強。",
+    read: ["<b>趨勢 30 分</b>：收盤、MA20、MA60 的排列（多頭排列最高），加上 20 日線是往上還是往下。", "<b>動能 30 分</b>：MACD 柱狀（紅且擴大最高）、RSI（50～70 最高，超過 70 過熱略扣）、KD（K 在 D 之上且未過熱最高）。", "<b>量價 20 分</b>：量增價漲最高，量增價跌最低。", "<b>位置與波動 20 分</b>：布林通道的位置（中線之上、未衝出上軌最高），通道特別窄（蓄勢）加分。", "這是「描述現在的狀態」，不是預測：技術指標彼此高度相關，單靠它們沒有穩定的預測力。"],
+    calc: "趨勢 + 動能 + 量價 + 位置與波動，滿分 100。" },
+  riseSigs: { t: "起漲徵兆",
+    def: "用七項檢查，看這檔股票現在「像不像剛開始起漲」。符合越多項，越像剛轉強、還沒漲過頭的狀態。",
+    read: ["<b>站上月線</b>：收盤在 20 日線之上，而且 20 日線沒有往下。", "<b>剛轉強</b>：最近 10 天內，MA20 剛上穿 MA60（黃金交叉），或股價剛站回 20 日線。", "<b>動能轉強</b>：最近 5 天內，MACD 柱狀剛由負轉正，或 K 剛上穿 D。", "<b>量能放大</b>：最近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲。", "<b>尚未過熱</b>：RSI 低於 70，而且離 60 天低點漲幅不到 30%（沒有漲太多）。", "<b>籌碼位置舒服</b>：位置評分 60 分以上。", "<b>上方有空間</b>：最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力。", "這是把「現在的狀態」逐項列出來，不是預測，符合 7 項也不保證會漲。"] },
   orderTypes: { t: "委託方式：市價、限價、觸價單",
     def: "和真實下單一樣，你可以決定「用什麼價格、什麼條件」成交。這裡有三種方式，都可以搭配當日有效或長效單。",
     read: ["<b>市價單</b>：不指定價格，下一個交易日的開盤價成交。最簡單，但你下單時不知道會成交在哪。",
@@ -1773,7 +2065,7 @@ const GLOSS = {
       "<b>泡泡大小</b>：最近 3 日平均的成交金額占比，越大代表越多錢在這裡交易。<b>顏色</b>：紅漲綠跌。",
       "<b>聚焦</b>：用上方的「聚焦類別」選單、重點按鈕或直接點泡泡，會淡化其他類別，只留被選的，並畫出它這 10 天走過的路。再點一次就取消。",
       "<b>四個象限</b>：右上「資金湧入・上漲」是市場正在追的主流；右下「資金湧入・下跌」是錢進來但價格下跌，可能在承接也可能在出貨，要搭配個股看；左上「價漲量縮」是漲勢缺乏新資金跟進；左下「資金退潮」是被市場冷落。",
-      "<b>怎麼用</b>：資金輪動通常是「一個類股退潮、另一個類股湧入」。可以先看哪個類股在右上方，再到「分析」頁看裡面的個股。這是整理資訊的工具，不是買賣建議。"],
+      "<b>怎麼用</b>：資金輪動通常是「一個類股退潮、另一個類股湧入」。可以先看哪個類股在右上方，再到「籌碼分析」頁看裡面的個股。這是整理資訊的工具，不是買賣建議。"],
     calc: "資金占比 = 類股成交金額 ÷ 所有類股成交金額（只含上市，上層分類如「電子」不重複計算）。橫軸 =（最近 3 日平均占比 ÷ 最前面 3 日平均占比 − 1）。縱軸 = 從起點日收盤算起的累計漲跌幅（每天的指數水準由「起點指數 + 逐日漲跌點數」還原）。資料來自證交所，每個交易日只查一次並存在手機裡。" },
   verdict: { t: "綜合評語（位置評分）",
     def: "把「平均成本、下方支撐、上方壓力」放在一起，替現價所在的位置打一個 0～100 的分數，讓你查股票時先有個快速的參考。",
@@ -1844,6 +2136,46 @@ const GLOSS = {
   token: { t: "FinMind token",
     def: "FinMind 是提供台股資料的服務。註冊並驗證信箱後可取得 token，用來提高每小時能查詢的次數。",
     read: ["不填也能使用，每小時約可查 300 次；填了 token 約 600 次（實際數字以 FinMind 為準）。", "第一次查一檔股票約用 3 次查詢；同一天再查同一檔，或隔天再查，用的次數會少很多，因為資料會存在這支手機裡。", "用光額度後，FinMind 會暫停提供資料約 1 小時。網頁偵測到時會先暫停送出請求，避免一直重試延長封鎖，並顯示預計恢復的時間。", "token 只存在這支手機的瀏覽器裡，不會上傳到其他地方。"] },
+  ma: { t: "均線（MA）",
+    def: "把最近 N 天的收盤價平均起來連成線。20 日線約等於一個月的平均成本，60 日線約等於一季。",
+    read: ["股價在均線之上，代表近期買進的人平均是賺錢的；在均線之下則相反。", "20 日線在 60 日線之上、而且股價又在最上面，叫「多頭排列」；反過來叫「空頭排列」。", "均線方向往上，代表平均成本在墊高。", "均線會落後股價，盤整時常來回穿越，容易出現假訊號。"],
+    calc: "MA(N) = 最近 N 個交易日收盤價的平均。" },
+  rsi: { t: "RSI 相對強弱指標",
+    def: "衡量最近 14 天「漲的力道」和「跌的力道」誰比較大，數值在 0～100 之間。",
+    read: ["高於 50：多方略占上風；低於 50：空方略占上風。", "高於 70 常被稱為過熱，低於 30 常被稱為超賣，但強勢股可以長時間停在 70 以上，弱勢股也會一直低於 30，這不是買賣訊號。"],
+    calc: "RSI = 100 − 100 ÷ (1 + 平均漲幅 ÷ 平均跌幅)，用 Wilder 平滑法，期間 14 天。" },
+  kd: { t: "KD 隨機指標",
+    def: "看今天的收盤價，落在最近 9 天最高價與最低價之間的哪個位置，再做平滑。K 是快線，D 是慢線，台股很常用。",
+    read: ["K 在 D 之上：偏多（黃金交叉狀態）；K 在 D 之下：偏空（死亡交叉狀態）。", "K 高於 80 是高檔，低於 20 是低檔，但趨勢強的時候會鈍化，可以長時間停在高檔或低檔。"],
+    calc: "RSV = (收盤 − 9 日最低) ÷ (9 日最高 − 9 日最低) × 100；K = 前一日 K × 2/3 + RSV × 1/3；D = 前一日 D × 2/3 + K × 1/3。" },
+  macd: { t: "MACD 指數平滑異同移動平均線",
+    def: "用短期（12 日）和長期（26 日）的平均價差，看趨勢的方向和力道有沒有在增強。",
+    read: ["DIF 在 MACD（訊號線）之上、柱狀為正：偏多；反之偏空。", "柱狀變長代表動能增強，變短代表動能減弱，可以比價格更早看到力道變化。", "它也是落後指標，盤整時容易來回交叉。"],
+    calc: "DIF = 12 日 EMA − 26 日 EMA；MACD = DIF 的 9 日 EMA；柱狀 = DIF − MACD。" },
+  boll: { t: "布林通道",
+    def: "以 20 日線為中線，上下各加減 2 倍標準差，畫出一條通道。股價大部分時間會待在通道裡。",
+    read: ["股價在中線之上偏多、之下偏空。", "通道變窄代表波動收斂，之後常出現方向性行情，但不知道往哪邊。", "衝出上軌或跌破下軌代表很強或很弱，但也常是短線過熱或超跌。"],
+    calc: "上軌 = MA20 + 2 × 標準差；下軌 = MA20 − 2 × 標準差；位置 = (收盤 − 下軌) ÷ (上軌 − 下軌)。" },
+  volPrice: { t: "量價",
+    def: "看成交量和股價的搭配。這裡比較最近 5 天和最近 20 天的平均成交量。",
+    read: ["量增價漲：買盤積極，趨勢較有支持。", "量增價跌：賣壓沉重。", "量縮：市場觀望，常見於盤整。", "單看量價很難判斷方向，要和位置一起看。"],
+    calc: "量比 = 5 日平均成交量 ÷ 20 日平均成交量；量比超過 1.3 算「量增」，低於 0.7 算「量縮」。" },
+  techCombo: { t: "技術面和籌碼面怎麼搭配",
+    def: "籌碼面回答「價位在哪裡」：支撐、壓力、套牢的人多不多。技術面回答「現在的狀態」：趨勢、動能、有沒有發動。",
+    read: ["<b>同向偏多</b>：趨勢向上，位置也舒服，是比較理想的組合。", "<b>技術面偏多、籌碼偏弱</b>：趨勢雖好，但上方壓力重或下方沒支撐，追高要小心。", "<b>籌碼不差、技術面偏空</b>：位置還行但趨勢在走弱，可以等轉強再看。", "<b>同向偏弱</b>：趨勢和位置都不理想。", "這是判讀輔助。技術指標都是用同一份價量算的，彼此高度相關，偏多的項目多不代表一定會漲；我們自己的回測也發現，單靠這些指標沒有穩定的預測力。"] },
+  tcCross: { t: "均線交叉點（黃金交叉／死亡交叉）",
+    def: "MA20（最近 20 天的平均成本，短線）和 MA60（最近 60 天的平均成本，長線）兩條線互相穿過的那一天，圖上用三角形標出來。",
+    read: ["<b>黃金交叉（紅色 ▲）</b>：MA20 從下往上穿過 MA60。意思是最近買進的人，成本已經超過長期平均，願意出更高的價，<b>代表轉強</b>。", "<b>死亡交叉（綠色 ▼）</b>：MA20 從上往下穿過 MA60，<b>代表轉弱</b>。", "它只是「趨勢可能轉向」的提醒：均線比股價慢，交叉出現時股價通常已經走了一段；盤整時還會來回交叉很多次，所以不是買賣訊號。"],
+    calc: "比較每天的「MA20 − MA60」，由負變正是黃金交叉，由正變負是死亡交叉。" },
+  tcStrip: { t: "強弱色帶",
+    def: "K 線下方那條彩色帶，每一天一格，把當天四個問題的答案加起來，用顏色表示整體偏強還是偏弱。",
+    read: ["<b>四個問題</b>（偏多 +1、偏空 −1）：① 收盤 ＞ MA20 ＞ MA60 嗎？② MACD 柱狀在 0 以上嗎？③ RSI 在 50 以上嗎？④ KD 的 K 在 D 之上嗎？", "加總 −4～+4：<b>深紅（+3～+4）強多、淺紅（+1～+2）偏多、灰色（0）中性、淺綠（−1～−2）偏空、深綠（−3～−4）強空</b>。", "整條帶子紅色多，代表這段時間偏強；綠色多就偏弱；由綠轉紅的地方是轉強。手指滑過圖，上方會顯示那天四個問題各答了什麼。", "這四項都是用同一份價量算的，不是四個獨立的證據；它只是把現在的狀態用顏色整理起來，不是預測。"] },
+  techCombos: { t: "指標的搭配組合",
+    def: "把不同「類型」的技術指標放在一起看，互相確認。類型有：趨勢（均線、SuperTrend）、動能（MACD、RSI、KD）、波動（布林通道）、量價，以及籌碼。",
+    read: ["<b>順勢三步驟</b>：先用均線看方向，再用 MACD 確認力道，最後用量能確認有沒有人跟。三層同向，訊號比較一致。", "<b>多頭回檔／過熱</b>：用均線判斷多頭或空頭，再用 KD、RSI 看位置。多頭中的低檔是回檔，高檔是過熱；空頭中的低檔常只是鈍化。", "<b>波動與量能</b>：布林通道很窄又量縮，是蓄勢；放量突破上軌比較可靠，量縮的突破要小心假突破。", "<b>動能一致性</b>：MACD、RSI、KD 都是看力道，彼此很像，同向只代表「力道方向明確」，不是「三倍可靠」。", "<b>技術＋籌碼</b>：技術面看趨勢，籌碼面看價位和賣壓；兩者同向訊號比較完整。", "這些是市場上常見的判讀方式，<b>不是我們驗證過有預測力的規則</b>。我們自己的回測發現，單靠這些指標沒有穩定的預測力，所以請當成讀盤的輔助。"] },
+  tcBull: { t: "多頭、空頭、偏多、偏空",
+    def: "多頭＝整體在往上走（看多），空頭＝整體在往下走（看空）。偏多、偏空是每個指標「現在的傾向」。",
+    read: ["<b>台股的顏色習慣：紅色代表多、綠色代表空</b>，和美股相反。", "偏多＝這個指標看起來支持上漲；偏空＝支持下跌；中性＝沒有明顯傾向。", "這只是描述現在的狀態，不是預測。"] },
   shares: { t: "流通股數",
     def: "市場上實際可以買賣的股票總數，用來計算每天的換手率。",
     read: ["數字不正確會讓換手率失真。ETF 或新上市股票可能查不到，需要手動輸入。"] },
@@ -2196,7 +2528,7 @@ function refresh(R) {
   $("sup").innerHTML = zoneRows(a.sup, "S", "s", "現價下方沒有明顯的籌碼堆積。");
   renderLegend(); syncYearBtns();
   drawChart(R); updateReadout(R);
-  window.__R = R;
+  window.__R = R; renderTech(R);
   renderStar();
 }
 function buildSearch() {
@@ -2239,6 +2571,38 @@ function buildSearch() {
   });
   fmUsageRender();
 }
+function techSearchInit() {                                              // 技術分析頁自己的搜尋框：換股票之後留在這一頁
+  const q = $("techQ"), sugg = $("techSugg");
+  let shown = [];
+  const hide = () => { sugg.hidden = true; };
+  const pick = (code, name) => { hide(); q.value = ""; q.blur(); selectStock(code, name); };
+  const show = () => {
+    shown = searchStocks(q.value);
+    sugg.hidden = !shown.length;
+    sugg.innerHTML = shown.map(s => `<li><button type="button" data-code="${s[0]}" data-name="${s[1]}"><span class="c">${s[0]}</span><span>${s[1]}</span></button></li>`).join("");
+  };
+  q.addEventListener("input", show);
+  q.addEventListener("focus", show);
+  document.addEventListener("click", e => { if (!$("techSearchBox").contains(e.target)) hide(); });
+  sugg.addEventListener("click", e => { const b = e.target.closest("button"); if (b) pick(b.dataset.code, b.dataset.name); });
+  $("techForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = q.value.trim();
+    if (!v) return;
+    shown = searchStocks(v);
+    const exact = info.find(s => s[0].toLowerCase() === v.toLowerCase());
+    if (exact) pick(exact[0], exact[1]);
+    else if (shown.length) pick(shown[0][0], shown[0][1]);
+    else if (/^\d{4,6}[A-Za-z]?$/.test(v)) pick(v, "");
+    else setStatus(`找不到「${v}」，請輸入股票代碼或完整名稱。`, true);
+  });
+  $("techStocks").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.rm) removeRecent(b.dataset.rm);
+    else if (b.dataset.clear) clearRecent();
+    else if (b.dataset.code) selectStock(b.dataset.code, "");
+  });
+}
 function buildControls() {
   if (LIVE) {
     $("tabs").hidden = false;
@@ -2258,7 +2622,7 @@ function buildControls() {
     $("searchBox").hidden = false;
     $("snapNote").hidden = true;
     renderRecent();
-    buildSearch();
+    buildSearch(); techSearchInit();
   } else {
     $("asof").textContent = DATA.asof;
     $("stocks").innerHTML = DATA.stocks.map((s, i) =>
@@ -2421,7 +2785,7 @@ function renderWatch() {
     return;
   }
   if (watchErr) { el.innerHTML = `<div class="status err">${esc(watchErr)}</div>`; return; }
-  if (!watch.size) { el.innerHTML = `<div class="empty">還沒有自選股。到「分析」頁查詢股票，按股價旁邊的星號就會加進來。</div>`; return; }
+  if (!watch.size) { el.innerHTML = `<div class="empty">還沒有自選股。到「籌碼分析」頁查詢股票，按股價旁邊的星號就會加進來。</div>`; return; }
   const list = watchList();                               // 畫面上由上到下的順序（已依 addedAt 由大到小；調整中則是最新的本機順序）
   const editing = watchEdit && list.length > 1;
   const rows = list.map((w, i) => {
@@ -2643,7 +3007,7 @@ async function fetchQuotes() {
 /* ---------- 流量記錄器：只記次數，不記任何人的身分或內容 ----------
    每天一筆 stats/<日期>，用遞增計數累加。事件先放在記憶體，隔一小段時間合併成一次寫入，
    以節省 Firestore 的寫入額度。管理員（admins/<uid> 存在）自己的使用不計入。 */
-const TRAFFIC_KEYS = ["sessions", "uniques", "tab_guide", "tab_analyze", "tab_market", "tab_screen", "tab_watch", "tab_backtest", "tab_sim",
+const TRAFFIC_KEYS = ["sessions", "uniques", "tab_guide", "tab_analyze", "tab_market", "tab_screen", "tab_watch", "tab_backtest", "tab_sim", "tab_tech",
   "act_search", "act_screen", "act_backtest", "act_order", "act_signin"];
 const traffic = { q: {}, timer: 0, skip: false, off: false };
 const admin = { on: false };
@@ -2661,7 +3025,7 @@ async function trafficFlush() {
   try { await fdb.collection("stats").doc(day).set(payload, { merge: true }); }
   catch (e) { if (e.code === "permission-denied") traffic.off = true; }   // 規則還沒發佈就先停止，免得一直失敗
 }
-const PAGE_OF = { guide: "pgGuide", analyze: "pgAnalyze", market: "pgMarket", screen: "pgScreen", watch: "pgWatch", backtest: "pgBt", sim: "pgSim" };
+const PAGE_OF = { guide: "pgGuide", analyze: "pgAnalyze", tech: "pgTech", market: "pgMarket", screen: "pgScreen", watch: "pgWatch", backtest: "pgBt", sim: "pgSim" };
 function trafficStart() {
   const day = todayTW();
   let seen = null; try { seen = localStorage.getItem("chipSeenDay"); } catch (e) {}
@@ -2695,7 +3059,7 @@ function adminStatusHtml() {
 /* ---------- 管理後台（只有管理員看得到）----------
    資料來源：stats/<日期>（每日流量計數）、所有人的模擬交易帳戶（collectionGroup "sim"）、本季與上一季排行榜。
    分成五個分頁：總覽（重點數字與自動提醒）、流量、會員、交易、檢查。載入一次後在瀏覽器裡計算，切換分頁不會重新讀取資料。 */
-const ADM_LABEL = { tab_guide: "新手專區", tab_market: "大盤指數", tab_analyze: "分析", tab_watch: "自選股", tab_screen: "篩選器", tab_backtest: "回測", tab_sim: "模擬交易",
+const ADM_LABEL = { tab_guide: "新手專區", tab_market: "大盤指數", tab_analyze: "籌碼分析", tab_tech: "技術分析", tab_watch: "自選股", tab_screen: "篩選器", tab_backtest: "回測", tab_sim: "模擬交易",
   act_search: "查詢股票", act_screen: "執行篩選", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
 const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["ck", "檢查"], ["an", "公告"], ["rp", "報表"]];
 const adm = { data: null, loading: false, err: "", tab: "ov", range: 30, sort: "last", q: "", filt: "all", open: "", watch: null, watchBusy: false };
@@ -3711,12 +4075,14 @@ function showTab(t) {
   $("pgGuide").hidden = t !== "guide";
   if (t !== "guide") { try { localStorage.setItem("chipGuideSeen", "1"); } catch (e) {} }
   $("pgAnalyze").hidden = t !== "analyze";
+  $("pgTech").hidden = t !== "tech";
   $("pgWatch").hidden = t !== "watch";
   $("pgBt").hidden = t !== "backtest";
   $("pgSim").hidden = t !== "sim";
   $("pgScreen").hidden = t !== "screen";
   $("pgMarket").hidden = t !== "market";
   if (t === "market") mktLoad();
+  if (t === "tech") renderTech(window.__R);
   [...$("tabs").children].forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
   try { if (t !== "admin") localStorage.setItem("chipTab", t); } catch (e) {}
   const on = document.querySelector('#tabs [aria-selected="true"]'), tb = $("tabs");           // 目前的分頁如果被擠到螢幕外，把它捲到中間
@@ -4041,7 +4407,7 @@ async function btRunClick() {
   if (bt.running) return;
   if (!bt.st || bt.st.code !== bt.code) { if (!(await btLoad())) return; }
   const st = bt.st;
-  if (!st.shares) { setBtHint("查不到這檔的流通股數。請先到「分析」頁查詢這檔股票並輸入股數，再回來回測。", true); return; }
+  if (!st.shares) { setBtHint("查不到這檔的流通股數。請先到「籌碼分析」頁查詢這檔股票並輸入股數，再回來回測。", true); return; }
   const num = (id, d) => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : d; };
   const o = { start: $("btStart").value, end: $("btEnd").value, near: num("btNear", 3), stopBuf: num("btStop", 1), maxHold: Math.max(1, Math.round(num("btHold", 60))), tp: num("btTp", 10), cost: num("btCost", 0.585), decay: state.decay, gap: state.gap };
   if (!o.start || !o.end || o.start >= o.end) { setBtHint("請選擇正確的起始日與結束日（起始日要早於結束日）。", true); return; }
@@ -4103,6 +4469,16 @@ const GUIDE_TERMS = [
   ] },
   { g: "另一個角度", items: [
     ["supertrend", "SuperTrend", "判斷目前偏多還是偏空的趨勢線。", "它不參與支撐壓力的計算。常見的看法是：多頭時，下方支撐的參考性較高；空頭時，上方壓力比較值得留意。<b>這是輔助，不是定論</b>。"],
+  ] },
+  { g: "技術分析（「技術分析」頁籤）", items: [
+    ["ma", "均線", "最近 N 天收盤價的平均連成的線。", "股價在均線之上、20 日線在 60 日線之上，叫多頭排列。均線會落後股價，<b>盤整時容易出現假訊號</b>。"],
+    ["rsi", "RSI", "最近 14 天漲的力道和跌的力道誰大。", "50 以上偏多、50 以下偏空；70 以上叫過熱、30 以下叫超賣，但<b>強勢股可以一直過熱</b>，不是買賣訊號。"],
+    ["kd", "KD", "今天收盤落在最近 9 天高低區間的哪個位置。", "K 在 D 之上偏多、之下偏空；80 以上高檔、20 以下低檔，趨勢強的時候會鈍化。"],
+    ["macd", "MACD", "短期和長期平均價差的變化，看力道有沒有增強。", "柱狀變長是動能增強、變短是減弱，<b>可以比價格早一點看到力道變化</b>，但也是落後指標。"],
+    ["boll", "布林通道", "20 日線上下各 2 倍標準差畫出的通道。", "通道變窄是波動收斂，之後常出現方向性行情，但<b>不知道往哪邊</b>。"],
+    ["volPrice", "量價", "最近 5 天和 20 天平均成交量的比較，搭配股價漲跌。", "量增價漲買盤積極、量增價跌賣壓重、量縮是觀望。"],
+    ["techCombo", "技術面和籌碼面搭配", "技術面看趨勢和動能，籌碼面看價位和賣壓。", "兩者同向偏多比較理想；技術面偏多但籌碼壓力重，<b>追高要小心</b>。這是輔助判讀，不是預測。"],
+    ["techCombos", "指標的搭配組合", "把不同類型的指標放在一起互相確認：趨勢、動能、波動、量價、籌碼。", "<b>同類型的指標疊在一起沒有新資訊</b>（RSI 和 KD 都是看力道）；趨勢 ＋ 動能 ＋ 量能 ＋ 籌碼，才是不同角度的搭配。"],
   ] },
 ];
 // 新手專區的第一張示意圖：K 線在壓力區受阻、在支撐區反彈，右側是各價位的成本分布（和分析頁的圖是同一種畫法）
@@ -4217,7 +4593,7 @@ function hScroller(el, left, right) {
 }
 // 新手專區很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
 function guideToc() {
-  const labels = [["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["三步驟", "三步驟開始用"], ["先看大環境", "大盤指數"], ["不知道看哪一檔", "篩選器"], ["想實際練習", "模擬交易"]];
+  const labels = [["這套系統在做什麼", "系統在做什麼"], ["整套系統怎麼用", "系統地圖"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["想實際練習", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
   const secs = [...document.querySelectorAll("#pgGuide .gSec")].filter(s => s.querySelector("h3")).map((s, i) => { s.id = s.id || `gs${i}`; const h = s.querySelector("h3").textContent; const m = labels.find(l => h.includes(l[0])); return m ? { s, label: m[1] } : null; }).filter(Boolean);
   const host = $("guideToc");
   host.innerHTML = secs.map((x, i) => `<button type="button" data-i="${i}">${x.label}</button>`).join("");
@@ -5009,24 +5385,73 @@ function simInit() {
 // 內建的大型股候選名單（代碼）。名稱由 FinMind 股票清單帶入；查不到資料的會自動略過
 const BIG_POOL = ["2330", "2317", "2454", "2308", "2881", "2882", "2891", "2412", "2303", "2886", "1301", "1303", "2002", "2884", "2892", "3711", "2382", "3034", "2357", "2603", "2609", "5871", "2885", "2880", "2883", "2890", "5880", "1216", "2207", "1101", "2327", "3008", "2379", "3037", "2345", "6505", "4938", "2301", "2395", "1326", "2912", "3045", "4904", "2801", "2887"];
 const scr = { pool: "big", running: false, stop: false, metrics: new Map(), failed: 0, limited: false };
-// 四種風格：點一下就把底下的條件一次設好（score = 位置評分門檻）
+// 五種風格：點一下就把底下的條件一次設好（score = 位置評分門檻，tech = 技術評分門檻，sig = 起漲徵兆至少幾項）
 const SCR_PRESETS = {
-  steady: { score: 60, near: 5, str: 5, rr: 1.5, cov: 60, bull: true },
-  dip: { score: 55, near: 3, str: 8, rr: 2, cov: 60, bull: false },
-  trend: { score: 65, near: 15, str: 3, rr: 1, cov: 60, bull: true },
-  loose: { score: 0, near: 30, str: 0, rr: 0.5, cov: 40, bull: false }
+  rise: { score: 50, tech: 55, sig: 4, near: 30, str: 0, rr: 0.5, cov: 60, bull: false },
+  steady: { score: 60, tech: 0, sig: 0, near: 5, str: 5, rr: 1.5, cov: 60, bull: true },
+  dip: { score: 55, tech: 0, sig: 0, near: 3, str: 8, rr: 2, cov: 60, bull: false },
+  trend: { score: 65, tech: 60, sig: 3, near: 15, str: 3, rr: 1, cov: 60, bull: true },
+  loose: { score: 0, tech: 0, sig: 0, near: 30, str: 0, rr: 0.5, cov: 40, bull: false }
 };
 function scrApplyPreset(k) {
   const P = SCR_PRESETS[k]; if (!P) return;
-  $("scrScore").value = P.score; $("scrNear").value = P.near; $("scrStr").value = P.str; $("scrRR").value = P.rr; $("scrCov").value = P.cov; $("scrBull").checked = P.bull;
+  $("scrScore").value = P.score; $("scrTech").value = P.tech; $("scrSig").value = P.sig; $("scrNear").value = P.near; $("scrStr").value = P.str; $("scrRR").value = P.rr; $("scrCov").value = P.cov; $("scrBull").checked = P.bull;
   scrMarkPreset(k);
 }
 function scrMarkPreset(k) { [...$("scrPreset").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.k === k)); }
 function scrSummary(c) {
-  const t = [c.score > 0 ? `位置評分 ${c.score} 分以上` : "不限位置評分", `離最近的支撐不超過 ${c.near}%`, `支撐至少有 ${Math.round(c.str * 100)}% 的籌碼`];
+  const t = [c.score > 0 ? `位置評分 ${c.score} 分以上` : "不限位置評分", c.tech > 0 ? `技術評分 ${c.tech} 分以上` : "不限技術評分", c.sig > 0 ? `起漲徵兆至少 ${c.sig} 項（共 7 項）` : "不限起漲徵兆", `離最近的支撐不超過 ${c.near}%`, `支撐至少有 ${Math.round(c.str * 100)}% 的籌碼`];
   if (c.bull) t.push("趨勢偏多");
   t.push(`往上空間至少是跌破風險的 ${c.rr} 倍`, `資料涵蓋率 ${Math.round(c.cov * 100)}% 以上`);
   return "目前的條件：" + t.join("；") + "。";
+}
+/* 技術面快照：只看「最後一天」的技術狀態（均線、RSI、KD、MACD、布林、量價，以及最近幾天有沒有剛轉強的事件）。
+   夜間排程也會用同一個函式替大型股算好，所以這裡只能用純函式。評分和起漲徵兆都是由這份快照在網頁上算，之後調整評分方式不用重跑排程。 */
+function techSnap(st) {
+  const n = st.c.length, e = n - 1;
+  if (n < 140) return null;
+  const T = techCalc(st, e), f = T.f;
+  if (!f.ok) return null;
+  const ev = (g, from, to) => { for (let i = from; i <= to; i++) if (g(i)) return true; return false; };
+  const gc10 = ev(i => T.m20[i - 1] - T.m60[i - 1] <= 0 && T.m20[i] - T.m60[i] > 0, e - 9, e);
+  const reclaim = f.P > f.ma20 && ev(i => T.c[i] < T.m20[i], e - 10, e - 1);
+  const macdTurn = f.osc > 0 && ev(i => T.mc.osc[i] <= 0, e - 5, e - 1);
+  const kdCross = f.K > f.D && ev(i => T.kd.K[i] <= T.kd.D[i], e - 5, e - 1);
+  let hh = -Infinity, ll = Infinity;
+  for (let i = e - 59; i <= e; i++) { if (T.h[i] > hh) hh = T.h[i]; if (T.l[i] < ll) ll = T.l[i]; }
+  const q = x => Math.round(x * 1e4) / 1e4;
+  return { P: q(f.P), ma20: q(f.ma20), ma60: q(f.ma60), slope: q(f.slope), rsi: q(f.rsi), K: q(f.K), D: q(f.D), osc: q(f.osc), oscPrev: q(f.oscPrev), pb: q(f.pb), bw: q(f.bw), vr: q(f.vr), chg5: q(f.chg5),
+    squeeze: !!f.squeeze, gc10, reclaim, macdTurn, kdCross, fromLow: q(f.P / ll - 1), nearHigh: q(f.P / hh - 1) };
+}
+// 技術評分（0～100）：趨勢 30、動能 30、量價 20、位置與波動 20
+function techScoreOf(s) {
+  if (!s) return null;
+  const up = s.P > s.ma20 && s.ma20 > s.ma60, dn = s.P < s.ma20 && s.ma20 < s.ma60;
+  const tr = (up ? 24 : dn ? 0 : 12) + (s.slope > 0.005 ? 6 : s.slope < -0.005 ? 0 : 3);
+  const macd = s.osc > 0 ? (s.osc >= s.oscPrev ? 10 : 6) : (s.osc > s.oscPrev ? 4 : 0), rsi = s.rsi > 70 ? 6 : s.rsi >= 50 ? 10 : s.rsi >= 40 ? 5 : s.rsi >= 30 ? 3 : 4, kd = s.K > s.D ? (s.K >= 80 ? 6 : 10) : (s.K < 20 ? 4 : 0);
+  const vol = s.vr > 1.3 ? (s.chg5 > 0 ? 20 : 2) : s.vr >= 1 ? (s.chg5 > 0 ? 14 : 8) : s.vr >= 0.7 ? 10 : 8;
+  const bb = Math.min(20, (s.pb > 1 ? 10 : s.pb >= 0.5 ? 14 : s.pb >= 0 ? 8 : 4) + (s.squeeze ? 6 : 0));
+  const parts = [{ k: "趨勢", pts: tr, max: 30 }, { k: "動能", pts: macd + rsi + kd, max: 30 }, { k: "量價", pts: vol, max: 20 }, { k: "位置與波動", pts: bb, max: 20 }];
+  const score = Math.round(parts.reduce((a, x) => a + x.pts, 0));
+  return { score, parts, tone: score >= 65 ? "good" : score < 40 ? "bad" : "", label: score >= 75 ? "技術面偏強" : score >= 60 ? "技術面中偏強" : score >= 45 ? "技術面中性" : score >= 30 ? "技術面中偏弱" : "技術面偏弱" };
+}
+// 起漲徵兆：七項，剛起漲的股票通常「剛轉強、還沒過熱、位置舒服、上方有空間」。不是預測，是把「現在像不像剛起漲」逐項列出來
+function riseSigs(s, m) {
+  const na = !s, R1 = m.r1, room = !R1 || (R1.peak / m.price - 1) >= 0.05;
+  return [
+    { k: "站上月線", ok: !na && s.P > s.ma20 && s.slope > -0.005, na },
+    { k: "剛轉強", ok: !na && (s.gc10 || s.reclaim), na },
+    { k: "動能轉強", ok: !na && (s.macdTurn || s.kdCross), na },
+    { k: "量能放大", ok: !na && s.vr >= 1.3 && s.chg5 > 0, na },
+    { k: "尚未過熱", ok: !na && s.rsi < 70 && s.fromLow < 0.3, na },
+    { k: "籌碼位置舒服", ok: m.v.score >= 60 },
+    { k: "上方有空間", ok: room }
+  ];
+}
+const SCR_W = { chip: 0.4, tech: 0.4, sig: 0.2 };                                  // 綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%
+function scrComb(m) {
+  const ts = techScoreOf(m.tech), sg = riseSigs(m.tech, m), n = sg.filter(x => x.ok).length;
+  return { ts, sg, n, noTech: !ts, comb: ts ? Math.round(SCR_W.chip * m.v.score + SCR_W.tech * ts.score + SCR_W.sig * n / 7 * 100) : m.v.score };
 }
 
 /* 離峰預先篩選：系統每天凌晨（GitHub Actions）替「內建大型股」算好支撐、壓力、位置評分，存成 screener.json 給所有會員共用。
@@ -5049,7 +5474,7 @@ function scrSharedNote() {
   const t = new Date(j.updated), hhmm2 = `${t.toLocaleDateString("zh-TW", { timeZone: "Asia/Taipei", month: "numeric", day: "numeric" })} ${t.toLocaleTimeString("zh-TW", { timeZone: "Asia/Taipei", hour: "2-digit", minute: "2-digit", hour12: false })}`;
   const old = Date.now() - t.getTime() > 3 * 864e5, n = scrCodes().filter(k => scr.metrics.get(k) && scr.metrics.get(k).shared).length;
   el.hidden = false;
-  el.innerHTML = `<b>✓ 已有系統預先算好的資料</b>（${hhmm2} 更新，資料到 ${j.asOf.slice(5).replace("-", "/")}）。${n ? `目前這個範圍有 ${n} 檔直接用這份資料，<b>不耗你的查詢額度</b>，結果立刻出來。` : "不過目前這個範圍的股票不在預先算好的名單內（名單是內建大型股），需要自己查詢。"}${old ? "<br><b>資料已經超過 3 天沒更新，之後會自動補上。</b>" : ""}`;
+  el.innerHTML = `<b>✓ 已有系統預先算好的資料</b>（${hhmm2} 更新，資料到 ${j.asOf.slice(5).replace("-", "/")}）。${n ? `目前這個範圍有 ${n} 檔直接用這份資料，<b>不耗你的查詢額度</b>，結果立刻出來。` : "不過目前這個範圍的股票不在預先算好的名單內（名單是內建大型股），需要自己查詢。"}${old ? "<br><b>資料已經超過 3 天沒更新，之後會自動補上。</b>" : ""}${n && scrCodes().some(k => scr.metrics.get(k) && scr.metrics.get(k).shared && !scr.metrics.get(k).tech) ? "<br>預先算好的資料還沒有技術面，要等下次夜間更新（約凌晨 3～4 點）；在那之前，這些股票只用籌碼評分排名。" : ""}`;
 }
 function scrCodes() {
   if (scr.pool === "watch") return [...watch.keys()];
@@ -5058,7 +5483,7 @@ function scrCodes() {
 }
 function scrCond() {
   const n = (id, d) => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : d; };
-  return { score: n("scrScore", 0), sort: $("scrSort").value, near: n("scrNear", 5), str: n("scrStr", 5) / 100, rr: n("scrRR", 1.5), cov: n("scrCov", 60) / 100, bull: $("scrBull").checked, stopBuf: 1, tp: 10 };   // 停損緩衝與無壓力停利和回測預設相同
+  return { score: n("scrScore", 0), tech: n("scrTech", 0), sig: n("scrSig", 0), sort: $("scrSort").value, near: n("scrNear", 5), str: n("scrStr", 5) / 100, rr: n("scrRR", 1.5), cov: n("scrCov", 60) / 100, bull: $("scrBull").checked, stopBuf: 1, tp: 10 };   // 停損緩衝與無壓力停利和回測預設相同
 }
 // 每檔股票只需要算一次（用載入的全部歷史資料），之後調整條件不用再連網
 async function scrMetrics(code) {
@@ -5072,11 +5497,13 @@ async function scrMetrics(code) {
   const a = analyze(centers, m.p, price, state.gap, m.vol);
   const sf = superTrend(rows, state.stN, state.stM), S = stSummary(rows, sf, price);
   return { code, name: st.name || (info.find(s => s[0] === code) || [])[1] || "", price, date: st.d[st.d.length - 1], cov: m.coverage,
-    s1: a.sup[0] || null, r1: a.res[0] || null, bull: !!S && S.dir > 0, stDays: S ? S.days : 0, v: verdictOf({ a, price, m }) };
+    s1: a.sup[0] || null, r1: a.res[0] || null, bull: !!S && S.dir > 0, stDays: S ? S.days : 0, v: verdictOf({ a, price, m }), tech: techSnap(st) };
 }
 function scrEval(m, c) {
-  const s1 = m.s1, checks = [];
+  const s1 = m.s1, checks = [], X = scrComb(m);
   if (c.score > 0) checks.push({ key: "score", ok: m.v.score >= c.score, text: `位置評分 ${m.v.score} 分，${m.v.label}（至少 ${c.score} 分）` });
+  if (c.tech > 0) checks.push({ key: "tech", ok: !!X.ts && X.ts.score >= c.tech, text: X.ts ? `技術評分 ${X.ts.score} 分，${X.ts.label}（至少 ${c.tech} 分）` : "技術面資料還沒更新（要等下次夜間更新），這項先不通過" });
+  if (c.sig > 0) checks.push({ key: "sig", ok: X.n >= c.sig, text: `起漲徵兆 ${X.n}／7 項（至少 ${c.sig} 項）${X.noTech ? "，技術面資料還沒更新" : ""}` });
   const near = !!s1 && m.price >= s1.low && (m.price / s1.peak - 1) <= c.near / 100;
   checks.push({ key: "near", ok: near, text: s1 ? `離最近的支撐 ${fmt(s1.peak)} 有 ${spct(m.price / s1.peak - 1)}（上限 ${c.near}%）` : "下方沒有明顯的支撐" });
   checks.push({ key: "str", ok: !!s1 && s1.strength >= c.str, text: s1 ? `這個支撐的籌碼占比 ${pct(s1.strength)}（至少 ${Math.round(c.str * 100)}%）` : "沒有支撐可以評估強度" });
@@ -5090,7 +5517,7 @@ function scrEval(m, c) {
     rr = risk > 0 ? reward / risk : null;
     checks.push({ key: "rr", ok: rr != null && rr >= c.rr, text: `往上空間 ${spct(reward)}，停損風險 −${(risk * 100).toFixed(1)}%，風險報酬比 ${rr == null ? "—" : rr.toFixed(2)}（至少 ${c.rr}）` });
   } else checks.push({ key: "rr", ok: false, text: "沒有支撐，無法計算風險報酬比" });
-  return { checks, pass: checks.every(x => x.ok), fails: checks.filter(x => !x.ok).length, score: m.v.score, rr, reward, risk, target, stop };
+  return { checks, pass: checks.every(x => x.ok), fails: checks.filter(x => !x.ok).length, score: m.v.score, tscore: X.ts ? X.ts.score : null, comb: X.comb, X, rr, reward, risk, target, stop };
 }
 // 還沒分析的股票，依「現在有多少額度」切成這次能做的和要等的
 async function scrPlan() {
@@ -5121,35 +5548,41 @@ async function scrPoolInfo() {
 }
 function renderScreen() {
   const el = $("scrOut"), c = scrCond(), codes = scrCodes();
-  $("scrScoreV").textContent = c.score; $("scrSum").textContent = scrSummary(c);
+  $("scrScoreV").textContent = c.score; $("scrTechV").textContent = c.tech; $("scrSigV").textContent = c.sig; $("scrSum").textContent = scrSummary(c);
   const all = codes.map(k => scr.metrics.get(k)).filter(Boolean).map(m => ({ m, ev: scrEval(m, c) }));
-  if (!all.length) { el.innerHTML = `<div class="empty">${scr.running ? "分析中…" : "按「開始篩選」，系統會逐檔載入資料並計算支撐與壓力。"}</div>`; return; }
-  const byScore = (x, y) => y.ev.score - x.ev.score || (y.ev.rr || 0) - (x.ev.rr || 0), byRR = (x, y) => (y.ev.rr || 0) - (x.ev.rr || 0) || y.ev.score - x.ev.score;
-  const pass = all.filter(x => x.ev.pass).sort(c.sort === "rr" ? byRR : byScore), rankBy = c.sort === "rr" ? "風險報酬比" : "位置評分";
-  const left = codes.length - all.length - scr.failed;
-  let h = `<div class="status">已分析 ${all.length} / ${codes.length} 檔${scr.failed ? `，${scr.failed} 檔略過（查不到資料或股數）` : ""}。${scr.limited ? "查詢次數已用完，先顯示已分析的部分。" : ""}${left > 0 && !scr.running ? `還有 ${left} 檔還沒分析：${scr.limitMsg || "等額度恢復，或在「進階參數」填入 FinMind token，再按一次「開始篩選」就會接著做（已分析的不會重複查詢）。"}` : ""}</div>`;
+  if (!all.length) { el.innerHTML = `<div class="empty">${scr.running ? "分析中…" : "按「開始篩選」，系統會逐檔載入資料並計算支撐、壓力和技術面。"}</div>`; return; }
+  const rr0 = x => x.ev.rr || 0, sorters = {
+    comb: (x, y) => y.ev.comb - x.ev.comb || y.ev.score - x.ev.score,
+    score: (x, y) => y.ev.score - x.ev.score || y.ev.comb - x.ev.comb,
+    tech: (x, y) => (y.ev.tscore || 0) - (x.ev.tscore || 0) || y.ev.comb - x.ev.comb,
+    rr: (x, y) => rr0(y) - rr0(x) || y.ev.comb - x.ev.comb };
+  const pass = all.filter(x => x.ev.pass).sort(sorters[c.sort] || sorters.comb), rankBy = { comb: "綜合評分", score: "位置評分", tech: "技術評分", rr: "風險報酬比" }[c.sort] || "綜合評分";
+  const left = codes.length - all.length - scr.failed, noTech = all.filter(x => x.ev.X.noTech).length;
+  let h = `<div class="status">已分析 ${all.length} / ${codes.length} 檔${scr.failed ? `，${scr.failed} 檔略過（查不到資料或股數）` : ""}。${scr.limited ? "查詢次數已用完，先顯示已分析的部分。" : ""}${left > 0 && !scr.running ? `還有 ${left} 檔還沒分析：${scr.limitMsg || "等額度恢復，或在「進階參數」填入 FinMind token，再按一次「開始篩選」就會接著做（已分析的不會重複查詢）。"}` : ""}${noTech ? `<br><b>有 ${noTech} 檔的技術面資料還沒更新</b>（預先算好的資料要等下次夜間更新才有技術面），這些股票先只用籌碼評分排名，技術條件先不通過。` : ""}</div>`;
   if (!pass.length) {
     const cnt = {}; all.forEach(x => x.ev.checks.forEach(k => { if (!k.ok) cnt[k.key] = (cnt[k.key] || 0) + 1; }));
-    const NAME = { score: "位置評分不夠高", near: "離支撐太遠或沒有支撐", str: "支撐太弱", bull: "趨勢不是多頭", cov: "涵蓋率不夠", rr: "風險報酬比不夠" };
-    h += `<div class="empty"><b>沒有任何一檔同時符合全部條件。</b><br>被擋下的原因（可複選）：${Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${NAME[k]} ${v} 檔`).join("、")}。<br>下面先列出「最接近的 3 檔」；也可以點上方的「先看看」，或把「位置評分至少」往左拉。</div>`;
-    const near = all.slice().sort((a, b) => a.ev.fails - b.ev.fails || b.ev.score - a.ev.score).slice(0, 3);
+    const NAME = { score: "位置評分不夠高", tech: "技術評分不夠高", sig: "起漲徵兆不夠多", near: "離支撐太遠或沒有支撐", str: "支撐太弱", bull: "趨勢不是多頭", cov: "涵蓋率不夠", rr: "風險報酬比不夠" };
+    h += `<div class="empty"><b>沒有任何一檔同時符合全部條件。</b><br>被擋下的原因（可複選）：${Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${NAME[k]} ${v} 檔`).join("、")}。<br>下面先列出「最接近的 3 檔」；也可以點上方的「先看看」，或把「起漲徵兆至少」「技術評分至少」往左拉。</div>`;
+    const near = all.slice().sort((a, b) => a.ev.fails - b.ev.fails || b.ev.comb - a.ev.comb).slice(0, 3);
     h += `<h2>最接近的 ${near.length} 檔（還沒有全部達標）</h2>` + near.map((x, i) => scrCard(x, i + 1)).join("");
   } else {
     h += `<h2>${rankBy}最高的前 ${Math.min(3, pass.length)} 檔（共 ${pass.length} 檔符合）</h2>` + pass.slice(0, 3).map((x, i) => scrCard(x, i + 1)).join("");
-    if (pass.length > 3) h += `<h2>其他符合條件的</h2>` + pass.slice(3, 10).map((x, i) => `<div class="orow" style="grid-template-columns:2em minmax(0,1fr) auto"><span class="rkS">${i + 4}</span><div><div class="t">${esc(x.m.code)} ${esc(x.m.name)}　<span class="vdTag ${x.m.v.tone}" style="font-size:.66rem;padding:0 7px">${x.ev.score} 分</span></div><div class="s">${fmt(x.m.price)}　距支撐 ${x.m.s1 ? spct(x.m.price / x.m.s1.peak - 1) : "—"}　風險報酬比 ${x.ev.rr == null ? "—" : x.ev.rr.toFixed(2)}</div></div><button type="button" class="x" data-act="scr-analyze" data-code="${esc(x.m.code)}" data-name="${esc(x.m.name)}">看分析</button></div>`).join("");
+    if (pass.length > 3) h += `<h2>其他符合條件的</h2>` + pass.slice(3, 10).map((x, i) => `<div class="orow" style="grid-template-columns:2em minmax(0,1fr) auto"><span class="rkS">${i + 4}</span><div><div class="t">${esc(x.m.code)} ${esc(x.m.name)}　<span class="vdTag ${x.m.v.tone}" style="font-size:.66rem;padding:0 7px">綜合 ${x.ev.comb}</span></div><div class="s">${fmt(x.m.price)}　位置 ${x.ev.score}・技術 ${x.ev.tscore == null ? "—" : x.ev.tscore}・起漲徵兆 ${x.ev.X.n}/7</div></div><button type="button" class="x" data-act="scr-analyze" data-code="${esc(x.m.code)}" data-name="${esc(x.m.name)}">看分析</button></div>`).join("");
   }
-  h += `<p class="advnote" style="padding-top:8px">位置評分 = 成本面 30 + 下方支撐 35 + 上方空間 35（和分析頁的綜合評語相同）。風險報酬比 = 往上到壓力的空間 ÷ 跌破支撐的停損風險。這只是依條件排序，不代表會漲；過去的結果不代表未來，也不是買賣建議。</p>`;
+  h += `<p class="advnote" style="padding-top:8px">綜合評分 ＝ 位置評分（籌碼）40% ＋ 技術評分 40% ＋ 起漲徵兆 20%。起漲徵兆是「現在像不像剛起漲」的七項檢查。這些都是描述<b>現在的狀態</b>，不是預測：我們自己的回測發現，單靠技術指標沒有穩定的預測力，所以請把結果當成「整理過的觀察清單」，入選後再看「籌碼分析」「技術分析」和「回測」確認。不是買賣建議。</p>`;
   el.innerHTML = h;
 }
 function scrCard(x, rank) {
-  const m = x.m, ev = x.ev, v = m.v;
+  const m = x.m, ev = x.ev, v = m.v, X = ev.X, ts = X.ts, mini = (k, val, max) => `<span><i style="width:${Math.round(val / max * 100)}%"></i><b>${k}</b> ${val}${max === 100 ? "" : "/" + max}</span>`;
   return `<div class="pick"><div class="pkHead"><span class="rk">${rank}</span>
     <div class="pkName"><div class="c">${esc(m.code)}　${esc(m.name)}</div><div class="p">${fmt(m.price)}　（資料到 ${m.date}）</div></div>
-    <div class="pkRR"><b>${v.score}</b><small>位置評分</small></div></div>
-    <div class="pkTag"><span class="vdTag ${v.tone}">${v.label}</span>${ev.pass ? "" : `<span class="pkMiss">${ev.fails} 項沒達標</span>`}<span class="pkSum">${esc(v.sum)}</span></div>
+    <div class="pkRR"><b>${ev.comb}</b><small>綜合評分</small></div></div>
+    <div class="pkTag"><span class="vdTag ${v.tone}">${v.label}</span>${ts ? `<span class="vdTag ${ts.tone}">${ts.label}</span>` : `<span class="pkMiss">技術面未更新</span>`}${ev.pass ? "" : `<span class="pkMiss">${ev.fails} 項沒達標</span>`}</div>
+    <div class="vdMini">${mini("位置評分", v.score, 100)}${ts ? mini("技術評分", ts.score, 100) : ""}${mini("起漲徵兆", X.n, 7)}</div>
+    <div class="scSig">${X.sg.map(s => `<span class="${s.na ? "na" : s.ok ? "ok" : "no"}">${s.na ? "—" : s.ok ? "✓" : "✕"} ${s.k}</span>`).join("")}</div>
     <ul class="why">${ev.checks.map(k => `<li class="${k.ok ? "ok" : "no"}">${esc(k.text)}</li>`).join("")}</ul>
     ${ev.target != null ? `<div class="s" style="font:400 .74rem var(--font-num);color:var(--muted);padding:2px 2px 8px">風險報酬比 ${ev.rr == null ? "—" : ev.rr.toFixed(2)}　停利目標 ${fmt(ev.target)}　停損價 ${fmt(ev.stop)}（算法和回測相同）</div>` : ""}
-    <div class="pkAct"><button type="button" class="btn ghost" data-act="scr-analyze" data-code="${esc(m.code)}" data-name="${esc(m.name)}">看分析</button>
+    <div class="pkAct"><button type="button" class="btn ghost" data-act="scr-analyze" data-code="${esc(m.code)}" data-name="${esc(m.name)}">看籌碼分析</button>
     <button type="button" class="btn ghost" data-act="scr-bt" data-code="${esc(m.code)}" data-name="${esc(m.name)}">回測這檔</button></div></div>`;
 }
 async function scrRun() {
@@ -5191,7 +5624,7 @@ function scrOpen() {
 }
 function scrInit() {
   $("scrPool").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { scr.pool = b.dataset.p; scrPoolInfo(); renderScreen(); } });
-  ["scrScore", "scrNear", "scrStr", "scrRR", "scrCov", "scrBull", "scrSort"].forEach(id => $(id).addEventListener("input", () => { if (id !== "scrSort") scrMarkPreset(""); renderScreen(); }));
+  ["scrScore", "scrTech", "scrSig", "scrNear", "scrStr", "scrRR", "scrCov", "scrBull", "scrSort"].forEach(id => $(id).addEventListener("input", () => { if (id !== "scrSort") scrMarkPreset(""); renderScreen(); }));
   $("scrPreset").addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if (b) { scrApplyPreset(b.dataset.k); renderScreen(); } });
   $("scrRun").addEventListener("click", scrRun);
   $("scrStop").addEventListener("click", () => { scr.stop = true; });
@@ -5203,6 +5636,491 @@ function scrInit() {
   scrPoolInfo();
   scrLoadShared();
 }
+
+/* ---------- 技術分析（獨立頁籤）----------
+   把常見的技術指標（均線、RSI、KD、MACD、布林通道、量價、SuperTrend）算出來，疊上籌碼的支撐壓力，
+   時間軸可以自己拉（和籌碼分析同一套滑桿），所有數字都以「區間終點」那一天為準。
+   指標分成四類（趨勢、動能、波動、量價），先給一眼看懂的儀表板，再給「搭配組合」的看法，最後才是每個指標的細節。
+   這是判讀輔助，不是預測：這些指標都是用同一份價量資料算的，彼此高度相關，而且我們自己的回測也發現，單靠它們沒有穩定的預測力。 */
+const techSma = (a, n) => { const o = new Array(a.length).fill(NaN); let s = 0; for (let i = 0; i < a.length; i++) { s += a[i]; if (i >= n) s -= a[i - n]; if (i >= n - 1) o[i] = s / n; } return o; };
+const techEma = (a, n) => { const o = new Array(a.length).fill(NaN), k = 2 / (n + 1); let e = NaN; for (let i = 0; i < a.length; i++) { if (!(a[i] === a[i])) continue; e = e === e ? a[i] * k + e * (1 - k) : a[i]; o[i] = e; } return o; };
+function techRsi(c, n = 14) {                                           // Wilder 平滑
+  const o = new Array(c.length).fill(NaN); let g = 0, l = 0;
+  for (let i = 1; i < c.length; i++) {
+    const d = c[i] - c[i - 1], up = Math.max(0, d), dn = Math.max(0, -d);
+    if (i <= n) { g += up; l += dn; if (i === n) { g /= n; l /= n; o[i] = l === 0 ? 100 : 100 - 100 / (1 + g / l); } }
+    else { g = (g * (n - 1) + up) / n; l = (l * (n - 1) + dn) / n; o[i] = l === 0 ? 100 : 100 - 100 / (1 + g / l); }
+  }
+  return o;
+}
+function techKd(h, l, c, n = 9) {                                         // 台股慣用 KD(9,3,3)：K、D 以 1/3 平滑，起始值 50
+  const K = new Array(c.length).fill(NaN), D = new Array(c.length).fill(NaN); let k = 50, d = 50;
+  for (let i = n - 1; i < c.length; i++) {
+    let hh = -Infinity, ll = Infinity;
+    for (let j = i - n + 1; j <= i; j++) { if (h[j] > hh) hh = h[j]; if (l[j] < ll) ll = l[j]; }
+    const rsv = hh > ll ? (c[i] - ll) / (hh - ll) * 100 : 50;
+    k = k * 2 / 3 + rsv / 3; d = d * 2 / 3 + k / 3; K[i] = k; D[i] = d;
+  }
+  return { K, D };
+}
+function techMacd(c) {
+  const e12 = techEma(c, 12), e26 = techEma(c, 26), dif = c.map((_, i) => e12[i] - e26[i]), sig = techEma(dif.map(x => x === x ? x : NaN), 9);
+  return { dif, sig, osc: dif.map((x, i) => x - sig[i]) };
+}
+function techBoll(c, n = 20, m = 2) {
+  const ma = techSma(c, n), up = new Array(c.length).fill(NaN), lo = new Array(c.length).fill(NaN);
+  for (let i = n - 1; i < c.length; i++) { let s = 0; for (let j = i - n + 1; j <= i; j++) s += (c[j] - ma[i]) ** 2; const sd = Math.sqrt(s / n); up[i] = ma[i] + m * sd; lo[i] = ma[i] - m * sd; }
+  return { ma, up, lo };
+}
+const TECH = { code: "", n: 0, a: 0, b: 0, sub: "macd", open: {} };
+const tcTag = v => v > 0 ? "tc-bu" : v < 0 ? "tc-be" : "tc-ne";
+// 算出所有指標，以及「區間終點」那天的各項數字
+function techCalc(st, e) {
+  const n = e + 1, c = st.c.slice(0, n), h = st.h.slice(0, n), l = st.l.slice(0, n), v = st.v.slice(0, n), P = c[e];
+  const m5 = techSma(c, 5), m20 = techSma(c, 20), m60 = techSma(c, 60), rsi = techRsi(c), kd = techKd(h, l, c), mc = techMacd(c), bb = techBoll(c), vm5 = techSma(v, 5), vm20 = techSma(v, 20);
+  const f = { P, ok: m60[e] === m60[e] && rsi[e] === rsi[e] && kd.K[e] === kd.K[e] && mc.osc[e] === mc.osc[e] && bb.up[e] === bb.up[e] && vm20[e] === vm20[e] && e >= 130 };
+  if (f.ok) {
+    Object.assign(f, { ma20: m20[e], ma60: m60[e], up: P > m20[e] && m20[e] > m60[e], dn: P < m20[e] && m20[e] < m60[e], slope: m20[e] / m20[e - 5] - 1,
+      rsi: rsi[e], K: kd.K[e], D: kd.D[e], osc: mc.osc[e], oscPrev: mc.osc[e - 1], dif: mc.dif[e], sig: mc.sig[e], pb: (P - bb.lo[e]) / (bb.up[e] - bb.lo[e]), bw: (bb.up[e] - bb.lo[e]) / bb.ma[e], vr: vm5[e] / vm20[e], chg5: P / c[e - 5] - 1 });
+    let mx = 0; for (let i = Math.max(0, e - 59); i <= e; i++) if (mc.osc[i] === mc.osc[i]) mx = Math.max(mx, Math.abs(mc.osc[i]));
+    f.oscMax = mx || 1;
+    const bws = []; for (let i = Math.max(19, e - 119); i <= e; i++) if (bb.up[i] === bb.up[i]) bws.push((bb.up[i] - bb.lo[i]) / bb.ma[i]);
+    f.squeeze = bws.length > 20 && bws.filter(x => x < f.bw).length / bws.length < 0.2;
+  }
+  return { e, c, h, l, v, m5, m20, m60, bb, rsi, kd, mc, vm20, f };
+}
+// 小量表：一條水平的刻度，上面一顆（或兩顆）圓點標出現在的位置，不用讀數字也看得出偏高或偏低
+function tcGauge(min, max, zones, ticks, dots) {
+  const pos = v => Math.max(0, Math.min(100, (v - min) / (max - min) * 100));
+  return `<div class="tcG">${zones.map(([a, b, cls]) => `<span class="z ${cls}" style="left:${pos(a).toFixed(1)}%;width:${(pos(b) - pos(a)).toFixed(1)}%"></span>`).join("")}${ticks.map(([v, t]) => `<em class="t" style="left:${pos(v).toFixed(1)}%">${t}</em>`).join("")}${dots.map(d => `<i class="d ${d.cls}" style="left:${pos(d.v).toFixed(1)}%"></i>`).join("")}</div>`;
+}
+// 每個指標的狀態：cat 類別、st 偏多(+1)／中性(0)／偏空(−1)、tag 一個詞、val 一行重點數字、gauge 量表、txt 一句白話
+function techSignals(T, R, chipOK) {
+  const f = T.f, L = [], P = f.P, F = x => fmt(x);
+  if (!f.ok) return L;
+  const chain = [["收盤", P], ["MA20", f.ma20], ["MA60", f.ma60]].sort((a, b) => b[1] - a[1]).map(x => `${x[0]} ${F(x[1])}`).join(" ＞ ");
+  L.push({ id: "ma", cat: "趨勢", name: "均線排列", gloss: "ma", st: f.up ? 1 : f.dn ? -1 : 0, tag: f.up ? "多頭排列" : f.dn ? "空頭排列" : "糾結", val: chain, gauge: "",
+    txt: f.up ? "股價在 20 日線之上，20 日線又在 60 日線之上，短中期都向上。" : f.dn ? "股價在 20 日線之下，20 日線又在 60 日線之下，短中期都向下。" : "均線互相糾結，趨勢不明確，通常是盤整。" });
+  const sv = f.slope > 0.005 ? 1 : f.slope < -0.005 ? -1 : 0;
+  L.push({ id: "slope", cat: "趨勢", name: "20 日線方向", gloss: "ma", st: sv, tag: sv > 0 ? "往上" : sv < 0 ? "往下" : "走平", val: `${sv > 0 ? "▲" : sv < 0 ? "▼" : "▬"} 近 5 天 ${spct(f.slope, 1)}`, gauge: "",
+    txt: sv > 0 ? "月線向上，近一個月的平均成本在墊高。" : sv < 0 ? "月線向下，近一個月的平均成本在下滑。" : "月線幾乎走平。" });
+  const SS = R && R.sum && chipOK ? R.sum : null;                       // SuperTrend 是以籌碼分析的區間終點算的，終點不同就先不顯示
+  if (SS) L.push({ id: "st", cat: "趨勢", name: `SuperTrend(${state.stN}, ${state.stM})`, gloss: "supertrend", st: SS.dir > 0 ? 1 : -1, tag: SS.dir > 0 ? "多頭" : "空頭", val: `線值 ${F(SS.value)}（${SS.dir > 0 ? "在現價下方" : "在現價上方"} ${spct(SS.dist, 1)}）　已持續 ${SS.days} 天`, gauge: "",
+    txt: SS.dir > 0 ? "收盤價在趨勢線之上；這條線也是常用的停損參考。" : "收盤價在趨勢線之下；上方的趨勢線是壓力參考。" });
+  // 動能
+  const r = f.rsi, rs = r > 70 ? 0 : r >= 50 ? 1 : r >= 30 ? -1 : 0;
+  L.push({ id: "rsi", cat: "動能", name: "RSI(14)", gloss: "rsi", st: rs, tag: r > 70 ? "過熱" : r >= 50 ? "偏多" : r >= 30 ? "偏空" : "超賣", val: r.toFixed(1), unit: "0～100，50 以上多方較強",
+    gauge: tcGauge(0, 100, [[0, 30, "cold"], [70, 100, "hot"]], [[30, "30"], [50, "50"], [70, "70"]], [{ v: r, cls: tcTag(rs) }]),
+    txt: r > 70 ? "漲得很急，短線容易拉回；但強勢股可以長時間停在 70 以上。" : r >= 50 ? "多方力道略占上風。" : r >= 30 ? "空方力道略占上風。" : "跌得很深，短線可能反彈；但弱勢股也會一直超賣。" });
+  const gold = f.K > f.D, ks = f.K > 80 ? 0 : f.K < 20 ? 0 : gold ? 1 : -1;
+  L.push({ id: "kd", cat: "動能", name: "KD(9,3,3)", gloss: "kd", st: ks, tag: f.K > 80 ? "高檔" : f.K < 20 ? "低檔" : gold ? "偏多" : "偏空", val: `K ${f.K.toFixed(1)}　D ${f.D.toFixed(1)}`, unit: "K 在 D 之上偏多",
+    gauge: tcGauge(0, 100, [[0, 20, "cold"], [80, 100, "hot"]], [[20, "20"], [50, "50"], [80, "80"]], [{ v: f.D, cls: "tc-ne" }, { v: f.K, cls: tcTag(ks) }]),
+    txt: f.K > 80 ? "K 值在 80 以上（高檔），留意過熱；強勢時可以停留很久。" : f.K < 20 ? "K 值在 20 以下（低檔），留意落底；弱勢時也會鈍化。" : gold ? "K 線在 D 線之上（黃金交叉狀態）。" : "K 線在 D 線之下（死亡交叉狀態）。" });
+  const o = f.osc, ms = o > 0 ? (o >= f.oscPrev ? 1 : 0) : (o <= f.oscPrev ? -1 : 0);
+  L.push({ id: "macd", cat: "動能", name: "MACD(12,26,9)", gloss: "macd", st: ms, tag: o > 0 ? (ms > 0 ? "偏多" : "多方轉弱") : (ms < 0 ? "偏空" : "空方轉弱"), val: `柱狀 ${o.toFixed(2)}　DIF ${f.dif.toFixed(2)}　MACD ${f.sig.toFixed(2)}`, unit: "柱狀在零軸上方偏多",
+    gauge: tcGauge(-1, 1, [[-1, 0, "dn"], [0, 1, "up"]], [[0, "0"]], [{ v: Math.max(-1, Math.min(1, o / f.oscMax)), cls: tcTag(ms) }]),
+    txt: o > 0 ? (ms > 0 ? "DIF 在 MACD 之上，差距在擴大，多方動能增強。" : "DIF 在 MACD 之上，但差距在縮小，多方動能減弱。") : (ms < 0 ? "DIF 在 MACD 之下，差距在擴大，空方動能增強。" : "DIF 在 MACD 之下，但差距在縮小，空方動能減弱。") });
+  // 波動
+  const bs = f.pb > 1 ? 0 : f.pb >= 0.5 ? 1 : f.pb >= 0 ? -1 : 0;
+  L.push({ id: "boll", cat: "波動", name: "布林通道(20,2)", gloss: "boll", st: bs, tag: f.pb > 1 ? "突破上軌" : f.pb >= 0.5 ? "偏多" : f.pb >= 0 ? "偏空" : "跌破下軌", val: `位置 ${(f.pb * 100).toFixed(0)}%　通道寬 ${(f.bw * 100).toFixed(1)}%${f.squeeze ? "　（近期特別窄）" : ""}`, unit: "0% 下軌、100% 上軌",
+    gauge: tcGauge(-0.25, 1.25, [[-0.25, 0, "cold"], [1, 1.25, "hot"]], [[0, "下軌"], [0.5, "中線"], [1, "上軌"]], [{ v: f.pb, cls: tcTag(bs) }]),
+    txt: (f.pb > 1 ? "收盤在上軌之外，很強但短線過熱。" : f.pb >= 0.5 ? "股價在通道中線之上。" : f.pb >= 0 ? "股價在通道中線之下。" : "收盤在下軌之外，很弱但短線超跌。") + (f.squeeze ? "通道近期特別窄，之後容易出現方向性行情，但不知道往哪邊。" : "") });
+  // 量價
+  const vs = f.vr > 1.3 ? (f.chg5 > 0 ? 1 : -1) : 0;
+  L.push({ id: "vol", cat: "量價", name: "量價（5 日均量 ÷ 20 日均量）", gloss: "volPrice", st: vs, tag: f.vr > 1.3 ? (f.chg5 > 0 ? "量增價漲" : "量增價跌") : f.vr < 0.7 ? "量縮" : "量平", val: `${f.vr.toFixed(2)} 倍　近 5 天股價 ${spct(f.chg5, 1)}`, unit: "1 倍 = 和平常一樣",
+    gauge: tcGauge(0, 2.5, [[0, 0.7, "cold"], [1.3, 2.5, "hot"]], [[0.7, "量縮"], [1, "1 倍"], [1.3, "量增"]], [{ v: Math.min(2.5, f.vr), cls: tcTag(vs) }]),
+    txt: f.vr > 1.3 ? (f.chg5 > 0 ? "成交量放大、股價上漲，買盤積極。" : "成交量放大、股價下跌，賣壓沉重。") : f.vr < 0.7 ? "成交量萎縮，市場觀望。" : "成交量大致持平。" });
+  return L;
+}
+// 搭配組合：不同「類型」的指標搭配才有新資訊（RSI 和 KD 都是擺盪指標，疊在一起幾乎沒有新資訊）。每個組合判斷「現在有沒有成立」並給觀察方向
+function techCombos(T, sig, R, chipOK) {
+  const f = T.f, S = {}; sig.forEach(s => { S[s.id] = s; });
+  if (!f.ok) return [];
+  const P = f.P, vd = verdictOf(R), A = R.a, S1 = A.sup[0], R1 = A.res[0], out = [];
+  const part = id => S[id] ? { n: S[id].name.replace(/\(.*$/, "").replace(/（.*$/, ""), t: S[id].tag, v: S[id].st } : null;
+  // 1. 順勢三步驟：趨勢 → 動能 → 量能
+  { const v = [S.ma.st, S.macd.st, S.vol.st], b = v.filter(x => x > 0).length, d = v.filter(x => x < 0).length;
+    const lv = b === 3 ? 1 : d === 3 ? -1 : b >= 2 && d === 0 ? 1 : d >= 2 && b === 0 ? -1 : 0;
+    out.push({ id: "trend3", title: "順勢三步驟：趨勢 → 動能 → 量能", parts: ["ma", "macd", "vol"].map(part), hit: lv !== 0, lv,
+      status: b === 3 ? "三項同向偏多" : d === 3 ? "三項同向偏空" : lv > 0 ? "多數偏多（" + b + "/3）" : lv < 0 ? "多數偏空（" + d + "/3）" : "訊號分歧",
+      read: "先用均線決定方向，再用 MACD 確認力道，最後用量能確認有沒有人跟。三層同向，訊號比較一致。",
+      advice: lv > 0 ? "順勢偏多。想參與的話，常見做法是用 20 日線或 SuperTrend 線當停損參考，進場前先看上方籌碼壓力離多遠。" : lv < 0 ? "順勢偏空。先觀望，等股價站回 20 日線、MACD 柱狀轉正，再重新評估。" : "三項互相打架時訊號品質差，常見做法是等其中兩項以上同向再判斷。" }); }
+  // 2. 多頭回檔／過熱：趨勢當濾網，再用 KD／RSI 找位置
+  { const tu = S.ma.st > 0 || (P > f.ma60 && f.slope > 0), td = S.ma.st < 0, low = f.K < 40 || f.rsi < 45, hot = f.K > 80 || f.rsi > 70, cold = f.K < 20 || f.rsi < 30;
+    let o = { hit: false, lv: 0, status: "目前不在回檔或過熱區", advice: "趨勢方向明確之後，再看 KD、RSI 是不是進入低檔（回檔）或高檔（過熱）；現在沒有這種型態。" };
+    if (tu && low) o = { hit: true, lv: 1, status: "多頭回檔區", advice: "趨勢仍向上，短線拉回到偏低檔，常被當作觀察買點的區域。可以等 KD 黃金交叉（K 上穿 D）或 RSI 回到 50 以上再確認，並以 60 日線或籌碼支撐當作失守參考。" };
+    else if (tu && hot) o = { hit: true, lv: 0, status: "多頭過熱", advice: "強勢股可以過熱很久，但追高的風險比較高。已持有可以用 20 日線守，空手的人可以等拉回。" };
+    else if (td && cold) o = { hit: true, lv: -1, status: "空頭低檔鈍化", advice: "弱勢股會一直超賣，低檔不等於止跌。常見做法是等股價站回 20 日線、KD 或 MACD 轉強再說。" };
+    out.push({ id: "pull", title: "多頭回檔／過熱：趨勢濾網 ＋ KD、RSI", parts: ["ma", "kd", "rsi"].map(part), read: "用均線判斷是多頭還是空頭，再用 KD、RSI 看位置：多頭中的低檔是回檔，高檔是過熱；空頭中的低檔常常只是鈍化。", ...o }); }
+  // 3. 波動收斂＋量能：布林通道配量價
+  { let o = { hit: false, lv: 0, status: "沒有特別的型態", advice: "布林通道和量能搭配，主要看「盤整蓄勢」和「放量突破／跌破」兩種型態；現在都沒有出現。" };
+    if (f.squeeze && f.vr < 0.8) o = { hit: true, lv: 0, status: "盤整蓄勢", advice: "通道窄又量縮，常是大行情前的安靜期，但不知道往哪邊。常見做法是等放量突破上軌，或跌破下軌，再順著方向看。" };
+    else if (f.pb > 1 && f.vr > 1.3) o = { hit: true, lv: 1, status: "放量突破上軌", advice: "動能強的訊號，但短線容易過熱。常見做法是等回測通道中線不破再考慮，不追在最急的時候。" };
+    else if (f.pb > 1 && f.vr < 1) o = { hit: true, lv: 0, status: "突破但量縮", advice: "小心假突破。突破要有量跟上才比較可靠。" };
+    else if (f.pb < 0 && f.vr > 1.3) o = { hit: true, lv: -1, status: "放量跌破下軌", advice: "弱勢確認。反彈時先看能不能站回通道中線。" };
+    out.push({ id: "squeeze", title: "波動與量能：布林通道 ＋ 量價", parts: ["boll", "vol"].map(part), read: "布林通道告訴你「現在是盤整還是發動」，量能告訴你「有沒有人真的在買賣」。通道窄＋量縮是蓄勢，突破＋放量才比較可靠。", ...o }); }
+  // 4. 雙動能確認：MACD、RSI、KD 是否同向
+  { const bu = (f.osc > 0) + (f.rsi >= 50) + (f.K > f.D), lv = bu === 3 ? 1 : bu === 0 ? -1 : 0;
+    out.push({ id: "mom3", title: "動能一致性：MACD ＋ RSI ＋ KD", parts: ["macd", "rsi", "kd"].map(part), hit: lv !== 0, lv, status: bu === 3 ? "三項動能同向偏多" : bu === 0 ? "三項動能同向偏空" : "動能分歧（" + bu + "/3 偏多）",
+      read: "三個都是看「力道」的指標，彼此很像，所以不要把它們當成三個獨立的證據；它們一致時只能說「力道方向很明確」，不能算「三倍可靠」。",
+      advice: lv > 0 ? "動能一致向上，趨勢延續的機會比較高；但要留意是否同時過熱（RSI 超過 70 或 K 超過 80）。" : lv < 0 ? "動能一致向下，反彈前先等 MACD 柱狀縮短、KD 黃金交叉。" : "動能分歧時方向不明，等多數指標轉向同一邊。" }); }
+  // 5. 技術 ＋ 籌碼對照
+  { const bu = sig.filter(s => s.st > 0).length, be = sig.filter(s => s.st < 0).length, net = bu - be, tb = net >= 3, tr = net <= -3, ch = vd.score >= 60, cl = vd.score < 45;
+    let o;
+    if (!chipOK) o = { hit: false, lv: 0, status: "需要區間終點是最新日", advice: "籌碼的支撐壓力是以「籌碼分析」的區間終點算的；把這裡的區間終點拉到最新一天，才能對照。" };
+    else {
+      const nearR = R1 && R1.peak / P - 1 <= 0.03, nearS = S1 && P / S1.peak - 1 <= 0.03, lv = [R1 ? `上方壓力 ${fmt(R1.peak)}（${spct(R1.peak / P - 1, 1)}）` : "上方沒有明顯壓力", S1 ? `下方支撐 ${fmt(S1.peak)}（${spct(S1.peak / P - 1, 1)}）` : "下方沒有明顯支撐"].join("、");
+      if (tb && ch) o = { hit: true, lv: 1, status: "同向偏多", advice: `技術面和籌碼面都偏多。${lv}。${nearR ? "離壓力很近，留意能不能放量突破。" : "上方還有空間。"}` };
+      else if (tb && cl) o = { hit: true, lv: 0, status: "技術偏多、籌碼偏弱", advice: `趨勢雖然向上，但籌碼位置不理想。${lv}。追高要小心，上方壓力重時容易遇到賣壓。` };
+      else if (tr && ch) o = { hit: true, lv: 0, status: "籌碼不差、技術偏空", advice: `位置還行，但趨勢在走弱。${lv}。${nearS ? "已貼近支撐，可以觀察會不會止跌。" : "可以等技術面轉強再看。"}` };
+      else if (tr && cl) o = { hit: true, lv: -1, status: "同向偏弱", advice: `趨勢和位置都不理想。${lv}。先觀望。` };
+      else o = { hit: false, lv: 0, status: "沒有明顯同向", advice: `${lv}。技術面和籌碼面沒有同向，維持觀察。` };
+    }
+    out.push({ id: "chip", title: "技術面 ＋ 籌碼面對照", parts: [{ n: "技術面", t: tb ? "偏多" : tr ? "偏空" : "中性", v: tb ? 1 : tr ? -1 : 0 }, { n: "籌碼位置", t: vd.label, v: ch ? 1 : cl ? -1 : 0 }], read: "技術面看「趨勢和動能」，籌碼面看「價位和賣壓」，兩個角度不同，同向時訊號比較完整。", ...o }); }
+  return out;
+}
+/* ===== 圖表：可以自己選要看什麼、一眼看出強弱、手指滑過去就看到當天所有數字 ===== */
+const TECH_LAYERS = [["ma5", "MA5", "var(--trapped)"], ["ma20", "MA20", "var(--ink)"], ["ma60", "MA60", "var(--muted)"], ["boll", "布林通道", "var(--grid)"], ["chip", "籌碼支撐壓力", "var(--profit)"], ["cross", "均線交叉點", "var(--bull)"], ["strip", "強弱色帶", "var(--bear)"]];
+const TECH_PRESET = { 簡潔: { ma5: 0, ma20: 1, ma60: 0, boll: 0, chip: 0, cross: 0, strip: 1 }, 標準: { ma5: 0, ma20: 1, ma60: 1, boll: 0, chip: 1, cross: 1, strip: 1 }, 完整: { ma5: 1, ma20: 1, ma60: 1, boll: 1, chip: 1, cross: 1, strip: 1 } };
+TECH.show = Object.assign({ ...TECH_PRESET.標準 }, lsRead("techShow") || {});
+{ const s = lsRead("techSub"); if (s && s.v) TECH.sub = s.v; }
+// 某一天的「均線排列、MACD、RSI、KD」綜合：每項 ±1，加總 −4～+4。強弱帶和滑過去的讀數都用它
+function techDayScore(T, i) {
+  const c = T.c[i], m20 = T.m20[i], m60 = T.m60[i], o = T.mc.osc[i], r = T.rsi[i], K = T.kd.K[i], D = T.kd.D[i];
+  if (!(m60 === m60 && o === o && r === r && K === K)) return null;
+  const p = [c > m20 && m20 > m60 ? 1 : c < m20 && m20 < m60 ? -1 : 0, o > 0 ? 1 : -1, r >= 50 ? 1 : -1, K > D ? 1 : -1];
+  return { s: p[0] + p[1] + p[2] + p[3], p };
+}
+const techScoreTag = s => s >= 3 ? ["強多", "tc-bu"] : s >= 1 ? ["偏多", "tc-bu"] : s === 0 ? ["中性", "tc-ne"] : s >= -2 ? ["偏空", "tc-be"] : ["強空", "tc-be"];
+function techChart(T, R, a, chipOK) {
+  const SH = TECH.show, sub = TECH.sub, st = R.st, e = T.e, L = e - a + 1, line = L > 220;       // 區間很長時，K 線會擠成一團，改畫收盤線
+  const W = Math.max(300, Math.floor($("techChart").clientWidth || 340)), ml = 42, mr = 6, mt = 8, h1 = Math.round(W * 0.52), mb = 20;
+  const sH = SH.strip ? 12 : 0, sGap = SH.strip ? 8 : 0, subOn = sub !== "none", gap = subOn ? 20 : 0, h2 = subOn ? Math.round(W * 0.26) : 0;
+  const tS = mt + h1 + sGap, t2 = tS + sH + gap, H = t2 + h2 + mb;
+  const x = i => ml + (W - ml - mr) * (i - a) / Math.max(1, L - 1);
+  let lo = Infinity, hi = -Infinity;
+  for (let i = a; i <= e; i++) {
+    lo = Math.min(lo, T.l[i]); hi = Math.max(hi, T.h[i]);
+    if (SH.boll && T.bb.lo[i] === T.bb.lo[i]) { lo = Math.min(lo, T.bb.lo[i]); hi = Math.max(hi, T.bb.up[i]); }
+  }
+  const S1 = SH.chip && chipOK ? R.a.sup[0] : null, R1 = SH.chip && chipOK ? R.a.res[0] : null;
+  for (const z of [S1, R1]) if (z) { lo = Math.min(lo, z.peak); hi = Math.max(hi, z.peak); }
+  const pad = (hi - lo) * 0.06; lo -= pad; hi += pad;
+  const y1 = v => mt + h1 * (1 - (v - lo) / (hi - lo)), f0 = v => fmt(v, v < 100 ? 2 : 0), path = (arr, y) => { let d = "", on = false; for (let i = a; i <= e; i++) { if (arr[i] === arr[i]) { d += `${on ? "L" : "M"}${x(i).toFixed(1)} ${y(arr[i]).toFixed(1)}`; on = true; } } return d; };
+  let g = "";
+  for (const t of niceTicks(lo, hi, 4).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y1(t)}" y2="${y1(t)}"/><text class="axt" x="${ml - 5}" y="${y1(t) + 3.5}" text-anchor="end">${f0(t)}</text>`;
+  if (SH.boll) { let band = "", back = ""; for (let i = a; i <= e; i++) if (T.bb.up[i] === T.bb.up[i]) band += `${band ? "L" : "M"}${x(i).toFixed(1)} ${y1(T.bb.up[i]).toFixed(1)}`; for (let i = e; i >= a; i--) if (T.bb.lo[i] === T.bb.lo[i]) back += `L${x(i).toFixed(1)} ${y1(T.bb.lo[i]).toFixed(1)}`; if (band) g += `<path class="tc-bb" d="${band}${back}Z"/>`; }
+  if (R1) g += `<line class="tc-r" x1="${ml}" x2="${W - mr}" y1="${y1(R1.peak)}" y2="${y1(R1.peak)}"/><text class="tc-rt" x="${ml + 4}" y="${y1(R1.peak) - 4}">籌碼壓力 ${f0(R1.peak)}</text>`;
+  if (S1) g += `<line class="tc-s" x1="${ml}" x2="${W - mr}" y1="${y1(S1.peak)}" y2="${y1(S1.peak)}"/><text class="tc-st" x="${ml + 4}" y="${y1(S1.peak) + 11}">籌碼支撐 ${f0(S1.peak)}</text>`;
+  if (SH.ma60) g += `<path class="tc-m60" d="${path(T.m60, y1)}"/>`;
+  if (SH.ma20) g += `<path class="tc-m20" d="${path(T.m20, y1)}"/>`;
+  if (SH.ma5) g += `<path class="tc-m5" d="${path(T.m5, y1)}"/>`;
+  if (line) g += `<path class="tc-pl" d="${path(T.c, y1)}"/>`;
+  else {
+    const bw = Math.max(1.2, (W - ml - mr) / L * 0.62);
+    for (let i = a; i <= e; i++) {
+      const o = st.o[i], c = T.c[i], up = c >= o, cx = x(i), top = y1(Math.max(o, c)), hh = Math.max(1, Math.abs(y1(o) - y1(c)));
+      g += `<g class="${up ? "tc-ku" : "tc-kd"}"><line class="tc-kw" x1="${cx.toFixed(1)}" x2="${cx.toFixed(1)}" y1="${y1(T.h[i]).toFixed(1)}" y2="${y1(T.l[i]).toFixed(1)}"/><rect class="tc-kb" x="${(cx - bw / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${hh.toFixed(1)}"/></g>`;
+    }
+  }
+  // 均線黃金交叉／死亡交叉
+  if (SH.cross && SH.ma20 && SH.ma60) {
+    const xs = [];
+    for (let i = a + 1; i <= e; i++) {
+      const d0 = T.m20[i - 1] - T.m60[i - 1], d1 = T.m20[i] - T.m60[i];
+      if (!(d0 === d0 && d1 === d1)) continue;
+      if (d0 <= 0 && d1 > 0) { g += `<path class="tc-gx" d="M${x(i).toFixed(1)} ${(y1(T.l[i]) + 5).toFixed(1)}l-5 9h10z"><title>${st.d[i]} 黃金交叉：MA20 上穿 MA60，轉強</title></path>`; xs.push([i, 1]); }
+      else if (d0 >= 0 && d1 < 0) { g += `<path class="tc-dx" d="M${x(i).toFixed(1)} ${(y1(T.h[i]) - 5).toFixed(1)}l-5 -9h10z"><title>${st.d[i]} 死亡交叉：MA20 跌破 MA60，轉弱</title></path>`; xs.push([i, -1]); }
+    }
+    for (const [i, u] of xs.slice(-2)) {                                               // 最近兩個交叉點，直接把名字寫在旁邊
+      const tx = Math.max(ml + 22, Math.min(W - mr - 22, x(i))), ty = u > 0 ? Math.min(mt + h1 - 3, y1(T.l[i]) + 25) : Math.max(mt + 9, y1(T.h[i]) - 17);
+      g += `<text class="tc-xl ${u > 0 ? "tc-xlG" : "tc-xlD"}" x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle">${u > 0 ? "黃金交叉" : "死亡交叉"}</text>`;
+    }
+  }
+  // 現價線與右側標籤
+  const last = T.c[e];
+  g += `<line class="px" x1="${ml}" x2="${W - mr}" y1="${y1(last)}" y2="${y1(last)}"/>`;
+  const tags = [[last, `${f0(last)}`, "tc-tp"]];
+  if (SH.ma20 && T.m20[e] === T.m20[e]) tags.push([T.m20[e], `MA20 ${f0(T.m20[e])}`, "tc-t20"]);
+  if (SH.ma60 && T.m60[e] === T.m60[e]) tags.push([T.m60[e], `MA60 ${f0(T.m60[e])}`, "tc-t60"]);
+  if (SH.ma5 && T.m5[e] === T.m5[e]) tags.push([T.m5[e], `MA5 ${f0(T.m5[e])}`, "tc-t5"]);
+  tags.sort((p, q) => q[0] - p[0]);
+  let prevY = -99; for (const [v, t, c] of tags) { let yy = y1(v) + 3.5; if (yy - prevY < 11) yy = prevY + 11; prevY = yy; g += `<text class="tc-tag ${c}" x="${W - mr - 2}" y="${yy.toFixed(1)}" text-anchor="end">${t}</text>`; }
+  // 強弱帶
+  if (SH.strip) {
+    g += `<text class="cap" x="${ml - 5}" y="${tS + 9}" text-anchor="end">強弱</text>`;
+    let run = null; const flush = i => { if (run) { g += `<rect class="${run.cls}" x="${x(run.a).toFixed(1)}" y="${tS}" width="${(x(i) - x(run.a) + (W - ml - mr) / Math.max(1, L - 1)).toFixed(1)}" height="${sH}"/>`; run = null; } };
+    for (let i = a; i <= e; i++) {
+      const d = techDayScore(T, i), s = d ? d.s : null, cls = s === null ? "tc-s0" : s >= 3 ? "tc-sBu2" : s >= 1 ? "tc-sBu1" : s === 0 ? "tc-s0" : s >= -2 ? "tc-sBe1" : "tc-sBe2";
+      if (!run || run.cls !== cls) { flush(i - 1); run = { a: i, cls }; }
+    }
+    flush(e);
+  }
+  // 副圖
+  let sg = "", cap = "", tagV = "";
+  const yy = (v, a0, b0) => t2 + h2 * (1 - (v - a0) / (b0 - a0)), pbw = Math.max(1, (W - ml - mr) / L * 0.6), band = (a0, b0, cls, lo0, hi0) => `<rect class="${cls}" x="${ml}" width="${W - ml - mr}" y="${yy(b0, lo0, hi0)}" height="${yy(a0, lo0, hi0) - yy(b0, lo0, hi0)}"/>`;
+  if (sub === "rsi") {
+    cap = "RSI(14)　70 以上過熱　30 以下超賣";
+    sg += band(70, 100, "tc-zh", 0, 100) + band(0, 30, "tc-zc", 0, 100);
+    for (const t of [30, 50, 70]) sg += `<line class="${t === 50 ? "px" : "gridl"}" x1="${ml}" x2="${W - mr}" y1="${yy(t, 0, 100)}" y2="${yy(t, 0, 100)}"/><text class="axt" x="${ml - 5}" y="${yy(t, 0, 100) + 3.5}" text-anchor="end">${t}</text>`;
+    sg += `<path class="tc-sub" d="${path(T.rsi, v => yy(v, 0, 100))}"/>`;
+    if (T.rsi[e] === T.rsi[e]) tagV = `<text class="tc-tag tc-tsub" x="${W - mr - 2}" y="${(yy(T.rsi[e], 0, 100) - 4).toFixed(1)}" text-anchor="end">${T.rsi[e].toFixed(1)}</text>`;
+  } else if (sub === "kd") {
+    cap = "KD　藍 K・橘 D　80 以上高檔　20 以下低檔";
+    sg += band(80, 100, "tc-zh", 0, 100) + band(0, 20, "tc-zc", 0, 100);
+    for (const t of [20, 50, 80]) sg += `<line class="${t === 50 ? "px" : "gridl"}" x1="${ml}" x2="${W - mr}" y1="${yy(t, 0, 100)}" y2="${yy(t, 0, 100)}"/><text class="axt" x="${ml - 5}" y="${yy(t, 0, 100) + 3.5}" text-anchor="end">${t}</text>`;
+    sg += `<path class="tc-sub" d="${path(T.kd.K, v => yy(v, 0, 100))}"/><path class="tc-sub2" d="${path(T.kd.D, v => yy(v, 0, 100))}"/>`;
+    if (T.kd.K[e] === T.kd.K[e]) tagV = `<text class="tc-tag tc-tsub" x="${W - mr - 2}" y="${(yy(T.kd.K[e], 0, 100) - 4).toFixed(1)}" text-anchor="end">K ${T.kd.K[e].toFixed(0)}</text><text class="tc-tag tc-tsub2" x="${W - mr - 2}" y="${(yy(T.kd.D[e], 0, 100) + 11).toFixed(1)}" text-anchor="end">D ${T.kd.D[e].toFixed(0)}</text>`;
+  } else if (sub === "macd") {
+    cap = "MACD　紅柱偏多・綠柱偏空　藍 DIF・橘 MACD";
+    let mx = 0; for (let i = a; i <= e; i++) for (const q of [T.mc.dif[i], T.mc.sig[i], T.mc.osc[i]]) if (q === q) mx = Math.max(mx, Math.abs(q));
+    mx = mx || 1; const ym = v => yy(v, -mx, mx);
+    sg += `<line class="px" x1="${ml}" x2="${W - mr}" y1="${ym(0)}" y2="${ym(0)}"/><text class="axt" x="${ml - 5}" y="${ym(0) + 3.5}" text-anchor="end">0</text>`;
+    for (let i = a; i <= e; i++) { const q = T.mc.osc[i]; if (q === q) sg += `<rect class="${q >= 0 ? "tc-up" : "tc-dn"}" x="${(x(i) - pbw / 2).toFixed(1)}" y="${Math.min(ym(q), ym(0)).toFixed(1)}" width="${pbw.toFixed(1)}" height="${Math.max(0.6, Math.abs(ym(q) - ym(0))).toFixed(1)}"/>`; }
+    sg += `<path class="tc-sub" d="${path(T.mc.dif, ym)}"/><path class="tc-sub2" d="${path(T.mc.sig, ym)}"/>`;
+  } else if (sub === "vol") {
+    cap = "成交量（張）　紅收紅・綠收綠　線＝20 日均量";
+    let mx = 0; for (let i = a; i <= e; i++) mx = Math.max(mx, T.v[i]); mx = mx || 1;
+    const yv = v => yy(v, 0, mx);
+    sg += `<text class="axt" x="${ml - 5}" y="${yv(mx) + 8}" text-anchor="end">${n0(mx)}</text><text class="axt" x="${ml - 5}" y="${yv(0)}" text-anchor="end">0</text>`;
+    for (let i = a; i <= e; i++) { const up = T.c[i] >= st.o[i]; sg += `<rect class="${up ? "tc-up" : "tc-dn"}" x="${(x(i) - pbw / 2).toFixed(1)}" y="${yv(T.v[i]).toFixed(1)}" width="${pbw.toFixed(1)}" height="${Math.max(0.6, yv(0) - yv(T.v[i])).toFixed(1)}"/>`; }
+    sg += `<path class="tc-sub" d="${path(T.vm20, yv)}"/>`;
+  }
+  for (let k = 0; k <= 4; k++) { const i = a + Math.round(k * (L - 1) / 4), d = st.d[i]; g += `<text class="axt" x="${x(i)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 4 ? "end" : "middle"}">${L < 150 ? `${d.slice(5, 7)}/${d.slice(8, 10)}` : `${d.slice(2, 4)}/${d.slice(5, 7)}`}</text>`; }
+  TECH.geo = { W, ml, mr, a, L, mt, H, mb };
+  $("techChart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${L} 個交易日的${line ? "收盤線" : "K 線"}與所選的指標，下方是${subOn ? cap : "強弱帶"}">${g}${subOn ? `<text class="cap" x="${ml}" y="${t2 - 6}">${cap}</text>${sg}${tagV}` : ""}<g id="tcXg" style="display:none"><line id="tcX" class="tc-x" y1="${mt}" y2="${H - mb}"/></g></svg>`;
+}
+// 手指（或滑鼠）滑過圖，讀數列顯示那一天所有的數字；沒有在滑的時候，顯示區間終點那天
+function techReadoutHtml(T, R, i, hover) {
+  const st = R.st, wd = "日一二三四五六"[new Date(st.d[i] + "T00:00:00Z").getUTCDay()], c = T.c[i], chg = i > 0 ? c / T.c[i - 1] - 1 : 0, f2 = x => x === x ? x.toFixed(1) : "—";
+  const d = techDayScore(T, i), tg = d ? techScoreTag(d.s) : null, nm = ["均線", "MACD", "RSI", "KD"];
+  const pb = T.bb.up[i] === T.bb.up[i] ? (c - T.bb.lo[i]) / (T.bb.up[i] - T.bb.lo[i]) : NaN;
+  return `<div class="tcR1"><b>${st.d[i]}（週${wd}）</b>${hover ? "" : "　<small>區間終點</small>"}<span class="${chg > 0 ? "up" : chg < 0 ? "dn" : ""}">收 ${fmt(c)}　${spct(chg, 2)}</span></div>
+    <div class="tcR2">開 ${fmt(st.o[i])}　高 ${fmt(T.h[i])}　低 ${fmt(T.l[i])}　量 ${n0(T.v[i])} 張</div>
+    <div class="tcR2">MA5 ${f2(T.m5[i])}　MA20 ${f2(T.m20[i])}　MA60 ${f2(T.m60[i])}　布林位置 ${pb === pb ? Math.round(pb * 100) + "%" : "—"}</div>
+    <div class="tcR2">RSI ${f2(T.rsi[i])}　K ${f2(T.kd.K[i])}　D ${f2(T.kd.D[i])}　MACD 柱 ${T.mc.osc[i] === T.mc.osc[i] ? T.mc.osc[i].toFixed(2) : "—"}</div>
+    ${d ? `<div class="tcR3">這一天的強弱：<span class="tcTag ${tg[1]}">${tg[0]}（${d.s > 0 ? "+" : ""}${d.s}）</span><span class="tcPs">${d.p.map((v, k) => `<i class="${tcTag(v)}">${nm[k]}${v > 0 ? "＋" : v < 0 ? "－" : "○"}</i>`).join("")}</span></div>` : ""}`;
+}
+function techScrub(ev) {
+  const g = TECH.geo, T = TECH.T, R = window.__R; if (!g || !T || !R) return;
+  const svg = $("techChart").querySelector("svg"); if (!svg) return;
+  let i = T.e;
+  if (ev) { const r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) / r.width * g.W; i = Math.max(g.a, Math.min(T.e, g.a + Math.round((sx - g.ml) / (g.W - g.ml - g.mr) * (g.L - 1)))); }
+  const gx = svg.querySelector("#tcXg"), ln = svg.querySelector("#tcX");
+  if (gx && ln) { gx.style.display = ev ? "" : "none"; const px = g.ml + (g.W - g.ml - g.mr) * (i - g.a) / Math.max(1, g.L - 1); ln.setAttribute("x1", px); ln.setAttribute("x2", px); }
+  $("techReadout").innerHTML = techReadoutHtml(T, R, i, !!ev);
+}
+// 圖下面的圖例：只列出「現在有打開」的項目，每個都用白話說它是什麼
+function techLegendHtml(chipOK) {
+  const SH = TECH.show, o = [];
+  if (SH.ma5) o.push(`<span><i class="ln" style="border-color:var(--trapped)"></i>MA5</span>`);
+  if (SH.ma20) o.push(`<span><i class="ln" style="border-color:var(--ink)"></i>MA20</span>`);
+  if (SH.ma60) o.push(`<span><i class="ln" style="border-color:var(--muted)"></i>MA60</span>`);
+  if (SH.boll) o.push(`<span><i style="background:var(--grid)"></i>布林通道</span>`);
+  if (SH.chip && chipOK) o.push(`<span><i class="ln" style="border-color:var(--profit);border-top-style:dashed"></i>籌碼支撐</span><span><i class="ln" style="border-color:var(--trapped);border-top-style:dashed"></i>籌碼壓力</span>`);
+  if (SH.cross && SH.ma20 && SH.ma60) o.push(`<span><b style="color:var(--bull)">▲</b>黃金交叉</span><span><b style="color:var(--bear)">▼</b>死亡交叉</span>`);
+  if (SH.strip) o.push(`<span class="tcSw">強弱：<i class="a2"></i>強多<i class="a1"></i>偏多<i class="a0"></i>中性<i class="b1"></i>偏空<i class="b2"></i>強空</span>`);
+  return o.length ? `<div class="legend tcLeg">${o.join("")}</div>` : "";
+}
+function techToolbar(chipOK) {
+  const SH = TECH.show;
+  [...$("techLayers").querySelectorAll("button[data-l]")].forEach(b => { const k = b.dataset.l, off = k === "chip" && !chipOK; b.disabled = off; b.title = off ? "要把區間終點拉到最新一天，才有籌碼線" : ""; b.setAttribute("aria-pressed", !!SH[k] && !off); });
+  [...$("techPres").querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", TECH_LAYERS.every(([k]) => !!TECH_PRESET[b.dataset.p][k] === !!SH[k])));
+  [...$("techSubSeg").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.s === TECH.sub));
+}
+/* 每個指標「代表什麼」：用生活化的說法，先一句話講完，再說怎麼讀、哪裡要小心 */
+const TECH_MEAN = {
+  ma: { what: "均線是「最近 N 天，大家平均買進的價格」。股價在均線上面，代表最近買的人平均都賺錢；在下面，代表平均都被套。",
+    read: ["<b>收盤 ＞ MA20 ＞ MA60</b>：短期的平均成本比長期高，表示近期願意出更高價買的人變多，叫「多頭排列」，是上漲趨勢。", "<b>收盤 ＜ MA20 ＜ MA60</b>：剛好相反，叫「空頭排列」，是下跌趨勢。", "<b>順序亂掉（糾結）</b>：各段的平均成本差不多，沒有誰占優勢，通常是在盤整。"],
+    warn: "均線是用過去的價格算的，一定比股價慢半拍；盤整時股價會一直穿過均線，假訊號很多。" },
+  slope: { what: "看 20 日線（約一個月的平均成本）是在往上、走平還是往下。往上，代表近一個月的買進成本一天比一天高。",
+    read: ["<b>往上</b>：平均成本在墊高，多方占優勢；股價回檔碰到向上的月線，常被當作觀察支撐的位置。", "<b>走平</b>：沒有明確方向。", "<b>往下</b>：平均成本在下滑，空方占優勢；股價反彈到向下的月線，常遇到賣壓。"],
+    warn: "只看這一天的方向不準，要看連續幾天；方向剛轉的時候最容易騙人。" },
+  st: { what: "在股價下方（多頭）或上方（空頭）畫一條會跟著股價移動的「保護線」。股價在線上面就是多頭，跌破這條線就翻成空頭。",
+    read: ["<b>多頭（線在下面）</b>：這條線常被當成停損參考，跌破就代表趨勢可能轉弱。", "<b>空頭（線在上面）</b>：這條線是壓力參考，股價站上去才算轉強。", "<b>已持續天數</b>：越久代表這個趨勢走得越久，但不代表還會繼續。"],
+    warn: "盤整時線會來回翻轉，容易出現假訊號；不適合單獨決定買賣。" },
+  rsi: { what: "像一條「體力條」：看最近 14 天，上漲的日子和下跌的日子，哪邊的力氣比較大。數字在 0～100 之間，50 是分界。",
+    read: ["<b>50 以上</b>：多方力氣比較大；<b>50 以下</b>：空方力氣比較大。", "<b>超過 70（過熱）</b>：漲得很急，像跑太快需要喘口氣，短線容易拉回。", "<b>低於 30（超賣）</b>：跌得很深，賣壓可能已經差不多了，容易出現反彈。"],
+    warn: "強勢股可以一直待在 70 以上、弱勢股也可以一直低於 30（叫鈍化），所以不能一看到 70 就賣、看到 30 就買。" },
+  kd: { what: "看「今天的收盤價，落在最近 9 天最高價和最低價之間的哪個位置」。越靠近最高價越強，越靠近最低價越弱。K 是快線，D 是慢線。",
+    read: ["<b>K 在 D 之上</b>（黃金交叉狀態）：偏多；<b>K 在 D 之下</b>（死亡交叉狀態）：偏空。", "<b>K 超過 80（高檔）</b>：股價在近期的高處，要留意過熱。", "<b>K 低於 20（低檔）</b>：股價在近期的低處，要留意落底。"],
+    warn: "比 RSI 敏感，訊號多、假訊號也多；趨勢強的時候，高檔或低檔會鈍化很久。" },
+  macd: { what: "拿「短期的平均價」（12 天）減「長期的平均價」（26 天），看趨勢的力道是在變強還是變弱。柱狀就是力道的大小。",
+    read: ["<b>紅柱（0 以上）</b>：短期比長期強，偏多；柱子越長，力道越強。", "<b>綠柱（0 以下）</b>：短期比長期弱，偏空；柱子越長，空方力道越強。", "<b>柱子開始縮短</b>：力道在減弱，常是轉折的先兆，可以比股價早一點看到。"],
+    warn: "它也是用過去資料算的，盤整時會來回交叉，常常沒有用。" },
+  boll: { what: "畫一條上下軌的「通道」，股價大約 95% 的時間會待在裡面。通道有多寬，代表最近股價晃動的幅度有多大。",
+    read: ["<b>位置</b>：0% 是下軌、50% 是中線（就是 20 日線）、100% 是上軌；在中線之上偏強，之下偏弱。", "<b>通道變窄</b>：最近很平靜，常是大行情前的安靜期，但不知道會往哪邊。", "<b>通道張開</b>：波動變大，趨勢正在發動。"],
+    warn: "衝出上軌不一定要賣，強勢股可以沿著上軌走一段；跌破下軌也不一定是底。" },
+  vol: { what: "股價是結果，成交量是「有多少人參與」。這裡拿最近 5 天的平均量，和平常（20 天）的平均量比，看市場是熱還是冷。",
+    read: ["<b>量增價漲</b>：有人積極買進，上漲比較有支持。", "<b>量增價跌</b>：有人急著賣，賣壓沉重。", "<b>量縮</b>：大家在觀望，常見於盤整；<b>1 倍</b>就是和平常一樣。"],
+    warn: "單看量價很難判斷方向，要搭配位置：例如接近壓力時放量，要看能不能真的突破。" }
+};
+// 「怎麼讀這張圖」的圖解：K 線、均線交叉、強弱色帶，各畫一個小範例
+function techHowHtml() {
+  const k = `<svg viewBox="0 0 300 112" class="tcEx" role="img" aria-label="K 線範例：紅色代表收盤比開盤高，綠色代表收盤比開盤低">
+    <g class="tc-ku"><line class="tc-kw" x1="62" x2="62" y1="10" y2="86"/><rect class="tc-kb" x="50" y="28" width="24" height="38"/></g>
+    <g class="tc-kd"><line class="tc-kw" x1="212" x2="212" y1="10" y2="86"/><rect class="tc-kb" x="200" y="28" width="24" height="38"/></g>
+    <g class="tcT2"><text x="84" y="14">最高價</text><text x="84" y="32">收盤</text><text x="84" y="68">開盤</text><text x="84" y="90">最低價</text>
+    <text x="234" y="14">最高價</text><text x="234" y="32">開盤</text><text x="234" y="68">收盤</text><text x="234" y="90">最低價</text></g>
+    <text class="tcT3" x="62" y="106" text-anchor="middle" style="fill:var(--bull)">紅 K ＝ 漲</text><text class="tcT3" x="212" y="106" text-anchor="middle" style="fill:var(--bear)">綠 K ＝ 跌</text></svg>`;
+  const c = `<svg viewBox="0 0 300 118" class="tcEx" role="img" aria-label="均線交叉範例：MA20 往上穿過 MA60 叫黃金交叉，往下穿過叫死亡交叉">
+    <path d="M10 76 L110 68 L200 62 L260 58 L292 56" fill="none" stroke="var(--muted)" stroke-width="2"/>
+    <path d="M10 98 C60 94 86 84 112 68 S170 32 200 40 S240 58 292 80" fill="none" stroke="var(--ink)" stroke-width="2"/>
+    <path d="M112 78 l-5 9 h10z" fill="var(--bull)"/><path d="M243 48 l-5 -9 h10z" fill="var(--bear)"/>
+    <g class="tcT2"><text x="112" y="104" text-anchor="middle" style="fill:var(--bull);font-weight:600">黃金交叉</text><text x="243" y="30" text-anchor="middle" style="fill:var(--bear);font-weight:600">死亡交叉</text>
+    <text x="12" y="64" text-anchor="start">MA60（長線）</text><text x="12" y="114" text-anchor="start">MA20（短線）</text></g></svg>`;
+  return `<div class="tcHowItem"><h4>① K 線：一根代表一天</h4>${k}<p>紅色＝收盤比開盤高（那天漲），綠色＝收盤比開盤低（那天跌）。<b>這是台股的習慣，和美股相反。</b>上下的細線是當天的最高價和最低價。</p></div>
+    <div class="tcHowItem"><h4>② 均線交叉點：趨勢可能轉向的提醒</h4>${c}
+    <p><b>MA20</b> ＝ 最近 20 天的平均成本（短線），<b>MA60</b> ＝ 最近 60 天的平均成本（長線）。</p>
+    <p><b>黃金交叉（紅 ▲）</b>：短線從下往上穿過長線。意思是最近買進的人，成本已經超過長期平均，願意出更高的價，<b>代表轉強</b>。</p>
+    <p><b>死亡交叉（綠 ▼）</b>：短線從上往下穿過長線，<b>代表轉弱</b>。</p>
+    <p class="tcNote">注意：均線比股價慢，交叉出現時股價通常已經走了一段；盤整時還會來回交叉很多次，所以只是「提醒」，不是買賣訊號。</p></div>
+    <div class="tcHowItem"><h4>③ 強弱色帶：一眼看出這段時間是強還是弱</h4>
+    <div class="tcSwBig"><span><i class="a2"></i>深紅<br><small>+3～+4　強多</small></span><span><i class="a1"></i>淺紅<br><small>+1～+2　偏多</small></span><span><i class="a0"></i>灰色<br><small>0　中性</small></span><span><i class="b1"></i>淺綠<br><small>−1～−2　偏空</small></span><span><i class="b2"></i>深綠<br><small>−3～−4　強空</small></span></div>
+    <p>圖下方那條彩色帶，<b>每一天一格</b>。每天問四個問題，答「偏多」加 1 分，答「偏空」扣 1 分：</p>
+    <ol><li>收盤價 ＞ MA20 ＞ MA60 嗎？（均線排列）</li><li>MACD 的柱狀在 0 以上嗎？（力道）</li><li>RSI 在 50 以上嗎？（多空力氣）</li><li>KD 的 K 在 D 之上嗎？（短線方向）</li></ol>
+    <p>四個加起來是 −4～+4，再換成顏色。<b>整條帶子紅色多＝這段時間偏強，綠色多＝偏弱，由綠轉紅的地方就是轉強。</b>手指滑過圖，上方會告訴你那一天四個問題各答了什麼。</p>
+    <p class="tcNote">注意：這四項都是用同一份價量算出來的，不是四個獨立的證據；它只是把目前的狀態用顏色整理起來，不是預測。</p></div>
+    <div class="tcHowItem"><h4>④ 其他線條</h4><p><b>MA5</b> 最近一週的平均成本，反應最快；<b>布林通道</b>是股價平常活動的範圍；<b>籌碼支撐／壓力</b>（藍、橘虛線）來自「籌碼分析」，是成本集中的價位。技術面轉強、又接近壓力時，要留意能不能突破。</p></div>`;
+}
+// 名詞小辭典
+function techDictHtml() {
+  const G = (h, items) => `<div class="tcDG">${h}</div><dl>${items.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
+  return G("看這張圖會碰到的詞", [
+      ["開盤／收盤／最高／最低", "那一天第一筆成交的價、最後一筆成交的價、當天成交過的最高價和最低價。我們看的「現價」通常是收盤價。"],
+      ["區間終點", "時間軸上你選的「最右邊那一天」。所有指標的數字和判斷，都是以這一天為準；預設是最新一天。"],
+      ["成交量（張）", "那一天成交了多少股票。1 張 ＝ 1000 股。量大代表參與的人多。"],
+      ["回檔／反彈", "上漲途中暫時往下退一點叫「回檔」；下跌途中暫時往上彈一點叫「反彈」。"],
+      ["盤整", "股價在一個範圍內來回晃動，沒有明顯往上或往下。"],
+      ["突破／跌破", "股價漲過原本擋住它的價位叫「突破」；跌穿原本撐住它的價位叫「跌破」。"]]) +
+    G("判斷方向", [
+      ["多頭／空頭", "多頭＝整體在往上走（看多），空頭＝整體在往下走（看空）。<b>台股的顏色習慣：紅色代表多、綠色代表空</b>，和美股相反。"],
+      ["偏多／偏空／中性", "每個指標「現在的傾向」。偏多＝這個指標看起來在支持上漲，偏空＝支持下跌，中性＝沒有明顯傾向。只是描述現在，<b>不是預測</b>。"],
+      ["技術面偏多／偏空", "把 8 項指標算一算：偏多的項目比偏空的多 3 項以上，叫「技術面偏多」；偏空的多 3 項以上叫「偏空」；其餘叫「中性」。"],
+      ["均線（MA）", "最近 N 天收盤價的平均。MA5 ＝ 一週、MA20 ＝ 一個月、MA60 ＝ 一季。可以想成「這段時間買進的人，平均成本是多少」。"],
+      ["多頭排列／空頭排列／糾結", "收盤 ＞ MA20 ＞ MA60 叫多頭排列（短期成本比長期高，上漲趨勢）；收盤 ＜ MA20 ＜ MA60 叫空頭排列；順序亂掉叫糾結，通常是盤整。"],
+      ["黃金交叉／死亡交叉", "MA20 從下往上穿過 MA60 叫黃金交叉（轉強）；從上往下穿過叫死亡交叉（轉弱）。"],
+      ["SuperTrend", "一條會跟著股價走的「保護線」。股價在線上面是多頭，這條線也常被當成停損參考；跌破線就翻成空頭。"]]) +
+    G("看力道", [
+      ["動能", "股價「推進的力道」。價格漲不代表力道強：漲得越來越吃力，動能就在減弱。"],
+      ["RSI", "最近 14 天，上漲的力氣和下跌的力氣誰比較大，0～100，50 是分界。"],
+      ["KD（K、D）", "今天收盤在最近 9 天高低區間的哪個位置。K 是快線、D 是慢線；K 在 D 之上偏多。"],
+      ["MACD（DIF、MACD 線、柱狀）", "DIF ＝ 短期平均價 − 長期平均價；MACD 線 ＝ DIF 再平均一次；柱狀 ＝ DIF − MACD 線。柱狀在 0 以上偏多、越長力道越強。"],
+      ["過熱／超賣", "漲得太急叫「過熱」（RSI 超過 70、K 超過 80），短線容易拉回；跌得太深叫「超賣」（RSI 低於 30、K 低於 20），短線容易反彈。"],
+      ["鈍化", "指標卡在過熱或超賣很久，但股價還繼續走。強勢股的 RSI 可以一直在 70 以上，所以不能一看到過熱就賣。"],
+      ["強弱色帶", "每天把「均線排列、MACD、RSI、KD」四個問題各打 +1 或 −1，加總換成顏色，看整段時間是強還是弱。"]]) +
+    G("看波動與量", [
+      ["波動", "股價每天晃動的幅度。晃得大叫波動大，晃得小叫波動小。"],
+      ["布林通道（上軌、中線、下軌、位置、通道寬）", "以 20 日線為中線，上下各加減 2 倍標準差，股價大約 95% 的時間待在裡面。位置 0% ＝ 下軌、50% ＝ 中線、100% ＝ 上軌；通道寬代表波動大小。"],
+      ["波動收斂", "通道變得特別窄，代表最近很平靜，常是大行情前的安靜期，但不知道往哪邊。"],
+      ["量比", "最近 5 天的平均成交量 ÷ 最近 20 天的平均成交量。1 倍 ＝ 和平常一樣，超過 1.3 倍算量增，低於 0.7 倍算量縮。"],
+      ["量增價漲／量增價跌／量縮", "量變多又漲＝買盤積極；量變多卻跌＝賣壓重；量變少＝大家觀望。"]]) +
+    G("來自籌碼分析", [
+      ["籌碼支撐／壓力", "根據成交資料推算，很多人成本集中的價位。股價下跌到支撐附近，常有人願意買；上漲到壓力附近，常有人想賣出解套。是統計傾向，不是保證。"],
+      ["位置評分", "籌碼分析的綜合評語（0～100）：現價附近下方有沒有支撐、上方壓力輕不輕、成本面舒不舒服。分數高代表位置舒服，不代表一定會漲。"]]);
+}
+// 頁面骨架只建一次（滑桿要留著，不然拖到一半會被重建）；之後只更新各個區塊
+function techSkeleton() {
+  const el = $("techPanel");
+  if (el.dataset.sk) return;
+  el.dataset.sk = "1";
+  const lb = k => { const [, tt, c] = TECH_LAYERS.find(x => x[0] === k); return `<button type="button" data-l="${k}" aria-pressed="${!!TECH.show[k]}"><i style="background:${c}"></i>${tt}</button>`; };
+  el.innerHTML = `<div id="techHead"></div>
+    <div class="tcTool">
+      <div class="tcTitRow"><span class="tcTit">圖上要看什麼</span><span class="tcLinks"><a href="#tg-chart" data-gt="tg-chart">怎麼讀這張圖</a><a href="#tg-dict" data-gt="tg-dict">名詞小辭典</a></span></div>
+      <div id="techLayers" role="group" aria-label="圖上顯示的項目">
+        <div class="tcG1"><span>均線</span><div class="tcBtns c3">${["ma5", "ma20", "ma60"].map(lb).join("")}</div></div>
+        <div class="tcG1"><span>輔助</span><div class="tcBtns c2">${["boll", "chip", "cross", "strip"].map(lb).join("")}</div></div>
+      </div>
+      <div class="tcG1" id="techPres"><span>快速</span><div class="tcBtns c3">${Object.keys(TECH_PRESET).map(k => `<button type="button" data-p="${k}">${k}</button>`).join("")}</div></div>
+    </div>
+    <div id="techReadout" class="tcRd" aria-live="polite"></div>
+    <div id="techChart" class="tcChartBox"></div>
+    <div id="techLegend"></div>
+    <div id="techRange" aria-label="技術分析圖顯示區間"></div>
+    <div class="tcG1" style="margin-top:10px"><span>副圖</span><div class="seg tcSeg" id="techSubSeg" role="group" aria-label="副圖">${[["macd", "MACD"], ["rsi", "RSI"], ["kd", "KD"], ["vol", "量能"], ["none", "關閉"]].map(([k, tt]) => `<button type="button" data-s="${k}" aria-pressed="${TECH.sub === k}">${tt}</button>`).join("")}</div></div>
+    <div id="techCombos"></div>
+    <div id="techList"></div>
+    <p class="advnote" style="padding:8px 0 0">技術指標都是用同一份價量算的，彼此高度相關，偏多的項目多不代表一定會漲；我們的回測也發現單靠它們沒有穩定的預測力。這裡只描述現在的狀態，不是買賣建議。</p>`;
+  const ch = $("techChart");
+  ch.addEventListener("pointermove", ev => techScrub(ev));
+  ch.addEventListener("pointerdown", ev => techScrub(ev));
+  ch.addEventListener("pointerleave", ev => { if (ev.pointerType === "mouse") techScrub(null); });
+}
+function renderTech(R) {
+  const el = $("techPanel"), emp = $("techEmpty");
+  if (!R || !R.st) { el.hidden = true; emp.hidden = false; $("techName").textContent = ""; $("techPrice").textContent = ""; return; }
+  emp.hidden = true; el.hidden = false;
+  const st = R.st, n = st.d.length;
+  if (n < 160) { el.dataset.sk = ""; TECH.code = ""; el.innerHTML = `<p class="advnote">這檔股票的歷史資料不到 160 個交易日，技術指標還算不出來。</p>`; return; }
+  techSkeleton();
+  if (TECH.code !== st.code || TECH.n !== n) {                                 // 換股票：區間回到「最近 6 個月、終點是最新一天」，並重建滑桿
+    TECH.code = st.code; TECH.n = n; TECH.b = n - 1; TECH.a = Math.max(0, n - 126);
+    mountRange($("techRange"), { n, a: TECH.a, b: TECH.b, minSpan: 20, date: i => st.d[i], onChange: (a, b) => { TECH.a = a; TECH.b = b; techUpdate(window.__R); } });
+  }
+  techUpdate(R);
+}
+function techUpdate(R) {
+  if (!R || !R.st || $("techPanel").hidden || !$("techHead")) return;
+  const st = R.st, a = TECH.a, e = TECH.b, chipOK = !!state.view && e === state.view.b;
+  const T = techCalc(st, e); TECH.T = T;
+  $("techName").textContent = `${st.code}${st.name ? "　" + st.name : ""}　區間終點 ${st.d[e]}`; $("techPrice").textContent = fmt(st.c[e]);
+  techToolbar(chipOK); $("techLegend").innerHTML = techLegendHtml(chipOK);
+  const sig = techSignals(T, R, chipOK);
+  if (!sig.length) { $("techHead").innerHTML = `<p class="advnote">區間終點太早，指標還在暖機（需要 130 個交易日以上的歷史），請把終點往後拉。</p>`; $("techCombos").innerHTML = ""; $("techList").innerHTML = ""; techChart(T, R, a, chipOK); techScrub(null); return; }
+  const bu = sig.filter(s => s.st > 0).length, be = sig.filter(s => s.st < 0).length, ne = sig.length - bu - be, net = bu - be;
+  const tl = net >= 3 ? ["技術面偏多", "good"] : net <= -3 ? ["技術面偏空", "bad"] : ["技術面中性", ""];
+  const cats = ["趨勢", "動能", "波動", "量價"], catTxt = { 趨勢: "方向", 動能: "力道", 波動: "盤整或發動", 量價: "有沒有人跟" };
+  const tile = c => { const g = sig.filter(s => s.cat === c), sum = g.reduce((s, x) => s + x.st, 0), v = sum > 0 ? 1 : sum < 0 ? -1 : 0, b = g.filter(s => s.st > 0).length, d = g.filter(s => s.st < 0).length;
+    return `<div class="tcTile ${tcTag(v)}"><div class="c">${c}<small>${catTxt[c]}</small></div><div class="v">${v > 0 ? "偏多" : v < 0 ? "偏空" : "中性"}</div><div class="n">${b} 多　${d} 空　${g.length - b - d} 中性</div></div>`; };
+  const combos = techCombos(T, sig, R, chipOK), hits = combos.filter(c => c.hit), rest = combos.filter(c => !c.hit);
+  const comboHtml = c => `<div class="tcCombo${c.hit ? " hit" : ""}"><div class="tcCH"><b>${c.title}</b><span class="tcTag ${tcTag(c.lv)}${c.hit ? "" : " off"}">${c.status}</span></div>
+    <div class="tcParts">${c.parts.filter(Boolean).map(p => `<span class="tcP ${tcTag(p.v)}">${p.n} ${p.t}</span>`).join("")}</div>
+    <p class="tcAdv">${c.advice}</p></div>`;
+  $("techHead").innerHTML = `<div class="tcHd"><h2 style="margin:0">技術面　<span class="vdTag ${tl[1]}">${tl[0]}</span></h2><a class="tcMore" href="#tg-dict" data-gt="tg-dict">怎麼判斷？</a></div>
+    <div class="tcBar" role="img" aria-label="${sig.length} 項指標：${bu} 項偏多、${ne} 項中性、${be} 項偏空"><i class="bu" style="flex:${bu}"></i><i class="ne" style="flex:${ne}"></i><i class="be" style="flex:${be}"></i></div>
+    <div class="tcBarL"><span>${bu} 項偏多</span><span>${ne} 項中性</span><span>${be} 項偏空</span></div>
+    <div class="tcDash">${cats.map(tile).join("")}</div>`;
+  techChart(T, R, a, chipOK); techScrub(null);
+  $("techCombos").innerHTML = `<div class="tcHd" style="margin-top:16px"><h2 style="margin:0">搭配組合</h2><a class="tcMore" href="#tg-combo" data-gt="tg-combo">怎麼看？</a></div>
+    ${chipOK ? "" : `<p class="advnote" style="padding:4px 0 0">區間終點不是最新日，籌碼線和「技術＋籌碼」先不判斷。</p>`}
+    ${hits.length ? hits.map(comboHtml).join("") : `<div class="status" style="margin-top:6px">目前沒有特別成立的組合型態，維持觀察。</div>`}
+    ${rest.length ? `<details class="adv inner more"><summary>其他組合（目前沒有特別型態，${rest.length}）</summary>${rest.map(comboHtml).join("")}</details>` : ""}`;
+  $("techList").innerHTML = `<h2 style="margin:16px 0 2px">每個指標的狀態</h2>` + cats.map(c => `<div class="tcCat">${c}　<small>${catTxt[c]}</small></div>` + sig.filter(s => s.cat === c).map(r => `<div class="tcRow"><div class="tcH"><b>${r.name}</b><span class="tcHR"><a class="tcMore" href="#tg-${r.id}" data-gt="tg-${r.id}">說明</a><span class="tcTag ${tcTag(r.st)}">${r.tag}</span></span></div>
+    <div class="tcV">${r.val}</div>${r.gauge}<div class="tcT">${r.txt}</div></div>`).join("")).join("");
+}
+$("techPanel").addEventListener("click", e => {
+  const l = e.target.closest("#techLayers button[data-l]"), p = e.target.closest("#techPres button"), s = e.target.closest("#techSubSeg button");
+  if (l && !l.disabled) { TECH.show[l.dataset.l] = TECH.show[l.dataset.l] ? 0 : 1; lsWrite("techShow", TECH.show); techUpdate(window.__R); }
+  else if (p) { TECH.show = { ...TECH_PRESET[p.dataset.p] }; lsWrite("techShow", TECH.show); techUpdate(window.__R); }
+  else if (s) { TECH.sub = s.dataset.s; lsWrite("techSub", { v: TECH.sub }); techUpdate(window.__R); }
+});
+// 詳細說明都搬到「新手專區」；這裡的「說明」連結會跳過去，並讓目標閃一下
+function techGoGuide(id) {
+  if ($("pgGuide").hidden) showTab("guide");
+  setTimeout(() => { const el = document.getElementById(id); if (!el) return; el.scrollIntoView({ block: "start" }); window.scrollBy(0, -64); el.classList.add("tgFlash"); setTimeout(() => el.classList.remove("tgFlash"), 1800); }, 60);
+}
+document.addEventListener("click", e => { const a = e.target.closest("[data-gt]"); if (a) { e.preventDefault(); techGoGuide(a.dataset.gt); } });
+const TECH_COMBO_INFO = [
+  { title: "順勢三步驟：趨勢 → 動能 → 量能", read: "先用均線決定方向，再用 MACD 確認力道，最後用量能確認有沒有人跟。三項都偏多（或都偏空），或兩項同向、另一項中性，就算「成立」。三項互相打架時訊號品質差，常見做法是等其中兩項以上同向再判斷。" },
+  { title: "多頭回檔／過熱：趨勢濾網 ＋ KD、RSI", read: "用均線判斷是多頭還是空頭，再用 KD、RSI 看位置。多頭中，KD 低於 40 或 RSI 低於 45 是「回檔區」，KD 高於 80 或 RSI 高於 70 是「過熱」；空頭中，KD 低於 20 或 RSI 低於 30 常常只是「鈍化」，低檔不等於止跌。" },
+  { title: "波動與量能：布林通道 ＋ 量價", read: "布林通道告訴你「現在是盤整還是發動」，量能告訴你「有沒有人真的在買賣」。通道特別窄又量縮是「蓄勢」；股價衝出上軌又放量比較可靠，衝出上軌卻量縮要小心假突破；放量跌破下軌是弱勢確認。" },
+  { title: "動能一致性：MACD ＋ RSI ＋ KD", read: "MACD、RSI、KD 都是看力道，彼此很像，所以不要把它們當成三個獨立的證據；三項同向只能說「力道方向很明確」，不能算「三倍可靠」。" },
+  { title: "技術面 ＋ 籌碼面對照", read: "技術面看趨勢和動能，籌碼面看價位和賣壓，兩個角度不同，同向時訊號比較完整。技術面偏多又接近籌碼壓力，要留意能不能突破；技術面偏空但貼近籌碼支撐，可以觀察會不會止跌。" }
+];
+// 新手專區的「技術分析怎麼看」：圖解、搭配組合、每個指標、名詞小辭典，都放在這裡
+function techGuideInit() {
+  const names = { ma: "均線排列", slope: "20 日線方向", st: "SuperTrend", rsi: "RSI", kd: "KD", macd: "MACD", boll: "布林通道", vol: "量價（成交量和股價）" };
+  const gl = { ma: "ma", slope: "ma", st: "supertrend", rsi: "rsi", kd: "kd", macd: "macd", boll: "boll", vol: "volPrice" };
+  const ind = Object.keys(TECH_MEAN).map(k => { const m = TECH_MEAN[k], g = GLOSS[gl[k]];
+    return `<div class="card tgCard" id="tg-${k}"><div class="tgH"><b>${names[k]}</b><a class="tcMore" href="#" data-go="tech">回技術分析</a></div><p class="what">${m.what}</p><ul>${m.read.map(x => `<li>${x}</li>`).join("")}</ul><p class="tcWarn"><b>要小心：</b>${m.warn}</p>${g && g.calc ? `<p class="tgCalc"><b>怎麼算：</b>${g.calc}</p>` : ""}</div>`; }).join("");
+  $("gTechBody").innerHTML = `<div id="tg-chart" class="tgSub"><h4 class="tgT">怎麼讀這張圖</h4>${techHowHtml()}</div>
+    <div id="tg-combo" class="tgSub"><h4 class="tgT">搭配組合怎麼看</h4><p class="gLead">不同「類型」的指標搭配，才有新資訊；同類型（例如 RSI 和 KD）疊在一起幾乎沒有新資訊。常見的思路：先看<b>趨勢</b>決定方向，再用<b>動能</b>確認力道，最後用<b>量能、布林通道</b>判斷有沒有發動，並和<b>籌碼</b>對照。</p>${TECH_COMBO_INFO.map(c => `<div class="card tgCard"><b>${c.title}</b><p class="what" style="font-weight:400">${c.read}</p></div>`).join("")}</div>
+    <div id="tg-ind" class="tgSub"><h4 class="tgT">每個指標代表什麼</h4>${ind}</div>
+    <div id="tg-dict" class="tgSub"><h4 class="tgT">名詞小辭典</h4><div class="tcDict">${techDictHtml()}</div></div>`;
+}
+techGuideInit();
+{ let raf = 0, w0 = 0; new ResizeObserver(() => { const w = $("techPanel").clientWidth; if (!w || w === w0 || $("techPanel").hidden) { w0 = w; return; } w0 = w; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => techUpdate(window.__R)); }).observe($("techPanel")); }
 
 /* ---------- 頁面縮放（A− / 100% / A+） ---------- */
 const ZOOMS = [0.85, 1, 1.15, 1.3, 1.5];

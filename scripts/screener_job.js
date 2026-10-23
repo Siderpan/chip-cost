@@ -31,9 +31,10 @@ function loadModel(html) {
     grabLine(html, /^const pct = [^\n]*$/m, "pct"),
     grabLine(html, /^const spct = [^\n]*$/m, "spct"),
     grabLine(html, /^const state = [^\n]*$/m, "state"),
-    ...["makeBins", "triCdf", "dayWeights", "runModel", "analyze", "superTrend", "stSummary", "verdictOf"].map(n => grabFn(html, n))
+    grabLine(html, /^const techSma = [^\n]*$/m, "techSma"), grabLine(html, /^const techEma = [^\n]*$/m, "techEma"),
+    ...["makeBins", "triCdf", "dayWeights", "runModel", "analyze", "superTrend", "stSummary", "verdictOf", "techRsi", "techKd", "techMacd", "techBoll", "techCalc", "techSnap"].map(n => grabFn(html, n))
   ].join("\n");
-  const api = new Function(src + "\nreturn { makeBins, runModel, analyze, superTrend, stSummary, verdictOf, state, BIN };")();
+  const api = new Function(src + "\nreturn { makeBins, runModel, analyze, superTrend, stSummary, verdictOf, techSnap, state, BIN };")();
   const pool = JSON.parse(grabLine(html, /(?<=^const BIG_POOL = )\[[^\]]*\]/m, "BIG_POOL"));
   return { api, pool };
 }
@@ -69,7 +70,7 @@ function metricsOf(M, st, name) {
   for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
   const { edges, centers } = api.makeBins(lo, hi, api.BIN), m = api.runModel(rows, edges, st.shares, api.state.decay), a = api.analyze(centers, m.p, price, api.state.gap, m.vol);
   const sf = api.superTrend(rows, api.state.stN, api.state.stM), S = api.stSummary(rows, sf, price);
-  return { code: st.code, name, price, date: st.d[st.d.length - 1], cov: m.coverage, s1: a.sup[0] || null, r1: a.res[0] || null, bull: !!S && S.dir > 0, stDays: S ? S.days : 0, v: api.verdictOf({ a, price, m }) };
+  return { code: st.code, name, price, date: st.d[st.d.length - 1], cov: m.coverage, s1: a.sup[0] || null, r1: a.res[0] || null, bull: !!S && S.dir > 0, stDays: S ? S.days : 0, v: api.verdictOf({ a, price, m }), tech: api.techSnap(st) };
 }
 
 // 主流程。old = 上一次的 screener.json 內容（抓不到的股票沿用舊資料）
