@@ -842,6 +842,14 @@ svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 .flowCmp { padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; } .flowCmpT { font: 700 .82rem var(--font-ui); margin-bottom: 6px; } .flowChips { display: flex; flex-wrap: wrap; gap: 6px; } .flowChip { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); } .flowChip i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; } .flowChip i.tc-bu { background: var(--bull); } .flowChip i.tc-be { background: var(--bear); } .flowSum { font-size: .84rem; line-height: 1.7; margin: 8px 0 0; }
 .flowHow { font-size: .82rem; line-height: 1.7; padding: 10px 12px; border-radius: 12px; background: var(--surface-2, rgba(127,127,127,.08)); margin: 8px 0; } .flowHow ol { margin: 4px 0 0; padding-left: 1.3em; } .flowMore { margin-top: 8px; } .flowSvg .flowLn3 { fill: none; stroke: var(--profit); stroke-width: 1.8; } .flowSvg .flowLn3d { fill: var(--profit); } .flowSvg .flowPx { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 3; opacity: .8; }
 .flowRef { font-size: .8rem; line-height: 1.7; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 12px; margin: 8px 0; } .flowRef ul { margin: 4px 0; padding-left: 1.2em; } .flowRef small { display: block; color: var(--muted); font-size: .74rem; }
+.fcSec { margin-top: 14px; } .fcHd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; } .fcHd b { font-size: .9rem; } .fcTi { font-size: .72rem; color: var(--muted); }
+.fcRd { font-size: .76rem; line-height: 1.6; min-height: 3.2em; padding: 6px 10px; margin: 6px 0; border-radius: 8px; background: rgba(127,127,127,.08); } .fcRd small { color: var(--muted); } .fcRd span.flowUp { font-weight: 600; } .fcRd span.flowDn { font-weight: 600; }
+.fcBox { touch-action: pan-y; position: relative; } .fcBox svg { display: block; width: 100%; height: auto; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.fcGrid { stroke: var(--grid); stroke-width: 1; } .fcZero { stroke: var(--muted); stroke-width: 1; opacity: .55; } .fcAx { fill: var(--muted); font: 500 10px var(--font-ui); } .fcUp { fill: var(--bull); opacity: .88; } .fcDn { fill: var(--bear); opacity: .88; }
+.fcLine { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; } .fcLine.c1 { stroke: var(--profit); } .fcLine.c2 { stroke: var(--trapped); } .fcArea { stroke: none; opacity: .14; } .fcArea.c1 { fill: var(--profit); } .fcArea.c2 { fill: var(--trapped); }
+.fcDot.c1 { fill: var(--profit); stroke: var(--surface); stroke-width: 1.5; } .fcDot.c2 { fill: var(--trapped); stroke: var(--surface); stroke-width: 1.5; } .fcTag.c1 rect { fill: var(--profit); } .fcTag.c2 rect { fill: var(--trapped); } .fcTag text { fill: var(--surface); font: 600 10px var(--font-ui); }
+.fcPx { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 3; opacity: .85; } .fcX { stroke: var(--ink); stroke-width: 1; opacity: .35; }
+.fcLg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .72rem; color: var(--muted); margin-top: 4px; } .fcLg i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 5px; } .fcLg i.c1 { border-color: var(--profit); } .fcLg i.c2 { border-color: var(--trapped); } .fcLg i.px { border-top: 2px dashed var(--muted); } .fcLg i.up { border-color: var(--bull); height: 6px; border-top-width: 6px; } .fcLg i.dn { border-color: var(--bear); height: 6px; border-top-width: 6px; }
 .flowH { margin: 14px 0 4px; font-size: .9rem; } .flowRead { margin: 4px 0; padding-left: 1.2em; font-size: .84rem; line-height: 1.75; } .flowRead li { margin: 4px 0; }
 .tcCW { display: inline-flex; align-items: center; gap: 2px; } .tcCW .info { flex: none; }
 .tcLeg { margin-top: 6px; row-gap: 4px; } .tcSw i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin: 0 3px 0 8px; vertical-align: -2px; }
@@ -1139,7 +1147,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div class="gStep"><i>1</i><div><b>點開「法人與融資」，先看兩個標籤</b><p>在「支撐區」下面。<b>法人動向</b>會標示「偏買／中性／偏賣」，<b>融資籌碼</b>會標示「漲＋融資減／漲＋融資增／套牢槓桿增加／融資退場」，下面各有一句白話。法人的判斷方式：近 20 日法人買賣超占成交量的比例，超過 ±2% 才算偏買或偏賣。</p></div></div>
         <div class="gStep"><i>2</i><div><b>看「三個角度對照」</b><p>把<b>位置</b>（位置評分）、<b>資金</b>（法人＋融資）、<b>狀態</b>（技術分析）三個小圓點並排，再用一句話告訴你它們是否一致。注意：歷史驗證中，「多數角度偏負面」是比較有參考價值的警訊；「都偏正面」則沒有那麼可靠。</p></div></div>
         <div class="gStep"><i>3</i><div><b>看「歷史驗證參考」</b><p>列出兩項歷史上有一點參考價值的法人訊號：外資與投信近 20 日是否同步買超、近 120 日法人是長期偏買還是偏賣。<b>它們不計入任何分數</b>，只是參考。</p></div></div>
-        <div class="gStep"><i>4</i><div><b>需要時再點開「詳細數字和圖表」</b><p>可以切換時間長度（法人 20／60／120／250 日、融資融券 60／120／250 日），也可以選「累計」或「每日」。<b>累計</b>的藍線往上＝一路買、往下＝一路賣，灰色虛線是同期股價，用來對照。</p></div></div>
+        <div class="gStep"><i>4</i><div><b>需要時再點開「詳細數字和圖表」</b><p>可以點「1 個月／3 個月／6 個月／全部」切換長度，手機上也可以在圖上<b>兩指捏合縮放、兩指一起左右移動</b>；手指在圖上左右滑動，會顯示那一天的數字。法人圖可選「累計」或「每日」。<b>累計</b>的藍線往上＝一路買、往下＝一路賣，灰色虛線是同期股價，用來對照。</p></div></div>
       </div>
       <h4 class="odH">時間長度怎麼選？</h4>
       <dl class="gDef">
@@ -2439,7 +2447,7 @@ function attachPinch(box, rng) {
   box.addEventListener("touchstart", e => {
     const r = rng(e);
     if (e.touches.length !== 2 || !r) { p = null; return; }
-    const [a, b] = r.get(), w = box.getBoundingClientRect();
+    const [a, b] = r.get(), w = (r.el || box).getBoundingClientRect();
     p = { d: dist(e.touches) || 1, a, b, f: w.width ? Math.min(1, Math.max(0, (midX(e.touches) - w.left) / w.width)) : 0.5, mx: midX(e.touches), w: w.width || 1, r };
   }, { passive: true });
   box.addEventListener("touchmove", e => {
@@ -5784,7 +5792,7 @@ function scrInit() {
    這些是交易所公布的「真實持有與資金資料」，和我們用價量推估的成本分布互補。目前只顯示和用白話解讀，不納入位置評分或篩選器（還沒驗證過）。
    最上面先給「一句話總結」和三個角度（位置、資金、狀態）的對照，細節和圖表收在下面，要看再點開。
    資料要點開才載入（約 3 次查詢，存在手機裡 6 小時），避免多耗用 FinMind 的額度。一次抓約 1 年半，所以時間長度可以選 20／60／120／250 日。 */
-const FLOW = { code: "", busy: false, err: "", D: null, r: 60, mr: 120, mode: "cum", g: "all", m: "margin", more: false };
+const FLOW = { code: "", busy: false, err: "", D: null, v: { i: null, m: null }, cm: null, mode: "cum", g: "all", m: "margin", more: false };
 async function flowFetch(ds, code, shrink) {
   const key = `flow2:${ds}:${code}`, c = lsRead(key);
   if (c && Date.now() - c.t < 6 * 36e5) return c.data;
@@ -5794,7 +5802,7 @@ async function flowFetch(ds, code, shrink) {
 }
 const flowByDate = (a, b) => a.d < b.d ? -1 : 1;
 async function flowLoad(R) {
-  const code = R.st.code; FLOW.code = code; FLOW.busy = true; FLOW.err = ""; FLOW.D = null; flowDraw();
+  const code = R.st.code; FLOW.code = code; FLOW.busy = true; FLOW.err = ""; FLOW.D = null; FLOW.v = { i: null, m: null }; flowDraw();
   try {
     const soft = p => p.catch(e => { if (e.limit) throw e; return null; });       // 這檔沒有資料（例如 ETF 沒有融資融券）不算錯誤
     const [inst, mg, fh] = await Promise.all([
@@ -5830,28 +5838,96 @@ function flowStreak(a, k) {                                                   //
   return s * n;
 }
 const flowTag = v => v > 0 ? "tc-bu" : v < 0 ? "tc-be" : "tc-ne";
-const flowRangeTxt = n => ({ 20: "約 1 個月", 60: "約 1 季", 120: "約半年", 250: "約 1 年" })[n] || "";
-function flowBars(vals, dates, W) {
-  const H = 150, ml = 58, mr = 6, mt = 10, mb = 20, n = vals.length, mx = Math.max(1, ...vals.map(Math.abs)), y = v => mt + (H - mt - mb) * (1 - (v + mx) / (2 * mx)), bw = Math.max(1.5, (W - ml - mr) / n * 0.7);
-  const x = i => ml + (W - ml - mr) * (i + 0.5) / n;
-  let g = `<line class="px" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><text class="axt" x="${ml - 5}" y="${y(0) + 3.5}" text-anchor="end">0</text><text class="axt" x="${ml - 5}" y="${y(mx) + 8}" text-anchor="end">${flowN(mx)}</text><text class="axt" x="${ml - 5}" y="${y(-mx)}" text-anchor="end">${flowN(-mx)}</text>`;
-  vals.forEach((v, i) => { g += `<rect class="${v >= 0 ? "tc-up" : "tc-dn"}" x="${(x(i) - bw / 2).toFixed(1)}" y="${Math.min(y(v), y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0.8, Math.abs(y(v) - y(0))).toFixed(1)}"><title>${dates[i]}　${flowN(v)} 張</title></rect>`; });
-  g += `<text class="axt" x="${ml}" y="${H - 5}">${dates[0].slice(5).replace("-", "/")}</text><text class="axt" x="${W - mr}" y="${H - 5}" text-anchor="end">${dates[n - 1].slice(5).replace("-", "/")}</text>`;
-  return `<svg viewBox="0 0 ${W} ${H}" class="flowSvg" role="img" aria-label="近 ${n} 個交易日每天的買賣超，紅色買超、綠色賣超">${g}</svg>`;
-}
-// 折線圖；price 是同一段期間的股價（對照用，灰色虛線，高低以它自己的範圍為準，沒有座標）
-function flowLine(vals, dates, W, cls, fmtY, price) {
-  const H = 160, ml = 58, mr = 6, mt = 10, mb = 20, n = vals.length;
-  let lo = Math.min(...vals), hi = Math.max(...vals); if (hi === lo) { hi += 1; lo -= 1; } const pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
-  const x = i => ml + (W - ml - mr) * i / Math.max(1, n - 1), y = v => mt + (H - mt - mb) * (1 - (v - lo) / (hi - lo));
-  let g = ""; for (const t of niceTicks(lo, hi, 3).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text class="axt" x="${ml - 5}" y="${y(t) + 3.5}" text-anchor="end">${fmtY(t)}</text>`;
+/* 圖表：法人買賣超、融資融券共用的繪圖函式。
+   版面：右側座標軸、淡淡的格線、底部日期刻度、最新值標籤、股價虛線（對照用）。
+   互動：手指在圖上左右拖曳可以看每一天的數字；兩指捏合縮放區間、兩指一起移動平移（和籌碼分析、技術分析一樣）。 */
+const flowView = kind => {
+  const n = (kind === "i" ? FLOW.D.inst : FLOW.D.mg).length;
+  let v = FLOW.v[kind]; if (!v) v = [Math.max(0, n - (kind === "i" ? 60 : 120)), n - 1];
+  const b = Math.min(n - 1, Math.max(0, v[1])), a = Math.max(0, Math.min(v[0], b - Math.min(9, n - 1)));
+  return [a, b];
+};
+const flowPre = (kind, items) => {
+  const n = (kind === "i" ? FLOW.D.inst : FLOW.D.mg).length, [a, b] = flowView(kind);
+  return `<div class="seg flowSeg" role="group" aria-label="圖表的時間長度">${items.map(([k, t]) => `<button type="button" data-fp="${kind}:${k}" aria-pressed="${b === n - 1 && (k ? b - a + 1 === Math.min(k, n) : a === 0)}">${t}</button>`).join("")}</div>`;
+};
+const flowK = v => { const a = Math.abs(v), s = v < 0 ? "−" : ""; return a >= 1e5 ? s + Math.round(a / 1e3) + "k" : a >= 1e4 ? s + (a / 1e3).toFixed(1) + "k" : s + Math.round(a).toLocaleString("en-US"); };
+function flowPlot(o) {
+  const { dates, vals, bars, price, fmtY, fmtTag, cls, W } = o, n = vals.length, H = 196, ml = 6, mr = 50, mt = 12, mb = 24, pw = W - ml - mr, ph = H - mt - mb;
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  if (bars) { const m = Math.max(1, ...vals.map(Math.abs)); lo = -m; hi = m; } else { if (hi === lo) { hi += 1; lo -= 1; } const pad = (hi - lo) * 0.08; lo -= pad; hi += pad; }
+  const x = i => bars ? ml + pw * (i + 0.5) / n : ml + pw * i / Math.max(1, n - 1), y = v => mt + ph * (1 - (v - lo) / (hi - lo)), y0 = Math.min(mt + ph, Math.max(mt, y(0)));
+  let g = "";
+  for (const t of niceTicks(lo, hi, 4).ticks) { if (t < lo || t > hi) continue; g += `<line class="fcGrid" x1="${ml}" x2="${W - mr}" y1="${y(t).toFixed(1)}" y2="${y(t).toFixed(1)}"/><text class="fcAx" x="${W - mr + 6}" y="${(y(t) + 3.5).toFixed(1)}">${fmtY(t)}</text>`; }
+  if (lo < 0 && hi > 0) g += `<line class="fcZero" x1="${ml}" x2="${W - mr}" y1="${y0.toFixed(1)}" y2="${y0.toFixed(1)}"/>`;
+  const long = n > 130;
+  for (const f of [0, 0.25, 0.5, 0.75, 1]) { const i = Math.round(f * (n - 1)), d = dates[i], tx = bars ? x(i) : x(i); g += `<text class="fcAx" x="${tx.toFixed(1)}" y="${H - 6}" text-anchor="${f === 0 ? "start" : f === 1 ? "end" : "middle"}">${long ? d.slice(2, 7).replace("-", "/") : d.slice(5).replace("-", "/")}</text>`; }
   if (price && price.length === n) {
-    const pl = Math.min(...price), ph = Math.max(...price), yp = v => mt + (H - mt - mb) * (1 - (v - pl) / ((ph - pl) || 1));
-    g += `<path class="flowPx" d="${price.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${yp(v).toFixed(1)}`).join("")}"/>`;
+    const pl = Math.min(...price), ph2 = Math.max(...price), yp = v => mt + ph * (1 - (v - pl) / ((ph2 - pl) || 1));
+    g += `<path class="fcPx" d="${price.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${yp(v).toFixed(1)}`).join("")}"/>`;
   }
-  g += `<path class="${cls}" d="${vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join("")}"/><circle class="${cls}d" cx="${x(n - 1).toFixed(1)}" cy="${y(vals[n - 1]).toFixed(1)}" r="3"/>`;
-  g += `<text class="axt" x="${ml}" y="${H - 5}">${dates[0].slice(5).replace("-", "/")}</text><text class="axt" x="${W - mr}" y="${H - 5}" text-anchor="end">${dates[n - 1].slice(5).replace("-", "/")}</text>`;
-  return `<svg viewBox="0 0 ${W} ${H}" class="flowSvg" role="img" aria-label="近 ${n} 個交易日的走勢">${g}</svg>`;
+  if (bars) {
+    const bw = Math.max(1, Math.min(14, pw / n * 0.72));
+    vals.forEach((v, i) => { g += `<rect class="${v >= 0 ? "fcUp" : "fcDn"}" x="${(x(i) - bw / 2).toFixed(1)}" y="${Math.min(y(v), y0).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0.8, Math.abs(y(v) - y0)).toFixed(1)}" rx="${bw > 4 ? 1 : 0}"/>`; });
+  } else {
+    const d = vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(""), base = lo < 0 && hi > 0 ? y0 : mt + ph;
+    g += `<path class="fcArea ${cls}" d="${d}L${x(n - 1).toFixed(1)} ${base.toFixed(1)}L${x(0).toFixed(1)} ${base.toFixed(1)}Z"/><path class="fcLine ${cls}" d="${d}"/>`;
+    const ly = Math.min(mt + ph - 8, Math.max(mt + 8, y(vals[n - 1])));
+    g += `<circle class="fcDot ${cls}" cx="${x(n - 1).toFixed(1)}" cy="${y(vals[n - 1]).toFixed(1)}" r="3"/><g class="fcTag ${cls}"><rect x="${W - mr + 3}" y="${(ly - 8).toFixed(1)}" width="${mr - 4}" height="16" rx="3"/><text x="${W - mr + 3 + (mr - 4) / 2}" y="${(ly + 3.5).toFixed(1)}" text-anchor="middle">${fmtTag(vals[n - 1])}</text></g>`;
+  }
+  g += `<line class="fcX" x1="0" x2="0" y1="${mt}" y2="${mt + ph}" style="display:none"/><circle class="fcD" r="3.6" cx="0" cy="0" style="display:none"/>`;
+  return { svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label}">${g}</svg>`, geo: { W, ml, pw, n, bars, x, y, mt, ph } };
+}
+function flowChart(kind) {
+  const box = $(kind === "i" ? "flowChI" : "flowChM"), R = window.__R, D = FLOW.D; if (!box || !D || !R || !R.st) return;
+  const arr = kind === "i" ? D.inst : D.mg; if (!arr) return;
+  if (!FLOW.cm || FLOW.cm.code !== R.st.code) FLOW.cm = { code: R.st.code, map: new Map(R.st.d.map((d, i) => [d, R.st.c[i]])) };
+  const [a, b] = flowView(kind), ser = arr.slice(a, b + 1), dates = ser.map(s => s.d), n = ser.length, W = Math.max(300, Math.floor(box.clientWidth || 340));
+  const px = ser.map(s => FLOW.cm.map.get(s.d)), okPx = px.every(v => v > 0);
+  let plot, read, legend;
+  if (kind === "i") {
+    const key = FLOW.g, lab = { all: "合計", f: "外資", t: "投信", dl: "自營商" }[key], vals = ser.map(s => s[key]);
+    let acc = 0; const cum = vals.map(v => (acc += v));
+    if (FLOW.mode === "cum") {
+      plot = flowPlot({ dates, vals: cum, bars: false, price: okPx ? px : null, fmtY: flowK, fmtTag: flowK, cls: "c1", W, label: `${lab}累計買賣超與股價` });
+      legend = `<span><i class="c1"></i>${lab}累計買賣超（張）</span>${okPx ? `<span><i class="px"></i>股價（對照用）</span>` : ""}`;
+    } else {
+      plot = flowPlot({ dates, vals, bars: true, price: okPx ? px : null, fmtY: flowK, fmtTag: flowK, cls: "c1", W, label: `${lab}每日買賣超` });
+      legend = `<span><i class="up"></i>買超</span><span><i class="dn"></i>賣超</span>${okPx ? `<span><i class="px"></i>股價（對照用）</span>` : ""}<span>1 張＝1000 股</span>`;
+    }
+    read = i => `<b>${dates[i].replace(/-/g, "/")}</b>　外資 <span class="${flowCls(ser[i].f)}">${flowN(ser[i].f)}</span>　投信 <span class="${flowCls(ser[i].t)}">${flowN(ser[i].t)}</span>　自營商 <span class="${flowCls(ser[i].dl)}">${flowN(ser[i].dl)}</span>　合計 <span class="${flowCls(ser[i].all)}">${flowN(ser[i].all)}</span> 張${FLOW.mode === "cum" ? `<br>${lab}累計 <span class="${flowCls(cum[i])}">${flowN(cum[i])}</span> 張` : ""}${okPx ? `　股價 ${fmt(px[i])}` : ""}`;
+  } else {
+    const mk = FLOW.m, vals = ser.map(s => mk === "margin" ? s.mb : mk === "short" ? s.sb : (s.mb ? s.sb / s.mb * 100 : 0)), cls = mk === "margin" ? "c1" : "c2", nm = { margin: "融資餘額（張）", short: "融券餘額（張）", ratio: "券資比（%）" }[mk];
+    plot = flowPlot({ dates, vals, bars: false, price: okPx ? px : null, fmtY: mk === "ratio" ? v => v.toFixed(0) + "%" : flowK, fmtTag: mk === "ratio" ? v => v.toFixed(1) + "%" : flowK, cls, W, label: `${nm}與股價` });
+    legend = `<span><i class="${cls}"></i>${nm}</span>${okPx ? `<span><i class="px"></i>股價（對照用）</span>` : ""}`;
+    read = i => `<b>${dates[i].replace(/-/g, "/")}</b>　融資 ${ser[i].mb.toLocaleString("en-US")}　融券 ${ser[i].sb.toLocaleString("en-US")}　券資比 ${ser[i].mb ? (ser[i].sb / ser[i].mb * 100).toFixed(1) : "—"}%${okPx ? `<br>股價 ${fmt(px[i])}` : ""}`;
+  }
+  box.__spec = { geo: plot.geo, read, dates, n };
+  setChartHtml(box, plot.svg);
+  const ti = $(kind === "i" ? "flowTiI" : "flowTiM"), lg = $(kind === "i" ? "flowLgI" : "flowLgM"), rd = $(kind === "i" ? "flowRdI" : "flowRdM");
+  if (ti) ti.textContent = `近 ${n} 個交易日　${dates[0].slice(5).replace("-", "/")}～${dates[n - 1].slice(5).replace("-", "/")}`;
+  if (lg) lg.innerHTML = legend;
+  if (rd) rd.innerHTML = `<small>最新</small>　` + read(n - 1);
+  document.querySelectorAll(`[data-fp^="${kind}:"]`).forEach(btn => { const k = +btn.dataset.fp.split(":")[1]; btn.setAttribute("aria-pressed", b === arr.length - 1 && (k ? b - a + 1 === Math.min(k, arr.length) : a === 0)); });
+}
+// 區間物件：給兩指縮放用（和 mountRange 的 __rng 同一個介面）
+function flowRng(kind, el) {
+  if (!FLOW.D || !(kind === "i" ? FLOW.D.inst : FLOW.D.mg)) return null;
+  const n = (kind === "i" ? FLOW.D.inst : FLOW.D.mg).length; if (n < 30) return null;
+  let raf = 0;
+  return { n, minSpan: 15, el, get: () => flowView(kind),
+    set: (x, y, live) => { FLOW.v[kind] = [x, y]; if (!live) { flowChart(kind); return; } if (!raf) raf = requestAnimationFrame(() => { raf = 0; flowChart(kind); }); },
+    end: () => { cancelAnimationFrame(raf); raf = 0; flowChart(kind); } };
+}
+function flowScrub(e) {
+  if (PINCH.live || (e.pointerType === "touch" && !e.isPrimary)) return;
+  const box = e.target.closest && e.target.closest(".fcBox"), sp = box && box.__spec; if (!sp) return;
+  const rc = box.getBoundingClientRect(), g = sp.geo, px = (e.clientX - rc.left) * g.W / (rc.width || 1);
+  const i = Math.max(0, Math.min(g.n - 1, g.bars ? Math.floor((px - g.ml) / g.pw * g.n) : Math.round((px - g.ml) / g.pw * (g.n - 1))));
+  const svg = box.querySelector("svg"), ln = svg && svg.querySelector(".fcX"), dot = svg && svg.querySelector(".fcD"), rd = $(box.id === "flowChI" ? "flowRdI" : "flowRdM");
+  if (ln) { ln.setAttribute("x1", g.x(i)); ln.setAttribute("x2", g.x(i)); ln.style.display = ""; }
+  if (dot) dot.style.display = "none";
+  if (rd) rd.innerHTML = sp.read(i);
 }
 const flowSeg = (id, attr, cur, items) => `<div class="seg flowSeg" id="${id}" role="group">${items.map(([k, t]) => `<button type="button" data-${attr}="${k}" aria-pressed="${String(cur) === String(k)}">${t}</button>`).join("")}</div>`;
 function flowDraw() {
@@ -5913,33 +5989,27 @@ function flowDraw() {
   const how = `<div class="flowHow"><b>怎麼納入你的考量？</b><ol><li>先看<b>位置</b>（上面的位置評分和支撐壓力）：下方有沒有地板、上方有沒有天花板。</li><li><b>資金面</b>當加分或扣分：法人偏買是加分；法人偏賣、或股價跌了融資還在增加，是扣分。</li><li>再用<b>技術面</b>確認趨勢。三個角度同向才比較有把握；任何一項都不是進出訊號，進場一樣要設停損。</li></ol></div>`;
   // ---------- 細節（收合）----------
   if (I) {
-    const rr = Math.min(FLOW.r, I.length), ser = I.slice(-rr), dates = ser.map(x => x.d), lab = { all: "合計", f: "外資", t: "投信", dl: "自營商" }, key = FLOW.g;
+    const lab = { all: "合計", f: "外資", t: "投信", dl: "自營商" }, key = FLOW.g;
     const T = k => { const n5 = flowSum(I, k, 5), n20 = flowSum(I, k, 20), s = flowStreak(I, k), vol5 = I.slice(-5).reduce((a, x) => a + (vmap.get(x.d) || 0), 0);
       return `<div class="stat"><div class="k">${{ f: "外資", t: "投信", dl: "自營商", all: "三大法人合計" }[k]}　近 5 日</div><div class="v ${flowCls(n5)}">${flowN(n5)} 張</div><div class="h">20 日 ${flowN(n20)}　${s ? `連${s > 0 ? "買" : "賣"} ${Math.abs(s)} 天` : "—"}${vol5 ? `　占成交量 ${n5 < 0 ? "−" : "+"}${Math.abs(n5 / vol5 * 100).toFixed(1)}%` : ""}</div></div>`; };
     parts.push(`<div class="flowAsof">法人資料到 ${I[I.length - 1].d}</div><section class="stats flowTiles">${T("f")}${T("t")}${T("dl")}${T("all")}</section>`);
-    let ch;
-    if (FLOW.mode === "cum") {
-      let acc = 0; const cum = ser.map(x => (acc += x[key])), px = ser.map(x => cmap.get(x.d)), okPx = px.every(v => v > 0);
-      ch = flowLine(cum, dates, W, "flowLn3", v => flowN(v), okPx ? px : null) + `<p class="advnote" style="padding:0">藍線：這段期間${lab[key]}累計${cum[cum.length - 1] >= 0 ? "買超" : "賣超"} <b class="${flowCls(cum[cum.length - 1])}">${flowN(cum[cum.length - 1])}</b> 張（往上＝一路買、往下＝一路賣）。${okPx ? "灰色虛線是同期股價，對照用。" : ""}</p>`;
-    } else ch = flowBars(ser.map(x => x[key]), dates, W) + `<p class="advnote" style="padding:0">紅色是買超、綠色是賣超（台股習慣）。1 張 ＝ 1000 股。</p>`;
-    parts.push(`<div class="tcTit" style="margin-top:12px">法人買賣超（近 ${rr} 個交易日，${flowRangeTxt(FLOW.r)}）</div>
-      ${flowSeg("flowSegR", "fr", FLOW.r, [[20, "20 日"], [60, "60 日"], [120, "120 日"], [250, "250 日"]])}${flowSeg("flowSegG", "fg", key, Object.entries(lab))}${flowSeg("flowSegMode", "fmode", FLOW.mode, [["cum", "累計"], ["daily", "每日"]])}${ch}`);
+    parts.push(`<div class="fcSec"><div class="fcHd"><b>法人買賣超</b><span class="fcTi" id="flowTiI"></span></div>${flowPre("i", [[20, "1 個月"], [60, "3 個月"], [120, "6 個月"], [0, "全部"]])}${flowSeg("flowSegG", "fg", key, Object.entries(lab))}${flowSeg("flowSegMode", "fmode", FLOW.mode, [["cum", "累計"], ["daily", "每日"]])}<div class="fcRd" id="flowRdI"></div><div class="fcBox" id="flowChI"></div><div class="fcLg" id="flowLgI"></div></div>`);
   }
   if (F) parts.push(`<section class="stats flowTiles flowOne"><div class="stat"><div class="k">外資持股比率</div><div class="v">${F[F.length - 1].fr.toFixed(2)}%</div><div class="h">${F.length > 20 ? `近 20 日 ${F[F.length - 1].fr - F[F.length - 21].fr >= 0 ? "+" : "−"}${Math.abs(F[F.length - 1].fr - F[F.length - 21].fr).toFixed(2)} 個百分點` : "—"}（資料到 ${F[F.length - 1].d}）</div></div></section>`);
   if (M) {
     const last = M[M.length - 1], mb = last.mb, sb = last.sb, c5 = M.length > 5 ? mb - M[M.length - 6].mb : null, c20 = M.length > 20 ? mb - M[M.length - 21].mb : null, use = last.ml ? mb / last.ml * 100 : null, ratio = mb ? sb / mb * 100 : null;
-    const rr = Math.min(FLOW.mr, M.length), ser = M.slice(-rr), mk = FLOW.m, vals = ser.map(x => mk === "margin" ? x.mb : mk === "short" ? x.sb : (x.mb ? x.sb / x.mb * 100 : 0)), px = ser.map(x => cmap.get(x.d)), okPx = px.every(v => v > 0);
     parts.push(`<div class="flowAsof" style="margin-top:12px">融資融券資料到 ${last.d}</div><section class="stats flowTiles"><div class="stat"><div class="k">融資餘額</div><div class="v">${mb.toLocaleString("en-US")} 張</div><div class="h">5 日 ${c5 == null ? "—" : flowN(c5)}　20 日 ${c20 == null ? "—" : flowN(c20)}</div></div>
       <div class="stat"><div class="k">融資使用率</div><div class="v">${use == null ? "—" : use.toFixed(1) + "%"}</div><div class="h">融資餘額 ÷ 融資額度</div></div>
       <div class="stat"><div class="k">融券餘額</div><div class="v">${sb.toLocaleString("en-US")} 張</div><div class="h">借股票賣出（放空）</div></div>
       <div class="stat"><div class="k">券資比</div><div class="v">${ratio == null ? "—" : ratio.toFixed(1) + "%"}</div><div class="h">融券餘額 ÷ 融資餘額</div></div></section>
-      <div class="tcTit" style="margin-top:12px">融資融券（近 ${rr} 個交易日，${flowRangeTxt(FLOW.mr)}）</div>${flowSeg("flowSegMR", "fmr", FLOW.mr, [[60, "60 日"], [120, "120 日"], [250, "250 日"]])}${flowSeg("flowSegM", "fm", mk, [["margin", "融資餘額"], ["short", "融券餘額"], ["ratio", "券資比"]])}
-      ${flowLine(vals, ser.map(x => x.d), W, mk === "short" ? "flowLn2" : "flowLn1", mk === "ratio" ? v => v.toFixed(0) + "%" : v => Math.round(v).toLocaleString("en-US"), okPx ? px : null)}<p class="advnote" style="padding:0">${okPx ? "灰色虛線是同期股價，對照用：股價往上、融資也往上，是散戶在追；股價往上、融資往下，是籌碼在沉澱。" : ""}</p>`);
+      <div class="fcSec"><div class="fcHd"><b>融資融券</b><span class="fcTi" id="flowTiM"></span></div>${flowPre("m", [[60, "3 個月"], [120, "6 個月"], [0, "全部"]])}${flowSeg("flowSegM", "fm", FLOW.m, [["margin", "融資餘額"], ["short", "融券餘額"], ["ratio", "券資比"]])}<div class="fcRd" id="flowRdM"></div><div class="fcBox" id="flowChM"></div><div class="fcLg" id="flowLgM"></div>
+      <p class="advnote" style="padding:4px 0 0">股價往上、融資也往上，是散戶跟進；股價往上、融資往下，是籌碼轉手。歷史驗證上這兩種都看不出好壞。</p></div>`);
   }
   el.innerHTML = head + `<ul class="flowRead">${note.map(x => `<li>${x}</li>`).join("")}</ul>` + how + ref +
-    `<details class="adv inner more flowMore"${FLOW.more ? " open" : ""}><summary>看詳細數字和圖表（可選時間長度）</summary>${parts.join("")}<p class="advnote" style="padding:8px 0 0">時間長度怎麼選：20 日看短期有沒有轉向；60 日（約一季）是預設；120 日以上看趨勢有沒有延續，融資餘額變動慢，建議看 120 日以上。短中長期方向一致，比較可靠。</p></details>
+    `<details class="adv inner more flowMore"${FLOW.more ? " open" : ""}><summary>看詳細數字和圖表（可縮放、可拖曳看每天）</summary>${parts.join("")}<p class="advnote" style="padding:8px 0 0">時間長度怎麼選：20 日看短期有沒有轉向；60 日（約一季）是預設；120 日以上看趨勢有沒有延續，融資餘額變動慢，建議看 120 日以上。短中長期方向一致，比較可靠。</p></details>
     <p class="advnote" style="padding:6px 0 0">這些是「現在的狀態」，不是預測：買超不等於會漲，融資增加也不等於會跌；目前只顯示，還沒有納入位置評分或篩選器。<a href="#g-flow" data-gt="g-flow" class="tcMore">法人與融資怎麼看？</a></p>`;
-  const dt = el.querySelector(".flowMore"); if (dt) dt.addEventListener("toggle", () => { FLOW.more = dt.open; });
+  const dt = el.querySelector(".flowMore"); if (dt) dt.addEventListener("toggle", () => { FLOW.more = dt.open; if (dt.open) { flowChart("i"); flowChart("m"); } });
+  if (FLOW.more) { flowChart("i"); flowChart("m"); }
 }
 
 /* ---------- 技術分析（獨立頁籤）----------
@@ -6427,12 +6497,18 @@ function techGuideInit() {
     <div id="tg-dict" class="tgSub"><h4 class="tgT">名詞小辭典</h4><div class="tcDict">${techDictHtml()}</div></div>`;
 }
 techGuideInit();
+attachPinch($("flowBody"), e => { const b = e.target.closest && e.target.closest(".fcBox"); return b ? flowRng(b.id === "flowChI" ? "i" : "m", b) : null; });
+$("flowBody").addEventListener("pointermove", flowScrub); $("flowBody").addEventListener("pointerdown", flowScrub);
 attachPinch($("chart"), () => $("rangeBox").__rng);
 attachPinch($("techPanel"), e => e.target.closest(".tcChartBox") ? $("techRange").__rng : null);
 $("flowBox").addEventListener("toggle", e => { if (e.target.open && window.__R && FLOW.code !== window.__R.st.code && !FLOW.busy) flowLoad(window.__R); });
 $("flowBody").addEventListener("click", e => {
-  const q = k => e.target.closest(`[data-${k}]`), g = q("fg"), m = q("fm"), r = q("fr"), mr = q("fmr"), md = q("fmode");
-  if (g) FLOW.g = g.dataset.fg; else if (m) FLOW.m = m.dataset.fm; else if (r) FLOW.r = +r.dataset.fr; else if (mr) FLOW.mr = +mr.dataset.fmr; else if (md) FLOW.mode = md.dataset.fmode; else return;
+  const q = k => e.target.closest(`[data-${k}]`), g = q("fg"), m = q("fm"), md = q("fmode"), fp = q("fp");
+  if (fp) {
+    const [kind, k] = fp.dataset.fp.split(":"), n = (kind === "i" ? FLOW.D.inst : FLOW.D.mg).length;
+    FLOW.v[kind] = [+k ? Math.max(0, n - +k) : 0, n - 1]; flowChart(kind); return;
+  }
+  if (g) FLOW.g = g.dataset.fg; else if (m) FLOW.m = m.dataset.fm; else if (md) FLOW.mode = md.dataset.fmode; else return;
   flowDraw();
 });
 { let raf = 0, w0 = 0; new ResizeObserver(() => { const w = $("techPanel").clientWidth; if (!w || w === w0 || $("techPanel").hidden) { w0 = w; return; } w0 = w; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => techUpdate(window.__R)); }).observe($("techPanel")); }
