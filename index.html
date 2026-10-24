@@ -2369,9 +2369,29 @@ function mountRange(el, o) {
     a = Math.min(n - 1 - len, Math.max(0, a + dir * step)); b = a + len;
     paint(); o.onChange(a, b);
   });
-  el.__rng = { n, minSpan, get: () => [a, b], set: (x, y) => { a = x; b = y; paint(); emit(); } };
+  // 捏合時：只即時重畫圖（o.onLive，每個畫面最多一次），手指放開才做完整更新（數字、評語、清單），手機上才不會卡
+  let rafL = 0;
+  el.__rng = { n, minSpan,
+    get: () => [a, b],
+    set: (x, y, live) => {
+      a = x; b = y; paint();
+      if (!live || !o.onLive) { emit(); return; }
+      if (!rafL) rafL = requestAnimationFrame(() => { rafL = 0; o.onLive(a, b); });
+    },
+    end: () => { cancelAnimationFrame(rafL); rafL = 0; cancelAnimationFrame(raf); raf = 0; o.onChange(a, b); } };
   paint();
 }
+/* 捏合中換圖：手指按下去的那個節點如果被移除，之後的觸控事件就送不到外層容器，捏合會中斷（手機上變成一卡一卡）。
+   所以捏合期間舊圖不刪除，只是藏進 .pinchGrave，手指放開才清掉。 */
+const PINCH = { live: false };
+function setChartHtml(el, html) {
+  if (!PINCH.live) { el.innerHTML = html; return; }
+  let gv = el.querySelector(":scope > .pinchGrave");
+  if (!gv) { gv = document.createElement("div"); gv.className = "pinchGrave"; gv.hidden = true; el.appendChild(gv); }
+  for (const c of [...el.children]) if (c !== gv) { if (gv.childElementCount) c.remove(); else gv.appendChild(c); }
+  el.insertAdjacentHTML("afterbegin", html);
+}
+function pinchEnd() { PINCH.live = false; document.querySelectorAll(".pinchGrave").forEach(n => n.remove()); }
 // 兩指縮放：捏合（兩指靠近／拉開）改變區間長度，兩指一起左右移動則平移；以兩指中點為錨點
 function attachPinch(box, rng) {
   let p = null;
@@ -2380,7 +2400,7 @@ function attachPinch(box, rng) {
     const r = rng(e);
     if (e.touches.length !== 2 || !r) { p = null; return; }
     const [a, b] = r.get(), w = box.getBoundingClientRect();
-    p = { d: dist(e.touches) || 1, a, b, f: Math.min(1, Math.max(0, (midX(e.touches) - w.left) / w.width)), mx: midX(e.touches), w: w.width || 1, r };
+    p = { d: dist(e.touches) || 1, a, b, f: w.width ? Math.min(1, Math.max(0, (midX(e.touches) - w.left) / w.width)) : 0.5, mx: midX(e.touches), w: w.width || 1, r };
   }, { passive: true });
   box.addEventListener("touchmove", e => {
     if (!p || e.touches.length !== 2) return;
@@ -2388,10 +2408,11 @@ function attachPinch(box, rng) {
     const r = p.r, len0 = p.b - p.a, len = Math.round(Math.min(r.n - 1, Math.max(r.minSpan, len0 * p.d / (dist(e.touches) || 1))));
     const shift = -(midX(e.touches) - p.mx) / p.w * len0;
     const na = Math.max(0, Math.min(r.n - 1 - len, Math.round(p.a + len0 * p.f - len * p.f + shift)));
-    r.set(na, na + len);
+    p.moved = true; PINCH.live = true; r.set(na, na + len, true);
   }, { passive: false });
-  box.addEventListener("touchend", e => { if (e.touches.length < 2) p = null; });
-  box.addEventListener("touchcancel", () => { p = null; });
+  const done = e => { if (p && e.touches.length < 2) { const { moved, r } = p; p = null; pinchEnd(); if (moved) r.end(); } };
+  box.addEventListener("touchend", done);
+  box.addEventListener("touchcancel", done);
 }
 function drawChart(R) {
   const el = $("chart");
@@ -2466,7 +2487,7 @@ function drawChart(R) {
     const py = y(state.probe);
     g += `<line class="probe" x1="${ml}" x2="${W - mr}" y1="${py}" y2="${py}"/><text class="ptag" x="${W - mr - 2}" y="${py - 4}" text-anchor="end">${fmt(state.probe)}</text>`;
   }
-  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="走勢與籌碼分布圖">${g}</svg>`;
+  setChartHtml(el, `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="走勢與籌碼分布圖">${g}</svg>`);
   el.firstChild.addEventListener("click", ev => {
     const b = ev.currentTarget.getBoundingClientRect();
     const py = (ev.clientY - b.top) * (H / b.height);
@@ -2530,6 +2551,7 @@ function render() {
   if (!cur.shares) { askShares(); return; }
   const V = ensureView();
   mountRange($("rangeBox"), { n: V.n, a: V.a, b: V.b, minSpan: 20, date: i => cur.d[i],
+    onLive: (a, b) => { V.a = a; V.b = b; state.probe = null; drawChart(compute()); },
     onChange: (a, b) => { V.a = a; V.b = b; state.probe = null; refresh(compute()); } });
   refresh(compute());
 }
@@ -6127,7 +6149,7 @@ function techChart(T, R, a, chipOK) {
   }
   for (let k = 0; k <= 4; k++) { const i = a + Math.round(k * (L - 1) / 4), d = st.d[i]; g += `<text class="axt" x="${x(i)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 4 ? "end" : "middle"}">${L < 150 ? `${d.slice(5, 7)}/${d.slice(8, 10)}` : `${d.slice(2, 4)}/${d.slice(5, 7)}`}</text>`; }
   TECH.geo = { W, ml, mr, a, L, mt, H, mb };
-  $("techChart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${L} 個交易日的${line ? "收盤線" : "K 線"}與所選的指標，下方是${subOn ? cap : "強弱帶"}">${g}${subOn ? `<text class="cap" x="${ml}" y="${t2 - 6}">${cap}</text>${sg}${tagV}` : ""}<g id="tcXg" style="display:none"><line id="tcX" class="tc-x" y1="${mt}" y2="${H - mb}"/></g></svg>`;
+  setChartHtml($("techChart"), `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${L} 個交易日的${line ? "收盤線" : "K 線"}與所選的指標，下方是${subOn ? cap : "強弱帶"}">${g}${subOn ? `<text class="cap" x="${ml}" y="${t2 - 6}">${cap}</text>${sg}${tagV}` : ""}<g id="tcXg" style="display:none"><line id="tcX" class="tc-x" y1="${mt}" y2="${H - mb}"/></g></svg>`);
 }
 // 手指（或滑鼠）滑過圖，讀數列顯示那一天所有的數字；沒有在滑的時候，顯示區間終點那天
 function techReadoutHtml(T, R, i, hover) {
@@ -6294,8 +6316,10 @@ function renderTech(R) {
   if (n < 160) { el.dataset.sk = ""; TECH.code = ""; el.innerHTML = `<p class="advnote">這檔股票的歷史資料不到 160 個交易日，技術指標還算不出來。</p>`; return; }
   techSkeleton();
   if (TECH.code !== st.code || TECH.n !== n) {                                 // 換股票：區間回到「最近 6 個月、終點是最新一天」，並重建滑桿
-    TECH.code = st.code; TECH.n = n; TECH.b = n - 1; TECH.a = Math.max(0, n - 126);
-    mountRange($("techRange"), { n, a: TECH.a, b: TECH.b, minSpan: 20, date: i => st.d[i], onChange: (a, b) => { TECH.a = a; TECH.b = b; techUpdate(window.__R); } });
+    TECH.code = st.code; TECH.n = n; TECH.liveE = -1; TECH.b = n - 1; TECH.a = Math.max(0, n - 126);
+    mountRange($("techRange"), { n, a: TECH.a, b: TECH.b, minSpan: 20, date: i => st.d[i],
+      onLive: (a, b) => { const R = window.__R; if (!R) return; TECH.a = a; TECH.b = b; if (TECH.liveE !== b) { TECH.T = techCalc(R.st, b); TECH.liveE = b; } techChart(TECH.T, R, a, !!state.view && b === state.view.b); techScrub(null); },
+      onChange: (a, b) => { TECH.a = a; TECH.b = b; TECH.liveE = -1; techUpdate(window.__R); } });
   }
   techUpdate(R);
 }
