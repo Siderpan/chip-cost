@@ -734,7 +734,7 @@ button:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px 
 
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 8px 12px; }
 #chart { width: 100%; }
-#chart svg { display: block; width: 100%; height: auto; touch-action: manipulation; }
+#chart svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
 .readout { font-size: .78rem; color: var(--muted); padding: 8px 8px 0; min-height: 2.6em; line-height: 1.5; }
 .readout b { color: var(--ink); font-family: var(--font-num); font-weight: 500; }
 .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 6px 8px 0; font-size: .72rem; color: var(--muted); }
@@ -833,6 +833,15 @@ svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 .tcR1 { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: .86rem; flex-wrap: wrap; } .tcR1 .up { color: var(--bull); } .tcR1 .dn { color: var(--bear); } .tcR2 { font: 400 .72rem var(--font-num); color: var(--muted); margin-top: 2px; }
 .tcR3 { margin-top: 6px; font-size: .78rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; } .tcPs { display: inline-flex; gap: 4px; flex-wrap: wrap; } .tcPs i { font: normal 500 .68rem var(--font-ui); padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); } .tcPs i.tc-bu { color: var(--bull); border-color: var(--bull); } .tcPs i.tc-be { color: var(--bear); border-color: var(--bear); }
 .tcHow p { font-size: .8rem; line-height: 1.7; margin: 6px 0; }
+.flowBox { margin-top: 10px; padding: 0; } .flowBox > summary { cursor: pointer; list-style: none; padding: 14px 16px; font: 700 .95rem var(--font-ui); min-height: 48px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px; } .flowBox > summary::-webkit-details-marker { display: none; } .flowBox > summary::before { content: "＋"; color: var(--profit); margin-right: 8px; } .flowBox[open] > summary::before { content: "－"; } .flowBox > summary small { font: 400 .74rem var(--font-ui); color: var(--muted); }
+#flowBody { padding: 0 14px 14px; } .flowAsof { font-size: .74rem; color: var(--muted); margin-bottom: 8px; line-height: 1.6; } .flowTiles { margin-bottom: 8px; } .flowTiles .stat .v { font-size: 1.05rem; }
+.flowOne { grid-template-columns: 1fr; } .flowUp { color: var(--bull); } .flowDn { color: var(--bear); } .flowSeg { margin: 6px 0; } .flowSeg button { flex: 1; min-height: 36px; padding: 0 4px; }
+.flowSvg { width: 100%; height: auto; display: block; } .flowSvg .tc-up { fill: var(--bull); opacity: .85; } .flowSvg .tc-dn { fill: var(--bear); opacity: .85; }
+.flowSvg .flowLn1 { fill: none; stroke: var(--profit); stroke-width: 1.8; } .flowSvg .flowLn1d { fill: var(--profit); } .flowSvg .flowLn2 { fill: none; stroke: var(--trapped); stroke-width: 1.8; } .flowSvg .flowLn2d { fill: var(--trapped); }
+.flowVd { display: grid; gap: 8px; margin-bottom: 8px; } .flowV { display: grid; grid-template-columns: auto auto 1fr; gap: 4px 8px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; } .flowV .k { font: 700 .86rem var(--font-ui); } .flowV .s { grid-column: 1 / -1; font-size: .8rem; line-height: 1.65; color: var(--muted); } .flowV .s b { color: var(--ink); }
+.flowCmp { padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; } .flowCmpT { font: 700 .82rem var(--font-ui); margin-bottom: 6px; } .flowChips { display: flex; flex-wrap: wrap; gap: 6px; } .flowChip { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); } .flowChip i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; } .flowChip i.tc-bu { background: var(--bull); } .flowChip i.tc-be { background: var(--bear); } .flowSum { font-size: .84rem; line-height: 1.7; margin: 8px 0 0; }
+.flowHow { font-size: .82rem; line-height: 1.7; padding: 10px 12px; border-radius: 12px; background: var(--surface-2, rgba(127,127,127,.08)); margin: 8px 0; } .flowHow ol { margin: 4px 0 0; padding-left: 1.3em; } .flowMore { margin-top: 8px; } .flowSvg .flowLn3 { fill: none; stroke: var(--profit); stroke-width: 1.8; } .flowSvg .flowLn3d { fill: var(--profit); } .flowSvg .flowPx { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 3; opacity: .8; }
+.flowH { margin: 14px 0 4px; font-size: .9rem; } .flowRead { margin: 4px 0; padding-left: 1.2em; font-size: .84rem; line-height: 1.75; } .flowRead li { margin: 4px 0; }
 .tcCW { display: inline-flex; align-items: center; gap: 2px; } .tcCW .info { flex: none; }
 .tcLeg { margin-top: 6px; row-gap: 4px; } .tcSw i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin: 0 3px 0 8px; vertical-align: -2px; }
 .tcSw i.a2, .tcSwBig i.a2 { background: var(--bull); } .tcSw i.a1, .tcSwBig i.a1 { background: var(--bull); opacity: .4; } .tcSw i.a0, .tcSwBig i.a0 { background: var(--muted); opacity: .22; } .tcSw i.b1, .tcSwBig i.b1 { background: var(--bear); opacity: .4; } .tcSw i.b2, .tcSwBig i.b2 { background: var(--bear); }
@@ -963,7 +972,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <p class="gOne">七個頁籤，各回答<b>一個問題</b>，也各自對應上面的一個角度。不用全部學會，從你最想知道的那個開始。</p>
       <div class="gMapList">
         <div class="gMapItem"><div><div class="n">大盤指數<span class="gAng">環境</span></div><div class="q">現在整體市場是強還是弱？今天誰在帶動、錢往哪裡跑？</div></div><button type="button" class="btn ghost gMapGo" data-go="market">去看看</button></div>
-        <div class="gMapItem core"><div><div class="n">籌碼分析<span class="gCore">核心</span><span class="gAng">位置</span></div><div class="q">這檔股票，大家的成本在哪？離支撐、壓力多遠？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div>
+        <div class="gMapItem core"><div><div class="n">籌碼分析<span class="gCore">核心</span><span class="gAng">位置</span></div><div class="q">這檔股票，大家的成本在哪？離支撐、壓力多遠？法人和融資現在在買還是賣？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div>
         <div class="gMapItem"><div><div class="n">技術分析<span class="gAng">狀態</span></div><div class="q">這檔現在的趨勢和力道如何？和籌碼是同一個方向嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="tech">去看看</button></div>
         <div class="gMapItem"><div><div class="n">自選股<span class="gLogin">要登入</span><span class="gAng">追蹤</span></div><div class="q">我常看的那幾檔，現在的走勢和位置如何？</div></div><button type="button" class="btn ghost gMapGo" data-go="watch">去看看</button></div>
         <div class="gMapItem"><div><div class="n">篩選器<span class="gAng">合成</span></div><div class="q">不知道看哪一檔？結合籌碼面和技術面，挑出可能起漲的。</div></div><button type="button" class="btn ghost gMapGo" data-go="screen">去看看</button></div>
@@ -1107,13 +1116,52 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <dt>累計換手</dt><dd>這段期間，整體股票換手了幾輪。換手越多，算出的成本越準。</dd>
         <dt>模型涵蓋率</dt><dd><b>可不可信的指標。</b>越接近 100% 越可靠；低於 90% 時，離現價很遠的支撐壓力只當參考，可以把上方的「年數」拉長。</dd>
       </dl>
-      <p class="gLead"><b>小技巧：</b>圖下面的滑桿可以調整分析的時間區間；手指在圖上滑動，可以看每一天的價格。「進階參數」裡的衰減係數、最小間距，不確定就維持預設。</p>
+      <p class="gLead"><b>小技巧：</b>圖下面的滑桿可以調整分析的時間區間，<b>手機上也可以在圖上用兩指捏合縮放區間、兩指一起左右移動來平移（技術分析頁一樣）</b>；單指在圖上滑動，可以看每一天的價格。「進階參數」裡的衰減係數、最小間距，不確定就維持預設。</p>
       <div class="gBtns">
         <button type="button" class="btn" data-go="demo">用 2330 看範例</button>
         <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
         <button type="button" class="btn ghost" data-go="backtest">去回測</button>
       </div>
+      <p class="gLead"><b>往下還有一個「法人與融資」區塊</b>（在支撐區下面，點開才載入）：看三大法人的買賣超、融資融券，是交易所公布的真實資金動向，詳細說明在下一段。</p>
       <p class="gNext">下一步：位置看完了，去 <button type="button" class="gLink" data-go="tech">技術分析</button> 看狀態，確認兩者同不同向。</p>
+    </div>
+
+    <div class="gSec" id="g-flow">
+      <h3>法人與融資：看真實的資金動向</h3>
+      <p class="gOne">回答：<b>大戶（法人）和槓桿（融資融券），現在是在買、還是在賣？</b>這是「籌碼分析」頁裡的一個區塊，點開才載入。打開後<b>先看最上面的一句話總結</b>就夠用，細節收在下面。</p>
+      <div class="gThree">
+        <div class="card gMini"><div class="gName">三大法人</div><p class="odS">外資、投信、自營商</p><p><b>外資</b>主導大型股；<b>投信</b>在中小型股影響明顯，有季底作帳的特色；<b>自營商</b>含避險，雜訊多。看的是「買賣超」＝一天買進減賣出的張數。</p></div>
+        <div class="card gMini"><div class="gName">融資</div><p class="odS">借錢買股票</p><p>看多的槓桿，多半是散戶。融資餘額越高，代表借錢買進、還沒賣掉的人越多。</p></div>
+        <div class="card gMini"><div class="gName">融券</div><p class="odS">借股票賣出</p><p>放空。融券餘額是借了股票、還沒回補的量。</p></div>
+      </div>
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>點開「法人與融資」，先看兩個標籤</b><p>在「支撐區」下面。<b>法人動向</b>會標示「偏買／中性／偏賣」，<b>融資籌碼</b>會標示「籌碼沉澱／追價偏熱／套牢槓桿增加／融資退場」，下面各有一句白話。判斷方式：近 20 日法人買賣超占成交量的比例，超過 ±2% 才算偏買或偏賣。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>看「三個角度對照」</b><p>把<b>位置</b>（位置評分）、<b>資金</b>（法人＋融資）、<b>狀態</b>（技術分析）三個小圓點並排，再用一句話告訴你它們是否一致。三個都偏正面才比較有把握；意見分歧就維持觀察。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>需要時再點開「詳細數字和圖表」</b><p>可以切換時間長度（法人 20／60／120／250 日、融資融券 60／120／250 日），也可以選「累計」或「每日」。<b>累計</b>的藍線往上＝一路買、往下＝一路賣，灰色虛線是同期股價，用來對照。</p></div></div>
+      </div>
+      <h4 class="odH">時間長度怎麼選？</h4>
+      <dl class="gDef">
+        <dt>20 日（約 1 個月）</dt><dd>看短期有沒有轉向。波動大，適合當「提早警訊」，不適合單獨下結論。</dd>
+        <dt>60 日（約 1 季，預設）</dt><dd>最常用的中期觀察，也對應法人的作帳週期（季底）。</dd>
+        <dt>120 日以上</dt><dd>看趨勢有沒有延續。融資餘額變動慢，建議看 120 日以上才有意義。</dd>
+        <dt>250 日（約 1 年）</dt><dd>看長期位置，例如目前融資是歷史高檔還是低檔。</dd>
+      </dl>
+      <p class="gOne">原則：<b>短、中、長期方向一致</b>才比較可靠；只有短期變動，可能只是一時的雜訊。</p>
+      <h4 class="odH">怎麼納入投資考量</h4>
+      <ol class="gOl"><li>先看<b>位置</b>：下方有沒有地板、上方有沒有天花板。</li><li><b>資金面</b>當加分或扣分：法人偏買、融資沉澱是加分；法人偏賣、融資堆積是扣分，不要追高。</li><li>再用<b>技術面</b>確認趨勢。三個角度同向才比較有把握；任何一項都不是進出訊號，進場一樣要設停損。</li></ol>
+      <h4 class="odH">常見的解讀</h4>
+      <dl class="gDef">
+        <dt>外資和投信同向買超</dt><dd>法人看法一致，通常比較正面；若是一買一賣（土洋對作），看法分歧。</dd>
+        <dt>融資增加 ＋ 股價上漲</dt><dd>散戶追價，短線偏熱。</dd>
+        <dt>融資減少 ＋ 股價上漲</dt><dd>籌碼沉澱，從散戶換到比較穩的手上，通常比較健康。</dd>
+        <dt>融資增加 ＋ 股價下跌</dt><dd>套牢的槓桿變多，再跌可能觸發追繳，形成賣壓。</dd>
+        <dt>券資比偏高（例如 30% 以上）</dt><dd>空方相對多，常被觀察「軋空」，但不代表一定發生。</dd>
+      </dl>
+      <div class="card gTip"><div class="gName">要小心這三件事</div><ul>
+        <li><b>資料是收盤後才公布的</b>，所以有落後；而且這些都是「現在的狀態」，不是預測。</li>
+        <li><b>它和籌碼分析的成本分布互補：</b>成本分布是用價量「推估」所有人的成本，法人與融資則是「看得到的真實資料」，可以互相對照。</li>
+        <li><b>目前只顯示和解讀，沒有納入位置評分或篩選器</b>，因為還沒有用歷史資料驗證過它們有沒有預測力。</li></ul></div>
+      <p class="gNext">下一步：確認趨勢和力道，去 <button type="button" class="gLink" data-go="tech">技術分析</button>。</p>
     </div>
 
     <div id="gTechSec" class="gSec">
@@ -1222,6 +1270,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <h3>名詞速查：看不懂的詞都在這裡</h3>
       <p class="gOne">依「角度」分成四組。每個詞一句話；想看圖解和更詳細的說明，點頁面上的「i」，或回到前面對應的段落。</p>
       <div class="gWG">籌碼面（位置）</div><dl class="gDef"><dt>籌碼</dt><dd>股票的持有狀態。在這裡指「每個價位，有多少人持有、成本是多少」。</dd><dt>成本</dt><dd>一個人買進這檔股票的價格。</dd><dt>支撐／壓力</dt><dd>支撐＝股價下跌時比較容易停住的價位（地板）；壓力＝股價上漲時比較容易漲不動的價位（天花板）。成本集中的地方，常變成支撐或壓力。</dd><dt>套牢／解套</dt><dd>成本比現價高、帳面虧損，叫套牢；股價漲回成本附近，叫解套，這時常有人想賣出。</dd><dt>籌碼占比</dt><dd>還抱著股票、成本落在某個價位的人，占全部持有人的比例（還在才算）。</dd><dt>成交量占比</dt><dd>這段期間，有多少比例的成交量發生在某個價位（來過就算，不管現在走了沒）。</dd><dt>平均成本／獲利比例</dt><dd>平均成本是所有持有人成本的重心；獲利比例是成本低於現價（帳面賺錢）的人占多少。</dd><dt>90% 籌碼區間／集中度</dt><dd>90% 的籌碼成本落在哪個價格範圍；集中度是成本擠不擠在一起，越小越集中，支撐壓力越明確。</dd><dt>累計換手／模型涵蓋率</dt><dd>這段期間整體換手了幾輪；涵蓋率是模型描繪得完不完整，是「可不可信」的指標，建議 90% 以上。</dd></dl>
+      <div class="gWG">法人與融資</div><dl class="gDef"><dt>三大法人</dt><dd>外資、投信、自營商，大額專業資金的買賣紀錄。</dd><dt>買賣超</dt><dd>一天買進減賣出的張數（1 張＝1000 股）。紅色買超、綠色賣超。</dd><dt>連續買超／賣超</dt><dd>從最後一天往回數，連續幾天同方向。</dd><dt>外資持股比率</dt><dd>外資持有的股數，占發行股數的比例。</dd><dt>土洋對作</dt><dd>外資（洋）和投信（土）方向相反，一買一賣。</dd><dt>融資／融券</dt><dd>融資＝借錢買股票（看多槓桿）；融券＝借股票賣出（放空）。</dd><dt>融資使用率</dt><dd>融資餘額 ÷ 融資額度，越高代表槓桿越滿。</dd><dt>券資比</dt><dd>融券餘額 ÷ 融資餘額，越高代表空方相對多。</dd><dt>累計買賣超</dt><dd>把每天的買賣超一路加起來，看一段期間「淨買」還是「淨賣」。線往上＝一路買、往下＝一路賣。</dd><dt>三個角度對照</dt><dd>位置、資金、狀態三個面向並排，看是否同方向。</dd><dt>軋空</dt><dd>放空的人被迫回補（買回股票），反而推升股價。</dd><dt>追繳</dt><dd>融資的擔保品價值跌太多，券商要求補錢；補不出來就會被強制賣出（斷頭）。</dd></dl>
       <div class="gWG">技術面（狀態）</div><dl class="gDef"><dt>多頭／空頭</dt><dd>多頭＝整體在往上走；空頭＝整體在往下走。台股的顏色：紅色代表多、綠色代表空。</dd><dt>偏多／偏空</dt><dd>某個指標「現在的傾向」，不是預測。</dd><dt>均線（MA）</dt><dd>最近 N 天收盤價的平均。MA5＝一週、MA20＝一個月、MA60＝一季，可以想成這段時間買進的人平均成本。</dd><dt>多頭排列／空頭排列</dt><dd>收盤 ＞ MA20 ＞ MA60 叫多頭排列（上漲趨勢）；收盤 ＜ MA20 ＜ MA60 叫空頭排列。</dd><dt>黃金交叉／死亡交叉</dt><dd>MA20 往上穿過 MA60 叫黃金交叉（轉強）；往下穿過叫死亡交叉（轉弱）。</dd><dt>RSI</dt><dd>最近 14 天，上漲的力氣和下跌的力氣誰比較大，0～100，50 是分界。</dd><dt>KD</dt><dd>今天收盤在最近 9 天高低區間的哪個位置。K 是快線、D 是慢線，K 在 D 之上偏多。</dd><dt>MACD</dt><dd>短期平均價減長期平均價，看趨勢的力道在增強還是減弱；柱狀在 0 以上偏多。</dd><dt>布林通道</dt><dd>以 20 日線為中線，上下各 2 倍標準差，股價大約 95% 的時間待在裡面；通道變窄代表波動收斂。</dd><dt>量比</dt><dd>最近 5 天均量 ÷ 20 天均量。1 倍＝和平常一樣，超過 1.3 倍算量增。</dd><dt>過熱／超賣／鈍化</dt><dd>漲太急叫過熱，跌太深叫超賣；指標卡在極端值很久、股價卻還繼續走，叫鈍化，所以不能一看到過熱就賣。</dd><dt>SuperTrend</dt><dd>一條會跟著股價走的保護線，股價在線上面是多頭，這條線也常被當成停損參考。</dd></dl>
       <div class="gWG">評分（合成）</div><dl class="gDef"><dt>位置評分</dt><dd>籌碼面，0～100：成本面 30 ＋ 下方支撐 35 ＋ 上方空間 35。</dd><dt>技術評分</dt><dd>技術面，0～100：趨勢 30 ＋ 動能 30 ＋ 量價 20 ＋ 位置與波動 20。</dd><dt>起漲徵兆</dt><dd>七項檢查（站上月線、剛轉強、動能轉強、量能放大、尚未過熱、籌碼位置舒服、上方有空間），符合越多越像剛起漲。</dd><dt>綜合評分</dt><dd>位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%，篩選器用它排名。</dd></dl>
       <div class="gWG">回測與交易</div><dl class="gDef"><dt>回測</dt><dd>用過去的資料，模擬「如果當時照這套規則買賣，結果會怎樣」。</dd><dt>停利／停損</dt><dd>漲到目標價自動賣出獲利，叫停利；跌到某個價自動賣出防止虧更多，叫停損。</dd><dt>風險報酬比</dt><dd>往上到目標的空間，是跌破停損要承擔風險的幾倍。大於 1 代表賺的空間比賠的大。</dd><dt>過度配適</dt><dd>把參數調到「過去剛好最完美」，其實只是在背答案，換一段期間就失靈。</dd><dt>市價單／限價單／觸價單</dt><dd>市價＝照開盤價馬上成交；限價＝這個價錢以內我才要；觸價＝碰到某個價才動手（停損、停利用）。</dd></dl>
@@ -1240,6 +1289,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <details class="gFaq"><summary>位置評分、技術評分、綜合評分有什麼不同？</summary><div class="a"><p><b>位置評分</b>看籌碼面（下方有沒有支撐、上方壓力輕不輕）；<b>技術評分</b>看技術面（趨勢、動能、量價）；<b>綜合評分</b>把兩者再加上「起漲徵兆」合成一個分數，篩選器用它排名。三個分數都是描述現在的狀態，不是預測。</p></div></details>
       <details class="gFaq"><summary>篩選器顯示「技術面還沒更新」是什麼意思？</summary><div class="a"><p>大型股的分析結果，是系統每天凌晨先算好、大家共用的。技術面是新增的項目，要等下一次夜間更新之後才有；在那之前，這些股票只用籌碼評分排名，技術條件先不通過。自選股和最近查過的股票，則是即時計算，一定有技術面。</p></div></details>
       <details class="gFaq"><summary>「起漲徵兆」符合很多項，就是要漲了嗎？</summary><div class="a"><p><b>不是。</b>起漲徵兆只是把「現在像不像剛起漲」逐項列出來。我們自己的回測發現，單靠技術指標沒有穩定的預測力，所以符合 7 項也不保證會漲。建議再看籌碼分析、技術分析，並用回測驗證。</p></div></details>
+      <details class="gFaq"><summary>法人與融資的資料，為什麼有時候少一天？</summary><div class="a"><p>三大法人和融資融券都是收盤之後，交易所才公布。FinMind 整理好再提供，所以晚上看到的可能還是前一個交易日的數字。「法人與融資」區塊上方會寫「資料到哪一天」。</p></div></details>
     </div>
 
     <div class="card gWarn">
@@ -1308,6 +1358,11 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <button type="button" class="info-link" data-term="combo">兩個占比怎麼組合判讀？</button>
   </section>
 
+  <details id="flowBox" class="card flowBox">
+    <summary>法人與融資　<small>大戶在買還是賣？一句話看懂（點開才載入）</small></summary>
+    <div id="flowBody"></div>
+  </details>
+
   <details class="adv">
     <summary>進階參數</summary>
     <label class="ctl" for="decay"><span>衰減係數<button type="button" class="info" data-term="decay" aria-label="衰減係數的說明">i</button></span><input id="decay" type="range" min="0.5" max="2" step="0.1" value="1"><output id="decayV" class="num">1.0</output></label>
@@ -1330,7 +1385,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
   <section id="pgTech" class="page" hidden>
     <h2>技術分析</h2>
-    <p class="advnote" style="padding:0 0 8px">一眼看懂趨勢、動能、波動、量價，再看指標的搭配組合，並和籌碼的支撐壓力對照。時間軸可以自己拉；股票和「籌碼分析」共用，換一邊兩邊一起換。</p>
+    <p class="advnote" style="padding:0 0 8px">一眼看懂趨勢、動能、波動、量價，再看指標的搭配組合，並和籌碼的支撐壓力對照。時間軸可以自己拉，手機可在圖上兩指捏合縮放；股票和「籌碼分析」共用，換一邊兩邊一起換。</p>
     <div id="techSearchBox" class="searchBox">
       <form id="techForm" class="search" autocomplete="off">
         <input id="techQ" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入股票代碼或名稱，例如 2330、台積電" aria-label="股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -2176,6 +2231,9 @@ const GLOSS = {
   tcBull: { t: "多頭、空頭、偏多、偏空",
     def: "多頭＝整體在往上走（看多），空頭＝整體在往下走（看空）。偏多、偏空是每個指標「現在的傾向」。",
     read: ["<b>台股的顏色習慣：紅色代表多、綠色代表空</b>，和美股相反。", "偏多＝這個指標看起來支持上漲；偏空＝支持下跌；中性＝沒有明顯傾向。", "這只是描述現在的狀態，不是預測。"] },
+  flowInst: { t: "法人與融資怎麼看",
+    def: "三大法人（外資、投信、自營商）和融資融券，都是交易所公布的「真實持有與資金資料」，屬於籌碼面。和我們用價量「推估」的成本分布互補。",
+    read: ["<b>買賣超</b>：一天買進減賣出的張數（1 張 ＝ 1000 股）。紅色買超、綠色賣超。買超不等於一定會漲。", "<b>外資</b>主導大型權值股；<b>投信</b>在中小型股影響明顯，有季底、年底作帳的特色；<b>自營商</b>含避險部位，雜訊多。", "<b>融資</b>是借錢買股票（看多的槓桿，多半是散戶）；<b>融券</b>是借股票賣出（放空）。", "<b>融資增加＋股價漲</b>＝散戶追價；<b>融資減少＋股價漲</b>＝籌碼沉澱；<b>融資增加＋股價跌</b>＝套牢的槓桿變多，留意追繳賣壓。", "<b>券資比</b>高，常被拿來觀察軋空，但不代表一定發生。", "資料都是收盤後才公布，所以有落後；而且這些都是描述現在的狀態，不是預測。"] },
   shares: { t: "流通股數",
     def: "市場上實際可以買賣的股票總數，用來計算每天的換手率。",
     read: ["數字不正確會讓換手率失真。ETF 或新上市股票可能查不到，需要手動輸入。"] },
@@ -2277,14 +2335,14 @@ function niceTicks(lo, hi, want) {
 /* ---------- 可調整的時間區間：快速按鈕 + 雙把手滑桿 ---------- */
 function mountRange(el, o) {
   const n = o.n;
-  if (n < 30) { el.innerHTML = ""; return; }
+  if (n < 30) { el.innerHTML = ""; el.__rng = null; return; }
   const minSpan = Math.min(o.minSpan || 10, n - 1);
   let a = o.a, b = o.b, raf = 0;
   const pre = [["3 個月", 63], ["6 個月", 126], ["1 年", 250], ["2 年", 500], ["3 年", 750]].filter(p => p[1] < n * 0.95).concat([["全部", n]]);
   el.innerHTML = `<div class="rng"><div class="rngTop"><span class="rngLbl" aria-live="polite"></span><div class="rngPre">${pre.map(([t, d]) => `<button type="button" data-d="${d}">${t}</button>`).join("")}</div></div>
     <div class="rngSl"><div class="rngTrack"><i class="rngFill"></i></div>
     <input type="range" class="rA" min="0" max="${n - 1}" step="1" aria-label="顯示區間的起點"><input type="range" class="rB" min="0" max="${n - 1}" step="1" aria-label="顯示區間的終點"></div>
-    <div class="rngNudge"><button type="button" data-n="-1" aria-label="把區間往前移">‹ 往前移</button><span>區間很短時，用這兩顆按鈕左右移動</span><button type="button" data-n="1" aria-label="把區間往後移">往後移 ›</button></div></div>`;
+    <div class="rngNudge"><button type="button" data-n="-1" aria-label="把區間往前移">‹ 往前移</button><span>圖上可兩指捏合縮放、左右拖移</span><button type="button" data-n="1" aria-label="把區間往後移">往後移 ›</button></div></div>`;
   const q = s => el.querySelector(s), A = q(".rA"), B = q(".rB"), fill = q(".rngFill"), lbl = q(".rngLbl");
   // 兩個把手各讓出一個把手的寬度（見 CSS），所以即使區間縮到最短，兩個把手也只會並排，不會疊在一起
   const paint = () => {
@@ -2311,7 +2369,29 @@ function mountRange(el, o) {
     a = Math.min(n - 1 - len, Math.max(0, a + dir * step)); b = a + len;
     paint(); o.onChange(a, b);
   });
+  el.__rng = { n, minSpan, get: () => [a, b], set: (x, y) => { a = x; b = y; paint(); emit(); } };
   paint();
+}
+// 兩指縮放：捏合（兩指靠近／拉開）改變區間長度，兩指一起左右移動則平移；以兩指中點為錨點
+function attachPinch(box, rng) {
+  let p = null;
+  const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY), midX = t => (t[0].clientX + t[1].clientX) / 2;
+  box.addEventListener("touchstart", e => {
+    const r = rng(e);
+    if (e.touches.length !== 2 || !r) { p = null; return; }
+    const [a, b] = r.get(), w = box.getBoundingClientRect();
+    p = { d: dist(e.touches) || 1, a, b, f: Math.min(1, Math.max(0, (midX(e.touches) - w.left) / w.width)), mx: midX(e.touches), w: w.width || 1, r };
+  }, { passive: true });
+  box.addEventListener("touchmove", e => {
+    if (!p || e.touches.length !== 2) return;
+    e.preventDefault();
+    const r = p.r, len0 = p.b - p.a, len = Math.round(Math.min(r.n - 1, Math.max(r.minSpan, len0 * p.d / (dist(e.touches) || 1))));
+    const shift = -(midX(e.touches) - p.mx) / p.w * len0;
+    const na = Math.max(0, Math.min(r.n - 1 - len, Math.round(p.a + len0 * p.f - len * p.f + shift)));
+    r.set(na, na + len);
+  }, { passive: false });
+  box.addEventListener("touchend", e => { if (e.touches.length < 2) p = null; });
+  box.addEventListener("touchcancel", () => { p = null; });
 }
 function drawChart(R) {
   const el = $("chart");
@@ -2528,7 +2608,7 @@ function refresh(R) {
   $("sup").innerHTML = zoneRows(a.sup, "S", "s", "現價下方沒有明顯的籌碼堆積。");
   renderLegend(); syncYearBtns();
   drawChart(R); updateReadout(R);
-  window.__R = R; renderTech(R);
+  window.__R = R; renderTech(R); flowSync(R);
   renderStar();
 }
 function buildSearch() {
@@ -4593,7 +4673,7 @@ function hScroller(el, left, right) {
 }
 // 新手專區很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
 function guideToc() {
-  const labels = [["這套系統在做什麼", "系統在做什麼"], ["整套系統怎麼用", "系統地圖"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["想實際練習", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
+  const labels = [["這套系統在做什麼", "系統在做什麼"], ["整套系統怎麼用", "系統地圖"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["法人與融資：", "法人與融資"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["想實際練習", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
   const secs = [...document.querySelectorAll("#pgGuide .gSec")].filter(s => s.querySelector("h3")).map((s, i) => { s.id = s.id || `gs${i}`; const h = s.querySelector("h3").textContent; const m = labels.find(l => h.includes(l[0])); return m ? { s, label: m[1] } : null; }).filter(Boolean);
   const host = $("guideToc");
   host.innerHTML = secs.map((x, i) => `<button type="button" data-i="${i}">${x.label}</button>`).join("");
@@ -5637,6 +5717,165 @@ function scrInit() {
   scrLoadShared();
 }
 
+/* ---------- 法人與融資（籌碼分析頁）----------
+   三大法人（外資、投信、自營商）的買賣超、外資持股比率，以及融資融券的餘額、使用率、券資比。
+   這些是交易所公布的「真實持有與資金資料」，和我們用價量推估的成本分布互補。目前只顯示和用白話解讀，不納入位置評分或篩選器（還沒驗證過）。
+   最上面先給「一句話總結」和三個角度（位置、資金、狀態）的對照，細節和圖表收在下面，要看再點開。
+   資料要點開才載入（約 3 次查詢，存在手機裡 6 小時），避免多耗用 FinMind 的額度。一次抓約 1 年半，所以時間長度可以選 20／60／120／250 日。 */
+const FLOW = { code: "", busy: false, err: "", D: null, r: 60, mr: 120, mode: "cum", g: "all", m: "margin", more: false };
+async function flowFetch(ds, code, shrink) {
+  const key = `flow2:${ds}:${code}`, c = lsRead(key);
+  if (c && Date.now() - c.t < 6 * 36e5) return c.data;
+  const data = shrink(await fm(ds, { data_id: code, start_date: dateBack({ days: 400 }) }));
+  lsWrite(key, { t: Date.now(), data });
+  return data;
+}
+const flowByDate = (a, b) => a.d < b.d ? -1 : 1;
+async function flowLoad(R) {
+  const code = R.st.code; FLOW.code = code; FLOW.busy = true; FLOW.err = ""; FLOW.D = null; flowDraw();
+  try {
+    const soft = p => p.catch(e => { if (e.limit) throw e; return null; });       // 這檔沒有資料（例如 ETF 沒有融資融券）不算錯誤
+    const [inst, mg, fh] = await Promise.all([
+      soft(flowFetch("TaiwanStockInstitutionalInvestorsBuySell", code, rows => {
+        const m = new Map();
+        for (const r of rows) {
+          const o = m.get(r.date) || { d: r.date, f: 0, t: 0, dl: 0 }, n = (r.buy - r.sell) / 1000;               // 股 → 張
+          if (r.name === "Foreign_Investor" || r.name === "Foreign_Dealer_Self") o.f += n; else if (r.name === "Investment_Trust") o.t += n; else if (r.name === "Dealer_self" || r.name === "Dealer_Hedging") o.dl += n;
+          m.set(r.date, o);
+        }
+        return [...m.values()].sort(flowByDate).map(o => ({ d: o.d, f: Math.round(o.f), t: Math.round(o.t), dl: Math.round(o.dl) }));
+      })),
+      soft(flowFetch("TaiwanStockMarginPurchaseShortSale", code, rows => rows.map(r => ({ d: r.date, mb: r.MarginPurchaseTodayBalance, ml: r.MarginPurchaseLimit, sb: r.ShortSaleTodayBalance, sl: r.ShortSaleLimit })).sort(flowByDate))),
+      soft(flowFetch("TaiwanStockShareholding", code, rows => rows.map(r => ({ d: r.date, fr: r.ForeignInvestmentSharesRatio })).sort(flowByDate)))
+    ]);
+    FLOW.D = { inst: inst && inst.length ? inst : null, mg: mg && mg.length ? mg : null, fh: fh && fh.length ? fh : null };
+    if (!FLOW.D.inst && !FLOW.D.mg && !FLOW.D.fh) FLOW.err = "這檔股票查不到法人與融資的資料（ETF 或剛上市的股票，有時沒有）。";
+  } catch (e) { FLOW.err = e.message || "讀取失敗"; }
+  FLOW.busy = false; flowDraw();
+}
+function flowSync(R) {
+  if (!R || !R.st || !$("flowBox")) return;
+  if (FLOW.code && FLOW.code !== R.st.code) { FLOW.D = null; FLOW.err = ""; FLOW.code = ""; }
+  if ($("flowBox").open && FLOW.code !== R.st.code && !FLOW.busy) flowLoad(R);
+}
+const flowN = x => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(Math.round(x)).toLocaleString("en-US");
+const flowCls = x => x > 0 ? "flowUp" : x < 0 ? "flowDn" : "";
+const flowSum = (a, k, n) => a.slice(-n).reduce((s, x) => s + x[k], 0);
+function flowStreak(a, k) {                                                   // 最後一天往回數，連續幾天同方向（正＝買超、負＝賣超）
+  if (!a.length) return 0;
+  const s = Math.sign(a[a.length - 1][k]); if (!s) return 0;
+  let n = 0; for (let i = a.length - 1; i >= 0 && Math.sign(a[i][k]) === s; i--) n++;
+  return s * n;
+}
+const flowTag = v => v > 0 ? "tc-bu" : v < 0 ? "tc-be" : "tc-ne";
+const flowRangeTxt = n => ({ 20: "約 1 個月", 60: "約 1 季", 120: "約半年", 250: "約 1 年" })[n] || "";
+function flowBars(vals, dates, W) {
+  const H = 150, ml = 58, mr = 6, mt = 10, mb = 20, n = vals.length, mx = Math.max(1, ...vals.map(Math.abs)), y = v => mt + (H - mt - mb) * (1 - (v + mx) / (2 * mx)), bw = Math.max(1.5, (W - ml - mr) / n * 0.7);
+  const x = i => ml + (W - ml - mr) * (i + 0.5) / n;
+  let g = `<line class="px" x1="${ml}" x2="${W - mr}" y1="${y(0)}" y2="${y(0)}"/><text class="axt" x="${ml - 5}" y="${y(0) + 3.5}" text-anchor="end">0</text><text class="axt" x="${ml - 5}" y="${y(mx) + 8}" text-anchor="end">${flowN(mx)}</text><text class="axt" x="${ml - 5}" y="${y(-mx)}" text-anchor="end">${flowN(-mx)}</text>`;
+  vals.forEach((v, i) => { g += `<rect class="${v >= 0 ? "tc-up" : "tc-dn"}" x="${(x(i) - bw / 2).toFixed(1)}" y="${Math.min(y(v), y(0)).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0.8, Math.abs(y(v) - y(0))).toFixed(1)}"><title>${dates[i]}　${flowN(v)} 張</title></rect>`; });
+  g += `<text class="axt" x="${ml}" y="${H - 5}">${dates[0].slice(5).replace("-", "/")}</text><text class="axt" x="${W - mr}" y="${H - 5}" text-anchor="end">${dates[n - 1].slice(5).replace("-", "/")}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="flowSvg" role="img" aria-label="近 ${n} 個交易日每天的買賣超，紅色買超、綠色賣超">${g}</svg>`;
+}
+// 折線圖；price 是同一段期間的股價（對照用，灰色虛線，高低以它自己的範圍為準，沒有座標）
+function flowLine(vals, dates, W, cls, fmtY, price) {
+  const H = 160, ml = 58, mr = 6, mt = 10, mb = 20, n = vals.length;
+  let lo = Math.min(...vals), hi = Math.max(...vals); if (hi === lo) { hi += 1; lo -= 1; } const pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+  const x = i => ml + (W - ml - mr) * i / Math.max(1, n - 1), y = v => mt + (H - mt - mb) * (1 - (v - lo) / (hi - lo));
+  let g = ""; for (const t of niceTicks(lo, hi, 3).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y(t)}" y2="${y(t)}"/><text class="axt" x="${ml - 5}" y="${y(t) + 3.5}" text-anchor="end">${fmtY(t)}</text>`;
+  if (price && price.length === n) {
+    const pl = Math.min(...price), ph = Math.max(...price), yp = v => mt + (H - mt - mb) * (1 - (v - pl) / ((ph - pl) || 1));
+    g += `<path class="flowPx" d="${price.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${yp(v).toFixed(1)}`).join("")}"/>`;
+  }
+  g += `<path class="${cls}" d="${vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join("")}"/><circle class="${cls}d" cx="${x(n - 1).toFixed(1)}" cy="${y(vals[n - 1]).toFixed(1)}" r="3"/>`;
+  g += `<text class="axt" x="${ml}" y="${H - 5}">${dates[0].slice(5).replace("-", "/")}</text><text class="axt" x="${W - mr}" y="${H - 5}" text-anchor="end">${dates[n - 1].slice(5).replace("-", "/")}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="flowSvg" role="img" aria-label="近 ${n} 個交易日的走勢">${g}</svg>`;
+}
+const flowSeg = (id, attr, cur, items) => `<div class="seg flowSeg" id="${id}" role="group">${items.map(([k, t]) => `<button type="button" data-${attr}="${k}" aria-pressed="${String(cur) === String(k)}">${t}</button>`).join("")}</div>`;
+function flowDraw() {
+  const el = $("flowBody"); if (!el) return;
+  if (FLOW.busy) { el.innerHTML = `<div class="status">載入法人與融資資料中…</div>`; return; }
+  if (FLOW.err) { el.innerHTML = `<div class="status err">${esc(FLOW.err)}</div>`; return; }
+  const D = FLOW.D, R = window.__R; if (!D || !R) { el.innerHTML = ""; return; }
+  const W = Math.max(300, Math.floor(el.clientWidth || 340)), st = R.st, vmap = new Map(st.d.map((d, i) => [d, st.v[i]])), cmap = new Map(st.d.map((d, i) => [d, st.c[i]])), L = st.c.length;
+  const pChg = n => st.c[L - 1] / st.c[L - 1 - n] - 1, I = D.inst, M = D.mg, F = D.fh;
+  const vd = [], note = [], parts = [];
+  let capScore = 0, capN = 0, instV = null, marV = null;
+  // ---------- 法人動向 ----------
+  if (I) {
+    I.forEach(x => { x.all = x.f + x.t + x.dl; });
+    const n5 = flowSum(I, "all", 5), n20 = flowSum(I, "all", 20), f5 = flowSum(I, "f", 5), t5 = flowSum(I, "t", 5), f20 = flowSum(I, "f", 20), t20 = flowSum(I, "t", 20), v20 = I.slice(-20).reduce((a, x) => a + (vmap.get(x.d) || 0), 0);
+    const ratio = v20 ? n20 / v20 * 100 : 0, lv = ratio >= 2 ? 1 : ratio <= -2 ? -1 : 0, turn = Math.sign(n5) && Math.sign(n5) !== Math.sign(n20) && Math.abs(n20) > 0;
+    instV = { lv, ratio, n5, n20, f5, t5, f20, t20, turn };
+    capScore += lv; capN++;
+    const who = f20 && t20 && Math.sign(f20) === Math.sign(t20) ? `外資和投信同向${f20 > 0 ? "買" : "賣"}` : f20 && t20 ? `外資${f20 > 0 ? "買" : "賣"}、投信${t20 > 0 ? "買" : "賣"}（看法分歧）` : "";
+    vd.push(`<div class="flowV"><div class="k">法人動向</div><span class="tcTag ${flowTag(lv)}">${lv > 0 ? "偏買" : lv < 0 ? "偏賣" : "中性"}</span><div class="s">近 20 日三大法人${n20 >= 0 ? "買超" : "賣超"}約占成交量 <b>${Math.abs(ratio).toFixed(1)}%</b>${who ? "；" + who : ""}${turn ? `；<b>但近 5 日方向相反</b>，留意轉向` : ""}</div></div>`);
+    const s1 = flowStreak(I, "f"), s2 = flowStreak(I, "t");
+    note.push(`<b>外資</b>近 5 日${f5 > 0 ? "淨買超" : f5 < 0 ? "淨賣超" : "持平"} ${Math.abs(Math.round(f5)).toLocaleString("en-US")} 張${s1 ? `，已連續${s1 > 0 ? "買超" : "賣超"} ${Math.abs(s1)} 天` : ""}；<b>投信</b>近 5 日${t5 > 0 ? "淨買超" : t5 < 0 ? "淨賣超" : "持平"} ${Math.abs(Math.round(t5)).toLocaleString("en-US")} 張${s2 ? `，已連續${s2 > 0 ? "買超" : "賣超"} ${Math.abs(s2)} 天` : ""}。`);
+    if (f5 && t5 && Math.sign(f5) !== Math.sign(t5)) note.push(`外資和投信方向相反（${f5 > 0 ? "外資買、投信賣" : "外資賣、投信買"}），俗稱「土洋對作」。`);
+  }
+  if (F) {
+    const fr = F[F.length - 1].fr, ch = F.length > 20 ? fr - F[F.length - 21].fr : null;
+    if (ch != null && Math.abs(ch) >= 0.1) note.push(`外資持股比率近 20 日${ch > 0 ? "上升" : "下降"} ${Math.abs(ch).toFixed(2)} 個百分點（目前 ${fr.toFixed(2)}%），外資整體${ch > 0 ? "在增加持股" : "在減少持股"}。`);
+  }
+  // ---------- 融資籌碼 ----------
+  if (M) {
+    const last = M[M.length - 1], mb = last.mb, sb = last.sb, c20 = M.length > 20 ? mb - M[M.length - 21].mb : null, use = last.ml ? mb / last.ml * 100 : null, ratio = mb ? sb / mb * 100 : null;
+    if (c20 != null && L > 21) {
+      const pc = pChg(20), up = pc > 0.02, dn = pc < -0.02, mi = c20 > mb * 0.02, md = c20 < -mb * 0.02;
+      const st2 = up && md ? ["籌碼沉澱", 1, `股價漲 ${pct(Math.abs(pc), 1)}、融資減少，從散戶換到比較穩的手上`] : up && mi ? ["追價偏熱", 0, `股價漲 ${pct(Math.abs(pc), 1)}、融資增加，散戶在追價`] : dn && mi ? ["套牢槓桿增加", -1, `股價跌 ${pct(Math.abs(pc), 1)}、融資卻增加，再跌可能觸發追繳`] : dn && md ? ["融資退場", 0, `股價跌 ${pct(Math.abs(pc), 1)}、融資減少，賣壓可能正在宣洩`] : ["沒有明顯訊號", 0, "股價和融資餘額都沒有明顯方向"];
+      marV = { name: st2[0], lv: st2[1], ratio, use };
+      capScore += st2[1]; capN++;
+      vd.push(`<div class="flowV"><div class="k">融資籌碼</div><span class="tcTag ${flowTag(st2[1])}">${st2[0]}</span><div class="s">近 20 日${st2[2]}${ratio != null && ratio >= 30 ? `；券資比 <b>${ratio.toFixed(0)}%</b> 偏高（空方多，常被觀察軋空）` : ""}${use != null && use >= 40 ? `；融資使用率 <b>${use.toFixed(0)}%</b>（槓桿偏滿）` : ""}</div></div>`);
+    }
+  } else if (I || F) vd.push(`<div class="flowV"><div class="k">融資籌碼</div><span class="tcTag tc-ne">沒有資料</span><div class="s">這檔沒有融資融券資料（例如 ETF 或不能信用交易的股票）。</div></div>`);
+  // ---------- 三個角度對照 ----------
+  const cap = capN ? (capScore >= 1 ? 1 : capScore <= -1 ? -1 : 0) : null, vdct = verdictOf(R), snap = techSnap(st), ts = techScoreOf(snap), pos = vdct.score >= 60 ? 1 : vdct.score < 45 ? -1 : 0, tec = ts ? (ts.score >= 60 ? 1 : ts.score < 45 ? -1 : 0) : null;
+  const chip = (lab, v, txt) => `<span class="flowChip"><i class="${flowTag(v)}"></i><b>${lab}</b>${txt}</span>`;
+  const vs = [pos, cap, tec].filter(x => x !== null), good = vs.filter(x => x > 0).length, bad = vs.filter(x => x < 0).length;
+  let sum;
+  if (cap === null) sum = "這檔沒有法人與融資資料，只能看位置和技術面。";
+  else if (good === vs.length) sum = "三個角度<b>都偏正面</b>：位置舒服、資金支持、趨勢也偏強。";
+  else if (pos > 0 && cap < 0) sum = "位置不差，但<b>資金面偏弱</b>（法人賣超或融資在堆積），追高要小心。";
+  else if (pos < 0 && cap > 0) sum = "資金面有買盤，但<b>位置偏弱</b>（上方壓力重或下方沒支撐），要看能不能突破壓力。";
+  else if (tec !== null && tec < 0 && cap > 0) sum = "資金面偏正面，但<b>技術面偏弱</b>，趨勢還沒轉強，可以等確認。";
+  else if (bad >= 2) sum = "多數角度<b>偏負面</b>，先觀望，不急著進場。";
+  else if (good >= 2 && bad === 0) sum = "多數角度偏正面，只有一個角度中性，整體不差。";
+  else sum = "三個角度<b>沒有一致的方向</b>，維持觀察。";
+  const head = `<div class="flowVd">${vd.join("")}</div>
+    <div class="flowCmp"><div class="flowCmpT">三個角度對照${tip("flowInst")}</div><div class="flowChips">${chip("位置", pos, `${vdct.label}（${vdct.score}）`)}${cap === null ? "" : chip("資金", cap, cap > 0 ? "偏正面" : cap < 0 ? "偏負面" : "中性")}${ts ? chip("狀態", tec, `${ts.label}（${ts.score}）`) : ""}</div><p class="flowSum">${sum}</p></div>`;
+  const how = `<div class="flowHow"><b>怎麼納入你的考量？</b><ol><li>先看<b>位置</b>（上面的位置評分和支撐壓力）：下方有沒有地板、上方有沒有天花板。</li><li><b>資金面</b>當加分或扣分：法人偏買、融資沉澱是加分；法人偏賣、融資堆積是扣分，不要追高。</li><li>再用<b>技術面</b>確認趨勢。三個角度同向才比較有把握；任何一項都不是進出訊號，進場一樣要設停損。</li></ol></div>`;
+  // ---------- 細節（收合）----------
+  if (I) {
+    const rr = Math.min(FLOW.r, I.length), ser = I.slice(-rr), dates = ser.map(x => x.d), lab = { all: "合計", f: "外資", t: "投信", dl: "自營商" }, key = FLOW.g;
+    const T = k => { const n5 = flowSum(I, k, 5), n20 = flowSum(I, k, 20), s = flowStreak(I, k), vol5 = I.slice(-5).reduce((a, x) => a + (vmap.get(x.d) || 0), 0);
+      return `<div class="stat"><div class="k">${{ f: "外資", t: "投信", dl: "自營商", all: "三大法人合計" }[k]}　近 5 日</div><div class="v ${flowCls(n5)}">${flowN(n5)} 張</div><div class="h">20 日 ${flowN(n20)}　${s ? `連${s > 0 ? "買" : "賣"} ${Math.abs(s)} 天` : "—"}${vol5 ? `　占成交量 ${n5 < 0 ? "−" : "+"}${Math.abs(n5 / vol5 * 100).toFixed(1)}%` : ""}</div></div>`; };
+    parts.push(`<div class="flowAsof">法人資料到 ${I[I.length - 1].d}</div><section class="stats flowTiles">${T("f")}${T("t")}${T("dl")}${T("all")}</section>`);
+    let ch;
+    if (FLOW.mode === "cum") {
+      let acc = 0; const cum = ser.map(x => (acc += x[key])), px = ser.map(x => cmap.get(x.d)), okPx = px.every(v => v > 0);
+      ch = flowLine(cum, dates, W, "flowLn3", v => flowN(v), okPx ? px : null) + `<p class="advnote" style="padding:0">藍線：這段期間${lab[key]}累計${cum[cum.length - 1] >= 0 ? "買超" : "賣超"} <b class="${flowCls(cum[cum.length - 1])}">${flowN(cum[cum.length - 1])}</b> 張（往上＝一路買、往下＝一路賣）。${okPx ? "灰色虛線是同期股價，對照用。" : ""}</p>`;
+    } else ch = flowBars(ser.map(x => x[key]), dates, W) + `<p class="advnote" style="padding:0">紅色是買超、綠色是賣超（台股習慣）。1 張 ＝ 1000 股。</p>`;
+    parts.push(`<div class="tcTit" style="margin-top:12px">法人買賣超（近 ${rr} 個交易日，${flowRangeTxt(FLOW.r)}）</div>
+      ${flowSeg("flowSegR", "fr", FLOW.r, [[20, "20 日"], [60, "60 日"], [120, "120 日"], [250, "250 日"]])}${flowSeg("flowSegG", "fg", key, Object.entries(lab))}${flowSeg("flowSegMode", "fmode", FLOW.mode, [["cum", "累計"], ["daily", "每日"]])}${ch}`);
+  }
+  if (F) parts.push(`<section class="stats flowTiles flowOne"><div class="stat"><div class="k">外資持股比率</div><div class="v">${F[F.length - 1].fr.toFixed(2)}%</div><div class="h">${F.length > 20 ? `近 20 日 ${F[F.length - 1].fr - F[F.length - 21].fr >= 0 ? "+" : "−"}${Math.abs(F[F.length - 1].fr - F[F.length - 21].fr).toFixed(2)} 個百分點` : "—"}（資料到 ${F[F.length - 1].d}）</div></div></section>`);
+  if (M) {
+    const last = M[M.length - 1], mb = last.mb, sb = last.sb, c5 = M.length > 5 ? mb - M[M.length - 6].mb : null, c20 = M.length > 20 ? mb - M[M.length - 21].mb : null, use = last.ml ? mb / last.ml * 100 : null, ratio = mb ? sb / mb * 100 : null;
+    const rr = Math.min(FLOW.mr, M.length), ser = M.slice(-rr), mk = FLOW.m, vals = ser.map(x => mk === "margin" ? x.mb : mk === "short" ? x.sb : (x.mb ? x.sb / x.mb * 100 : 0)), px = ser.map(x => cmap.get(x.d)), okPx = px.every(v => v > 0);
+    parts.push(`<div class="flowAsof" style="margin-top:12px">融資融券資料到 ${last.d}</div><section class="stats flowTiles"><div class="stat"><div class="k">融資餘額</div><div class="v">${mb.toLocaleString("en-US")} 張</div><div class="h">5 日 ${c5 == null ? "—" : flowN(c5)}　20 日 ${c20 == null ? "—" : flowN(c20)}</div></div>
+      <div class="stat"><div class="k">融資使用率</div><div class="v">${use == null ? "—" : use.toFixed(1) + "%"}</div><div class="h">融資餘額 ÷ 融資額度</div></div>
+      <div class="stat"><div class="k">融券餘額</div><div class="v">${sb.toLocaleString("en-US")} 張</div><div class="h">借股票賣出（放空）</div></div>
+      <div class="stat"><div class="k">券資比</div><div class="v">${ratio == null ? "—" : ratio.toFixed(1) + "%"}</div><div class="h">融券餘額 ÷ 融資餘額</div></div></section>
+      <div class="tcTit" style="margin-top:12px">融資融券（近 ${rr} 個交易日，${flowRangeTxt(FLOW.mr)}）</div>${flowSeg("flowSegMR", "fmr", FLOW.mr, [[60, "60 日"], [120, "120 日"], [250, "250 日"]])}${flowSeg("flowSegM", "fm", mk, [["margin", "融資餘額"], ["short", "融券餘額"], ["ratio", "券資比"]])}
+      ${flowLine(vals, ser.map(x => x.d), W, mk === "short" ? "flowLn2" : "flowLn1", mk === "ratio" ? v => v.toFixed(0) + "%" : v => Math.round(v).toLocaleString("en-US"), okPx ? px : null)}<p class="advnote" style="padding:0">${okPx ? "灰色虛線是同期股價，對照用：股價往上、融資也往上，是散戶在追；股價往上、融資往下，是籌碼在沉澱。" : ""}</p>`);
+  }
+  el.innerHTML = head + `<ul class="flowRead">${note.map(x => `<li>${x}</li>`).join("")}</ul>` + how +
+    `<details class="adv inner more flowMore"${FLOW.more ? " open" : ""}><summary>看詳細數字和圖表（可選時間長度）</summary>${parts.join("")}<p class="advnote" style="padding:8px 0 0">時間長度怎麼選：20 日看短期有沒有轉向；60 日（約一季）是預設；120 日以上看趨勢有沒有延續，融資餘額變動慢，建議看 120 日以上。短中長期方向一致，比較可靠。</p></details>
+    <p class="advnote" style="padding:6px 0 0">這些是「現在的狀態」，不是預測：買超不等於會漲，融資增加也不等於會跌；目前只顯示，還沒有納入位置評分或篩選器。<a href="#g-flow" data-gt="g-flow" class="tcMore">法人與融資怎麼看？</a></p>`;
+  const dt = el.querySelector(".flowMore"); if (dt) dt.addEventListener("toggle", () => { FLOW.more = dt.open; });
+}
+
 /* ---------- 技術分析（獨立頁籤）----------
    把常見的技術指標（均線、RSI、KD、MACD、布林通道、量價、SuperTrend）算出來，疊上籌碼的支撐壓力，
    時間軸可以自己拉（和籌碼分析同一套滑桿），所有數字都以「區間終點」那一天為準。
@@ -6120,6 +6359,14 @@ function techGuideInit() {
     <div id="tg-dict" class="tgSub"><h4 class="tgT">名詞小辭典</h4><div class="tcDict">${techDictHtml()}</div></div>`;
 }
 techGuideInit();
+attachPinch($("chart"), () => $("rangeBox").__rng);
+attachPinch($("techPanel"), e => e.target.closest(".tcChartBox") ? $("techRange").__rng : null);
+$("flowBox").addEventListener("toggle", e => { if (e.target.open && window.__R && FLOW.code !== window.__R.st.code && !FLOW.busy) flowLoad(window.__R); });
+$("flowBody").addEventListener("click", e => {
+  const q = k => e.target.closest(`[data-${k}]`), g = q("fg"), m = q("fm"), r = q("fr"), mr = q("fmr"), md = q("fmode");
+  if (g) FLOW.g = g.dataset.fg; else if (m) FLOW.m = m.dataset.fm; else if (r) FLOW.r = +r.dataset.fr; else if (mr) FLOW.mr = +mr.dataset.fmr; else if (md) FLOW.mode = md.dataset.fmode; else return;
+  flowDraw();
+});
 { let raf = 0, w0 = 0; new ResizeObserver(() => { const w = $("techPanel").clientWidth; if (!w || w === w0 || $("techPanel").hidden) { w0 = w; return; } w0 = w; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => techUpdate(window.__R)); }).observe($("techPanel")); }
 
 /* ---------- 頁面縮放（A− / 100% / A+） ---------- */
