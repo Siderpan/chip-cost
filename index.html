@@ -941,6 +941,11 @@ html[data-layout="desktop"] .app { max-width: 1360px; padding-inline: 24px; }
   html[data-layout="desktop"] #tabs button { flex: none; justify-content: flex-start; text-align: left; border: 0; border-radius: 6px; min-height: 40px; padding: 0 12px; margin: 0; font-size: .9rem; }
   html[data-layout="desktop"] #tabs button:hover { background: color-mix(in srgb, var(--muted) 12%, transparent); } html[data-layout="desktop"] #tabs button[aria-selected="true"] { background: color-mix(in srgb, var(--profit) 14%, transparent); color: var(--profit); }
   html[data-layout="desktop"] .page { grid-column: 2; grid-row: 3; min-width: 0; }
+  html[data-layout="desktop"] #pgMarket:not([hidden]) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; row-gap: 12px; align-items: start; }
+  html[data-layout="desktop"] #pgMarket > h2:first-child { grid-column: 1 / -1; grid-row: 1; margin-bottom: 0; } html[data-layout="desktop"] #pgMarket > #mktBody { grid-column: 1 / -1; grid-row: 2; }
+  html[data-layout="desktop"] #mktBody { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; align-items: stretch; } html[data-layout="desktop"] #mktBody > .mktBar, html[data-layout="desktop"] #mktBody > .status { grid-column: 1 / -1; } html[data-layout="desktop"] #mktBody > .mktCard { margin: 0; }
+  html[data-layout="desktop"] #heatHead { grid-column: 1; grid-row: 3; } html[data-layout="desktop"] #heatBody { grid-column: 1; grid-row: 4; } html[data-layout="desktop"] #rotHead { grid-column: 2; grid-row: 3; } html[data-layout="desktop"] #rotBody { grid-column: 2; grid-row: 4; }
+  html[data-layout="desktop"] #pgMarket > h2:nth-of-type(2) { grid-column: 1 / -1; grid-row: 5; margin: 8px 0 0; } html[data-layout="desktop"] #pgMarket > .mktCalc { grid-column: 1 / -1; grid-row: 6; }
   html[data-layout="desktop"] .app > footer { grid-column: 1 / -1; grid-row: 4; }
   html[data-layout="desktop"] #pgScreen, html[data-layout="desktop"] #pgBt, html[data-layout="desktop"] #pgSim, html[data-layout="desktop"] #pgGuide, html[data-layout="desktop"] #pgAdmin { max-width: 920px; }
   html[data-layout="desktop"] .lcols { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; align-items: start; }
@@ -1547,14 +1552,14 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <div id="mcTotalNote" class="status" style="margin-top:6px"></div>
       <div id="mcOut" class="mcOut"></div>
     </div>
-    <div class="simBoardHead"><h2>大盤權重熱力圖</h2>
+    <div class="simBoardHead" id="heatHead"><h2>大盤權重熱力圖</h2>
       <div id="heatMode" class="seg" role="group" aria-label="顏色代表什麼">
         <button type="button" data-m="chg" aria-pressed="true">漲跌幅</button>
         <button type="button" data-m="pts" aria-pressed="false">貢獻點數</button>
       </div>
     </div>
     <div id="heatBody"></div>
-    <div class="simBoardHead"><h2>近期資金輪動</h2><button type="button" class="info" data-term="rotation" aria-label="資金輪動泡泡圖的說明">i</button></div>
+    <div class="simBoardHead" id="rotHead"><h2>近期資金輪動</h2><button type="button" class="info" data-term="rotation" aria-label="資金輪動泡泡圖的說明">i</button></div>
     <div id="rotBody"></div>
   </section>
 
@@ -3892,7 +3897,7 @@ function mktTaiexChart(all) {
 function mktTaiexDraw() {
   const box = $("mktTxBox"); if (!box || !mkt.idx) return;
   const all = mkt.idx, [a, b] = mktView("t"), rows = all.slice(a, b + 1); if (rows.length < 2) return;
-  const W = Math.max(300, Math.floor(box.clientWidth || 340)), H = 168, ml = 46, mr = 8, mt = 8, mb = 20, v = rows.map(r => r.c), n = rows.length;
+  const W = Math.max(300, Math.floor(box.clientWidth || 340)), H = 168 + (mkt.extra || 0), ml = 46, mr = 8, mt = 8, mb = 20, v = rows.map(r => r.c), n = rows.length;
   const lo0 = Math.min(...v), hi0 = Math.max(...v), padv = (hi0 - lo0) * 0.06 || 1, lo = lo0 - padv, hi = hi0 + padv;
   const X = i => ml + i * (W - ml - mr) / (n - 1), Y = y => mt + (1 - (y - lo) / (hi - lo)) * (H - mt - mb), pts = v.map((y, i) => `${X(i).toFixed(1)},${Y(y).toFixed(1)}`).join(" "), up = v[n - 1] >= v[0];
   let g = "";
@@ -3942,6 +3947,16 @@ function mktNightDraw() {
   const rg = $("mktNRg"); if (rg) rg.textContent = `${s[0].d.slice(5)} ～ ${last.d.slice(5)}`;
   document.querySelectorAll('[data-mp^="n:"]').forEach(btn => { const m = +btn.dataset.mp.split(":")[1]; btn.setAttribute("aria-pressed", b === all.length - 1 && b - a + 1 === Math.min(m, all.length)); });
 }
+// 桌機兩欄並排時，加權指數圖會自動拉高，讓兩張卡片一樣高、左右對稱（單欄時不調整）
+function mktBalance() {
+  const b = $("mktBody"), cs = b && b.querySelectorAll(":scope > .mktCard");
+  mkt.extra = 0;
+  if (!cs || cs.length < 2 || getComputedStyle(b).display !== "grid") { mktTaiexDraw(); return; }
+  mktTaiexDraw(); b.style.alignItems = "start";
+  const d = cs[1].getBoundingClientRect().height - cs[0].getBoundingClientRect().height;
+  b.style.alignItems = "";
+  if (d > 12) { mkt.extra = Math.round(d) - 2; mktTaiexDraw(); }
+}
 // 兩指縮放用的區間物件（和 mountRange 的 __rng 同一個介面）
 function mktRng(k, el) {
   const n = mktLen(k); if (n < 30) return null;
@@ -3981,7 +3996,7 @@ function mktRender() {
       <div class="nt">${F.newer ? "這份夜盤已經過去，後面日盤已經開盤，只當參考。" : (F.pc == null ? "" : `漲跌 = 夜盤收盤 − 前一個日盤收盤（${esc(F.pd)}）。`)}${est != null ? "「推估大盤開盤」= 加權指數最新收盤 + 夜盤漲跌點數，只是粗估，實際開盤會有誤差。" : ""}</div></div>`;
   }
   el.innerHTML = bar + err + taiex + night;
-  mktTaiexDraw(); mktNightDraw();
+  mktTaiexDraw(); mktNightDraw(); mktBalance();
 }
 /* 上市股票總市值（不佔用 FinMind 額度，都是 www.twse.com.tw 的 JSON，可以從網頁直接讀）
    1) 優先用證交所官方公布的「上市公司總市值」（金融友善服務專區使用的 homeApi/mkt_cap，單位億元，最近 5 個交易日）；
@@ -6781,9 +6796,7 @@ const COLS = [
   { root: () => $("pgAnalyze"), L: () => [document.querySelector("#pgAnalyze > section.top"), $("chart") && $("chart").closest("section.card"), $("res") && $("res").closest("section.zones")],
     R: () => [$("verdict"), $("stats"), $("stCard"), $("warn"), $("flowBox"), document.querySelector("#pgAnalyze > details.adv")] },
   { root: () => $("techPanel"), L: () => [document.querySelector("#techPanel > .tcTool"), $("techReadout"), $("techChart"), $("techLegend"), $("techRange"), $("techSubSeg") && $("techSubSeg").closest(".tcG1")],
-    R: () => [$("techHead"), $("techCombos"), $("techList"), document.querySelector("#techPanel > p.advnote:last-child")] },
-  { root: () => $("pgMarket"), L: () => [document.querySelector("#pgMarket > h2"), $("mktBody")],
-    R: () => [document.querySelector("#pgMarket > h2:nth-of-type(2)"), document.querySelector("#pgMarket > .mktCalc"), $("heatMode") && $("heatMode").closest(".simBoardHead"), $("heatBody"), $("rotBody") && $("rotBody").previousElementSibling, $("rotBody")] }
+    R: () => [$("techHead"), $("techCombos"), $("techList"), document.querySelector("#techPanel > p.advnote:last-child")] }
 ];
 function colsOn(c) {
   const rt = c.root(); if (!rt || rt.querySelector(":scope > .lcols")) return;
@@ -6803,7 +6816,7 @@ function layoutRedraw() {                                                       
   requestAnimationFrame(() => {
     if (window.__R && !$("pgAnalyze").hidden) drawChart(window.__R);
     if (!$("pgTech").hidden) techUpdate(window.__R);
-    if (!$("pgMarket").hidden) { mktTaiexDraw(); mktNightDraw(); }
+    if (!$("pgMarket").hidden) { mkt.extra = 0; mktTaiexDraw(); mktNightDraw(); mktBalance(); }
     if (FLOW.D && $("flowChI")) { flowChart("i"); flowChart("m"); }
   });
 }
