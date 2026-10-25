@@ -38,11 +38,12 @@ body{margin:0;font-size:14px;-webkit-text-size-adjust:100%}
   --warn-ink: #7a4a07;
   --bull: #e0303e;
   --bear: #078a73;
+  --bb: #8b5cf6;
   --font-ui: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   --font-num: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
 }
 
-:root[data-theme="dark"] { --bg: #0b0e14; --surface: #171c27; --ink: #eceff6; --muted: #a3aab8; --grid: #272e3c; --line: #343c4d; --profit: #78a2ff; --trapped: #ffb35e; --warn-bg: #33280f; --warn-ink: #ffd48a; --bull: #ff6f7d; --bear: #3ad6b4; color-scheme: dark; }
+:root[data-theme="dark"] { --bg: #0b0e14; --surface: #171c27; --ink: #eceff6; --muted: #a3aab8; --grid: #272e3c; --line: #343c4d; --profit: #78a2ff; --trapped: #ffb35e; --warn-bg: #33280f; --warn-ink: #ffd48a; --bull: #ff6f7d; --bear: #3ad6b4; --bb: #b79cff; color-scheme: dark; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); }
 * { box-sizing: border-box; }
 .app { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 32px; display: flex; flex-direction: column; gap: 14px; }
@@ -476,6 +477,11 @@ svg .chLast { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; opac
 .gAcc { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); } .gAcc > summary { list-style: none; cursor: pointer; padding: 12px 14px; min-height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; } .gAcc > summary::-webkit-details-marker { display: none; }
 .gAcc > summary h3 { margin: 0; font: 700 .98rem/1.45 var(--font-ui); } .gAcc > summary::after { content: "＋"; grid-row: 1; grid-column: 2; color: var(--profit); font: 700 1.1rem var(--font-ui); } .gAcc[open] > summary::after { content: "－"; }
 .gCollapse { align-self: stretch; min-height: 44px; margin-top: 4px; border: 1px solid var(--line); border-radius: 10px; background: color-mix(in srgb, var(--profit) 7%, var(--surface)); color: var(--profit); font: 700 .88rem var(--font-ui); cursor: pointer; }
+.gGrp > summary em { margin-left: auto; padding-left: 10px; font: 400 .72rem var(--font-num); font-style: normal; color: var(--muted); } .gGrp .a { padding-top: 0; } .gGrp .gTerm { margin-top: 8px; }
+.gSearch { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); padding: 0 12px; font: 400 .92rem var(--font-ui); } .gSearch:focus { outline: 2px solid var(--profit); outline-offset: 1px; }
+.fcMore { margin-top: 3px; } .fcMore > summary { display: inline-block; cursor: pointer; list-style: none; font-size: .74rem; color: var(--profit); font-weight: 600; } .fcMore > summary::-webkit-details-marker { display: none; } .fcMore > summary::after { content: " ▾"; } .fcMore[open] > summary::after { content: " ▴"; } .fcMore .ss { margin-top: 2px; }
+.tgItem > summary { align-items: flex-start; padding-block: 10px; } .tgItem > summary::before { margin-top: 1px; }
+.tgItem > summary .sx { display: flex; flex-direction: column; gap: 1px; min-width: 0; } .tgItem > summary .sx small { font-weight: 400; font-size: .76rem; color: var(--muted); line-height: 1.5; } .tgAcc > summary { font-size: .92rem; color: var(--profit); } .tgAcc > .a { padding: 0 10px 10px; }
 .gSum { grid-column: 1 / -1; font-size: .78rem; color: var(--muted); line-height: 1.6; } .gAcc[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 12px; } .gAcc > .gBody { padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px; }
 .gLead { margin: 0; font-size: .88rem; line-height: 1.75; color: var(--muted); }
 .gPath { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; } .gPath .btn { white-space: nowrap; padding-inline: 8px; } @media (min-width: 600px) { .gPath { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -792,7 +798,7 @@ svg .st-dn { fill: none; stroke: var(--bear); stroke-width: 1.6; stroke-linejoin
 .stcard .zr { overflow-wrap: anywhere; }
 svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 .tcfig svg .tc-ku { fill: var(--bull); stroke: var(--bull); } .tcfig svg .tc-kd { fill: var(--bear); stroke: var(--bear); } .tcfig svg .tc-kw { stroke-width: 1; } .tcfig svg .tc-kb { stroke-width: 0; }
-.tcfig svg .tc-bb { fill: var(--grid); opacity: .55; stroke: none; }
+.tcfig svg .tc-bb { fill: var(--bb); opacity: .13; stroke: none; } .tcfig svg .tc-bbl { fill: none; stroke: var(--bb); stroke-width: 1.3; opacity: .95; stroke-linejoin: round; } .tcfig svg .tc-bbt { fill: var(--bb); font: 600 9px var(--font-ui); paint-order: stroke; stroke: var(--surface); stroke-width: 2.5px; }
 .tcfig svg .tc-m20 { fill: none; stroke: var(--ink); stroke-width: 1.4; } .tcfig svg .tc-m60 { fill: none; stroke: var(--muted); stroke-width: 1.4; }
 .tcfig svg .tc-s { stroke: var(--profit); stroke-width: 1.2; stroke-dasharray: 5 3; } .tcfig svg .tc-r { stroke: var(--trapped); stroke-width: 1.2; stroke-dasharray: 5 3; }
 .tcfig svg .tc-st { fill: var(--profit); font: 500 10px var(--font-num); stroke: var(--surface); stroke-width: 3; paint-order: stroke; } .tcfig svg .tc-rt { fill: var(--trapped); font: 500 10px var(--font-num); stroke: var(--surface); stroke-width: 3; paint-order: stroke; }
@@ -1360,8 +1366,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <p class="gPartLead">遇到狀況先來這裡找。</p>
 
     <div class="gSec" id="g-words">
-      <details class="gAcc"><summary><h3>名詞速查：看不懂的詞都在這裡</h3><span class="gSum">看不懂的詞都在這裡，依四個角度分組，每個詞一句話。</span></summary><div class="gBody">
-      <p class="gOne">依「角度」分成四組。每個詞一句話；想看圖解和更詳細的說明，點頁面上的「i」，或回到前面對應的段落。</p>
+      <details class="gAcc"><summary><h3>名詞速查：看不懂的詞都在這裡</h3><span class="gSum">看不懂的詞都在這裡，依角度分組，也可以直接搜尋。</span></summary><div class="gBody">
+      <p class="gOne">依「角度」分組，也可以直接搜尋。每個詞一句話；想看圖解和更詳細的說明，點頁面上的「i」，或回到前面對應的段落。</p>
       <div class="gWG">籌碼面（位置）</div><dl class="gDef"><dt>籌碼</dt><dd>股票的持有狀態。在這裡指「每個價位，有多少人持有、成本是多少」。</dd><dt>成本</dt><dd>一個人買進這檔股票的價格。</dd><dt>支撐／壓力</dt><dd>支撐＝股價下跌時比較容易停住的價位（地板）；壓力＝股價上漲時比較容易漲不動的價位（天花板）。成本集中的地方，常變成支撐或壓力。</dd><dt>套牢／解套</dt><dd>成本比現價高、帳面虧損，叫套牢；股價漲回成本附近，叫解套，這時常有人想賣出。</dd><dt>籌碼占比</dt><dd>還抱著股票、成本落在某個價位的人，占全部持有人的比例（還在才算）。</dd><dt>成交量占比</dt><dd>這段期間，有多少比例的成交量發生在某個價位（來過就算，不管現在走了沒）。</dd><dt>平均成本／獲利比例</dt><dd>平均成本是所有持有人成本的重心；獲利比例是成本低於現價（帳面賺錢）的人占多少。</dd><dt>90% 籌碼區間／集中度</dt><dd>90% 的籌碼成本落在哪個價格範圍；集中度是成本擠不擠在一起，越小越集中，支撐壓力越明確。</dd><dt>累計換手／模型涵蓋率</dt><dd>這段期間整體換手了幾輪；涵蓋率是模型描繪得完不完整，是「可不可信」的指標，建議 90% 以上。</dd></dl>
       <div class="gWG">法人與融資</div><dl class="gDef"><dt>三大法人</dt><dd>外資、投信、自營商，大額專業資金的買賣紀錄。</dd><dt>買賣超</dt><dd>一天買進減賣出的張數（1 張＝1000 股）。紅色買超、綠色賣超。</dd><dt>連續買超／賣超</dt><dd>從最後一天往回數，連續幾天同方向。</dd><dt>外資持股比率</dt><dd>外資持有的股數，占發行股數的比例。</dd><dt>土洋對作</dt><dd>外資（洋）和投信（土）方向相反，一買一賣。</dd><dt>融資／融券</dt><dd>融資＝借錢買股票（看多槓桿）；融券＝借股票賣出（放空）。</dd><dt>融資使用率</dt><dd>融資餘額 ÷ 融資額度，越高代表槓桿越滿。</dd><dt>券資比</dt><dd>融券餘額 ÷ 融資餘額，越高代表空方相對多。</dd><dt>累計買賣超</dt><dd>把每天的買賣超一路加起來，看一段期間「淨買」還是「淨賣」。線往上＝一路買、往下＝一路賣。</dd><dt>三個角度對照</dt><dd>位置、資金、狀態三個面向並排，看是否同方向。</dd><dt>軋空</dt><dd>放空的人被迫回補（買回股票），反而推升股價。</dd><dt>追繳</dt><dd>融資的擔保品價值跌太多，券商要求補錢；補不出來就會被強制賣出（斷頭）。</dd></dl>
       <div class="gWG">技術面（狀態）</div><dl class="gDef"><dt>多頭／空頭</dt><dd>多頭＝整體在往上走；空頭＝整體在往下走。台股的顏色：紅色代表多、綠色代表空。</dd><dt>偏多／偏空</dt><dd>某個指標「現在的傾向」，不是預測。</dd><dt>均線（MA）</dt><dd>最近 N 天收盤價的平均。MA5＝一週、MA20＝一個月、MA60＝一季，可以想成這段時間買進的人平均成本。</dd><dt>多頭排列／空頭排列</dt><dd>收盤 ＞ MA20 ＞ MA60 叫多頭排列（上漲趨勢）；收盤 ＜ MA20 ＜ MA60 叫空頭排列。</dd><dt>黃金交叉／死亡交叉</dt><dd>MA20 往上穿過 MA60 叫黃金交叉（轉強）；往下穿過叫死亡交叉（轉弱）。</dd><dt>RSI</dt><dd>最近 14 天，上漲的力氣和下跌的力氣誰比較大，0～100，50 是分界。</dd><dt>KD</dt><dd>今天收盤在最近 9 天高低區間的哪個位置。K 是快線、D 是慢線，K 在 D 之上偏多。</dd><dt>MACD</dt><dd>短期平均價減長期平均價，看趨勢的力道在增強還是減弱；柱狀在 0 以上偏多。</dd><dt>布林通道</dt><dd>以 20 日線為中線，上下各 2 倍標準差，股價大約 95% 的時間待在裡面；通道變窄代表波動收斂。</dd><dt>量比</dt><dd>最近 5 天均量 ÷ 20 天均量。1 倍＝和平常一樣，超過 1.3 倍算量增。</dd><dt>過熱／超賣／鈍化</dt><dd>漲太急叫過熱，跌太深叫超賣；指標卡在極端值很久、股價卻還繼續走，叫鈍化，所以不能一看到過熱就賣。</dd><dt>SuperTrend</dt><dd>一條會跟著股價走的保護線，股價在線上面是多頭，這條線也常被當成停損參考。</dd></dl>
@@ -5014,6 +5020,51 @@ function guideToc() {
   secs.forEach(x => mo.observe(x.s, { attributes: true, attributeFilter: ["hidden"] }));
   [...host.children].forEach((b, i) => b.hidden = secs[i].s.hidden);
 }
+/* 使用指南：把大段文字整理成「流程圖、可收合的分組、可搜尋的名詞」，預設只看到標題和重點，要看細節再點開 */
+function guideCompact() {
+  const G = $("pgGuide");
+  const cut = h => { let d = 0; for (let i = 0; i < h.length; i++) { const c = h[i]; if (c === "<") d++; else if (c === ">") d--; else if (!d && c === "。") return i + 1; } return -1; };   // 第一句的結尾（不算標籤裡面的字）
+  // 1) 編號步驟：每一步只顯示第一句，其餘收進「細節」（保留原本的時間軸樣式）
+  G.querySelectorAll(".card.gSteps .gStep p").forEach(pp => {
+    let ss = pp.innerHTML, more = ""; const k = cut(ss);
+    if (k > 0 && k < ss.length - 1) { more = ss.slice(k).trim(); ss = ss.slice(0, k); pp.innerHTML = `${ss}<details class="fcMore"><summary>細節</summary><div class="ss">${more}</div></details>`; }
+  });
+  // 2) 名詞分組 → 可收合（預設收起，標題旁邊有幾個詞）
+  const group = (title, nodes, count) => {
+    const d = document.createElement("details"); d.className = "gFaq gGrp";
+    d.innerHTML = `<summary>${title}<em>${count}</em></summary><div class="a"></div>`; nodes.forEach(n => d.querySelector(".a").appendChild(n)); return d;
+  };
+  const wb = $("g-words") && $("g-words").querySelector(".gBody"), grps = [];
+  if (wb) {
+    wb.querySelectorAll(":scope > .gWG").forEach(h => { const dl = h.nextElementSibling; if (!dl || dl.tagName !== "DL") return; const g = group(h.textContent, [dl], dl.querySelectorAll("dt").length); h.replaceWith(g); grps.push(g); });
+    const inp = document.createElement("input"); inp.type = "search"; inp.className = "gSearch"; inp.placeholder = "輸入想查的詞，例如 RSI、融資、支撐"; inp.setAttribute("aria-label", "搜尋名詞");
+    wb.querySelector(".gOne").after(inp);
+    inp.addEventListener("input", () => {
+      const q = inp.value.trim().toLowerCase();
+      grps.forEach(g => { let hit = 0; g.querySelectorAll("dt").forEach(dt => { const dd = dt.nextElementSibling, m = !q || (dt.textContent + " " + (dd ? dd.textContent : "")).toLowerCase().includes(q); dt.hidden = !m; if (dd) dd.hidden = !m; if (m) hit++; }); g.hidden = !!q && !hit; g.open = !!q && hit > 0; });
+    });
+  }
+  const gt = $("guideTerms");
+  if (gt) gt.querySelectorAll(":scope > .gTermGroup").forEach(tg => { const ts = [...tg.querySelectorAll(".gTerm")], title = tg.querySelector(".gGroupT").textContent; const g = group(title, ts, ts.length); tg.replaceWith(g); });
+  // 3) 技術分析章節：四個小節都可收合；每個指標也是一個可收合的項目（標題旁就是一句話重點）
+  const tb = $("gTechBody");
+  if (tb) {
+    tb.querySelectorAll(":scope > .tgSub").forEach(sub => {
+      const h = sub.querySelector(".tgT"), d = document.createElement("details"); d.className = "gFaq tgAcc"; d.id = sub.id;
+      const a = document.createElement("div"); a.className = "a"; [...sub.children].forEach(c => { if (c !== h) a.appendChild(c); });
+      d.innerHTML = `<summary>${h.textContent}</summary>`; d.appendChild(a); sub.replaceWith(d);
+    });
+    tb.querySelectorAll(".tgCard[id]").forEach(c => {
+      const nm = c.querySelector(".tgH b"), what = c.querySelector(".what"), d = document.createElement("details"); d.className = "gFaq tgItem"; d.id = c.id;
+      const a = document.createElement("div"); a.className = "a"; [...c.children].forEach(x => { if (x !== what && !x.classList.contains("tgH")) a.appendChild(x); });
+      const back = c.querySelector(".tgH a"); if (back) a.appendChild(back);
+      d.innerHTML = `<summary><span class="sx"><b>${nm.textContent}</b><small>${what.textContent}</small></span></summary>`; d.appendChild(a); c.replaceWith(d);
+    });
+    tb.querySelectorAll(".tcDict").forEach(dict => {
+      [...dict.querySelectorAll(":scope > .tcDG")].forEach(h => { const dl = h.nextElementSibling; if (!dl || dl.tagName !== "DL") return; const g = group(h.textContent, [dl], dl.querySelectorAll("dt").length); h.replaceWith(g); });
+    });
+  }
+}
 function guideInit() {
   guideFig(); shareFig(); guideToc();
   // 每一章展開後，結尾都有「收合本章」：按了就收起來，並回到這一章的標題，不用自己捲回去
@@ -5044,6 +5095,7 @@ function guideInit() {
     else if (go === "analyze") { showTab("analyze"); $("q").focus(); }
     else showTab(go);
   });
+  guideCompact();
   guideDemo();
 }
 // 互動示範：固定的三堆成本，拖動股價，看同一堆成本怎麼在「支撐」和「壓力」之間換角色
@@ -6408,7 +6460,7 @@ function techCombos(T, sig, R, chipOK) {
   return out;
 }
 /* ===== 圖表：可以自己選要看什麼、一眼看出強弱、手指滑過去就看到當天所有數字 ===== */
-const TECH_LAYERS = [["ma5", "MA5", "var(--trapped)"], ["ma20", "MA20", "var(--ink)"], ["ma60", "MA60", "var(--muted)"], ["boll", "布林通道", "var(--grid)"], ["chip", "籌碼支撐壓力", "var(--profit)"], ["cross", "均線交叉點", "var(--bull)"], ["strip", "強弱色帶", "var(--bear)"]];
+const TECH_LAYERS = [["ma5", "MA5", "var(--trapped)"], ["ma20", "MA20", "var(--ink)"], ["ma60", "MA60", "var(--muted)"], ["boll", "布林通道", "var(--bb)"], ["chip", "籌碼支撐壓力", "var(--profit)"], ["cross", "均線交叉點", "var(--bull)"], ["strip", "強弱色帶", "var(--bear)"]];
 const TECH_PRESET = { 簡潔: { ma5: 0, ma20: 1, ma60: 0, boll: 0, chip: 0, cross: 0, strip: 1 }, 標準: { ma5: 0, ma20: 1, ma60: 1, boll: 0, chip: 1, cross: 1, strip: 1 }, 完整: { ma5: 1, ma20: 1, ma60: 1, boll: 1, chip: 1, cross: 1, strip: 1 } };
 TECH.show = Object.assign({ ...TECH_PRESET.標準 }, lsRead("techShow") || {});
 { const s = lsRead("techSub"); if (s && s.v) TECH.sub = s.v; }
@@ -6437,7 +6489,12 @@ function techChart(T, R, a, chipOK) {
   const y1 = v => mt + h1 * (1 - (v - lo) / (hi - lo)), f0 = v => fmt(v, v < 100 ? 2 : 0), path = (arr, y) => { let d = "", on = false; for (let i = a; i <= e; i++) { if (arr[i] === arr[i]) { d += `${on ? "L" : "M"}${x(i).toFixed(1)} ${y(arr[i]).toFixed(1)}`; on = true; } } return d; };
   let g = "";
   for (const t of niceTicks(lo, hi, 4).ticks) g += `<line class="gridl" x1="${ml}" x2="${W - mr}" y1="${y1(t)}" y2="${y1(t)}"/><text class="axt" x="${ml - 5}" y="${y1(t) + 3.5}" text-anchor="end">${f0(t)}</text>`;
-  if (SH.boll) { let band = "", back = ""; for (let i = a; i <= e; i++) if (T.bb.up[i] === T.bb.up[i]) band += `${band ? "L" : "M"}${x(i).toFixed(1)} ${y1(T.bb.up[i]).toFixed(1)}`; for (let i = e; i >= a; i--) if (T.bb.lo[i] === T.bb.lo[i]) back += `L${x(i).toFixed(1)} ${y1(T.bb.lo[i]).toFixed(1)}`; if (band) g += `<path class="tc-bb" d="${band}${back}Z"/>`; }
+  if (SH.boll) {                                                                // 布林通道：半透明的紫色通道 + 上下軌細線 + 左端標示，和均線、K 線的顏色區隔開
+    let up = "", lw = "", back = "", last = -1, first = -1;
+    for (let i = a; i <= e; i++) if (T.bb.up[i] === T.bb.up[i]) { const X = x(i).toFixed(1); up += `${up ? "L" : "M"}${X} ${y1(T.bb.up[i]).toFixed(1)}`; lw += `${lw ? "L" : "M"}${X} ${y1(T.bb.lo[i]).toFixed(1)}`; last = i; if (first < 0) first = i; }
+    for (let i = e; i >= a; i--) if (T.bb.lo[i] === T.bb.lo[i]) back += `L${x(i).toFixed(1)} ${y1(T.bb.lo[i]).toFixed(1)}`;
+    if (up) g += `<path class="tc-bb" d="${up}${back}Z"/><path class="tc-bbl" d="${up}"/><path class="tc-bbl" d="${lw}"/><text class="tc-bbt" x="${(x(first) + 3).toFixed(1)}" y="${(y1(T.bb.up[first]) - 3).toFixed(1)}">布林上軌</text><text class="tc-bbt" x="${(x(first) + 3).toFixed(1)}" y="${(y1(T.bb.lo[first]) + 10).toFixed(1)}">布林下軌</text>`;
+  }
   if (R1) g += `<line class="tc-r" x1="${ml}" x2="${W - mr}" y1="${y1(R1.peak)}" y2="${y1(R1.peak)}"/><text class="tc-rt" x="${ml + 4}" y="${y1(R1.peak) - 4}">籌碼壓力 ${f0(R1.peak)}</text>`;
   if (S1) g += `<line class="tc-s" x1="${ml}" x2="${W - mr}" y1="${y1(S1.peak)}" y2="${y1(S1.peak)}"/><text class="tc-st" x="${ml + 4}" y="${y1(S1.peak) + 11}">籌碼支撐 ${f0(S1.peak)}</text>`;
   if (SH.ma60) g += `<path class="tc-m60" d="${path(T.m60, y1)}"/>`;
@@ -6544,7 +6601,7 @@ function techLegendHtml(chipOK) {
   if (SH.ma5) o.push(`<span><i class="ln" style="border-color:var(--trapped)"></i>MA5</span>`);
   if (SH.ma20) o.push(`<span><i class="ln" style="border-color:var(--ink)"></i>MA20</span>`);
   if (SH.ma60) o.push(`<span><i class="ln" style="border-color:var(--muted)"></i>MA60</span>`);
-  if (SH.boll) o.push(`<span><i style="background:var(--grid)"></i>布林通道</span>`);
+  if (SH.boll) o.push(`<span><i style="background:var(--bb)"></i>布林通道</span>`);
   if (SH.chip && chipOK) o.push(`<span><i class="ln" style="border-color:var(--profit);border-top-style:dashed"></i>籌碼支撐</span><span><i class="ln" style="border-color:var(--trapped);border-top-style:dashed"></i>籌碼壓力</span>`);
   if (SH.cross && SH.ma20 && SH.ma60) o.push(`<span><b style="color:var(--bull)">▲</b>黃金交叉</span><span><b style="color:var(--bear)">▼</b>死亡交叉</span>`);
   if (SH.strip) o.push(`<span class="tcSw">強弱：<i class="a2"></i>強多<i class="a1"></i>偏多<i class="a0"></i>中性<i class="b1"></i>偏空<i class="b2"></i>強空</span>`);
