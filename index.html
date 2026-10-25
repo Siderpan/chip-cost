@@ -475,6 +475,7 @@ svg .chLast { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; opac
 .gSec { display: flex; flex-direction: column; gap: 10px; }
 .gAcc { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); } .gAcc > summary { list-style: none; cursor: pointer; padding: 12px 14px; min-height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; } .gAcc > summary::-webkit-details-marker { display: none; }
 .gAcc > summary h3 { margin: 0; font: 700 .98rem/1.45 var(--font-ui); } .gAcc > summary::after { content: "＋"; grid-row: 1; grid-column: 2; color: var(--profit); font: 700 1.1rem var(--font-ui); } .gAcc[open] > summary::after { content: "－"; }
+.gCollapse { align-self: stretch; min-height: 44px; margin-top: 4px; border: 1px solid var(--line); border-radius: 10px; background: color-mix(in srgb, var(--profit) 7%, var(--surface)); color: var(--profit); font: 700 .88rem var(--font-ui); cursor: pointer; }
 .gSum { grid-column: 1 / -1; font-size: .78rem; color: var(--muted); line-height: 1.6; } .gAcc[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 12px; } .gAcc > .gBody { padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px; }
 .gLead { margin: 0; font-size: .88rem; line-height: 1.75; color: var(--muted); }
 .gPath { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; } .gPath .btn { white-space: nowrap; padding-inline: 8px; } @media (min-width: 600px) { .gPath { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -495,7 +496,7 @@ svg .chLast { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; opac
 .gFaq { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin-top: 8px; } .gFaq summary { cursor: pointer; padding: 11px 14px; min-height: 44px; display: flex; align-items: center; font: 600 .88rem var(--font-ui); list-style: none; } .gFaq summary::-webkit-details-marker { display: none; } .gFaq summary::before { content: "＋"; color: var(--profit); margin-right: 8px; } .gFaq[open] summary::before { content: "－"; } .gFaq .a { padding: 0 14px 12px; font-size: .85rem; line-height: 1.75; } .gFaq .a p { margin: 5px 0; }
 .gLead b { color: var(--ink); font-weight: 600; }
 .gTwo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-@media (max-width: 380px) { .gTwo { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) { .gTwo { grid-template-columns: minmax(0, 1fr); } }
 .gMini { padding: 12px; }
 .gMini p { margin: 4px 0 0; font-size: .86rem; line-height: 1.7; }
 .gName { font: 700 .92rem var(--font-ui); }
@@ -971,6 +972,22 @@ html[data-layout="android"] .botNav button { font-size: .75rem; font-weight: 500
 html[data-layout="android"] .card, html[data-layout="android"] .stats, html[data-layout="android"] .gAcc, html[data-layout="android"] .flowV, html[data-layout="android"] .flowCmp, html[data-layout="android"] .wfCard, html[data-layout="android"] .wcard, html[data-layout="android"] .wrow { border-radius: 16px; border-color: transparent; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08); }
 html[data-layout="android"] .seg { border-radius: 999px; overflow: hidden; } html[data-layout="android"] .seg button { min-height: 38px; font-weight: 500; } html[data-layout="android"] .seg button[aria-pressed="true"], html[data-layout="android"] .seg button[aria-selected="true"] { background: color-mix(in srgb, var(--profit) 22%, transparent); color: var(--ink); font-weight: 700; }
 html[data-layout="android"] .btn, html[data-layout="android"] .search button { border-radius: 999px; } html[data-layout="android"] .search input { border-radius: 14px; } html[data-layout="android"] .brand h1 { font-size: 1.2rem; font-weight: 600; }
+/* ---- 使用指南：流程圖、組成圖、對照表（少一點文字，多一點圖） ---- */
+.fcF { display: flex; flex-direction: column; } .fcN { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); } .fcN.core { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 7%, var(--surface)); }
+.fcN .ic { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--profit) 15%, transparent); color: var(--profit); font: 700 .92rem var(--font-num); font-style: normal; } .fcN .tt { font: 700 .92rem var(--font-ui); } .fcN .ss { margin-top: 1px; font-size: .78rem; color: var(--muted); line-height: 1.55; }
+.fcN .gMapGo { min-height: 36px; padding: 0 12px; font-size: .78rem; } .fcA { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 26px; color: var(--muted); font-size: .74rem; } .fcA::before { content: "↓"; font-size: 1.15rem; line-height: 1; color: var(--profit); }
+.fcSide { margin: 6px 0 0 24px; padding: 7px 10px; border: 1px dashed var(--line); border-radius: 8px; font-size: .78rem; line-height: 1.55; color: var(--muted); } .fcSide b { color: var(--ink); }
+.fcOr { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; } .fcOr > div { padding: 8px 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-align: center; font-size: .76rem; line-height: 1.5; color: var(--muted); } .fcOr b { display: block; color: var(--ink); font-size: .84rem; } .fcOr .win b { color: var(--bull); } .fcOr .lose b { color: var(--bear); }
+.fcRow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; align-items: stretch; } .fcRow > .fcB { position: relative; margin-right: 18px; padding: 10px 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-align: center; } .fcRow > .fcB:last-child { margin-right: 0; } .fcRow > .fcB:not(:last-child)::after { content: "→"; position: absolute; right: -17px; top: 50%; transform: translateY(-50%); color: var(--profit); font-size: 1.1rem; }
+.fcB .n { font: 700 .8rem var(--font-ui); color: var(--profit); } .fcB .tt { font: 700 .92rem var(--font-ui); margin: 2px 0; } .fcB .ss { font-size: .74rem; line-height: 1.5; color: var(--muted); } .fcB .pg { margin-top: 4px; font-size: .72rem; color: var(--ink); }
+.gBars { display: flex; flex-direction: column; gap: 10px; padding: 12px; } .gBar .bl { display: flex; justify-content: space-between; align-items: baseline; font: 700 .84rem var(--font-ui); margin-bottom: 4px; } .gBar .bl small { font: 400 .72rem var(--font-ui); color: var(--muted); } .gBar .bs { display: flex; height: 44px; border-radius: 8px; overflow: hidden; gap: 2px; } .gBar .bs i { flex: var(--w) 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; font-style: normal; font-size: .68rem; line-height: 1.3; color: var(--surface); text-align: center; } .gBar .bs i b { font: 700 .86rem var(--font-num); } .gBar .bs i:nth-child(1) { background: var(--profit); } .gBar .bs i:nth-child(2) { background: color-mix(in srgb, var(--profit) 72%, var(--muted)); } .gBar .bs i:nth-child(3) { background: color-mix(in srgb, var(--profit) 48%, var(--muted)); } .gBar .bs i:nth-child(4) { background: var(--muted); }
+.gTbl { width: 100%; border-collapse: collapse; font-size: .84rem; line-height: 1.55; } .gTbl th { text-align: left; font: 600 .72rem var(--font-ui); color: var(--muted); padding: 4px 8px; } .gTbl td { padding: 8px; border-top: 1px solid var(--line); vertical-align: top; } .gTbl td:first-child { font-weight: 700; white-space: nowrap; } .gTbl .up { color: var(--bull); } .gTbl .dn { color: var(--bear); }
+.gTiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .gTiles > div { padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); } .gTiles b { display: block; font-size: .86rem; } .gTiles span { font-size: .76rem; line-height: 1.55; color: var(--muted); }
+.gChk { display: flex; flex-direction: column; gap: 6px; } .gChk > div { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; align-items: start; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); } .gChk i { width: 20px; height: 20px; border-radius: 50%; background: color-mix(in srgb, var(--profit) 15%, transparent); color: var(--profit); font: 700 .7rem var(--font-num); font-style: normal; display: flex; align-items: center; justify-content: center; } .gChk b { font-size: .84rem; } .gChk span { display: block; font-size: .76rem; line-height: 1.5; color: var(--muted); }
+.gQuad { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; margin: 8px 0 4px 18px; padding-bottom: 18px; } .gQuad .q { padding: 8px 6px; border-radius: 6px; font-size: .74rem; line-height: 1.45; text-align: center; background: color-mix(in srgb, var(--muted) 12%, transparent); } .gQuad .q b { display: block; font-size: .72rem; opacity: .8; } .gQuad .tr { background: color-mix(in srgb, var(--bull) 16%, transparent); } .gQuad .br { background: color-mix(in srgb, var(--bear) 12%, transparent); } .gQuad .ax { position: absolute; font-size: .68rem; color: var(--muted); } .gQuad .ax.x { right: 0; bottom: 0; } .gQuad .ax.y { left: -18px; top: 0; writing-mode: vertical-rl; }
+.gShot { padding: 10px; } .gShot svg { width: 100%; height: auto; display: block; } .gShot .lg { display: grid; gap: 4px; margin-top: 8px; font-size: .8rem; line-height: 1.5; } .gShot .lg div { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 6px; } .gShot .lg i { width: 20px; height: 20px; border-radius: 50%; background: var(--profit); color: var(--surface); font: 700 .72rem var(--font-num); font-style: normal; display: flex; align-items: center; justify-content: center; }
+.gStep:not(:last-child) { position: relative; } .gStep:not(:last-child)::after { content: ""; position: absolute; left: 12px; top: 28px; bottom: -14px; width: 2px; background: color-mix(in srgb, var(--profit) 28%, var(--line)); }
+@media (min-width: 700px) { .gTiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 </style>
 
 <script>var t = ""; try { t = localStorage.getItem("chipTheme") || ""; } catch (e) {}
@@ -1047,46 +1064,29 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
     <div class="gSec" id="g-what">
       <h3>這套系統在做什麼？</h3>
-      <p class="gOne">把一檔股票放在<b>三個角度</b>下檢查，合成一個判斷，再用歷史資料和模擬交易驗證、練習。</p>
-      <div class="gThree">
-        <div class="card gMini"><div class="gName">① 環境</div><p class="odS">「整體市場是強還是弱？」</p><p>看<b>大盤指數</b>：大盤、夜盤、誰在帶動、錢往哪裡跑。環境差的時候，個股再好也容易被拖累。</p></div>
-        <div class="card gMini"><div class="gName">② 位置</div><p class="odS">「現價附近有地板嗎？有天花板嗎？」</p><p>看<b>籌碼分析</b>：大家的成本集中在哪，形成<b>支撐</b>和<b>壓力</b>。算出<b>位置評分</b>（0～100 分）。</p></div>
-        <div class="card gMini"><div class="gName">③ 狀態</div><p class="odS">「趨勢和力道現在怎麼樣？」</p><p>看<b>技術分析</b>：均線、RSI、KD、MACD、量價。技術分析頁看「偏多／偏空」，篩選器把它換算成<b>技術評分</b>（0～100 分）。</p></div>
+      <p class="gOne">把一檔股票放在<b>三個角度</b>下檢查，合成一個判斷，再用歷史資料和模擬交易檢驗、練習。</p>
+      <div class="fcRow">
+        <div class="fcB"><div class="n">① 環境</div><div class="tt">大盤強不強</div><div class="ss">大環境差，個股也容易被拖累</div><div class="pg">大盤指數</div></div>
+        <div class="fcB"><div class="n">② 位置</div><div class="tt">有地板嗎</div><div class="ss">成本集中處＝支撐與壓力</div><div class="pg">籌碼分析</div></div>
+        <div class="fcB"><div class="n">③ 狀態</div><div class="tt">趨勢力道</div><div class="ss">均線、RSI、KD、MACD、量價</div><div class="pg">技術分析</div></div>
       </div>
-      <p class="gLead"><b>合起來：</b>「篩選器」把位置評分、技術評分和七項「起漲徵兆」合成<b>綜合評分</b>，依條件整理出幾檔觀察名單（它描述現在的狀態，不是預測）。接著用「回測」檢驗這類想法過去有沒有效，用「模擬交易」練習。</p>
-      <div class="card gTip"><div class="gName">三個分數，不要搞混</div>
-        <dl class="gDef">
-          <dt>位置評分（籌碼面）</dt><dd>在「籌碼分析」查股票時會看到。看下方有沒有支撐、上方壓力輕不輕、成本面如何。</dd>
-          <dt>技術評分（技術面）</dt><dd>出現在「篩選器」。看趨勢、動能、量價整體強不強。</dd>
-          <dt>綜合評分（篩選器）</dt><dd>位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%，用來排名。</dd>
-        </dl></div>
-      <div class="card gWarn"><div class="gName">先說清楚</div><ul><li>這套系統只「整理資料、描述現在」，<b>不預測，也不保證會漲</b>。</li><li>分數高，代表「現在的狀態比較好」，不代表「之後一定會漲」。</li></ul></div>
+      <div class="fcF" style="margin-top:2px"><div class="fcA">合成：篩選器依條件整理觀察名單</div><div class="fcN"><i class="ic">★</i><div class="tx"><div class="tt">篩選器</div><div class="ss">位置評分 ＋ 技術評分 ＋ 起漲徵兆 → 綜合評分</div></div></div><div class="fcA">檢驗與練習</div><div class="fcN"><i class="ic">✓</i><div class="tx"><div class="tt">回測、模擬交易</div><div class="ss">過去有沒有效？用虛擬資金練習</div></div></div></div>
+      <h4 class="odH">三個分數怎麼組成</h4>
+      <div class="card gBars">
+        <div class="gBar"><div class="bl">位置評分<small>籌碼面，0～100 分</small></div><div class="bs"><i style="--w:30"><b>30</b>成本面</i><i style="--w:35"><b>35</b>下方支撐</i><i style="--w:35"><b>35</b>上方空間</i></div></div>
+        <div class="gBar"><div class="bl">技術評分<small>技術面，0～100 分</small></div><div class="bs"><i style="--w:30"><b>30</b>趨勢</i><i style="--w:30"><b>30</b>動能</i><i style="--w:20"><b>20</b>量價</i><i style="--w:20"><b>20</b>位置波動</i></div></div>
+        <div class="gBar"><div class="bl">綜合評分<small>篩選器排名用</small></div><div class="bs"><i style="--w:40"><b>40%</b>位置評分</i><i style="--w:40"><b>40%</b>技術評分</i><i style="--w:20"><b>20%</b>起漲徵兆</i></div></div>
+      </div>
+      <div class="card gWarn"><div class="gName">先說清楚</div><ul><li>只「整理資料、描述現在」，<b>不預測，也不保證會漲</b>；分數高不代表之後一定會漲。</li></ul></div>
       <p class="gNext">↓ 知道三個角度之後，每個角度對應哪個頁籤？看下一段的地圖。</p>
     </div>
 
     <div class="gSec" id="g-map">
       <h3>整套系統怎麼用？先看這張地圖</h3>
       <p class="gOne">七個頁籤，各回答<b>一個問題</b>，也各自對應上面的一個角度。不用全部學會，從你最想知道的那個開始。</p>
-      <div class="gMapList">
-        <div class="gMapItem"><div><div class="n">大盤指數<span class="gAng">環境</span></div><div class="q">現在整體市場是強還是弱？今天誰在帶動、錢往哪裡跑？</div></div><button type="button" class="btn ghost gMapGo" data-go="market">去看看</button></div>
-        <div class="gMapItem core"><div><div class="n">籌碼分析<span class="gCore">核心</span><span class="gAng">位置</span></div><div class="q">這檔股票，大家的成本在哪？離支撐、壓力多遠？法人和融資現在在買還是賣？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div>
-        <div class="gMapItem"><div><div class="n">技術分析<span class="gAng">狀態</span></div><div class="q">這檔現在的趨勢和力道如何？和籌碼是同一個方向嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="tech">去看看</button></div>
-        <div class="gMapItem"><div><div class="n">自選股<span class="gLogin">要登入</span><span class="gAng">追蹤</span></div><div class="q">我常看的那幾檔，現在的走勢和位置如何？</div></div><button type="button" class="btn ghost gMapGo" data-go="watch">去看看</button></div>
-        <div class="gMapItem"><div><div class="n">篩選器<span class="gAng">合成</span></div><div class="q">不知道看哪一檔？結合籌碼面和技術面，依條件整理觀察清單。</div></div><button type="button" class="btn ghost gMapGo" data-go="screen">去看看</button></div>
-        <div class="gMapItem"><div><div class="n">回測<span class="gAng">驗證</span></div><div class="q">「靠近支撐買、到壓力賣」這個想法，過去真的有效嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="backtest">去看看</button></div>
-        <div class="gMapItem"><div><div class="n">模擬交易<span class="gLogin">要登入</span><span class="gAng">練習</span></div><div class="q">用虛擬資金練習，和大家比報酬率。</div></div><button type="button" class="btn ghost gMapGo" data-go="sim">去看看</button></div>
-      </div>
       <h4 class="odH">建議的使用順序</h4>
-      <ol class="gFlow">
-        <li><b>大盤指數</b>：先看大環境，整體偏強還是偏弱。</li>
-        <li><b>籌碼分析</b>：查一檔股票，看支撐、壓力和位置評分。</li>
-        <li><b>技術分析</b>：確認趨勢和力道，有沒有和籌碼同一個方向。</li>
-        <li><b>篩選器</b>：不知道看哪一檔時，讓系統依條件整理出觀察清單，再回到第 2 步細看（它不是預測）。</li>
-        <li><b>回測</b>：驗證「靠近支撐買、到壓力賣」過去有沒有效。</li>
-        <li><b>自選股</b>：把常看的股票存起來，天天追蹤。</li>
-        <li><b>模擬交易</b>：用虛擬資金練習，不用冒真錢的風險。</li>
-      </ol>
-      <p class="gLead"><b>哪些要登入？</b>只有「自選股」和「模擬交易」需要用 Google 登入，登入只用來辨識你的帳號。其他頁籤都不用登入。</p>
+      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">大盤指數<span class="gAng">環境</span></div><div class="ss">現在整體市場是強還是弱？</div></div><button type="button" class="btn ghost gMapGo" data-go="market">去看看</button></div><div class="fcA"></div><div class="fcN core"><i class="ic">2</i><div class="tx"><div class="tt">籌碼分析<span class="gCore">核心</span><span class="gAng">位置</span></div><div class="ss">大家的成本在哪？離支撐、壓力多遠？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div><div class="fcSide"><b>不知道看哪一檔？</b>→ <b>篩選器</b>依條件整理觀察清單，再回到這一步細看　<button type="button" class="gLink" data-go="screen">去篩選器</button></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">技術分析<span class="gAng">狀態</span></div><div class="ss">趨勢和力道如何？和籌碼同一個方向嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="tech">去看看</button></div><div class="fcA">三個角度同向嗎？同向再往下；不同向就先觀望</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">回測<span class="gAng">驗證</span></div><div class="ss">「靠近支撐買、到壓力賣」過去有效嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="backtest">去看看</button></div><div class="fcA"></div><div class="fcN"><i class="ic">5</i><div class="tx"><div class="tt">模擬交易<span class="gAng">練習</span></div><div class="ss">用虛擬資金練習，和大家比報酬率（要登入）</div></div><button type="button" class="btn ghost gMapGo" data-go="sim">去看看</button></div><div class="fcSide"><b>常看的股票</b>→ <b>自選股</b>：存起來天天追蹤（要登入）　<button type="button" class="gLink" data-go="watch">去看看</button></div></div>
+      <p class="gLead"><b>要登入的只有「自選股」和「模擬交易」</b>（Google 登入，只用來辨識帳號），其他頁籤都不用。</p>
       <p class="gNext">↓ 每個頁籤都建立在同一個基礎上：籌碼、支撐、壓力。下面先把這個觀念講清楚。</p>
     </div>
 
@@ -1193,7 +1193,9 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       </div>
       <div class="gTwo">
         <div class="card gMini"><div class="gName">熱力圖怎麼讀</div><p class="odS">面積看誰重，顏色看誰動。</p><p>大方塊（例如台積電）一動，大盤就跟著動；小方塊再紅，也推不動指數。想知道「今天大盤為什麼跌」，先看<b>大又綠</b>的方塊。</p></div>
-        <div class="card gMini"><div class="gName">資金輪動怎麼讀</div><p class="odS">右看錢，上看價。</p><p><b>右上</b>＝錢進來、價格漲（主流）；<b>右下</b>＝錢進來但價格跌；<b>左上</b>＝漲但沒新錢；<b>左下</b>＝被冷落。選一個或多個類別，其他會淡化，只看它們的軌跡。</p></div>
+        <div class="card gMini"><div class="gName">資金輪動怎麼讀</div><p class="odS">右看錢，上看價</p>
+          <div class="gQuad"><div class="q"><b>左上</b>漲，但沒新錢</div><div class="q tr"><b>右上</b>錢進來、價格漲（主流）</div><div class="q"><b>左下</b>被冷落</div><div class="q br"><b>右下</b>錢進來，價格卻跌</div><span class="ax x">資金越集中 →</span><span class="ax y">漲幅越大 →</span></div>
+          <p>可複選類別，其他會淡化，只看它們的軌跡。</p></div>
       </div>
       <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨、推估開盤只是粗估，熱力圖和輪動圖只說明「現在錢在哪」，不預測。可以先從這裡找到強勢類股，再到「籌碼分析」看個股。</p>
       <button type="button" class="info-link" data-term="rotation">資金輪動泡泡圖的詳細說明</button>
@@ -1205,27 +1207,37 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="gSec" id="g-chip">
       <details class="gAcc"><summary><h3>籌碼分析：查一檔股票，三步看懂</h3><span class="gSum">這檔股票，大家的成本在哪？現價離地板和天花板多遠？（整個系統的核心頁面）</span></summary><div class="gBody">
       <p class="gOne">回答：<b>這檔股票，大家的成本在哪？現價離「地板」和「天花板」多遠？</b>這是整個系統的核心頁面。</p>
-      <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>查一檔股票</b><p>輸入代碼或名稱（例如 2330 或 台積電），按「分析」。第一次查要下載歷史資料，需要等幾秒；同一天再查就很快。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>先看「位置評分」</b><p>0～100 分，評估現價的位置舒不舒服：下方有沒有支撐、上方壓力輕不輕、成本面如何。按「看評分細節」可以看三部分各得幾分。分數高代表位置舒服，<b>不代表一定會漲</b>。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>再看圖和清單</b><p>圖上的淡色色帶：<b>藍色是支撐、橘色是壓力</b>；右側長條是各價位的成本。下方「壓力區 R1～R3」「支撐區 S1～S3」列出每個價位、籌碼占比、離現價多遠，越近、占比越高的越值得留意。</p></div></div>
+      <div class="card gShot"><svg viewBox="0 0 320 250" role="img" aria-label="籌碼分析頁面示意圖：查股票、位置評分、圖與清單">
+          <rect x="6" y="6" width="248" height="24" rx="6" fill="none" style="stroke:var(--line)"/><text x="16" y="22" font-size="11" style="fill:var(--muted)">2330 台積電</text><rect x="260" y="6" width="54" height="24" rx="6" style="fill:var(--profit)"/><text x="287" y="22" font-size="11" text-anchor="middle" style="fill:var(--surface)">分析</text>
+          <rect x="6" y="38" width="308" height="46" rx="8" style="fill:var(--surface);stroke:var(--line)"/><text x="18" y="70" font-size="26" font-weight="700" style="fill:var(--ink)">44</text><text x="52" y="70" font-size="10" style="fill:var(--muted)">/100</text><rect x="86" y="50" width="76" height="20" rx="10" fill="none" style="stroke:var(--trapped)"/><text x="124" y="64" font-size="10" text-anchor="middle" style="fill:var(--trapped)">位置中偏弱</text>
+          <rect x="172" y="52" width="40" height="16" rx="3" style="fill:color-mix(in srgb,var(--profit) 25%,transparent)"/><rect x="216" y="52" width="40" height="16" rx="3" style="fill:color-mix(in srgb,var(--profit) 25%,transparent)"/><rect x="260" y="52" width="46" height="16" rx="3" style="fill:color-mix(in srgb,var(--profit) 25%,transparent)"/>
+          <rect x="6" y="92" width="308" height="108" rx="8" style="fill:var(--surface);stroke:var(--line)"/>
+          <rect x="10" y="104" width="300" height="12" style="fill:var(--trapped);opacity:.2"/><text x="14" y="113" font-size="9" style="fill:var(--trapped)">R1 壓力</text>
+          <rect x="10" y="168" width="300" height="12" style="fill:var(--profit);opacity:.2"/><text x="14" y="177" font-size="9" style="fill:var(--profit)">S1 支撐</text>
+          <polyline points="14,190 50,176 80,182 110,150 140,158 170,128 200,120 226,108" fill="none" stroke-width="2" stroke-linejoin="round" style="stroke:var(--ink)"/>
+          <g style="fill:var(--profit);opacity:.75"><rect x="268" y="170" width="42" height="3"/><rect x="258" y="176" width="52" height="3"/><rect x="250" y="182" width="60" height="3"/><rect x="262" y="188" width="48" height="3"/></g><g style="fill:var(--trapped);opacity:.75"><rect x="280" y="100" width="30" height="3"/><rect x="270" y="106" width="40" height="3"/><rect x="284" y="112" width="26" height="3"/></g>
+          <rect x="6" y="208" width="150" height="36" rx="6" style="fill:var(--surface);stroke:var(--line)"/><text x="14" y="223" font-size="9" style="fill:var(--muted)">壓力區 R1～R3</text><rect x="164" y="208" width="150" height="36" rx="6" style="fill:var(--surface);stroke:var(--line)"/><text x="172" y="223" font-size="9" style="fill:var(--muted)">支撐區 S1～S3</text>
+          <g font-size="10" font-weight="700" text-anchor="middle" style="fill:var(--surface)"><circle cx="262" cy="18" r="0"/><circle cx="14" cy="1" r="0"/></g>
+          <g style="fill:var(--profit)"><circle cx="304" cy="40" r="9"/><circle cx="238" cy="98" r="9"/><circle cx="30" cy="226" r="0"/></g><g font-size="10" font-weight="700" text-anchor="middle" style="fill:var(--surface)"><text x="304" y="44">2</text><text x="238" y="102">3</text></g>
+          <circle cx="238" cy="18" r="9" style="fill:var(--profit)"/><text x="238" y="22" font-size="10" font-weight="700" text-anchor="middle" style="fill:var(--surface)">1</text>
+        </svg>
+        <div class="lg"><div><i>1</i><span><b>查股票</b>：輸入代碼或名稱，按「分析」（第一次要等幾秒）</span></div><div><i>2</i><span><b>位置評分</b>：0～100，越高位置越舒服，<b>不代表會漲</b></span></div><div><i>3</i><span><b>圖與清單</b>：藍＝支撐、橘＝壓力，右側長條＝各價位的成本</span></div></div></div>
+      <h4 class="odH">畫面上的數字</h4>
+      <div class="gTiles">
+        <div><b>平均成本</b><span>成本重心；現價高於它，多數人賺錢</span></div>
+        <div><b>獲利比例</b><span>成本低於現價的人占多少；很低＝多數被套，上方壓力重</span></div>
+        <div><b>90% 籌碼區間</b><span>90% 的籌碼成本落在哪個價格範圍</span></div>
+        <div><b>集中度</b><span>越小越集中，支撐壓力越明確</span></div>
+        <div><b>累計換手</b><span>整體換手幾輪；越多，算出的成本越準</span></div>
+        <div><b>模型涵蓋率</b><span><b style="display:inline">可信度指標</b>：越近 100% 越可靠；低於 90%，遠處的支撐壓力只當參考，可拉長年數</span></div>
       </div>
-      <h4 class="odH">畫面上的數字，一句話解釋</h4>
-      <dl class="gDef">
-        <dt>平均成本</dt><dd>所有持有人成本的重心。現價高於它，代表多數人賺錢。</dd>
-        <dt>獲利比例</dt><dd>成本低於現價的人占多少。很低代表多數人被套，上方壓力重。</dd>
-        <dt>90% 籌碼區間</dt><dd>90% 的籌碼，成本落在哪個價格範圍。</dd>
-        <dt>集中度</dt><dd>成本是擠在一起還是散得很開。越小越集中，支撐壓力越明確。</dd>
-        <dt>累計換手</dt><dd>這段期間，整體股票換手了幾輪。換手越多，算出的成本越準。</dd>
-        <dt>模型涵蓋率</dt><dd><b>可不可信的指標。</b>越接近 100% 越可靠；低於 90% 時，離現價很遠的支撐壓力只當參考，可以把上方的「年數」拉長。</dd>
-      </dl>
-      <p class="gLead"><b>小技巧：</b>圖下面的滑桿可以調整分析的時間區間，<b>手機上也可以在圖上用兩指捏合縮放區間、兩指一起左右移動來平移（技術分析頁一樣）</b>；單指在圖上滑動，可以看每一天的價格。「進階參數」裡的衰減係數、最小間距，不確定就維持預設。</p>
+      <p class="gLead">滑桿可調整分析的時間區間；「進階參數」不確定就維持預設。</p>
       <div class="gBtns">
         <button type="button" class="btn" data-go="demo">用 2330 看範例</button>
         <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
         <button type="button" class="btn ghost" data-go="backtest">去回測</button>
       </div>
-      <p class="gLead"><b>往下還有一個「法人與融資」區塊</b>（在支撐區下面，點開才載入）：看三大法人的買賣超、融資融券，是交易所公布的真實資金動向，詳細說明在下一段。</p>
+      <p class="gLead">往下還有「法人與融資」區塊（點開才載入），說明在下一段。</p>
       <div class="card gTip"><div class="gName">圖表怎麼操作</div><ul><li><b>手機：</b>單指左右滑動，看每一天的數字；兩指捏合縮放，兩指一起移動平移。</li><li><b>電腦：</b>滑鼠移上去看數字；按住拖曳平移；Ctrl（⌘）＋滾輪或觸控板捏合縮放；雙擊還原。</li><li>籌碼分析、技術分析、大盤指數、夜盤、法人與融資的圖，操作方式都一樣。</li></ul></div>
       <p class="gNext">下一步：位置看完了，去 <button type="button" class="gLink" data-go="tech">技術分析</button> 看狀態，確認兩者同不同向。</p>
       </div></details>
@@ -1245,13 +1257,13 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div class="gStep"><i>3</i><div><b>需要時，按「展開詳細數字與圖表」</b><p>有各法人的買賣超、融資融券數字，和可縮放的圖表（兩指捏合縮放、左右滑動看每天）。法人圖可選「累計」或「每日」。</p></div></div>
       </div>
       <h4 class="odH">常見的解讀</h4>
-      <dl class="gDef">
-        <dt>外資和投信同向買超</dt><dd>法人看法一致。若一買一賣（土洋對作），看法分歧。</dd>
-        <dt>股價漲 ＋ 融資增加</dt><dd>散戶跟進。</dd>
-        <dt>股價漲 ＋ 融資減少</dt><dd>籌碼轉手，散戶在退場。</dd>
-        <dt>股價跌 ＋ 融資增加</dt><dd>套牢的槓桿變多，再跌可能觸發追繳，形成賣壓。</dd>
-        <dt>券資比偏高（例如 30% 以上）</dt><dd>空方相對多，常被觀察「軋空」，但不代表一定發生。</dd>
-      </dl>
+      <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th>看到</th><th>通常代表</th></tr></thead><tbody>
+        <tr><td>外資、投信同向買超</td><td>法人看法一致；一買一賣＝土洋對作，看法分歧</td></tr>
+        <tr><td>股價漲＋融資增加</td><td>散戶跟進</td></tr>
+        <tr><td>股價漲＋融資減少</td><td>籌碼轉手，散戶在退場</td></tr>
+        <tr><td>股價跌＋融資增加</td><td class="dn">套牢的槓桿變多，再跌可能觸發追繳，形成賣壓</td></tr>
+        <tr><td>券資比 30% 以上</td><td>空方相對多，常被觀察「軋空」，但不代表一定發生</td></tr>
+      </tbody></table></div>
       <div class="card gTip"><div class="gName">怎麼用、要小心什麼</div><ul>
         <li><b>先看位置，再把資金面當加分或扣分</b>：法人偏買是加分；法人偏賣、或股價跌了融資還在增加，是扣分。最後用技術面確認趨勢，進場一樣要設停損。</li>
         <li>資料是<b>收盤後</b>才公布，所以有落後；這些是「現在的狀態」，不是預測。</li>
@@ -1294,27 +1306,10 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="gSec" id="g-screen">
       <details class="gAcc"><summary><h3>篩選器：結合籌碼面和技術面，整理觀察清單</h3><span class="gSum">依條件整理觀察清單，描述現在的狀態，不是預測。</span></summary><div class="gBody">
       <p class="gOne">回答：<b>從一批股票裡，哪幾檔「位置舒服、而且技術面剛轉強」？</b>（這是依條件整理，<b>不是預測</b>。）候選範圍是系統內建的 45 檔大型股（不是全市場）、你的自選股，或最近查過的股票。</p>
-      <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>選一個候選範圍</b><p>內建的大型股、你的自選股，或最近查過的股票，不用登入就能用。大型股每天凌晨由系統預先分析好，大家共用，不耗你的查詢額度。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>點一個風格</b><p><b>起漲</b>找「剛轉強、還沒過熱、位置舒服、上方有空間」的；另外有穩健、低接、順勢、先看看。點下去條件就自動設好，想更嚴或更鬆，拉「位置評分」「技術評分」「起漲徵兆」三個滑桿。調整後結果會立刻更新。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>看綜合評分最高的前 3 檔</b><p>每張卡片有綜合評分、位置評分、技術評分，以及七項起漲徵兆的 ✓／✕。沒有人完全符合時，會列出「最接近的 3 檔」。再按「看籌碼分析」或「回測這檔」確認。</p></div></div>
-      </div>
-      <h4 class="odH">綜合評分怎麼來？</h4>
-      <p class="gLead"><b>綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%</b></p>
-      <dl class="gDef">
-        <dt>位置評分（籌碼面，0～100）</dt><dd>成本面 30 ＋ 下方支撐 35 ＋ 上方空間 35。</dd>
-        <dt>技術評分（技術面，0～100）</dt><dd>趨勢 30 ＋ 動能 30 ＋ 量價 20 ＋ 位置與波動 20。</dd>
-        <dt>起漲徵兆（共 7 項）</dt><dd>現在像不像「剛起漲」的七項檢查，符合越多越像：</dd>
-      </dl>
-      <ol class="gFlow">
-        <li><b>站上月線</b>：收盤在 20 日線之上，而且 20 日線沒有往下。</li>
-        <li><b>剛轉強</b>：最近 10 天內 MA20 剛上穿 MA60（黃金交叉），或股價剛站回 20 日線。</li>
-        <li><b>動能轉強</b>：最近 5 天內 MACD 柱狀剛由負轉正，或 K 剛上穿 D。</li>
-        <li><b>量能放大</b>：近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲。</li>
-        <li><b>尚未過熱</b>：RSI 低於 70，而且離 60 天低點漲幅不到 30%（沒有漲太多）。</li>
-        <li><b>籌碼位置舒服</b>：位置評分 60 分以上。</li>
-        <li><b>上方有空間</b>：最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力。</li>
-      </ol>
+      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選一個範圍</div><div class="ss">內建大型股（45 檔）、我的自選股、最近查過；不用登入</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">點一個風格</div><div class="ss">起漲・穩健・低接・順勢・先看看；條件自動設好，可再用滑桿微調</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看綜合評分最高的前 3 檔</div><div class="ss">沒人完全符合時，改列「最接近的 3 檔」</div></div></div><div class="fcA">再確認</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">籌碼分析、技術分析、回測</div><div class="ss">入選只是起點，請看完整畫面再判斷</div></div></div></div>
+      <h4 class="odH">起漲徵兆（7 項，符合越多越像剛起漲）</h4>
+      <div class="gChk"><div><i>1</i><div><b>站上月線</b><span>收盤在 20 日線之上，而且 20 日線沒有往下</span></div></div><div><i>2</i><div><b>剛轉強</b><span>10 天內 MA20 剛上穿 MA60，或股價剛站回 20 日線</span></div></div><div><i>3</i><div><b>動能轉強</b><span>5 天內 MACD 柱狀剛由負轉正，或 K 剛上穿 D</span></div></div><div><i>4</i><div><b>量能放大</b><span>近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲</span></div></div><div><i>5</i><div><b>尚未過熱</b><span>RSI 低於 70，而且離 60 天低點漲幅不到 30%</span></div></div><div><i>6</i><div><b>籌碼位置舒服</b><span>位置評分 60 分以上</span></div></div><div><i>7</i><div><b>上方有空間</b><span>最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力</span></div></div></div>
+      <p class="gLead">綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%（組成圖在「這套系統在做什麼」）。</p>
       <div class="card gTip"><div class="gName">看篩選結果，要小心這三件事</div><ul>
         <li><b>它描述的是「現在的狀態」，不是預測。</b>所以結果是「整理過的觀察清單」，不是買進訊號。</li>
         <li><b>名單不是全市場</b>，而且預先算好的資料每天凌晨更新一次，技術面資料也一樣；剛上線時，要等到下次更新才會有技術面。</li>
@@ -1327,11 +1322,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="gSec" id="g-bt">
       <details class="gAcc"><summary><h3>回測：這個買賣想法，過去有效嗎？</h3><span class="gSum">如果過去照「靠近支撐買、到壓力賣」做，結果會怎樣？</span></summary><div class="gBody">
       <p class="gOne">回答：<b>如果過去照「靠近支撐買、到壓力賣」做，結果會怎樣？</b>用歷史資料驗證，比憑感覺可靠。</p>
-      <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>選股票和期間</b><p>起始日之前的資料用來「暖機」（累積籌碼），所以能選的最早日期，會比資料的起點晚一些。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>按「開始回測」</b><p><b>買</b>：股價回到支撐區附近，隔天開盤買進。<b>賣</b>：漲到壓力區賣出（停利）、跌破支撐就停損、放太久時間到就賣。每天只用「當天以前」的資料，不偷看未來，已扣手續費和稅。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>看結果</b><p>先看「結論」：照規則買賣，和單純買進持有，哪個報酬高。再看「賺錢的機率」「平均每次」「過程最多回吐」（最糟的時候帳面掉多少）和「平均持有」。</p></div></div>
-      </div>
+      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選股票和期間</div><div class="ss">起始日之前的資料用來「暖機」，所以能選的最早日期會比資料起點晚一些</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">買進</div><div class="ss">股價回到支撐區附近，隔天開盤買進</div></div></div><div class="fcA">出場，三種情況擇一</div><div class="fcOr"><div class="win"><b>漲到壓力區</b>停利賣出</div><div class="lose"><b>跌破支撐</b>停損賣出</div><div><b>放太久</b>時間到就賣</div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看結果</div><div class="ss">和單純買進持有比較；再看賺錢的機率、平均每次、過程最多回吐、平均持有</div></div></div></div>
+      <p class="gLead">每天只用「當天以前」的資料，不偷看未來，已扣手續費和稅。</p>
       <div class="card gTip"><div class="gName">看回測結果，要小心這三件事</div><ul>
         <li><b>次數太少</b>：買賣不到 10 次的結果，參考價值有限。</li>
         <li><b>過去有效不代表未來</b>，也不是買賣建議。</li>
@@ -1351,11 +1343,11 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       </div>
       <p class="gLead"><b>每一季結算一次成績：</b>以季度報酬率排名（新增投入的資金會扣掉），上一季的冠軍會固定顯示在模擬交易頁的最上方。排名只供同樂。</p>
       <h4 class="odH">下單方式有三種</h4>
-      <div class="odGrid">
-        <div class="card gMini"><div class="gName">市價單</div><p class="odS">「照當天開盤價，馬上成交」</p><p>不指定價格，下一個交易日開盤價成交。最簡單，但<b>下單時不知道會成交在哪</b>。</p></div>
-        <div class="card gMini"><div class="gName">限價單</div><p class="odS">「這個價錢以內，我才要」</p><p><b>買單</b>：股價跌到你的限價（含）以下才買。<b>賣單</b>：漲到你的限價（含）以上才賣。價格好但可能<b>買不到、賣不掉</b>。</p></div>
-        <div class="card gMini"><div class="gName">觸價單（停損、停利）</div><p class="odS">「設好警鈴，碰到才動手」</p><p>賣出時，<b>跌到</b>某價自動賣＝<b>停損</b>（防止虧更多）；<b>漲到</b>某價自動賣＝<b>停利</b>（落袋為安）。碰到後用市價成交。</p></div>
-      </div>
+      <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th>方式</th><th>意思</th><th>要注意</th></tr></thead><tbody>
+        <tr><td>市價單</td><td>下一個交易日開盤價成交</td><td>下單時不知道會成交在哪</td></tr>
+        <tr><td>限價單</td><td>買：跌到限價以下才買；賣：漲到限價以上才賣</td><td>價格好，但可能買不到、賣不掉</td></tr>
+        <tr><td>觸價單</td><td>賣出時，跌到某價自動賣＝停損；漲到某價自動賣＝停利</td><td>碰到後用市價成交</td></tr>
+      </tbody></table></div>
       <div class="card shMnemo"><div class="mn">口訣</div>
         <p class="big">市價求成交，限價求價格，觸價求保護。</p>
         <p class="sm"><b>當日有效</b>：只掛一天，沒成交就作廢；<b>長效單</b>：最多掛 5、10 或 20 個營業日，碰到價格就成交。<b>價格規則</b>：要符合升降單位、不能超出前一日收盤的 ±10%（漲跌停）；零股只能用限價單。可以先用「停損」的想法搭配支撐位：跌破支撐就認賠，這也是回測頁用的規則。</p></div>
@@ -5024,6 +5016,13 @@ function guideToc() {
 }
 function guideInit() {
   guideFig(); shareFig(); guideToc();
+  // 每一章展開後，結尾都有「收合本章」：按了就收起來，並回到這一章的標題，不用自己捲回去
+  document.querySelectorAll("#pgGuide details.gAcc > .gBody").forEach(b => b.insertAdjacentHTML("beforeend", '<button type="button" class="gCollapse">▲ 收合本章</button>'));
+  $("pgGuide").addEventListener("click", e => {
+    const b = e.target.closest(".gCollapse"); if (!b) return;
+    const acc = b.closest("details.gAcc"); acc.open = false;
+    requestAnimationFrame(() => { acc.scrollIntoView({ block: "start" }); window.scrollBy(0, -64); });
+  });
   // 變成支撐：先在 100 附近買、漲上去、再跌回 100 反彈
   storyFig("gStoryA", { role: "s",
     closes: [100.5, 99.5, 100.8, 100.2, 101.2, 100.6, 104, 108, 113, 118, 120, 116, 112, 108, 105, 102, 100.2, 101.8, 104.5, 107],
