@@ -476,9 +476,8 @@ svg .chLast { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; opac
 .gAcc { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); } .gAcc > summary { list-style: none; cursor: pointer; padding: 12px 14px; min-height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; } .gAcc > summary::-webkit-details-marker { display: none; }
 .gAcc > summary h3 { margin: 0; font: 700 .98rem/1.45 var(--font-ui); } .gAcc > summary::after { content: "＋"; grid-row: 1; grid-column: 2; color: var(--profit); font: 700 1.1rem var(--font-ui); } .gAcc[open] > summary::after { content: "－"; }
 .gSum { grid-column: 1 / -1; font-size: .78rem; color: var(--muted); line-height: 1.6; } .gAcc[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 12px; } .gAcc > .gBody { padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px; }
-.gCtl { display: flex; justify-content: flex-end; gap: 14px; margin: -2px 0 0; }
 .gLead { margin: 0; font-size: .88rem; line-height: 1.75; color: var(--muted); }
-.gPath { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; } .gPath .btn { flex: 1 1 140px; }
+.gPath { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; } .gPath .btn { white-space: nowrap; padding-inline: 8px; } @media (min-width: 600px) { .gPath { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .gPart { display: flex; align-items: center; gap: 10px; margin: 30px 0 2px; font: 700 1.05rem var(--font-ui); } .gPart span { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--profit); color: var(--surface); font: 700 .85rem var(--font-num); }
 .gPartLead { margin: 0 0 4px; font-size: .84rem; color: var(--muted); line-height: 1.6; }
 .gThree { display: grid; gap: 8px; margin: 6px 0 10px; } .gThree .gMini { margin: 0; }
@@ -733,7 +732,7 @@ button:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px 
 .seg { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
 .seg button { border: 0; background: transparent; color: var(--muted); padding: 0 12px; min-height: 40px; font: 500 .8rem var(--font-ui); cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--line); }
-.seg button[aria-pressed="true"] { background: var(--profit); color: var(--surface); }
+.seg button[aria-pressed="true"], .seg button[aria-selected="true"] { background: var(--profit); color: var(--surface); }
 
 .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .stat { background: var(--surface); padding: 10px 12px; min-width: 0; }
@@ -964,13 +963,13 @@ html[data-layout="ios"] .rotSheet, html[data-layout="android"] .rotSheet { botto
 html[data-layout="ios"] .botNav { height: calc(var(--navH) + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--surface) 84%, transparent); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-top: .5px solid var(--line); }
 html[data-layout="ios"] .botNav button { font-size: .625rem; font-weight: 500; } html[data-layout="ios"] .botNav button[aria-selected="true"] { color: var(--profit); }
 html[data-layout="ios"] .card, html[data-layout="ios"] .stats, html[data-layout="ios"] .gAcc, html[data-layout="ios"] .flowV, html[data-layout="ios"] .flowCmp, html[data-layout="ios"] .wfCard, html[data-layout="ios"] .wcard, html[data-layout="ios"] .wrow { border-radius: 12px; border-color: transparent; }
-html[data-layout="ios"] .seg { background: color-mix(in srgb, var(--muted) 16%, transparent); border: 0; border-radius: 9px; padding: 2px; gap: 0; overflow: visible; } html[data-layout="ios"] .seg button { border: 0; border-radius: 7px; min-height: 32px; font-weight: 600; color: var(--ink); } html[data-layout="ios"] .seg button + button { border-left: 0; } html[data-layout="ios"] .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+html[data-layout="ios"] .seg { background: color-mix(in srgb, var(--muted) 16%, transparent); border: 0; border-radius: 9px; padding: 2px; gap: 0; overflow: visible; } html[data-layout="ios"] .seg button { border: 0; border-radius: 7px; min-height: 32px; font-weight: 600; color: var(--ink); } html[data-layout="ios"] .seg button + button { border-left: 0; } html[data-layout="ios"] .seg button[aria-pressed="true"], html[data-layout="ios"] .seg button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.2); }
 html[data-layout="ios"] .btn, html[data-layout="ios"] .search input, html[data-layout="ios"] .search button { border-radius: 10px; } html[data-layout="ios"] .brand h1 { font-size: 1.3rem; font-weight: 700; }
 /* Android：Material 3，底部導覽有圓角膠囊指示、藥丸按鈕、無邊框的陰影卡片 */
 html[data-layout="android"] .botNav { height: calc(var(--navH) + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--profit) 6%, var(--surface)); box-shadow: 0 -1px 0 var(--line); }
 html[data-layout="android"] .botNav button { font-size: .75rem; font-weight: 500; gap: 4px; } html[data-layout="android"] .botNav i { width: 56px; height: 28px; border-radius: 14px; transition: background .2s; } html[data-layout="android"] .botNav button[aria-selected="true"] { color: var(--ink); font-weight: 700; } html[data-layout="android"] .botNav button[aria-selected="true"] i { background: color-mix(in srgb, var(--profit) 22%, transparent); }
 html[data-layout="android"] .card, html[data-layout="android"] .stats, html[data-layout="android"] .gAcc, html[data-layout="android"] .flowV, html[data-layout="android"] .flowCmp, html[data-layout="android"] .wfCard, html[data-layout="android"] .wcard, html[data-layout="android"] .wrow { border-radius: 16px; border-color: transparent; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08); }
-html[data-layout="android"] .seg { border-radius: 999px; overflow: hidden; } html[data-layout="android"] .seg button { min-height: 38px; font-weight: 500; } html[data-layout="android"] .seg button[aria-pressed="true"] { background: color-mix(in srgb, var(--profit) 22%, transparent); color: var(--ink); font-weight: 700; }
+html[data-layout="android"] .seg { border-radius: 999px; overflow: hidden; } html[data-layout="android"] .seg button { min-height: 38px; font-weight: 500; } html[data-layout="android"] .seg button[aria-pressed="true"], html[data-layout="android"] .seg button[aria-selected="true"] { background: color-mix(in srgb, var(--profit) 22%, transparent); color: var(--ink); font-weight: 700; }
 html[data-layout="android"] .btn, html[data-layout="android"] .search button { border-radius: 999px; } html[data-layout="android"] .search input { border-radius: 14px; } html[data-layout="android"] .brand h1 { font-size: 1.2rem; font-weight: 600; }
 </style>
 
@@ -1024,7 +1023,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </header>
 
   <nav id="tabs" class="tabs" role="tablist" aria-label="頁面" hidden>
-    <button type="button" role="tab" data-tab="guide" aria-selected="false">新手專區</button>
+    <button type="button" role="tab" data-tab="guide" aria-selected="false">使用指南</button>
     <button type="button" role="tab" data-tab="market" aria-selected="false">大盤指數</button>
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">籌碼分析</button>
     <button type="button" role="tab" data-tab="tech" aria-selected="false">技術分析</button>
@@ -1036,16 +1035,15 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
   <section id="pgGuide" class="page guide" hidden>
     <div class="card gHero">
-      <div class="gKicker">新手專區</div>
-      <h2 class="gH1">籌碼冰山：看懂一檔股票「現在好不好」</h2>
+      <div class="gKicker">使用指南</div>
+      <h2 class="gH1">看懂股票「現在好不好」</h2>
       <p>這套系統用<b>三個角度</b>檢查一檔股票：<b>環境</b>（大盤強不強）、<b>位置</b>（大家的成本在哪、離支撐和壓力多遠）、<b>狀態</b>（趨勢和力道如何）。再把位置和狀態合起來，整理成<b>觀察清單</b>，並用回測和模擬交易檢驗、練習。</p>
       <p>最核心的觀念只有一個：<b>股價會「卡」在很多人買進的價位</b>，那裡就是支撐和壓力。</p>
-      <div class="gPath"><button type="button" class="btn" data-gt="g-what">這套系統在做什麼</button><button type="button" class="btn ghost" data-gt="g-map">我想快速上手</button><button type="button" class="btn ghost" data-gt="g-concept">我想先懂原理</button><button type="button" class="btn ghost" data-gt="g-words">不懂的詞，查名詞速查</button></div>
+      <div class="gPath"><button type="button" class="btn" data-gt="g-what">系統在做什麼</button><button type="button" class="btn ghost" data-gt="g-map">快速上手</button><button type="button" class="btn ghost" data-gt="g-concept">先懂原理</button><button type="button" class="btn ghost" data-gt="g-words">名詞速查</button></div>
     </div>
 
     <div class="toc-h">快速跳到</div>
-    <div class="tocWrap"><button type="button" class="tocArr l" id="tocL" aria-label="往左看更多" hidden>‹</button><nav id="guideToc" class="toc" aria-label="新手專區目錄（可左右滑動）"></nav><button type="button" class="tocArr r" id="tocR" aria-label="往右看更多" hidden>›</button></div>
-    <div class="gCtl"><button type="button" class="gLink" id="gOpenAll">全部展開</button><button type="button" class="gLink" id="gCloseAll">全部收合</button></div>
+    <div class="tocWrap"><button type="button" class="tocArr l" id="tocL" aria-label="往左看更多" hidden>‹</button><nav id="guideToc" class="toc" aria-label="使用指南目錄（可左右滑動）"></nav><button type="button" class="tocArr r" id="tocR" aria-label="往右看更多" hidden>›</button></div>
 
     <div class="gSec" id="g-what">
       <h3>這套系統在做什麼？</h3>
@@ -2910,7 +2908,7 @@ function buildControls() {
     wfInit();
     let seenGuide = false;
     try { seenGuide = !!localStorage.getItem("chipGuideSeen"); } catch (e) {}
-    if (!seenGuide) showTab("guide");          // 第一次來的人先看新手專區
+    if (!seenGuide) showTab("guide");          // 第一次來的人先看使用指南
     else { let last = ""; try { last = localStorage.getItem("chipTab") || ""; } catch (e) {} if (["guide", "market", "screen", "backtest"].includes(last)) showTab(last); }   // 回來的人，回到上次看的頁面（需要登入的頁面除外）
     $("searchBox").hidden = false;
     $("snapNote").hidden = true;
@@ -3405,7 +3403,7 @@ function adminStatusHtml() {
 /* ---------- 管理後台（只有管理員看得到）----------
    資料來源：stats/<日期>（每日流量計數）、所有人的模擬交易帳戶（collectionGroup "sim"）、本季與上一季排行榜。
    分成五個分頁：總覽（重點數字與自動提醒）、流量、會員、交易、檢查。載入一次後在瀏覽器裡計算，切換分頁不會重新讀取資料。 */
-const ADM_LABEL = { tab_guide: "新手專區", tab_market: "大盤指數", tab_analyze: "籌碼分析", tab_tech: "技術分析", tab_watch: "自選股", tab_screen: "篩選器", tab_backtest: "回測", tab_sim: "模擬交易",
+const ADM_LABEL = { tab_guide: "使用指南", tab_market: "大盤指數", tab_analyze: "籌碼分析", tab_tech: "技術分析", tab_watch: "自選股", tab_screen: "篩選器", tab_backtest: "回測", tab_sim: "模擬交易",
   act_search: "查詢股票", act_screen: "執行篩選", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
 const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["ck", "檢查"], ["an", "公告"], ["rp", "報表"]];
 const adm = { data: null, loading: false, err: "", tab: "ov", range: 30, sort: "last", q: "", filt: "all", open: "", watch: null, watchBusy: false };
@@ -3450,13 +3448,13 @@ const admSum = (arr, k) => arr.reduce((a, d) => a + (d[k] || 0), 0);
 function admChart(series, opts = {}) {
   const W = 340, H = 168, L = 34, R = 6, T = 10, B = 24, n = series.length, mx = Math.max(1, ...series.map(d => Math.max(d.sessions || 0, d.uniques || 0)));
   const niceMx = (() => { const m = Math.pow(10, Math.floor(Math.log10(mx))); return [1, 2, 5, 10].map(f => f * m).find(v => v >= mx) || mx; })();
-  const bw = (W - L - R) / n, Y = v => B === 0 ? 0 : (H - B) - (H - B - T) * v / niceMx;
+  const bw = (W - L - R) / n, step = Math.max(1, Math.ceil(48 / bw)), Y = v => B === 0 ? 0 : (H - B) - (H - B - T) * v / niceMx;
   let g = "";
   for (const t of [0, niceMx / 2, niceMx]) g += `<line class="gridl" x1="${L}" x2="${W - R}" y1="${Y(t).toFixed(1)}" y2="${Y(t).toFixed(1)}"/><text class="axt" x="${L - 4}" y="${(Y(t) + 3).toFixed(1)}" text-anchor="end">${t % 1 ? t.toFixed(1) : n0(t)}</text>`;
   series.forEach((d, i) => {
     const x = L + bw * i, s = d.sessions || 0, u = d.uniques || 0;
     g += `<rect x="${(x + bw * 0.1).toFixed(1)}" y="${Y(s).toFixed(1)}" width="${Math.max(1, bw * 0.8).toFixed(1)}" height="${(H - B - Y(s)).toFixed(1)}" style="fill:var(--profit);opacity:${d._empty ? 0.25 : 0.85}"><title>${d.day}　造訪 ${s}　不重複 ${u}</title></rect>`;
-    if ((n <= 14 || i % Math.ceil(n / 7) === 0 || i === n - 1)) g += `<text class="axt" x="${(x + bw / 2).toFixed(1)}" y="${H - 8}" text-anchor="middle">${d.day.slice(5).replace("-", "/")}</text>`;
+    if ((n - 1 - i) % step === 0) g += `<text class="axt" x="${(i === n - 1 ? x + bw : x + bw / 2).toFixed(1)}" y="${H - 8}" text-anchor="${i === n - 1 ? "end" : "middle"}">${d.day.slice(5).replace("-", "/")}</text>`;
   });
   const ma = series.map((_, i) => { const a = series.slice(Math.max(0, i - 6), i + 1); return a.reduce((s, d) => s + (d.sessions || 0), 0) / a.length; });
   if (n >= 10) g += `<polyline points="${ma.map((v, i) => `${(L + bw * (i + 0.5)).toFixed(1)},${Y(v).toFixed(1)}`).join(" ")}" fill="none" style="stroke:var(--trapped)" stroke-width="2" stroke-linejoin="round"/>`;
@@ -4872,7 +4870,7 @@ function btInit() {
   new ResizeObserver(() => { if (bt.last && $("btChart") && !$("pgBt").hidden) drawBtChart(bt.last, $("btChart")); }).observe($("btOut"));
 }
 
-/* ---------- 新手專區 ---------- */
+/* ---------- 使用指南 ---------- */
 const GUIDE_TERMS = [
   { g: "決定「這個價位有多強」", items: [
     ["chipShare", "籌碼占比", "目前還抱著股票、成本落在這個區間的人，占全部持有人的比例。", "越高，代表這裡有越多人的成本。股價回到這裡時，反應的人越多，<b>支撐或壓力越明顯</b>。"],
@@ -4902,7 +4900,7 @@ const GUIDE_TERMS = [
     ["techCombos", "指標的搭配組合", "把不同類型的指標放在一起互相確認：趨勢、動能、波動、量價、籌碼。", "<b>同類型的指標疊在一起沒有新資訊</b>（RSI 和 KD 都是看力道）；趨勢 ＋ 動能 ＋ 量能 ＋ 籌碼，才是不同角度的搭配。"],
   ] },
 ];
-// 新手專區的第一張示意圖：K 線在壓力區受阻、在支撐區反彈，右側是各價位的成本分布（和分析頁的圖是同一種畫法）
+// 使用指南的第一張示意圖：K 線在壓力區受阻、在支撐區反彈，右側是各價位的成本分布（和分析頁的圖是同一種畫法）
 function guideFig() {
   const W = 340, H = 212, L = 42, R = 244, T = 22, B = 186, HX = 254, HW = 76;
   const y = v => T + (B - T) * (1 - v / 100);                       // v：0～100 的相對價位
@@ -5012,15 +5010,13 @@ function hScroller(el, left, right) {
   addEventListener("pointerup", () => { if (!down) return; down = false; el.classList.remove("drag"); setTimeout(() => { moved = false; }, 0); });
   el.addEventListener("click", e => { if (moved) { e.stopPropagation(); e.preventDefault(); } }, true);      // 拖曳結束時不要誤觸按鈕
 }
-// 新手專區很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
+// 使用指南很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
 function guideToc() {
   const labels = [["這套系統在做什麼", "系統在做什麼"], ["整套系統怎麼用", "系統地圖"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["法人與融資：", "法人與融資"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["想實際練習", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
   const secs = [...document.querySelectorAll("#pgGuide .gSec")].filter(s => s.querySelector("h3")).map((s, i) => { s.id = s.id || `gs${i}`; const h = s.querySelector("h3").textContent; const m = labels.find(l => h.includes(l[0])); return m ? { s, label: m[1] } : null; }).filter(Boolean);
   const host = $("guideToc");
   host.innerHTML = secs.map((x, i) => `<button type="button" data-i="${i}">${x.label}</button>`).join("");
   host.onclick = e => { const b = e.target.closest("button"); if (!b) return; const s = secs[+b.dataset.i].s; if (s.hidden) return; const acc = s.querySelector(":scope > details.gAcc"); if (acc) acc.open = true; s.scrollIntoView({ behavior: "smooth", block: "start" }); };
-  $("gOpenAll").onclick = () => document.querySelectorAll("#pgGuide details.gAcc").forEach(d => { d.open = true; });
-  $("gCloseAll").onclick = () => document.querySelectorAll("#pgGuide details.gAcc").forEach(d => { d.open = false; });
   hScroller(host, $("tocL"), $("tocR"));
   const mo = new MutationObserver(() => { [...host.children].forEach((b, i) => b.hidden = secs[i].s.hidden); });       // 模擬交易那一段要登入才有，沒有就不顯示目錄項目
   secs.forEach(x => mo.observe(x.s, { attributes: true, attributeFilter: ["hidden"] }));
@@ -6730,7 +6726,7 @@ $("techPanel").addEventListener("click", e => {
   else if (p) { TECH.show = { ...TECH_PRESET[p.dataset.p] }; lsWrite("techShow", TECH.show); techUpdate(window.__R); }
   else if (s) { TECH.sub = s.dataset.s; lsWrite("techSub", { v: TECH.sub }); techUpdate(window.__R); }
 });
-// 詳細說明都搬到「新手專區」；這裡的「說明」連結會跳過去，並讓目標閃一下
+// 詳細說明都搬到「使用指南」；這裡的「說明」連結會跳過去，並讓目標閃一下
 function techGoGuide(id) {
   if ($("pgGuide").hidden) showTab("guide");
   setTimeout(() => { const el = document.getElementById(id); if (!el) return; for (let n = el; n; n = n.parentElement) if (n.tagName === "DETAILS") n.open = true; const ac = el.querySelector(":scope > details.gAcc"); if (ac) ac.open = true; el.scrollIntoView({ block: "start" }); window.scrollBy(0, -64); el.classList.add("tgFlash"); setTimeout(() => el.classList.remove("tgFlash"), 1800); }, 60);
@@ -6743,7 +6739,7 @@ const TECH_COMBO_INFO = [
   { title: "動能一致性：MACD ＋ RSI ＋ KD", read: "MACD、RSI、KD 都是看力道，彼此很像，所以不要把它們當成三個獨立的證據；三項同向只能說「力道方向很明確」，不能算「三倍可靠」。" },
   { title: "技術面 ＋ 籌碼面對照", read: "技術面看趨勢和動能，籌碼面看價位和賣壓，兩個角度不同，同向時訊號比較完整。技術面偏多又接近籌碼壓力，要留意能不能突破；技術面偏空但貼近籌碼支撐，可以觀察會不會止跌。" }
 ];
-// 新手專區的「技術分析怎麼看」：圖解、搭配組合、每個指標、名詞小辭典，都放在這裡
+// 使用指南的「技術分析怎麼看」：圖解、搭配組合、每個指標、名詞小辭典，都放在這裡
 function techGuideInit() {
   const names = { ma: "均線排列", slope: "20 日線方向", st: "SuperTrend", rsi: "RSI", kd: "KD", macd: "MACD", boll: "布林通道", vol: "量價（成交量和股價）" };
   const gl = { ma: "ma", slope: "ma", st: "supertrend", rsi: "rsi", kd: "kd", macd: "macd", boll: "boll", vol: "volPrice" };
