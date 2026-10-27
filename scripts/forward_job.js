@@ -27,16 +27,16 @@ function metricsAt(metricsOf, st, i, name) {
 
 // 一檔股票放到「全體交易日」的時間軸上（停牌那天沿用前一天的價格）
 function align(st, dates) {
-  const ix = new Map(st.d.map((d, i) => [d, i])), o = new Array(dates.length).fill(null), c = new Array(dates.length).fill(null), real = new Array(dates.length).fill(false);
+  const ix = new Map(st.d.map((d, i) => [d, i])), o = new Array(dates.length).fill(null), c = new Array(dates.length).fill(null), hi = new Array(dates.length).fill(null), lo = new Array(dates.length).fill(null), real = new Array(dates.length).fill(false);
   let lc = null;
   for (let g = 0; g < dates.length; g++) {
     const i = ix.get(dates[g]);
-    if (i != null) { o[g] = st.o[i]; c[g] = st.c[i]; lc = st.c[i]; real[g] = true; }
-    else if (lc != null) { o[g] = lc; c[g] = lc; }
+    if (i != null) { o[g] = st.o[i]; c[g] = st.c[i]; hi[g] = st.h[i]; lo[g] = st.l[i]; lc = st.c[i]; real[g] = true; }
+    else if (lc != null) { o[g] = lc; c[g] = lc; hi[g] = lc; lo[g] = lc; }
   }
   const ma = new Array(dates.length).fill(null);
   for (let g = 19; g < dates.length; g++) { let s = 0, ok = true; for (let k = g - 19; k <= g; k++) { if (c[k] == null) { ok = false; break; } s += c[k]; } if (ok) ma[g] = s / 20; }
-  return { o, c, real, ma };
+  return { o, c, hi, lo, real, ma };
 }
 
 // 一張的買賣：回傳 { j(買進日), p0, x(賣出日或 -1), px(賣出價), why }
@@ -72,7 +72,8 @@ function summarize(lots, last, A) {
   return { n: lots.length, closed, open: lots.length - closed, win: r2(win / lots.length * 100), avg: r2(sum / lots.length * 100), pnl: Math.round(pnl), cost: Math.round(cost), ret: r2(pnl / cost * 100), hold: r2(hold / lots.length), worst: r2(worst * 100), day: r2(sum / lots.length * 100 / Math.max(1, hold / lots.length) * 100) / 100 };
 }
 
-function update({ metricsOf, scrEval, presets, stocks, names, prev, today, log = () => {} }) {
+const EXT_MAX = 900;
+function update({ metricsOf, scrEval, presets, stocks, names, prev, prevExt, extMax = EXT_MAX, today, log = () => {} }) {
   const codes = [...stocks.keys()];
   const dates = [...new Set(codes.flatMap(c => stocks.get(c).d))].sort();
   if (dates.length < 400) throw new Error("歷史資料不夠");
@@ -84,7 +85,7 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, today, log =
   let todo = dates.filter(d => d > lastDay);
   if (first) todo = todo.slice(-BACKFILL);
   const conds = Object.fromEntries(Object.keys(STRATS).map(k => [k, condOf(presets[k])]));
-  for (const d of todo) {
+  const recOf = d => {
     const evs = [];
     for (const c of codes) {
       const i = IX[c].get(d); if (i == null || i < MIN_ROWS) continue;
@@ -96,9 +97,16 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, today, log =
       const pass = evs.map(x => ({ c: x.c, m: x.m, ev: scrEval(x.m, conds[k]) })).filter(x => x.ev.pass).sort((a, b) => b.ev.comb - a.ev.comb || b.ev.score - a.ev.score);
       rec[k] = { pass: pass.map(x => x.c), top: pass.slice(0, NEED).map(x => ({ c: x.c, rr: x.m.r1 ? r2(x.m.r1.peak / x.m.price * 100) / 100 : null, ss: x.m.s1 ? r2(x.m.s1.low / x.m.price * 100) / 100 : null, k: x.ev.comb })) };
     }
-    days[d] = rec;
+    return rec;
+  };
+  for (const d of todo) {
+    days[d] = recOf(d);
     if (todo.indexOf(d) % 20 === 0) log(`選股驗證：回補／追加 ${d}（${todo.indexOf(d) + 1} / ${todo.length}）`);
   }
+  // 更早的歷史名單（只存各策略達標的代碼，給「最佳策略」訓練用；不影響上面的驗證統計）。每次最多補 extMax 天，從最近的往前補。
+  const ext = prevExt || {}, firstDay = Object.keys(days).sort()[0];
+  const before = dates.filter(d => d < firstDay && !ext[d] && codes.some(c => (IX[c].get(d) ?? -1) >= MIN_ROWS)).slice(-extMax);
+  before.forEach((d, n) => { const rec = recOf(d); ext[d] = Object.fromEntries(Object.keys(STRATS).map(k => [k, rec[k].pass])); if (n % 50 === 0) log(`最佳策略：補歷史名單 ${d}（${n + 1} / ${before.length}）`); });
   const liveFrom = prev && prev.liveFrom ? prev.liveFrom : (dates[dates.length - 1]);
   const gOf = new Map(dates.map((d, g) => [d, g])), last = dates.length - 1, dayList = Object.keys(days).sort();
   const accounts = {};
@@ -135,7 +143,11 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, today, log =
   for (const k of Object.keys(bench)) for (const p of ["all", "live"]) { const [s, n] = bench[k][p]; bench[k][p] = n ? { avg: r2(s / n * 100), n } : null; }
   const lastRec = days[dayList[dayList.length - 1]] || {};
   const todayPicks = Object.fromEntries(Object.keys(STRATS).map(k => [k, { n: (lastRec[k] || { pass: [] }).pass.length, top: ((lastRec[k] || { top: [] }).top || []).map(x => ({ c: x.c, n: names.get(x.c) || "", k: x.k })) }]));
-  return { v: 1, updated: new Date().toISOString(), asOf: dates[last], liveFrom, startDay: dayList[0], strategies: STRATS, policies: POLS, need: NEED, cost: { fee: FEE, tax: TAX }, days, accounts, bench, today: todayPicks };
+  const out = { v: 1, updated: new Date().toISOString(), asOf: dates[last], liveFrom, startDay: dayList[0], strategies: STRATS, policies: POLS, need: NEED, cost: { fee: FEE, tax: TAX }, days, accounts, bench, today: todayPicks };
+  const lists = {}; for (const d of Object.keys(ext)) lists[d] = ext[d];
+  for (const d of dayList) lists[d] = Object.fromEntries(Object.keys(STRATS).map(k => [k, days[d][k].pass]));
+  Object.defineProperty(out, "ctx", { value: { dates, A, lists, names, ext, top: days }, enumerable: false });   // 給最佳策略用，不會寫進 forward.json
+  return out;
 }
 
 if (typeof module !== "undefined") module.exports = { update, STRATS, POLS };

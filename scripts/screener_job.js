@@ -119,13 +119,21 @@ async function main() {
   const data = await buildData({ html: fs.readFileSync(path.join(root, "index.html"), "utf8"), getJson, log: s => console.log(s), old, limit: +process.env.LIMIT || 0 });
   if (!Object.keys(data.metrics).length) { console.error("沒有任何股票算成功，不更新。"); process.exit(1); }
   try {
-    const fwPath = path.join(root, "forward.json"); let prevFw = null;
+    const fwPath = path.join(root, "forward.json"), extPath = path.join(root, "forward_ext.json"), stPath = path.join(root, "strategy.json"); let prevFw = null, prevExt = null, prevSt = null;
     try { prevFw = JSON.parse(fs.readFileSync(fwPath, "utf8")); } catch (e) {}
+    try { prevExt = JSON.parse(fs.readFileSync(extPath, "utf8")); } catch (e) {}
+    try { prevSt = JSON.parse(fs.readFileSync(stPath, "utf8")); } catch (e) {}
     const { M, stocks, names } = data.ctx;
     if (stocks.size >= 30) {
-      const fw = require("./forward_job.js").update({ metricsOf: (st, nm) => metricsOf(M, st, nm), scrEval: M.api.scrEval, presets: M.api.SCR_PRESETS, stocks, names, prev: prevFw, log: s => console.log(s) });
+      const fw = require("./forward_job.js").update({ metricsOf: (st, nm) => metricsOf(M, st, nm), scrEval: M.api.scrEval, presets: M.api.SCR_PRESETS, stocks, names, prev: prevFw, prevExt, log: s => console.log(s) });
       fs.writeFileSync(fwPath, JSON.stringify(fw));
       console.log(`已寫入 forward.json：資料到 ${fw.asOf}，追蹤起點 ${fw.liveFrom}，${Object.keys(fw.days).length} 個交易日。`);
+      fs.writeFileSync(extPath, JSON.stringify(fw.ctx.ext));
+      try {   // 自動最佳策略：失敗也不影響其他資料
+        const t0 = Date.now(), st = require("./optimizer_job.js").run({ ...fw.ctx, prev: prevSt });
+        fs.writeFileSync(stPath, JSON.stringify(st));
+        console.log(`已寫入 strategy.json：${st.config ? st.config.label : "目前建議空手"}（過去 ${st.lookback} 日，${((Date.now() - t0) / 1000).toFixed(0)} 秒）。`);
+      } catch (e) { console.error("自動最佳策略更新失敗（不影響其他資料）：", e); }
     } else console.log("這次成功抓到的股票不到 30 檔，選股驗證先跳過。");
   } catch (e) { console.error("選股驗證更新失敗（不影響篩選資料）：", e); }
   const round = (k, v) => typeof v === "number" ? Math.round(v * 1e6) / 1e6 : v;
