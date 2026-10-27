@@ -179,9 +179,9 @@ function run({ dates, A, lists, names, prev, top, opts = {} }) {
   const cfOut = c => { const cf = cfOf(c); return { ...cf, strat: cf.strat, stratName: STR[cf.strat], eName: ENTRY[cf.e], label: label(cf), n: c.n, avg: r2(c.mean * 100), win: r2(c.win * 100), hold: r2(c.hold), day: r2(c.mean / Math.max(c.hold, 2) * 100 * 100) / 100, score: r2(c.score * 10000) / 100 }; };
   // 5) 今日建議
   const lastL = lists[dates[last]] || null, asOf = dates[last];
-  const planFor = c => {
+  const planFor = (c, pred, maxN) => {
     const cf = cfOf(c), par = PAR[c.p], items = [];
-    const cs = lastL ? listOf(lastL, cf.strat).slice(0, cf.K) : [];
+    const all = lastL ? listOf(lastL, cf.strat) : [], cs = pred ? all.filter(pred).slice(0, maxN) : all.slice(0, cf.K);
     for (const code of cs) {
       const a = A[code]; if (!a || a.c[last] == null) continue;
       const close = a.c[last], tp = top && top[asOf] && top[asOf][cf.strat === "cons" ? "rise" : cf.strat] ? top[asOf][cf.strat === "cons" ? "rise" : cf.strat].top.find(x => x.c === code) : null;
@@ -196,6 +196,16 @@ function run({ dates, A, lists, names, prev, top, opts = {} }) {
     reco.cfg = cfOut(now); reco.items = planFor(now);
     if (!reco.items.length) for (const c of ranked.slice(1, 300)) { if (c.si === now.si) continue; const it = planFor(c); if (it.length) { reco.alt = { cfg: cfOut(c), items: it }; break; } }
   }
+  // 依股價分級（100 元以下／300 元以下／600 元以下／600 元以上），各推薦 1~3 檔：
+  // 優先用「目前最佳」那組參數；它今天在這個價位沒有標的，就改用排名往後、今天在這個價位有標的的那一組（標示為備選）。
+  const TIERS = [["100 元以下", 100], ["300 元以下", 300], ["600 元以下", 600], ["600 元以上", Infinity]], tierOf = p => p <= 100 ? 0 : p <= 300 ? 1 : p <= 600 ? 2 : 3;
+  const todayBy = SKEYS.map(s => { const o = [[], [], [], []]; if (lastL) for (const code of listOf(lastL, s)) { const a = A[code]; if (a && a.c[last] != null) o[tierOf(a.c[last])].push(code); } return o; });
+  const tierHist = [0, 1, 2, 3].map(ti => { const ls = wf[Lstar].lots.filter(l => tierOf(l.p0) === ti); if (!ls.length) return { n: 0 }; let sum = 0, win = 0; for (const l of ls) { const rr = netRet(l.p0, l.px); sum += rr; if (rr > 0) win++; } return { n: ls.length, avg: r2(sum / ls.length * 100), win: r2(win / ls.length * 100) }; });
+  reco.tiers = TIERS.map(([name], ti) => {
+    let cfg = null, items = [], fb = false;
+    for (const c of ranked) { if (!todayBy[c.si][ti].length) continue; const pred = code => { const a = A[code]; return a && a.c[last] != null && tierOf(a.c[last]) === ti; }; items = planFor(c, pred, 3); if (items.length) { cfg = cfOut(c); fb = !!now && c.si !== now.si; break; } }
+    return { name, items, cfg, fallback: fb, hist: tierHist[ti] };
+  });
   // 以下只保留每個 (策略, 買進方式, 持有天數) 最好的前 5 組，免得全是相近的參數
   const seen = new Set(), topCfg = [];
   for (const c of ranked) { const key = `${c.si}|${c.k}|${PAR[c.p].e}|${PAR[c.p].h}`; if (seen.has(key)) continue; seen.add(key); topCfg.push(cfOut(c)); if (topCfg.length >= 5) break; }
