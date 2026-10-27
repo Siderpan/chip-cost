@@ -417,6 +417,9 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .fwEx { padding: 10px 6px; margin: 10px 0; } .fwT { font: 700 .9rem var(--font-ui); padding: 0 8px 4px; } .fwT small { display: block; font: 400 .72rem var(--font-ui); color: var(--muted); margin-top: 2px; } .fwEx .gTbl th { text-align: center; } .fwEx .gTbl th small { font-weight: 400; display: block; } .fwEx td { text-align: center; } .fwEx td:first-child { text-align: left; } .fwD { display: block; font: 600 .72rem var(--font-num); margin-top: 2px; } .fwD.up { color: var(--bull); } .fwD.dn { color: var(--bear); }
 .fwRk { display: flex; flex-direction: column; gap: 4px; } .fwRow { display: grid; grid-template-columns: 1.6em minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 44px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font-family: var(--font-ui); } .fwRow.sel { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); } .fwRow.ref { opacity: .7; } .fwRow .no { font: 700 .74rem var(--font-num); color: var(--muted); } .fwRow .nm { font-size: .8rem; line-height: 1.35; } .fwRow .nm em { font-style: normal; margin-left: 6px; font-size: .66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 6px; } .fwRow .bar { height: 10px; background: color-mix(in srgb, var(--muted) 12%, transparent); border-radius: 5px; overflow: hidden; } .fwRow .bar i { display: block; height: 100%; background: var(--muted); border-radius: 5px; } .fwRow .bar i.up { background: var(--bull); } .fwRow .bar i.dn { background: var(--bear); } .fwRow b { font: 700 .8rem var(--font-num); min-width: 5.5em; text-align: right; } .fwRow b.up { color: var(--bull); } .fwRow b.dn { color: var(--bear); }
 .fwWhy { padding: 4px 12px; } .fwWhy > div { padding: 8px 0; border-top: 1px solid var(--line); display: grid; gap: 2px; font-size: .82rem; line-height: 1.65; } .fwWhy > div:first-child { border-top: 0; } .fwWhy b { font-size: .84rem; } .fwWhy span { color: var(--muted); } .fwSell { display: grid; gap: 8px; padding-top: 4px; } .fwSell > div { display: grid; gap: 1px; font-size: .8rem; line-height: 1.6; } .fwSell span { color: var(--muted); } .fwP small { margin-left: 4px; color: var(--muted); font-size: .7rem; } .fwSellD { margin: 10px 0; }
+.fwSimple { padding: 12px; } .fwSb { display: grid; grid-template-columns: 4.2em 1fr auto; gap: 2px 10px; align-items: center; padding: 8px 0; } .fwSb + .fwSb { border-top: 1px solid var(--line); }
+.fwSb .nm { font-weight: 700; font-size: .95rem; } .fwSb .bar { height: 14px; border-radius: 7px; background: color-mix(in srgb, var(--muted) 14%, var(--surface)); overflow: hidden; } .fwSb .bar i { display: block; height: 100%; border-radius: 7px; background: var(--muted); } .fwSb .bar i.up { background: var(--bull); } .fwSb .bar i.dn { background: var(--bear); }
+.fwSb b { font: 700 .98rem var(--font-num); min-width: 4.6em; text-align: right; } .fwSb small { grid-column: 2 / 4; font-size: .74rem; color: var(--muted); } .fwSb.base .nm, .fwSb.base b { color: var(--muted); } .fwSb small .up { color: var(--bull); } .fwSb small .dn { color: var(--bear); } .fwAdvBtn { display: block; margin: 14px auto 4px; }
 .fwNote { padding: 10px 12px; font-size: .84rem; line-height: 1.65; } .fwBar { display: grid; gap: 8px; margin: 12px 0 6px; } .fwSeg button { flex: 1; font-size: .78rem; padding: 0 4px; }
 .fwM { display: grid; grid-template-columns: minmax(7.2em, 1.5fr) repeat(4, minmax(0, 1fr)); gap: 4px; align-items: stretch; } .fwH { font: 700 .78rem var(--font-ui); text-align: center; padding: 6px 0; color: var(--muted); } .fwL { font-size: .76rem; line-height: 1.35; display: flex; align-items: center; padding-right: 4px; }
 .fwC { min-height: 42px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 .8rem var(--font-num); cursor: pointer; padding: 0 2px; } .fwC.up { color: var(--bull); } .fwC.dn { color: var(--bear); } .fwC.best { box-shadow: inset 0 0 0 2px var(--profit); } .fwC.sel { background: color-mix(in srgb, var(--profit) 14%, var(--surface)); border-color: var(--profit); }
@@ -3772,7 +3775,7 @@ async function regenReport() {
 }
 /* ---------- 選股驗證：篩選器四種策略的前三名，每檔買一張，同時比較多種賣出規則的長期報酬 ----------
    資料由夜間排程算好（scripts/forward_job.js）存成 forward.json，這裡只負責顯示。 */
-const fw = { data: null, loading: false, err: "", metric: "day", period: "all", sel: "rise|hold60", plot: null, view: "rank", more: false };
+const fw = { data: null, loading: false, err: "", metric: "day", period: "all", sel: "rise|hold60", plot: null, view: "rank", more: false, hp: "hold60", adv: false };
 async function fwLoad() {
   fw.loading = true; fw.err = "";
   try { const res = await fetch("forward.json?d=" + todayTW(), { cache: "no-cache" }); if (!res.ok) throw new Error(res.status === 404 ? "還沒有資料：夜間排程第一次執行之後就會出現（也可以到 GitHub 的 Actions 手動執行 nightly-screener）。" : "讀取失敗（" + res.status + "）"); fw.data = await res.json(); }
@@ -3845,15 +3848,32 @@ function admForward() {
   const lot = L => `<div class="fwR"><span class="n">${esc(L.c)} ${esc(L.n)}</span><span>${esc(L.b.slice(5))} 買 ${L.p0.toFixed(2)}</span><span>${L.x ? esc(L.x.slice(5)) + " 賣 " + L.px.toFixed(2) : "現價 " + L.px.toFixed(2)}</span><b class="${cl(L.r)}">${sg(L.r)}%</b><em>${esc(L.w || (L.x ? "" : "持有中"))}</em></div>`;
   const tp = F.today ? S.map(s => { const o = F.today[s]; return `<div class="fwP"><b>${esc(F.strategies[s])}</b>${o.top.length ? o.top.map((x, i) => `<span>${i + 1}. ${esc(x.c)} ${esc(x.n)}<small>${x.k} 分</small></span>`).join("") : `<span class="mute">今天沒有達標的，不買</span>`}</div>`; }).join("") : "";
   const sellList = POL.map(pl => `<div><b>${esc(F.policies[pl])}</b><span>${esc(FW_SELL[pl] || "")}</span></div>`).join("");
-  return `<div class="card fwNote"><b>資料到 ${esc(F.asOf)}</b>　已累積 ${nd} 個交易日　追蹤起點 <b>${esc(F.liveFrom)}</b><br><small>起點之前是用歷史資料回補的；起點之後才是每天往後追蹤的真實結果。</small></div>
+  // ---------- 簡單版 ----------
+  const HP = fw.hp, bH = bn(HP), hpTxt = HP === "hold20" ? "1 個月（20 個交易日）" : "3 個月（60 個交易日）";
+  const bars = S.map(s => { const x = st0(s, HP); return x ? { k: s, nm: F.strategies[s], v: x.avg, win: x.win, n: x.n } : null; }).filter(Boolean);
+  if (bH) bars.push({ k: "bench", nm: "隨便買", v: bH.avg, base: true });
+  bars.sort((a, b) => b.v - a.v);
+  const bmax = Math.max(1e-9, ...bars.map(x => Math.abs(x.v)));
+  const beat = bars.filter(x => !x.base && bH && x.v > bH.avg);
+  const best = bars.find(x => !x.base);
+  const simpleHead = !bars.some(x => !x.base) ? "這個期間還沒有累積夠多的買賣紀錄" : !bH ? "" : beat.length === 0 ? "照著選股買，沒有比「隨便買」更好" : beat.length === bars.filter(x => !x.base).length ? "四個策略都比「隨便買」好" : `${beat.map(x => x.nm).join("、")}比「隨便買」好`;
+  const simpleSub = !bH || !best ? "" : beat.length === 0 ? `持有 ${hpTxt}，隨便買平均每張賺 ${sg(bH.avg)}%，四個策略最多只有 ${sg(best.v)}%（${best.nm}）。` : `持有 ${hpTxt}，隨便買平均每張賺 ${sg(bH.avg)}%；最好的是${best.nm}，${sg(best.v)}%。`;
+  const simple = `<div class="fwBar">${seg("fwPeriod", P, [["all", "含回補一年"], ["live", "只看實際追蹤"]])}${seg("fwHp", HP, [["hold20", "持有 1 個月"], ["hold60", "持有 3 個月"]])}</div>
+    <div class="fwV ${beat.length ? "good" : ""}"><b>${esc(simpleHead)}</b><p>${esc(simpleSub)}</p></div>
+    <div class="card fwSimple"><div class="fwT">每買 1 張，平均賺幾 %<small>買進後持有 ${hpTxt}就賣，已扣手續費和稅</small></div>
+      ${bars.map(x => `<div class="fwSb${x.base ? " base" : ""}"><span class="nm">${esc(x.nm)}</span><span class="bar"><i class="${x.base ? "" : cl(x.v)}" style="width:${Math.max(2, Math.abs(x.v) / bmax * 100).toFixed(1)}%"></i></span><b class="${x.base ? "" : cl(x.v)}">${sg(x.v)}%</b>${x.base ? `<small>基準：內建大型股每檔都買</small>` : `<small>${x.win.toFixed(0)}% 的單子賺錢・共 ${x.n} 張${bH ? `・<span class="${cl(x.v - bH.avg)}">${x.v >= bH.avg ? "贏" : "輸"}隨便買 ${Math.abs(x.v - bH.avg).toFixed(1)} 點</span>` : ""}</small>`}</div>`).join("")}</div>
+    <h2>今天各策略的前 ${F.need} 名</h2><div class="card fwPicks">${tp}</div>
+    <div class="card gTip"><div class="gName">看這份結果要小心</div><ul><li>「含回補一年」是用歷史資料倒推，那一年大盤一路漲，股票名單又是今天的大型股，所以數字會偏好看。</li><li>真正有參考價值的是「只看實際追蹤」，要累積一兩個月以上。</li></ul></div>
+    <button type="button" class="info-link fwAdvBtn" data-act="fwAdv">${fw.adv ? "收起完整比較" : "想看更多：七種賣法比較、買賣細節、持股明細"}</button>`;
+  if (!fw.adv) return simple;
+  return simple + `<div class="card fwNote"><b>資料到 ${esc(F.asOf)}</b>　已累積 ${nd} 個交易日　追蹤起點 <b>${esc(F.liveFrom)}</b><br><small>起點之前是用歷史資料回補的；起點之後才是每天往後追蹤的真實結果。</small></div>
     ${verdict}${excess}
-    <div class="fwBar">${seg("fwPeriod", P, [["all", "全部（含回補）"], ["live", "只看實際追蹤期"]])}${seg("fwMetric", MT, [["day", "日均報酬"], ["avg", "平均每筆"], ["ret", "總報酬"], ["win", "勝率"], ["n", "張數"]])}${seg("fwView", fw.view, [["rank", "排行榜"], ["grid", "對照表"]])}</div>
+    <div class="fwBar">${seg("fwMetric", MT, [["day", "日均報酬"], ["avg", "平均每筆"], ["ret", "總報酬"], ["win", "勝率"], ["n", "張數"]])}${seg("fwView", fw.view, [["rank", "排行榜"], ["grid", "對照表"]])}</div>
     <h2>${fw.view === "rank" ? `${unit}排行榜` : `${unit}對照表`}</h2>${fw.view === "rank" ? ranking : grid}
     <p class="advnote" style="padding:6px 0 0">${MT === "day" ? "日均報酬＝平均每筆報酬 ÷ 平均持有日數，把「持有比較久」的差異拉平，才能比較不同賣法。" : MT === "ret" ? "總報酬會偏袒持有比較久的賣法，比較賣法請看「日均報酬」。" : ""}點一列（或一格）看買賣細節。</p>
     <h2>${esc(nm(ss, pp))}：買賣細節</h2>
     <div class="card fwWhy"><div><b>怎麼買</b><span>每天收盤後，從內建大型股挑出「${esc(FW_BUY[ss] || "")}」的股票（條件：${esc(cond)}）。達標的依綜合評分排名，前 ${F.need} 名各買一張（1 張＝1000 股），有幾檔買幾檔；隔天開盤價成交。</span></div><div><b>怎麼賣</b><span>${esc(FW_SELL[pp] || "")}　賣出也是收盤後判斷、隔天開盤價成交。</span></div><div><b>成本</b><span>手續費 ${(F.cost.fee * 100).toFixed(4)}%（買賣各一次）＋證交稅 ${(F.cost.tax * 100).toFixed(1)}%（賣出），沒有折扣。</span></div></div>
     ${stats}${chart}
-    <h2>今天各策略的前 ${F.need} 名</h2><div class="card fwPicks">${tp}</div>
     ${A.open && A.open.length ? `<h2>目前持有的（${(A.all.open || A.open.length)} 張${(A.all.open || 0) > A.open.length ? "，列最近 " + A.open.length + " 張" : ""}）</h2><div class="card fwRows">${A.open.map(lot).join("")}</div>` : ""}
     ${A.recent && A.recent.length ? `<h2>最近賣出的（含賣出原因）</h2><div class="card fwRows">${A.recent.map(lot).join("")}</div>` : ""}
     <details class="gFaq fwSellD"><summary>七種賣法分別是什麼</summary><div class="a fwSell">${sellList}</div></details>
@@ -3895,6 +3915,8 @@ function admInit() {
     const t = e.target.closest("#admTabs button"); if (t) { adm.tab = t.dataset.t; admRender(); window.scrollTo({ top: 0 }); return; }
     const r = e.target.closest("#admRange button"); if (r) { adm.range = +r.dataset.r; admRender(); return; }
     const f = e.target.closest("#admFilt button"); if (f) { adm.filt = f.dataset.f; adm.open = ""; admRender(); return; }
+    const fh = e.target.closest("#fwHp button"); if (fh) { fw.hp = fh.dataset.k; admRender(); return; }
+    if (e.target.closest('[data-act="fwAdv"]')) { fw.adv = !fw.adv; admRender(); return; }
     const fp = e.target.closest("#fwPeriod button"); if (fp) { fw.period = fp.dataset.k; admRender(); return; }
     const fm2 = e.target.closest("#fwMetric button"); if (fm2) { fw.metric = fm2.dataset.k; admRender(); return; }
     const fv = e.target.closest("#fwView button"); if (fv) { fw.view = fv.dataset.k; admRender(); return; }
