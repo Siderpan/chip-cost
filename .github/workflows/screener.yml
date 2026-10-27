@@ -1,4 +1,4 @@
-# 每天凌晨 3:00（台北時間）預先算好「內建大型股」的篩選資料，存成 screener.json，讓所有會員共用。
+# 每天凌晨 3:00（台北時間）預先算好「內建大型股」的篩選資料，存成 screener.json，讓所有會員共用；同一次也更新 forward.json（管理後台的「選股驗證」）。
 # GitHub 的排程偶爾會延遲數十分鐘，所以實際完成時間大約落在 3:00～4:00。
 # 手動執行：GitHub 網頁 → Actions → nightly-screener → Run workflow。
 # 選填：到 Settings → Secrets and variables → Actions 新增 FINMIND_TOKEN，額度會比較寬鬆。
@@ -29,6 +29,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add screener.json
+          git add screener.json forward.json
           # 計算期間如果有人更新了 main（例如剛好上傳新版網頁），先接上最新的再推，避免被拒絕
-          git diff --cached --quiet || (git commit -m "Nightly screener data" && git pull --rebase -q origin main && git push)
+          git diff --cached --quiet || (git commit -m "Nightly screener data and strategy forward-test" && git pull --rebase -q origin main && git push)

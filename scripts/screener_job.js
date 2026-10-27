@@ -31,10 +31,11 @@ function loadModel(html) {
     grabLine(html, /^const pct = [^\n]*$/m, "pct"),
     grabLine(html, /^const spct = [^\n]*$/m, "spct"),
     grabLine(html, /^const state = [^\n]*$/m, "state"),
+    grabLine(html, /^const SCR_W = [^\n]*$/m, "SCR_W"), grabLine(html, /^const SCR_PRESETS = \{[\s\S]*?\n\};/m, "SCR_PRESETS"),
     grabLine(html, /^const techSma = [^\n]*$/m, "techSma"), grabLine(html, /^const techEma = [^\n]*$/m, "techEma"),
-    ...["makeBins", "triCdf", "dayWeights", "runModel", "analyze", "superTrend", "stSummary", "verdictOf", "techRsi", "techKd", "techMacd", "techBoll", "techCalc", "techSnap"].map(n => grabFn(html, n))
+    ...["makeBins", "triCdf", "dayWeights", "runModel", "analyze", "superTrend", "stSummary", "verdictOf", "techRsi", "techKd", "techMacd", "techBoll", "techCalc", "techSnap", "techScoreOf", "riseSigs", "scrComb", "scrEval"].map(n => grabFn(html, n))
   ].join("\n");
-  const api = new Function(src + "\nreturn { makeBins, runModel, analyze, superTrend, stSummary, verdictOf, techSnap, state, BIN };")();
+  const api = new Function(src + "\nreturn { makeBins, runModel, analyze, superTrend, stSummary, verdictOf, techSnap, scrEval, SCR_PRESETS, state, BIN };")();
   const pool = JSON.parse(grabLine(html, /(?<=^const BIG_POOL = )\[[^\]]*\]/m, "BIG_POOL"));
   return { api, pool };
 }
@@ -79,10 +80,11 @@ async function buildData({ html, getJson, log = () => {}, old = null, limit = 0,
   const pool = limit ? M.pool.slice(0, limit) : M.pool;
   let names = new Map();
   try { names = new Map((await getJson("TaiwanStockInfo", {})).map(r => [r.stock_id, r.stock_name])); } catch (e) { log("股票名稱清單讀取失敗：" + e.message); }
-  const metrics = {}, failed = [];
+  const metrics = {}, failed = [], stocks = new Map();
   for (const code of pool) {
     try {
       const st = await fetchStock(getJson, code);
+      stocks.set(code, st);
       const m = metricsOf(M, st, names.get(code) || (old && old.metrics[code] && old.metrics[code].name) || "");
       if (m) { metrics[code] = m;  log(`${code} ${m.name} 位置評分 ${m.v.score}`); } else throw new Error("沒有股本資料");
     } catch (e) {
@@ -93,7 +95,9 @@ async function buildData({ html, getJson, log = () => {}, old = null, limit = 0,
     if (gap) await sleep(gap);
   }
   const asOf = Object.values(metrics).reduce((mx, m) => m.date > mx ? m.date : mx, "");
-  return { v: 1, updated: new Date().toISOString(), asOf, pool: M.pool, failed, metrics };
+  const out = { v: 1, updated: new Date().toISOString(), asOf, pool: M.pool, failed, metrics };
+  Object.defineProperty(out, "ctx", { value: { M, stocks, names }, enumerable: false });      // 不會寫進 screener.json
+  return out;
 }
 
 async function main() {
@@ -114,6 +118,16 @@ async function main() {
   try { old = JSON.parse(fs.readFileSync(out, "utf8")); } catch (e) {}
   const data = await buildData({ html: fs.readFileSync(path.join(root, "index.html"), "utf8"), getJson, log: s => console.log(s), old, limit: +process.env.LIMIT || 0 });
   if (!Object.keys(data.metrics).length) { console.error("沒有任何股票算成功，不更新。"); process.exit(1); }
+  try {
+    const fwPath = path.join(root, "forward.json"); let prevFw = null;
+    try { prevFw = JSON.parse(fs.readFileSync(fwPath, "utf8")); } catch (e) {}
+    const { M, stocks, names } = data.ctx;
+    if (stocks.size >= 30) {
+      const fw = require("./forward_job.js").update({ metricsOf: (st, nm) => metricsOf(M, st, nm), scrEval: M.api.scrEval, presets: M.api.SCR_PRESETS, stocks, names, prev: prevFw, log: s => console.log(s) });
+      fs.writeFileSync(fwPath, JSON.stringify(fw));
+      console.log(`已寫入 forward.json：資料到 ${fw.asOf}，追蹤起點 ${fw.liveFrom}，${Object.keys(fw.days).length} 個交易日。`);
+    } else console.log("這次成功抓到的股票不到 30 檔，選股驗證先跳過。");
+  } catch (e) { console.error("選股驗證更新失敗（不影響篩選資料）：", e); }
   const round = (k, v) => typeof v === "number" ? Math.round(v * 1e6) / 1e6 : v;
   const same = old && JSON.stringify(old.metrics) === JSON.stringify(JSON.parse(JSON.stringify(data.metrics, round)));
   if (same) { console.log("資料和上次相同（可能是休市日），不更新。"); return; }
@@ -122,6 +136,6 @@ async function main() {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { buildData };
+  module.exports = { buildData, metricsOf };
   if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
 }
