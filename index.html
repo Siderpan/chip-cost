@@ -413,7 +413,11 @@ svg .chLast { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; opac
 .mktNightSvg .lastv { font: 700 10px var(--font-num); fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
 .mktBox { touch-action: pan-y; } .mktBox .mktTx { margin: 4px 0; }
 html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%, var(--bg)); }
-.fwNote { padding: 10px 12px; font-size: .84rem; line-height: 1.65; } .fwBar { display: grid; gap: 8px; margin: 10px 0; } .fwSeg button { flex: 1; font-size: .78rem; padding: 0 4px; }
+.fwV { margin: 10px 0; padding: 12px 14px; border: 1px solid var(--line); border-left: 4px solid var(--trapped); border-radius: 10px; background: var(--surface); } .fwV.good { border-left-color: var(--bull); } .fwV .k { font-size: .72rem; color: var(--muted); } .fwV > b { display: block; font-size: 1.05rem; margin: 2px 0 6px; line-height: 1.5; } .fwV ul { margin: 0; padding-left: 1.2em; font-size: .84rem; line-height: 1.7; } .fwV small { display: block; margin-top: 6px; font-size: .74rem; line-height: 1.6; color: var(--muted); } .fwV p { margin: 4px 0 0; font-size: .86rem; line-height: 1.7; }
+.fwEx { padding: 10px 6px; margin: 10px 0; } .fwT { font: 700 .9rem var(--font-ui); padding: 0 8px 4px; } .fwT small { display: block; font: 400 .72rem var(--font-ui); color: var(--muted); margin-top: 2px; } .fwEx .gTbl th { text-align: center; } .fwEx .gTbl th small { font-weight: 400; display: block; } .fwEx td { text-align: center; } .fwEx td:first-child { text-align: left; } .fwD { display: block; font: 600 .72rem var(--font-num); margin-top: 2px; } .fwD.up { color: var(--bull); } .fwD.dn { color: var(--bear); }
+.fwRk { display: flex; flex-direction: column; gap: 4px; } .fwRow { display: grid; grid-template-columns: 1.6em minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 44px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font-family: var(--font-ui); } .fwRow.sel { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); } .fwRow.ref { opacity: .7; } .fwRow .no { font: 700 .74rem var(--font-num); color: var(--muted); } .fwRow .nm { font-size: .8rem; line-height: 1.35; } .fwRow .nm em { font-style: normal; margin-left: 6px; font-size: .66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 6px; } .fwRow .bar { height: 10px; background: color-mix(in srgb, var(--muted) 12%, transparent); border-radius: 5px; overflow: hidden; } .fwRow .bar i { display: block; height: 100%; background: var(--muted); border-radius: 5px; } .fwRow .bar i.up { background: var(--bull); } .fwRow .bar i.dn { background: var(--bear); } .fwRow b { font: 700 .8rem var(--font-num); min-width: 5.5em; text-align: right; } .fwRow b.up { color: var(--bull); } .fwRow b.dn { color: var(--bear); }
+.fwWhy { padding: 4px 12px; } .fwWhy > div { padding: 8px 0; border-top: 1px solid var(--line); display: grid; gap: 2px; font-size: .82rem; line-height: 1.65; } .fwWhy > div:first-child { border-top: 0; } .fwWhy b { font-size: .84rem; } .fwWhy span { color: var(--muted); } .fwSell { display: grid; gap: 8px; padding-top: 4px; } .fwSell > div { display: grid; gap: 1px; font-size: .8rem; line-height: 1.6; } .fwSell span { color: var(--muted); } .fwP small { margin-left: 4px; color: var(--muted); font-size: .7rem; } .fwSellD { margin: 10px 0; }
+.fwNote { padding: 10px 12px; font-size: .84rem; line-height: 1.65; } .fwBar { display: grid; gap: 8px; margin: 12px 0 6px; } .fwSeg button { flex: 1; font-size: .78rem; padding: 0 4px; }
 .fwM { display: grid; grid-template-columns: minmax(7.2em, 1.5fr) repeat(4, minmax(0, 1fr)); gap: 4px; align-items: stretch; } .fwH { font: 700 .78rem var(--font-ui); text-align: center; padding: 6px 0; color: var(--muted); } .fwL { font-size: .76rem; line-height: 1.35; display: flex; align-items: center; padding-right: 4px; }
 .fwC { min-height: 42px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 .8rem var(--font-num); cursor: pointer; padding: 0 2px; } .fwC.up { color: var(--bull); } .fwC.dn { color: var(--bear); } .fwC.best { box-shadow: inset 0 0 0 2px var(--profit); } .fwC.sel { background: color-mix(in srgb, var(--profit) 14%, var(--surface)); border-color: var(--profit); }
 .fwPicks { padding: 8px 12px; display: grid; gap: 8px; } .fwP { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: .82rem; } .fwP b { min-width: 3em; } .fwP .mute { color: var(--muted); }
@@ -3768,52 +3772,94 @@ async function regenReport() {
 }
 /* ---------- 選股驗證：篩選器四種策略的前三名，每檔買一張，同時比較多種賣出規則的長期報酬 ----------
    資料由夜間排程算好（scripts/forward_job.js）存成 forward.json，這裡只負責顯示。 */
-const fw = { data: null, loading: false, err: "", metric: "ret", period: "all", sel: "rise|hold20", plot: null };
+const fw = { data: null, loading: false, err: "", metric: "day", period: "all", sel: "rise|hold60", plot: null, view: "rank", more: false };
 async function fwLoad() {
   fw.loading = true; fw.err = "";
   try { const res = await fetch("forward.json?d=" + todayTW(), { cache: "no-cache" }); if (!res.ok) throw new Error(res.status === 404 ? "還沒有資料：夜間排程第一次執行之後就會出現（也可以到 GitHub 的 Actions 手動執行 nightly-screener）。" : "讀取失敗（" + res.status + "）"); fw.data = await res.json(); }
   catch (e) { fw.err = e.message || "讀取失敗"; }
   fw.loading = false; admRender();
 }
+const FW_BUY = { rise: "剛轉強、還沒過熱、位置舒服、上方有空間", steady: "位置分數高、離支撐近、趨勢偏多", dip: "貼近支撐，萬一跌破也賠得少", trend: "多頭趨勢、技術面也偏強" };
+const FW_SELL = {
+  hold20: "買進後持有 20 個交易日，第 21 天開盤賣出。不看價格，純粹用時間。",
+  hold60: "買進後持有 60 個交易日，第 61 天開盤賣出。比 20 日更有耐心。",
+  tp: "收盤價比買進價漲 10% 以上就停利、跌 7% 以上就停損，隔天開盤賣出。",
+  sr: "買進當天算出的第一個壓力價就是目標（壓力太近就改用 +10%）；收盤到目標價就停利；收盤跌破第一個支撐再扣 1% 就停損（沒有支撐則 −8%）；最多持有 60 日。",
+  ma20: "買進後，收盤價跌破 20 日線就隔天開盤賣出。順著趨勢走，趨勢壞了才離開。",
+  drop: "這檔股票不再符合這個策略的全部條件（掉出名單），就隔天開盤賣出。",
+  hold: "不賣，一直放到現在。只拿來對照（它是賺最多的，但只是因為這一年大盤一路漲）。"
+};
 function admForward() {
   if (!fw.data) { if (!fw.loading && !fw.err) fwLoad(); return fw.err ? `<div class="status err">${esc(fw.err)}</div><button type="button" class="info-link" data-act="fwReload">再試一次</button>` : `<div class="status">載入選股驗證資料中…</div>`; }
   const F = fw.data, P = fw.period, MT = fw.metric, S = Object.keys(F.strategies), POL = Object.keys(F.policies), nd = Object.keys(F.days).length;
   const sg = (v, d = 1) => v == null ? "—" : (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(d), cl = v => v > 0 ? "up" : v < 0 ? "dn" : "";
-  const val = a => { const s = a && a[P]; if (!s || !s.n) return null; return MT === "n" ? s.n : s[MT]; };
-  const fmtV = v => v == null ? "—" : MT === "n" ? v + " 張" : MT === "win" ? v.toFixed(0) + "%" : MT === "day" ? sg(v, 2) + "%" : sg(v) + "%";
-  const best = {}; S.forEach(s => { let b = null; POL.forEach(pl => { if (pl === "hold") return; const v = val(F.accounts[`${s}|${pl}`]); if (v != null && (b == null || v > b.v)) b = { v, pl }; }); best[s] = b && MT !== "n" ? b.pl : ""; });
+  const acc = (s, pl) => F.accounts[`${s}|${pl}`], st0 = (s, pl) => { const a = acc(s, pl); return a && a[P] && a[P].n ? a[P] : null; };
+  const val = (s, pl) => { const x = st0(s, pl); return x ? (MT === "n" ? x.n : x[MT]) : null; };
+  const unit = { ret: "總報酬", avg: "平均每筆", day: "日均報酬", win: "勝率", n: "買進張數" }[MT];
+  const fmtV = v => v == null ? "—" : MT === "n" ? v + " 張" : MT === "win" ? v.toFixed(0) + "%" : MT === "day" ? sg(v, 2) + "%／日" : sg(v) + "%";
+  const bn = k => F.bench && F.bench[k] && F.bench[k][P];
   const seg = (id, cur, items) => `<div class="seg fwSeg" id="${id}" role="group">${items.map(([k, tx]) => `<button type="button" data-k="${k}" aria-pressed="${cur === k}">${tx}</button>`).join("")}</div>`;
-  const cell = (s, pl) => { const v = val(F.accounts[`${s}|${pl}`]); return `<button type="button" class="fwC ${MT === "n" || MT === "win" ? "" : cl(v)}${fw.sel === s + "|" + pl ? " sel" : ""}${best[s] === pl ? " best" : ""}" data-fwsel="${s}|${pl}">${fmtV(v)}</button>`; };
-  const bench = k => { const b = F.bench && F.bench[k] && F.bench[k][P]; return b ? `${sg(b.avg)}%` : "—"; };
-  const grid = `<div class="fwM"><div class="fwH"></div>${S.map(s => `<div class="fwH">${esc(F.strategies[s])}</div>`).join("")}${POL.map(pl => `<div class="fwL">${esc(F.policies[pl])}</div>${S.map(s => cell(s, pl)).join("")}`).join("")}</div>`;
-  const [ss, pp] = fw.sel.split("|"), A = F.accounts[fw.sel], st = A && A[P], ac = A || { all: {}, live: {}, curve: [], open: [], recent: [] };
+  const nm = (s, pl) => `${F.strategies[s]} × ${F.policies[pl].replace(/（.*$/, "")}`;
+  const hasData = S.some(s => st0(s, "hold20"));
+  // ---------- 一句話結論 ----------
+  const b20 = bn("hold20"), b60 = bn("hold60"), ex = (s, k, b) => { const x = st0(s, k); return x && b ? x.avg - b.avg : null; };
+  const rank = [];
+  S.forEach(s => POL.forEach(pl => { if (pl === "hold") return; const x = st0(s, pl); if (x) rank.push({ s, pl, day: x.day, avg: x.avg, hold: x.hold }); }));
+  rank.sort((a, b) => b.day - a.day);
+  let verdict = "";
+  if (!hasData) verdict = `<div class="fwV"><b>實際追蹤期剛開始</b><p>這個期間還沒有累積夠多買賣紀錄，過幾週再看；現在可以切到「全部（含回補）」，看用歷史資料回補的結果。</p></div>`;
+  else {
+    const win20 = S.filter(s => ex(s, "hold20", b20) > 0), win60 = S.filter(s => ex(s, "hold60", b60) > 0), both = win20.filter(s => win60.includes(s));
+    const head = both.length ? `${both.map(s => F.strategies[s]).join("、")}在兩種持有期都贏過隨便買` : win20.length || win60.length ? "只有少數組合贏過隨便買，不穩定" : "沒有任何一個策略贏過「隨便買」";
+    const top = rank[0], low = rank[rank.length - 1], bestSell = POL.filter(pl => pl !== "hold").map(pl => ({ pl, d: S.reduce((a, s) => a + (st0(s, pl) ? st0(s, pl).day : 0), 0) / S.length })).sort((a, b) => b.d - a.d);
+    verdict = `<div class="fwV ${both.length ? "good" : ""}"><div class="k">目前的結論（${P === "all" ? "含回補期" : "實際追蹤期"}）</div><b>${esc(head)}</b>
+      <ul><li>${b20 && b60 ? `「隨便買」＝內建大型股每檔每天各買一張，持有 20 日平均賺 <b>${sg(b20.avg)}%</b>、持有 60 日平均賺 <b>${sg(b60.avg)}%</b>。` : ""}四個策略持有 20 日平均每筆是 ${S.map(s => `${F.strategies[s]} ${sg(st0(s, "hold20") ? st0(s, "hold20").avg : null)}%`).join("、")}。</li>
+      <li>同樣的錢、同樣的時間，<b>賣法的差別比策略的差別大</b>：效率最好的是 <b>${esc(F.policies[bestSell[0].pl])}</b>（平均日均 ${sg(bestSell[0].d, 2)}%），最差的是 <b>${esc(F.policies[bestSell[bestSell.length - 1].pl])}</b>（${sg(bestSell[bestSell.length - 1].d, 2)}%）。</li>
+      <li>單一組合最高：<b>${esc(nm(top.s, top.pl))}</b>，日均 ${sg(top.day, 2)}%、平均每筆 ${sg(top.avg)}%（平均持有 ${top.hold.toFixed(0)} 日）。</li></ul>
+      <small>回補期是強多頭的一年，名單又是今天的大型股，看看就好；要看「實際追蹤期」累積夠久的結果。同一檔股票常連續好幾天上榜，真正獨立的樣本比張數少很多。</small></div>`;
+  }
+  // ---------- 有沒有贏過隨便買 ----------
+  const exCell = (s, k, b) => { const x = st0(s, k); if (!x || !b) return `<td>—</td>`; const d = x.avg - b.avg; return `<td><b>${sg(x.avg)}%</b><span class="fwD ${cl(d)}">${d >= 0 ? "贏" : "輸"} ${Math.abs(d).toFixed(1)}</span></td>`; };
+  const excess = hasData && (b20 || b60) ? `<div class="card fwEx"><div class="fwT">有沒有贏過「隨便買」？<small>相同持有天數，比平均每筆報酬（百分點）</small></div><table class="gTbl"><thead><tr><th></th><th>持有 20 日<br><small>隨便買 ${b20 ? sg(b20.avg) + "%" : "—"}</small></th><th>持有 60 日<br><small>隨便買 ${b60 ? sg(b60.avg) + "%" : "—"}</small></th></tr></thead><tbody>${S.map(s => `<tr><td>${esc(F.strategies[s])}</td>${exCell(s, "hold20", b20)}${exCell(s, "hold60", b60)}</tr>`).join("")}</tbody></table></div>` : "";
+  // ---------- 排行榜／熱力表 ----------
+  const all = []; S.forEach(s => POL.forEach(pl => { const v = val(s, pl); if (v != null) all.push({ s, pl, v }); }));
+  all.sort((a, b) => b.v - a.v);
+  const mx = Math.max(1e-9, ...all.filter(x => x.pl !== "hold").map(x => Math.abs(x.v))), shown = fw.more ? all : all.slice(0, 8);
+  const ranking = `<div class="fwRk">${shown.map((x, i) => `<button type="button" class="fwRow${fw.sel === x.s + "|" + x.pl ? " sel" : ""}${x.pl === "hold" ? " ref" : ""}" data-fwsel="${x.s}|${x.pl}"><span class="no">${i + 1}</span><span class="nm">${esc(nm(x.s, x.pl))}${x.pl === "hold" ? "<em>對照</em>" : ""}</span><span class="bar"><i class="${MT === "n" || MT === "win" ? "" : cl(x.v)}" style="width:${Math.min(100, Math.abs(x.v) / mx * 100).toFixed(1)}%"></i></span><b class="${MT === "n" || MT === "win" ? "" : cl(x.v)}">${fmtV(x.v)}</b></button>`).join("")}</div>${all.length > 8 ? `<button type="button" class="info-link" data-act="fwMore">${fw.more ? "只看前 8 名" : `看全部 ${all.length} 組`}</button>` : ""}`;
+  const cellStyle = v => { if (v == null || MT === "n" || MT === "win") return ""; const q = Math.min(55, Math.abs(v) / mx * 55); return ` style="background:color-mix(in srgb, var(--${v >= 0 ? "bull" : "bear"}) ${q.toFixed(0)}%, var(--surface))"`; };
+  const grid = `<div class="fwM"><div class="fwH"></div>${S.map(s => `<div class="fwH">${esc(F.strategies[s])}</div>`).join("")}${POL.map(pl => `<div class="fwL">${esc(F.policies[pl])}</div>${S.map(s => { const v = val(s, pl); return `<button type="button" class="fwC ${MT === "n" || MT === "win" ? "" : cl(v)}${fw.sel === s + "|" + pl ? " sel" : ""}" data-fwsel="${s}|${pl}"${cellStyle(v)}>${v == null ? "—" : MT === "n" ? v : MT === "win" ? v.toFixed(0) + "%" : sg(v, MT === "day" ? 2 : 1)}</button>`; }).join("")}`).join("")}</div>`;
+  // ---------- 選到的組合：買賣細節 ----------
+  const [ss, pp] = fw.sel.split("|"), A = acc(ss, pp) || { all: {}, live: {}, curve: [], open: [], recent: [] }, st = A[P];
+  const cond = (() => { const c = SCR_PRESETS[ss]; return c ? scrSummary({ score: c.score, tech: c.tech, sig: c.sig, near: c.near, str: c.str / 100, rr: c.rr, cov: c.cov / 100, bull: c.bull }) : ""; })();
   const stat = (k, v, h) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="h">${h || "&nbsp;"}</div></div>`;
   const money = v => (v >= 0 ? "+" : "−") + Math.abs(v).toLocaleString("en-US");
-  const stats = st && st.n ? `<section class="stats">${stat("總報酬率", `<span class="${cl(st.ret)}">${sg(st.ret)}%</span>`, "總損益 ÷ 投入成本")}${stat("平均每筆報酬", `<span class="${cl(st.avg)}">${sg(st.avg)}%</span>`, "每張報酬率的平均")}${stat("勝率", st.win.toFixed(0) + "%", "賺錢的占比")}${stat("買進張數", st.n + " 張", `已賣 ${st.closed}・持有中 ${st.open}`)}${stat("總損益（元）", `<span class="${cl(st.pnl)}">${money(st.pnl)}</span>`, "已扣手續費與稅")}${stat("平均持有", st.hold.toFixed(0) + " 日", `最差一張 ${sg(st.worst)}%`)}</section>` : `<div class="status">這個期間還沒有買進紀錄。</div>`;
-  // 累積報酬率曲線
+  const stats = st && st.n ? `<section class="stats">${stat("總報酬率", `<span class="${cl(st.ret)}">${sg(st.ret)}%</span>`, "總損益 ÷ 投入成本")}${stat("平均每筆", `<span class="${cl(st.avg)}">${sg(st.avg)}%</span>`, `平均持有 ${st.hold.toFixed(0)} 日`)}${stat("勝率", st.win.toFixed(0) + "%", `最差一張 ${sg(st.worst)}%`)}${stat("買進", st.n + " 張", `已賣 ${st.closed}・持有中 ${st.open}`)}${stat("總損益", `<span class="${cl(st.pnl)}">${money(st.pnl)}</span>`, "元，已扣手續費與稅")}${stat("日均報酬", `<span class="${cl(st.day)}">${sg(st.day, 2)}%</span>`, "平均每筆 ÷ 持有日")}</section>` : `<div class="status">這個期間還沒有買進紀錄。</div>`;
   let chart = "";
-  if (ac.curve && ac.curve.length > 2) {
-    const dates = ac.curve.map(x => x[0]), vals = ac.curve.map(x => x[1]), W = Math.max(300, Math.floor(($("admBody") && $("admBody").clientWidth) || 340) - 24);
+  if (A.curve && A.curve.length > 2) {
+    const dates = A.curve.map(x => x[0]), vals = A.curve.map(x => x[1]), W = Math.max(300, Math.floor(($("admBody") && $("admBody").clientWidth) || 340) - 24);
     const plot = flowPlot({ dates, vals, bars: false, price: null, fmtY: v => v.toFixed(0) + "%", fmtTag: v => v.toFixed(1) + "%", cls: "c1", W, label: "累積報酬率" });
     const li = dates.findIndex(d => d >= F.liveFrom), mk = li > 0 ? `<line x1="${plot.geo.x(li).toFixed(1)}" x2="${plot.geo.x(li).toFixed(1)}" y1="12" y2="172" stroke="var(--muted)" stroke-dasharray="4 3"/><text x="${(plot.geo.x(li) + 4).toFixed(1)}" y="24" font-size="9" fill="var(--muted)">開始實際追蹤</text>` : "";
     fw.plot = { plot, dates, vals };
     chart = `<div class="fcRd" id="fwRd"><small>最新</small>　${esc(dates[dates.length - 1])}　累積報酬率 <b>${sg(vals[vals.length - 1])}%</b></div><div class="fcBox chBox" id="fwChart">${plot.svg.replace("</svg>", mk + "</svg>")}</div><div class="fcLg"><span><i class="c1"></i>累積報酬率（到那天為止的總損益 ÷ 總投入成本）</span></div>`;
   } else fw.plot = null;
-  const lot = L => `<div class="fwR"><span class="n">${esc(L.c)} ${esc(L.n)}</span><span>${esc(L.b.slice(5))}買 ${L.p0.toFixed(2)}</span><span>${L.x ? esc(L.x.slice(5)) + "賣 " + L.px.toFixed(2) : "現價 " + L.px.toFixed(2)}</span><b class="${cl(L.r)}">${sg(L.r)}%</b><em>${esc(L.w || (L.x ? "" : "持有中"))}</em></div>`;
-  const tp = F.today ? S.map(s => { const o = F.today[s]; return `<div class="fwP"><b>${esc(F.strategies[s])}</b>${o.top.length ? o.top.map((x, i) => `<span>${i + 1}. ${esc(x.c)} ${esc(x.n)}</span>`).join("") : `<span class="mute">今天沒有達標的，不買</span>`}</div>`; }).join("") : "";
-  return `<div class="card fwNote"><b>資料到 ${esc(F.asOf)}</b>　已累積 ${nd} 個交易日<br>追蹤起點：<b>${esc(F.liveFrom)}</b>。起點之前是用歷史資料「回補」的，起點之後才是真正每天往後追蹤的結果。</div>
-    <div class="fwBar">${seg("fwPeriod", P, [["all", "全部（含回補）"], ["live", "只看實際追蹤期"]])}${seg("fwMetric", MT, [["ret", "總報酬率"], ["avg", "平均每筆"], ["day", "日均報酬"], ["win", "勝率"], ["n", "買進張數"]])}</div>
-    ${grid}
-    <p class="advnote" style="padding:6px 0 0">表格：橫列是賣出規則，直欄是篩選策略；每格是這個組合的結果，框起來的是同一策略裡最好的賣法（不含「只買不賣」，它只是對照）。「日均報酬」＝平均每筆報酬 ÷ 平均持有日數，用來比較不同持有時間長短的賣法。點一格看詳細。<br>基準：內建大型股每檔、每個交易日各買一張，持有 20 日平均每筆 <b>${bench("hold20")}</b>、持有 60 日 <b>${bench("hold60")}</b>（同樣扣成本）。</p>
-    <h2>${esc(F.strategies[ss])}　×　${esc(F.policies[pp])}</h2>${stats}${chart}
-    <h2>今天各策略的前三名</h2><div class="card fwPicks">${tp}</div>
-    ${ac.open && ac.open.length ? `<h2>目前持有的（${ac.open.length}${(ac.all.open || 0) > ac.open.length ? "，只列最近 " + ac.open.length : ""} 張）</h2><div class="card fwRows">${ac.open.map(lot).join("")}</div>` : ""}
-    ${ac.recent && ac.recent.length ? `<h2>最近賣出的</h2><div class="card fwRows">${ac.recent.map(lot).join("")}</div>` : ""}
+  const lot = L => `<div class="fwR"><span class="n">${esc(L.c)} ${esc(L.n)}</span><span>${esc(L.b.slice(5))} 買 ${L.p0.toFixed(2)}</span><span>${L.x ? esc(L.x.slice(5)) + " 賣 " + L.px.toFixed(2) : "現價 " + L.px.toFixed(2)}</span><b class="${cl(L.r)}">${sg(L.r)}%</b><em>${esc(L.w || (L.x ? "" : "持有中"))}</em></div>`;
+  const tp = F.today ? S.map(s => { const o = F.today[s]; return `<div class="fwP"><b>${esc(F.strategies[s])}</b>${o.top.length ? o.top.map((x, i) => `<span>${i + 1}. ${esc(x.c)} ${esc(x.n)}<small>${x.k} 分</small></span>`).join("") : `<span class="mute">今天沒有達標的，不買</span>`}</div>`; }).join("") : "";
+  const sellList = POL.map(pl => `<div><b>${esc(F.policies[pl])}</b><span>${esc(FW_SELL[pl] || "")}</span></div>`).join("");
+  return `<div class="card fwNote"><b>資料到 ${esc(F.asOf)}</b>　已累積 ${nd} 個交易日　追蹤起點 <b>${esc(F.liveFrom)}</b><br><small>起點之前是用歷史資料回補的；起點之後才是每天往後追蹤的真實結果。</small></div>
+    ${verdict}${excess}
+    <div class="fwBar">${seg("fwPeriod", P, [["all", "全部（含回補）"], ["live", "只看實際追蹤期"]])}${seg("fwMetric", MT, [["day", "日均報酬"], ["avg", "平均每筆"], ["ret", "總報酬"], ["win", "勝率"], ["n", "張數"]])}${seg("fwView", fw.view, [["rank", "排行榜"], ["grid", "對照表"]])}</div>
+    <h2>${fw.view === "rank" ? `${unit}排行榜` : `${unit}對照表`}</h2>${fw.view === "rank" ? ranking : grid}
+    <p class="advnote" style="padding:6px 0 0">${MT === "day" ? "日均報酬＝平均每筆報酬 ÷ 平均持有日數，把「持有比較久」的差異拉平，才能比較不同賣法。" : MT === "ret" ? "總報酬會偏袒持有比較久的賣法，比較賣法請看「日均報酬」。" : ""}點一列（或一格）看買賣細節。</p>
+    <h2>${esc(nm(ss, pp))}：買賣細節</h2>
+    <div class="card fwWhy"><div><b>怎麼買</b><span>每天收盤後，從內建大型股挑出「${esc(FW_BUY[ss] || "")}」的股票（條件：${esc(cond)}）。達標的依綜合評分排名，前 ${F.need} 名各買一張（1 張＝1000 股），有幾檔買幾檔；隔天開盤價成交。</span></div><div><b>怎麼賣</b><span>${esc(FW_SELL[pp] || "")}　賣出也是收盤後判斷、隔天開盤價成交。</span></div><div><b>成本</b><span>手續費 ${(F.cost.fee * 100).toFixed(4)}%（買賣各一次）＋證交稅 ${(F.cost.tax * 100).toFixed(1)}%（賣出），沒有折扣。</span></div></div>
+    ${stats}${chart}
+    <h2>今天各策略的前 ${F.need} 名</h2><div class="card fwPicks">${tp}</div>
+    ${A.open && A.open.length ? `<h2>目前持有的（${(A.all.open || A.open.length)} 張${(A.all.open || 0) > A.open.length ? "，列最近 " + A.open.length + " 張" : ""}）</h2><div class="card fwRows">${A.open.map(lot).join("")}</div>` : ""}
+    ${A.recent && A.recent.length ? `<h2>最近賣出的（含賣出原因）</h2><div class="card fwRows">${A.recent.map(lot).join("")}</div>` : ""}
+    <details class="gFaq fwSellD"><summary>七種賣法分別是什麼</summary><div class="a fwSell">${sellList}</div></details>
     <div class="card gTip"><div class="gName">規則和限制</div><ul>
-      <li><b>買進：</b>每天收盤後，用篩選器的條件從內建大型股挑出「全部條件都達標」的，依綜合評分排名；<b>前 ${F.need} 名各買一張，達標不到 ${F.need} 檔就有幾檔買幾檔，一檔都沒有就不買</b>。隔天開盤價成交。</li>
-      <li><b>賣出：</b>每種賣出規則各記一份，都是收盤後判斷、隔天開盤價成交；只賣自己手上有的庫存，不放空。</li>
-      <li><b>成本：</b>手續費 ${(F.cost.fee * 100).toFixed(4)}%（買賣各一次）、證交稅 ${(F.cost.tax * 100).toFixed(1)}%（賣出），沒有折扣。</li>
-      <li><b>回補期</b>用現在的股票名單和股本回頭算，只用當天以前的資料，但名單是今天的大型股（有倖存者偏差），策略條件也是看過歷史才訂的，所以<b>實際追蹤期</b>的結果才有參考價值，要累積夠久才有意義。</li>
+      <li>每一張都是獨立記帳，每種賣法各記一份，只賣自己手上有的，不放空。</li>
+      <li><b>回補期</b>用現在的股票名單和股本回頭算，只用當天以前的資料，但名單是今天的大型股（有倖存者偏差），策略條件也是看過歷史才訂的，所以<b>實際追蹤期</b>才有參考價值，要累積夠久才有意義。</li>
       <li>已經算過的日子不會被改動；每天夜間排程只往後追加一天。</li></ul></div>`;
 }
 function fwBind() {
@@ -3851,7 +3897,9 @@ function admInit() {
     const f = e.target.closest("#admFilt button"); if (f) { adm.filt = f.dataset.f; adm.open = ""; admRender(); return; }
     const fp = e.target.closest("#fwPeriod button"); if (fp) { fw.period = fp.dataset.k; admRender(); return; }
     const fm2 = e.target.closest("#fwMetric button"); if (fm2) { fw.metric = fm2.dataset.k; admRender(); return; }
+    const fv = e.target.closest("#fwView button"); if (fv) { fw.view = fv.dataset.k; admRender(); return; }
     const fs = e.target.closest("[data-fwsel]"); if (fs) { fw.sel = fs.dataset.fwsel; admRender(); return; }
+    if (e.target.closest('[data-act="fwMore"]')) { fw.more = !fw.more; admRender(); return; }
     if (e.target.closest('[data-act="fwReload"]')) { fw.err = ""; fw.data = null; admRender(); return; }
     const b = e.target.closest("[data-act]"); if (!b) return;
     if (b.dataset.act === "admOpen") { adm.open = adm.open === b.dataset.id ? "" : b.dataset.id; admRender(); }
