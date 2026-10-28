@@ -987,7 +987,15 @@ html[data-layout="desktop"] .app { max-width: 1360px; padding-inline: 24px; }
   html[data-layout="desktop"] .wgrid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   html[data-layout="desktop"] .tcfig .lcols { gap: 20px; }
 }
-@media (min-width: 1200px) { html[data-layout="desktop"] .lcols { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); } }
+@media (min-width: 1200px) { html[data-layout="desktop"] .lcols { grid-template-columns: minmax(0, 1.4fr) minmax(380px, 1fr); } }
+/* 視窗不夠寬（例如瀏覽器放大到 150%）時，兩欄會被擠成又窄又長：改成單欄、縮小左側導覽 */
+@media (min-width: 900px) and (max-width: 1199px) {
+  html[data-layout="desktop"] .app { grid-template-columns: 140px minmax(0, 1fr); column-gap: 20px; }
+  html[data-layout="desktop"] .lcols { grid-template-columns: minmax(0, 1fr); }
+  html[data-layout="desktop"] #pgMarket:not([hidden]) { display: block; } html[data-layout="desktop"] #pgMarket > h2 { margin-top: 14px; }
+  html[data-layout="desktop"] #mktBody { grid-template-columns: minmax(0, 1fr); }
+  html[data-layout="desktop"] .wgrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+}
 
 /* --- iOS --- */
 html[data-layout="ios"] { --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Noto Sans TC", system-ui, sans-serif; --navH: 52px; --bg: #f2f2f7; --surface: #ffffff; --ink: #000000; --muted: #6c6c70; --grid: #efeff4; --line: #e3e3e8; --profit: #007aff; --trapped: #ff9500; --bull: #e5362d; --bear: #1e9e4f; }
