@@ -73,7 +73,7 @@ const listOf = (L, s) => s === "cons" ? consOf(L) : (L[s] || []);
 const comboOf = (s, k, p) => (s * NK + k) * NP + p;
 const label = cf => `${STR[cf.strat]}前 ${cf.K} 名・${ENTRY[cf.e]}・停利 ${cf.tp ? cf.tp + "%" : "不設"}・停損 ${cf.sl ? cf.sl + "%" : "不設"}・移動停損 ${cf.tr ? cf.tr + "%" : "不設"}・最長持有 ${cf.H} 日`;
 
-function run({ dates, A, lists, names, prev, top, opts = {} }) {
+function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   NMIN = opts.nmin || 20; Z = opts.z == null ? 2 : opts.z; HYST = opts.hyst == null ? 1.3 : opts.hyst;
   const last = dates.length - 1, nb = Math.floor(last / BLK) + 2, stride = nb * ST;
   const pickDays = dates.map((d, g) => lists[d] ? g : -1).filter(g => g >= 0);
@@ -139,7 +139,7 @@ function run({ dates, A, lists, names, prev, top, opts = {} }) {
       for (let g = t; g < t + BLK && g <= last; g++) {
         if (!lotsBy[g]) continue;
         const cs = lotsBy[g][cf.strat].slice(0, cf.K);
-        for (const c of cs) { const a = A[c]; if (!a || !sim(a, g, par, last)) continue; wf[L].lots.push({ c, g, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, train: best.mean }); }
+        for (const c of cs) { const a = A[c]; if (!a || !sim(a, g, par, last)) continue; wf[L].lots.push({ c, g, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, train: best.mean, par }); }
       }
     }
   }
@@ -187,7 +187,8 @@ function run({ dates, A, lists, names, prev, top, opts = {} }) {
       const close = a.c[last], tp = top && top[asOf] && top[asOf][cf.strat === "cons" ? "rise" : cf.strat] ? top[asOf][cf.strat === "cons" ? "rise" : cf.strat].top.find(x => x.c === code) : null;
       const base = par.e === 1 ? rt(close * 0.985, -1) : close;
       const buy = par.e === 0 ? { kind: "隔日開盤買", text: `明天開盤市價買進（參考價約 ${close}）`, price: close } : par.e === 1 ? { kind: "掛單", text: `掛限價 ${base} 買進，3 個交易日內沒成交就取消`, price: base } : { kind: "收盤確認", text: `明天收盤前確認價格不低於 ${close} 再買進`, price: close };
-      items.push({ c: code, n: names.get(code) || "", close, buy, tp: par.tp ? { pct: par.tp, price: rt(base * (1 + par.tp / 100), 1) } : null, sl: par.sl ? { pct: par.sl, price: rt(base * (1 - par.sl / 100), -1) } : null, tr: par.tr ? { pct: par.tr, price: rt(base * (1 - par.tr / 100), -1) } : null, exitBy: addBiz(asOf, par.H + (par.e === 1 ? 3 : 1)), H: par.H, rr: tp && tp.rr ? r2(close * tp.rr) : null, ss: tp && tp.ss ? r2(close * tp.ss) : null });
+      const votes = ["rise", "steady", "dip", "trend"].filter(s => lastL && (lastL[s] || []).includes(code)).length;   // 同時被幾種策略選中
+      items.push({ c: code, n: names.get(code) || "", close, rank: all.indexOf(code) + 1, of: all.length, votes, buy, tp: par.tp ? { pct: par.tp, price: rt(base * (1 + par.tp / 100), 1) } : null, sl: par.sl ? { pct: par.sl, price: rt(base * (1 - par.sl / 100), -1) } : null, tr: par.tr ? { pct: par.tr, price: rt(base * (1 - par.tr / 100), -1) } : null, exitBy: addBiz(asOf, par.H + (par.e === 1 ? 3 : 1)), H: par.H, rr: tp && tp.rr ? r2(close * tp.rr) : null, ss: tp && tp.ss ? r2(close * tp.ss) : null });
     }
     return items;
   };
@@ -209,16 +210,59 @@ function run({ dates, A, lists, names, prev, top, opts = {} }) {
   // 以下只保留每個 (策略, 買進方式, 持有天數) 最好的前 5 組，免得全是相近的參數
   const seen = new Set(), topCfg = [];
   for (const c of ranked) { const key = `${c.si}|${c.k}|${PAR[c.p].e}|${PAR[c.p].h}`; if (seen.has(key)) continue; seen.add(key); topCfg.push(cfOut(c)); if (topCfg.length >= 5) break; }
+  // 7) 模擬交易：每天的推薦（主推薦＋四個價位）當天記下來、不再修改；之後用真實價格照計畫買賣，驗證推薦到底有沒有用。
+  //    實際追蹤之前的部分，用「走前一步驗證」那些主推薦的單子回補近半年，讓一開始就有樣本可以看。
+  const GR = { main: "主推薦", t0: "100 元以下", t1: "300 元以下", t2: "600 元以下", t3: "600 元以上" }, PER = 100000;
+  const recs = (prevPaper || []).slice(), have = new Set(recs.filter(x => x.d === asOf).map(x => x.gr + "|" + x.c));
+  const addRecs = (gr, cfg, items) => { for (const it of items) { const k = gr + "|" + it.c; if (have.has(k)) continue; have.add(k); recs.push({ d: asOf, gr, c: it.c, e: cfg.e, H: cfg.H, tp: cfg.tp, sl: cfg.sl, tr: cfg.tr }); } };
+  if (reco.cfg) { if (reco.items.length) addRecs("main", reco.cfg, reco.items); else if (reco.alt) addRecs("main", reco.alt.cfg, reco.alt.items); }
+  reco.tiers.forEach((T, ti) => { if (T.cfg) addRecs("t" + ti, T.cfg, T.items); });
+  const gIdx = new Map(dates.map((d, g) => [d, g])), liveFromD = recs.length ? recs[0].d : asOf, gLive = gIdx.get(liveFromD);
+  const trades = [], pend = []; let unfilled = 0;
+  for (const rc of recs) {
+    const g = gIdx.get(rc.d), a = A[rc.c]; if (g == null || !a) continue;
+    const par = { e: rc.e, H: rc.H, tp: rc.tp, sl: rc.sl, tr: rc.tr };
+    if (sim(a, g, par, last)) trades.push({ gr: rc.gr, c: rc.c, d: rc.d, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, par, live: true });
+    else if (g === last || (rc.e === 1 && g + 3 > last)) pend.push({ gr: rc.gr, c: rc.c, d: rc.d, par });
+    else unfilled++;
+  }
+  for (const l of wf[Lstar].lots) if (l.g < gLive && l.g >= last - 130) trades.push({ gr: "main", c: l.c, d: dates[l.g], j: l.j, p0: l.p0, x: l.x, px: l.px, why: l.why, par: l.par, live: false });
+  const pst = ts => {
+    if (!ts.length) return { n: 0 };
+    let sum = 0, win = 0, hold = 0, closed = 0, worst = 0;
+    for (const t of ts) { const rr = netRet(t.p0, t.px); sum += rr; if (rr > 0) win++; if (rr < worst) worst = rr; if (t.x >= 0) { closed++; hold += t.x - t.j; } else hold += last - t.j; }
+    return { n: ts.length, closed, open: ts.length - closed, win: r2(win / ts.length * 100), avg: r2(sum / ts.length * 100), hold: r2(Math.max(1, hold / ts.length)), worst: r2(worst * 100), pnl: Math.round(sum * PER) };
+  };
+  const grStats = ts => Object.fromEntries(Object.keys(GR).map(k => [k, pst(ts.filter(t => t.gr === k))]));
+  const liveT = trades.filter(t => t.live);
+  const curveOf = ts => { const o = []; if (!ts.length) return o; const g0 = Math.min(...ts.map(t => t.j)); for (let g = g0; g <= last; g++) { let s = 0, n = 0; for (const t of ts) { if (t.j > g) continue; n++; s += netRet(t.p0, t.x >= 0 && t.x <= g ? t.px : A[t.c].c[g]); } if (n >= 3) o.push([dates[g], r2(s / n * 100)]); } return o; };
+  const rowOf = t => { const close = A[t.c].c[last], px = t.x >= 0 ? t.px : close; return { gr: t.gr, c: t.c, n: names.get(t.c) || "", d: t.d, b: dates[t.j], p0: r2(t.p0), x: t.x >= 0 ? dates[t.x] : "", px: r2(px), r: r2(netRet(t.p0, px) * 100), w: t.why || "", live: t.live, tp: t.par.tp ? rt(t.p0 * (1 + t.par.tp / 100), 1) : null, sl: t.par.sl ? rt(t.p0 * (1 - t.par.sl / 100), -1) : null, by: t.x < 0 ? addBiz(dates[t.j], t.par.H) : "", days: (t.x >= 0 ? t.x : last) - t.j }; };
+  const pendRow = p => { const close = A[p.c].c[last], base = p.par.e === 1 ? rt(close * 0.985, -1) : close; return { gr: p.gr, c: p.c, n: names.get(p.c) || "", d: p.d, close, kind: p.par.e === 0 ? "開盤買" : p.par.e === 1 ? "掛單買" : "收盤確認買", buy: base, tp: p.par.tp ? rt(base * (1 + p.par.tp / 100), 1) : null, sl: p.par.sl ? rt(base * (1 - p.par.sl / 100), -1) : null, H: p.par.H }; };
+  const paper = {
+    from: liveFromD, per: PER, groups: GR, unfilled,
+    stat: { all: { total: pst(trades), groups: grStats(trades) }, live: { total: pst(liveT), groups: grStats(liveT) } },
+    curve: { all: curveOf(trades), live: curveOf(liveT) },
+    open: trades.filter(t => t.x < 0).sort((a, b) => b.j - a.j).slice(0, 60).map(rowOf),
+    recent: trades.filter(t => t.x >= 0).sort((a, b) => b.x - a.x).slice(0, 30).map(rowOf),
+    pending: pend.map(pendRow)
+  };
+  // 8) 點股票看簡易資訊要畫的走勢：推薦股、持有中、待買的最近 80 個交易日收盤價（畫 60 天，多的 20 天用來算月線）
+  const NPX = 80, pxCodes = new Set();
+  for (const it of [...reco.items, ...(reco.alt ? reco.alt.items : []), ...reco.tiers.flatMap(T => T.items)]) pxCodes.add(it.c);
+  for (const x of [...paper.open, ...paper.pending]) pxCodes.add(x.c);
+  const px = {}; for (const c of pxCodes) if (A[c]) px[c] = A[c].c.slice(-NPX).map(v => v == null ? null : r2(v));
   // 6) 紀錄參數有沒有換（每天整份重算，但換了就留一筆）
   const log = prev && prev.log ? prev.log.slice() : [];
   const curLabel = now ? label(cfOf(now)) : "空手";
   if (!log.length || log[log.length - 1].cf !== curLabel) log.push({ d: asOf, cf: curLabel, L: Lstar });
-  return {
+  const out = {
     v: 1, updated: new Date().toISOString(), asOf, range: { from: dates[firstG], to: asOf, days: pickDays.length }, lookback: Lstar,
     config: reco.cfg, reco, top: topCfg, byL,
     oos: { ...byL[Lstar], curve, from: dates[tStart], mix, history: history.slice(-10) },
-    log: log.slice(-40), grid: { combos: NS * NK * NP, strategies: SKEYS.map(s => STR[s]) }
+    log: log.slice(-40), grid: { combos: NS * NK * NP, strategies: SKEYS.map(s => STR[s]) }, paper, pxDates: dates.slice(-NPX), px
   };
+  Object.defineProperty(out, "paperRecs", { value: recs, enumerable: false });   // 給下次夜間排程接著用，存成 paper.json
+  return out;
 }
 
 if (typeof module !== "undefined") module.exports = { run, STR, ENTRY };

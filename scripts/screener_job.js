@@ -119,10 +119,11 @@ async function main() {
   const data = await buildData({ html: fs.readFileSync(path.join(root, "index.html"), "utf8"), getJson, log: s => console.log(s), old, limit: +process.env.LIMIT || 0 });
   if (!Object.keys(data.metrics).length) { console.error("沒有任何股票算成功，不更新。"); process.exit(1); }
   try {
-    const fwPath = path.join(root, "forward.json"), extPath = path.join(root, "forward_ext.json"), stPath = path.join(root, "strategy.json"); let prevFw = null, prevExt = null, prevSt = null;
+    const fwPath = path.join(root, "forward.json"), extPath = path.join(root, "forward_ext.json"), stPath = path.join(root, "strategy.json"), paperPath = path.join(root, "paper.json"); let prevFw = null, prevExt = null, prevSt = null, prevPaper = null;
     try { prevFw = JSON.parse(fs.readFileSync(fwPath, "utf8")); } catch (e) {}
     try { prevExt = JSON.parse(fs.readFileSync(extPath, "utf8")); } catch (e) {}
     try { prevSt = JSON.parse(fs.readFileSync(stPath, "utf8")); } catch (e) {}
+    try { prevPaper = JSON.parse(fs.readFileSync(paperPath, "utf8")).recs; } catch (e) {}
     const { M, stocks, names } = data.ctx;
     if (stocks.size >= 30) {
       const fw = require("./forward_job.js").update({ metricsOf: (st, nm) => metricsOf(M, st, nm), scrEval: M.api.scrEval, presets: M.api.SCR_PRESETS, stocks, names, prev: prevFw, prevExt, log: s => console.log(s) });
@@ -130,8 +131,9 @@ async function main() {
       console.log(`已寫入 forward.json：資料到 ${fw.asOf}，追蹤起點 ${fw.liveFrom}，${Object.keys(fw.days).length} 個交易日。`);
       fs.writeFileSync(extPath, JSON.stringify(fw.ctx.ext));
       try {   // 自動最佳策略：失敗也不影響其他資料
-        const t0 = Date.now(), st = require("./optimizer_job.js").run({ ...fw.ctx, prev: prevSt });
+        const t0 = Date.now(), st = require("./optimizer_job.js").run({ ...fw.ctx, prev: prevSt, prevPaper });
         fs.writeFileSync(stPath, JSON.stringify(st));
+        fs.writeFileSync(paperPath, JSON.stringify({ recs: st.paperRecs }));
         console.log(`已寫入 strategy.json：${st.config ? st.config.label : "目前建議空手"}（過去 ${st.lookback} 日，${((Date.now() - t0) / 1000).toFixed(0)} 秒）。`);
       } catch (e) { console.error("自動最佳策略更新失敗（不影響其他資料）：", e); }
     } else console.log("這次成功抓到的股票不到 30 檔，選股驗證先跳過。");

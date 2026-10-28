@@ -431,6 +431,27 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .fwMc .ln { fill: none; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; } .fwMc .ar { stroke: none; opacity: .12; } .fwMc.up .ln { stroke: var(--bull); } .fwMc.up .ar, .fwMc.up circle, .fwMc.up .tg { fill: var(--bull); } .fwMc.dn .ln { stroke: var(--bear); } .fwMc.dn .ar, .fwMc.dn circle, .fwMc.dn .tg { fill: var(--bear); } .fwMc .tgt { fill: #fff; font: 700 11px var(--font-num); }
 .fwRw { width: 100%; background: none; border: 0; border-radius: 10px; color: inherit; text-align: left; cursor: pointer; font: inherit; } .fwRw.sel { background: color-mix(in srgb, var(--muted) 12%, var(--surface)); margin: 0 -8px; padding-left: 8px; padding-right: 8px; width: calc(100% + 16px); }
 .fwMore { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 14px; padding: 14px 16px; min-height: 64px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font: inherit; box-shadow: 0 1px 2px rgba(0,0,0,.05); } .fwMore:hover { border-color: var(--muted); } .fwMore .ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--ink); color: var(--surface); } .fwMore .tx { flex: 1; display: grid; gap: 1px; } .fwMore .tx b { font-size: .95rem; } .fwMore .tx small { font-size: .76rem; color: var(--muted); } .fwMore .ch { flex: none; color: var(--muted); transition: transform .2s; } .fwMore.open .ch { transform: rotate(180deg); }
+.rkM { flex: none; width: 56px; height: 52px; border-radius: 12px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.15; border: 1px solid var(--line); box-sizing: border-box; } .rkM small { font: 600 .56rem var(--font-ui); letter-spacing: .06em; opacity: .75; } .rkM b { font: 700 1.1rem var(--font-num); } .rkM i { font: 400 .56rem var(--font-ui); font-style: normal; opacity: .75; }
+.rkM.hi, .rkM.one { background: var(--ink); color: var(--surface); border-color: var(--ink); } .rkM.mid { background: color-mix(in srgb, var(--muted) 20%, var(--surface)); color: var(--ink); } .rkM.lo { background: transparent; color: var(--muted); border-style: dashed; }
+.vt { display: inline-block; align-self: flex-start; margin-top: 2px; font: 600 .66rem var(--font-ui); font-style: normal; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--profit) 14%, var(--surface)); color: var(--profit); } .chev { flex: none; color: var(--muted); font-size: 1.3rem; line-height: 1; }
+.stkLg { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 0 2px 10px; font-size: .72rem; color: var(--muted); } .stkLg span { display: inline-flex; align-items: center; gap: 6px; } .stkLg .rkM { width: 34px; height: 24px; border-radius: 7px; flex-direction: row; } .stkLg .rkM b { font-size: .72rem; } .stkLg em { flex-basis: 100%; font-style: normal; }
+.stkRow { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto 12px; gap: 12px; align-items: center; padding: 12px 0; cursor: pointer; } .stkRow + .stkRow { border-top: 1px solid var(--line); } .stkRow:hover .chev { color: var(--ink); } .stkRow:focus-visible, .optPick:focus-visible { outline: 2px solid var(--profit); outline-offset: 2px; border-radius: 10px; }
+.stkRow .si { display: flex; flex-direction: column; gap: 2px; min-width: 0; } .stkRow .si b { font-size: 1.02rem; } .stkRow .si span { font: 400 .74rem var(--font-num); color: var(--muted); } .stkRow .sp { display: grid; gap: 3px; min-width: 7.2em; } .stkRow .sp > div { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; } .stkRow .sp small { font-size: .64rem; color: var(--muted); } .stkRow .sp b { font: 700 .86rem var(--font-num); } .stkRow .sp .up b { color: var(--bull); } .stkRow .sp .dn b { color: var(--bear); }
+.optPick { cursor: pointer; } .optPick .hd2 { display: flex; align-items: center; gap: 12px; } .optPick .nm2 { display: flex; flex-direction: column; gap: 2px; min-width: 0; } .optPick .nm2 b { font-size: 1.2rem; } .optPick .nm2 span { font: 400 .78rem var(--font-num); color: var(--muted); } .optPick .chev { margin-left: auto; }
+.optTier .hs { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; } .optTier .hs span { font-size: .7rem; padding: 2px 9px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .optTier .hs span:first-child { background: none; padding-left: 0; color: var(--muted); } .optTier .hs .up { color: var(--bull); } .optTier .hs .dn { color: var(--bear); }
+.stkS .stkTop { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; } .stkS .stkTop b { font: 700 1.9rem var(--font-num); } .stkS .stkTop span { font-size: .78rem; color: var(--muted); } .stkS .stkTop em { margin-left: auto; font: 700 .76rem var(--font-ui); font-style: normal; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 16%, var(--surface)); } .stkS .stkTop em.up { background: color-mix(in srgb, var(--bull) 16%, var(--surface)); color: var(--bull); } .stkS .stkTop em.dn { background: color-mix(in srgb, var(--bear) 16%, var(--surface)); color: var(--bear); }
+.stTiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0 12px; } .stT { text-align: center; padding: 10px 4px; border-radius: 12px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .stT b { display: block; font: 700 1.35rem var(--font-num); } .stT small { font-size: .66rem; color: var(--muted); } .stT.up { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); } .stT.up b { color: var(--bull); } .stT.dn { background: color-mix(in srgb, var(--bear) 13%, var(--surface)); } .stT.dn b { color: var(--bear); }
+.stKv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; } .stKv small { display: block; font-size: .66rem; color: var(--muted); } .stKv b { font: 700 1rem var(--font-num); } .stKv b.up { color: var(--bull); } .stKv b.dn { color: var(--bear); } .stKv em { display: block; font: 400 .7rem var(--font-num); font-style: normal; color: var(--muted); }
+.stC { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; } .stC span { font-size: .72rem; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); color: var(--muted); } .stC span.ok { background: color-mix(in srgb, var(--bull) 14%, var(--surface)); color: var(--bull); } .stC.t span { color: var(--ink); }
+.stL { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: .82rem; line-height: 1.55; } .stL b { display: inline-block; margin-right: 8px; padding: 0 7px; border-radius: 6px; background: color-mix(in srgb, var(--muted) 14%, var(--surface)); font-size: .72rem; } .stNote { color: var(--muted); font-size: .84rem; }
+.stkS .stkTop span.up { color: var(--bull); font-weight: 700; } .stkS .stkTop span.dn { color: var(--bear); font-weight: 700; }
+.stCh { margin: 10px 0 4px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; } .stCh:active { cursor: grabbing; } .stLg .hint { margin-left: auto; font-size: .64rem; opacity: .8; } .stSvg { display: block; width: 100%; height: auto; } .stSvg .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; } .stSvg.up .ln { stroke: var(--bull); } .stSvg.dn .ln { stroke: var(--bear); } .stSvg .ar { stroke: none; opacity: .09; } .stSvg.up .ar, .stSvg.up circle { fill: var(--bull); } .stSvg.dn .ar, .stSvg.dn circle { fill: var(--bear); } .stSvg .ma { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.stSvg .lv { stroke-width: 1; stroke-dasharray: 4 3; } .stSvg .lv.u { stroke: var(--bull); } .stSvg .lv.d { stroke: var(--bear); } .stSvg .lv.b { stroke: var(--muted); } .stSvg text { font: 600 9.5px var(--font-num); } .stSvg .lt.u { fill: var(--bull); } .stSvg .lt.d { fill: var(--bear); } .stSvg .lt.b { fill: var(--muted); } .stSvg .ax { fill: var(--muted); font-weight: 400; }
+.stLg { display: flex; gap: 6px; align-items: center; font-size: .68rem; color: var(--muted); } .stLg i { display: inline-block; width: 14px; height: 0; border-top: 2px solid var(--muted); margin-left: 6px; } .stLg i.a { border-color: var(--ink); margin-left: 0; } .stLg i.b { border-top-style: dashed; }
+.stSum { margin: 10px 0 0; font-size: .8rem; line-height: 1.6; color: var(--muted); }
+.stPlan { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; } .stPlan span { font-size: .74rem; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .stPlan b { font-family: var(--font-num); } .stPlan .up { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); color: var(--bull); } .stPlan .dn { background: color-mix(in srgb, var(--bear) 13%, var(--surface)); color: var(--bear); }
+.stTiles { margin: 10px 0 8px; gap: 6px; } .stT { padding: 7px 2px; } .stT b { font-size: 1.15rem; } .stKv { padding: 8px 10px; }
+.stkS h4 { margin: 16px 0 8px; font-size: .84rem; } .stP { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .stP > div { padding: 8px 10px; border-radius: 10px; background: color-mix(in srgb, var(--muted) 10%, var(--surface)); } .stP > div:first-child:nth-last-child(n+1) { grid-column: 1 / -1; } .stP small { display: block; font-size: .66rem; color: var(--muted); } .stP b { font-size: .84rem; line-height: 1.45; } .stFull { width: 100%; margin-top: 16px; }
 .optTier { padding: 12px 14px; margin-bottom: 10px; } .optTier .th { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; } .optTier .th b { font-size: 1rem; } .optTier .tg { font-size: .7rem; padding: 2px 8px; border-radius: 999px; background: var(--ink); color: var(--surface); } .optTier .tg.fb { background: color-mix(in srgb, var(--muted) 25%, var(--surface)); color: var(--ink); } .optTier .hs { margin-left: auto; font-size: .7rem; color: var(--muted); } .optTier .none { padding: 10px 0 2px; font-size: .84rem; color: var(--muted); } .optTier .ref { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .72rem; line-height: 1.5; color: var(--muted); }
 .optMini { padding: 10px 0 2px; } .optMini + .optMini { margin-top: 8px; border-top: 1px solid var(--line); padding-top: 10px; } .optMini .m1 { display: flex; align-items: baseline; gap: 8px; } .optMini .m1 b { font-size: 1rem; } .optMini .m1 code { font: 400 .76rem var(--font-num); color: var(--muted); } .optMini .m1 span { margin-left: auto; font: 400 .76rem var(--font-num); color: var(--muted); } .optMini .m2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px; } .optMini .m2 small { display: block; font-size: .66rem; color: var(--muted); } .optMini .m2 b { font: 700 .88rem var(--font-num); } .optMini .up b { color: var(--bull); } .optMini .dn b { color: var(--bear); }
 .fwMode { margin: 4px 0 10px; } .fwMode button { flex: 1; }
@@ -3037,7 +3058,7 @@ function openAccount(msg) {
     <p class="def">已儲存 ${watch.size} 檔自選股${sim.acc ? `，模擬交易已領取 ${sim.acc.claimedCount} 週` : ""}。</p>
     <div class="uidrow"><span>帳號識別碼</span><code>${esc(user.uid)}</code><button type="button" class="info-link" data-act="copyUid">複製</button></div>
     ${adminStatusHtml()}
-    ${admin.on ? `<button type="button" class="btn" data-act="openAdmin">管理後台（流量與參賽者檢查）</button>` : ""}
+    ${admin.on ? `<button type="button" class="btn" data-act="openAdmin">管理後台</button>` : ""}
     ${msg ? `<div class="msg ok">${esc(msg)}</div>` : ""}
     <button type="button" class="btn ghost" data-act="logout">登出</button>
     <h4 style="margin:18px 0 0">資料管理</h4>
@@ -3813,7 +3834,7 @@ async function regenReport() {
 }
 /* ---------- 選股驗證：篩選器四種策略的前三名，每檔買一張，同時比較多種賣出規則的長期報酬 ----------
    資料由夜間排程算好（scripts/forward_job.js）存成 forward.json，這裡只負責顯示。 */
-const fw = { data: null, loading: false, err: "", metric: "day", period: "all", sel: "rise|hold60", plot: null, view: "rank", more: false, pl: "hold60", ss: "", adv: false, mode: "opt", opt: null, optLoading: false, optErr: "" };
+const fw = { data: null, loading: false, err: "", metric: "day", period: "all", sel: "rise|hold60", plot: null, view: "rank", more: false, pl: "hold60", ss: "", adv: false, mode: "opt", sub: "reco", pp: "all", opt: null, optLoading: false, optErr: "" };
 async function fwLoad() {
   fw.loading = true; fw.err = "";
   try { const res = await fetch("forward.json?d=" + todayTW(), { cache: "no-cache" }); if (!res.ok) throw new Error(res.status === 404 ? "還沒有資料：夜間排程第一次執行之後就會出現（也可以到 GitHub 的 Actions 手動執行 nightly-screener）。" : "讀取失敗（" + res.status + "）"); fw.data = await res.json(); }
@@ -3853,22 +3874,111 @@ async function fwLoadOpt() {
 function fwModeBar() { return `<div class="seg fwSeg fwMode" id="fwMode" role="group">${[["opt", "最佳策略"], ["val", "策略驗證"]].map(([k, tx]) => `<button type="button" data-k="${k}" aria-pressed="${fw.mode === k}">${tx}</button>`).join("")}</div>`; }
 function admForward() { return fwModeBar() + (fw.mode === "opt" ? admOpt() : admForwardVal()); }
 /* ---------- 最佳策略：系統自己調整「過去時間、投資標的、買進時間、賣出時間、停利停損」，並給出今天的買賣建議（資料來自 strategy.json）---------- */
+/* 點推薦股票跳出的簡易資訊：綜合判讀、評分、支撐壓力、技術與起漲徵兆、今天的買賣計畫。資料來自預先算好的 screener.json（內建大型股）。 */
+function fwMetric(c) { return (typeof scr !== "undefined" && scr.metrics && scr.metrics.get(c)) || (fw.scrM && fw.scrM[c]) || null; }
+// 價格走勢小圖：收盤價＋月線，加上買進價、停利價、停損價三條水平線。v = { a: 左邊界（資料序號）, span: 顯示幾格 }，可縮放、平移
+function fwPriceChart(cl, dates, levels, v) {
+  if (!cl || cl.length < 25) return "";
+  const L = cl.length, W = 340, H = 168, ml = 6, mr = 50, mt = 10, mb = 18, PW = W - ml - mr;
+  const ma = cl.map((_, i) => i < 19 || cl.slice(i - 19, i + 1).some(x => x == null) ? null : cl.slice(i - 19, i + 1).reduce((a, b) => a + b, 0) / 20);
+  v = v || { a: Math.max(0, L - 60), span: Math.min(L - 1, 59) };
+  const s0 = Math.ceil(v.a), s1 = Math.floor(v.a + v.span), i0 = Math.max(0, s0 - 1), i1 = Math.min(L - 1, s1 + 1), n = s1 - s0 + 1;
+  const vis = []; for (let i = s0; i <= s1; i++) { if (cl[i] != null) vis.push(cl[i]); if (ma[i] != null) vis.push(ma[i]); }
+  if (!vis.length) return "";
+  let lo0 = Math.min(...vis), hi0 = Math.max(...vis); const rg = hi0 - lo0 || 1;
+  // 看得夠廣（≥45 格）時一定把買進、停利、停損三條線都納進來；放大之後，只畫離現在這段價格不遠的線
+  const lvs = levels.filter(l => n >= 45 || (l.v >= lo0 - rg * 0.4 && l.v <= hi0 + rg * 0.4));
+  lvs.forEach(l => { if (l.v < lo0) lo0 = l.v; if (l.v > hi0) hi0 = l.v; });
+  const pad = (hi0 - lo0) * 0.05 || 1, lo = lo0 - pad, hi = hi0 + pad;
+  const X = i => ml + (i - v.a) / v.span * PW, Y = x => mt + (hi - x) / (hi - lo) * (H - mt - mb), f = x => x >= 1000 ? x.toFixed(0) : x >= 100 ? x.toFixed(1) : x.toFixed(2);
+  const path = a => { let on = false, d = ""; for (let i = i0; i <= i1; i++) { const x = a[i]; if (x == null) { on = false; continue; } d += `${on ? "L" : "M"}${X(i).toFixed(1)} ${Y(x).toFixed(1)}`; on = true; } return d; };
+  const cs = cl.slice(s0, s1 + 1).filter(x => x != null), up = cs.length ? cs[cs.length - 1] >= cs[0] : true, line = path(cl), lineMa = path(ma);
+  let g = "";
+  lvs.forEach(l => { const y = Y(l.v).toFixed(1); g += `<line class="lv ${l.k}" x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}"/><text class="lt ${l.k}" x="${W - mr + 4}" y="${(+y + 3.5).toFixed(1)}">${l.t} ${f(l.v)}</text>`; });
+  const dl = i => esc((dates[i] || "").slice(5).replace("-", "/"));
+  g += `<text class="ax" x="${ml}" y="${H - 4}">${dl(s0)}</text><text class="ax" x="${W - mr}" y="${H - 4}" text-anchor="end">${dl(s1)}</text>`;
+  const lastIn = L - 1 >= v.a && L - 1 <= v.a + v.span && cl[L - 1] != null;
+  return `<svg class="stSvg ${up ? "up" : "dn"}" viewBox="0 0 ${W} ${H}" role="img" aria-label="收盤價走勢，可用滾輪或雙指縮放、拖曳平移"><defs><clipPath id="stClip"><rect x="${ml}" y="0" width="${PW}" height="${H - mb}"/></clipPath></defs>${g}<g clip-path="url(#stClip)"><path class="ar" d="${line}L${X(i1).toFixed(1)} ${H - mb}L${X(i0).toFixed(1)} ${H - mb}Z"/><path class="ma" d="${lineMa}"/><path class="ln" d="${line}"/>${lastIn ? `<circle cx="${X(L - 1).toFixed(1)}" cy="${Y(cl[L - 1]).toFixed(1)}" r="3.5"/>` : ""}</g></svg>`;
+}
+// 走勢圖互動：電腦用滾輪縮放、拖曳平移；手機用雙指縮放、單指拖動平移；連點兩下還原
+function fwChartBind() {
+  const box = $("stCh"), C = fw.chart; if (!box || !C) return;
+  const out = box.querySelector(".stSvgBox"), L = C.cl.length, W = 340, ml = 6, PW = 284;
+  let raf = 0;
+  const draw = () => { raf = 0; out.innerHTML = fwPriceChart(C.cl, C.dates, C.lv, C.v); }, sched = () => { if (!raf) raf = requestAnimationFrame(draw); };
+  const clamp = () => { const v = C.v; v.span = Math.max(8, Math.min(L - 1, v.span)); v.a = Math.max(0, Math.min(L - 1 - v.span, v.a)); };
+  const idxAt = cx => { const r = out.getBoundingClientRect(); return C.v.a + ((cx - r.left) / r.width * W - ml) / PW * C.v.span; };
+  box.addEventListener("wheel", e => { e.preventDefault(); const v = C.v, idx = idxAt(e.clientX), ns = Math.max(8, Math.min(L - 1, v.span * (e.deltaY > 0 ? 1.15 : 1 / 1.15))), k = (idx - v.a) / v.span; v.a = idx - k * ns; v.span = ns; clamp(); sched(); }, { passive: false });
+  const ptrs = new Map(); let pin = null;
+  box.addEventListener("pointerdown", e => { try { box.setPointerCapture(e.pointerId); } catch (x) {} ptrs.set(e.pointerId, e.clientX); if (ptrs.size === 2) { const xs = [...ptrs.values()], mid = (xs[0] + xs[1]) / 2, idx = idxAt(mid); pin = { d: Math.abs(xs[0] - xs[1]) || 1, span: C.v.span, idx, k: (idx - C.v.a) / C.v.span }; } });
+  box.addEventListener("pointermove", e => {
+    if (!ptrs.has(e.pointerId)) return;
+    const prev = ptrs.get(e.pointerId); ptrs.set(e.pointerId, e.clientX);
+    if (ptrs.size === 1) { const r = out.getBoundingClientRect(); C.v.a -= (e.clientX - prev) / r.width * W / PW * C.v.span; clamp(); sched(); }
+    else if (ptrs.size === 2 && pin) { const xs = [...ptrs.values()], d = Math.abs(xs[0] - xs[1]) || 1, ns = Math.max(8, Math.min(L - 1, pin.span * pin.d / d)); C.v.span = ns; C.v.a = pin.idx - pin.k * ns; clamp(); sched(); }
+  });
+  const up = e => { ptrs.delete(e.pointerId); if (ptrs.size < 2) pin = null; };
+  box.addEventListener("pointerup", up); box.addEventListener("pointercancel", up);
+  box.addEventListener("dblclick", () => { C.v = { a: Math.max(0, L - 60), span: Math.min(L - 1, 59) }; sched(); });
+}
+function fwStockHtml(s, m) {
+  const sg = v => (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(1), px = v => v == null ? "—" : Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 }), md = d => d ? d.slice(5).replace("-", "/") : "—";
+  const tone = v => v >= 60 ? "up" : v < 45 ? "dn" : "";
+  const O = fw.opt || {}, cl = O.px && O.px[s.c], it = s.it;
+  const day = cl && cl.length > 1 && cl[cl.length - 1] != null && cl[cl.length - 2] ? (cl[cl.length - 1] / cl[cl.length - 2] - 1) * 100 : null;
+  let top = `<div class="stkTop"><b>${px(m ? m.price : s.close)}</b>${day != null ? `<span class="${day >= 0 ? "up" : "dn"}">${sg(day)}%</span>` : ""}`, body = "";
+  if (m) {
+    let cb = null; try { cb = scrComb(m); } catch (e) {}
+    const comb = cb ? cb.comb : m.v.score, lab = comb >= 70 ? "綜合偏強" : comb >= 55 ? "綜合中偏強" : comb >= 45 ? "綜合中性" : comb >= 35 ? "綜合中偏弱" : "綜合偏弱", ts = cb && cb.ts;
+    top += `<em class="${tone(comb)}">${lab}</em></div>`;
+    body += `<div class="stTiles"><div class="stT ${tone(comb)}"><b>${comb}</b><small>綜合</small></div><div class="stT ${tone(m.v.score)}"><b>${m.v.score}</b><small>位置</small></div><div class="stT ${ts ? tone(ts.score) : ""}"><b>${ts ? ts.score : "—"}</b><small>技術</small></div><div class="stT ${cb ? (cb.n >= 4 ? "up" : cb.n <= 1 ? "dn" : "") : ""}"><b>${cb ? cb.n + "/7" : "—"}</b><small>起漲徵兆</small></div></div>`;
+    body += `<div class="stKv"><div><small>最近支撐</small><b class="dn">${m.s1 ? px(m.s1.peak) : "無"}</b><em>${m.s1 ? sg(m.s1.dist * 100) + "%" : ""}</em></div><div><small>最近壓力</small><b class="up">${m.r1 ? px(m.r1.peak) : "無"}</b><em>${m.r1 ? sg(m.r1.dist * 100) + "%" : ""}</em></div><div><small>趨勢</small><b class="${m.bull ? "up" : "dn"}">${m.bull ? "多方" : "空方"}</b><em>${m.stDays || 0} 天</em></div></div>`;
+    const miss = cb ? cb.sg.filter(x => !x.ok).map(x => x.k) : [];
+    body += `<p class="stSum">${esc((m.v && m.v.sum) || "")}${miss.length ? `　起漲徵兆還缺：${esc(miss.slice(0, 3).join("、"))}${miss.length > 3 ? "…" : ""}。` : cb ? "　起漲徵兆全數達標。" : ""}</p>`;
+  } else { top += `</div>`; body += `<p class="stNote">${fw.scrTried ? "這檔沒有預先算好的評分資料。" : "讀取評分資料中…"}</p>`; }
+  // 交易計畫（買進、停利、停損、最晚賣出）：同時畫在走勢圖上
+  let chips = [], lv = [];
+  if (it) {
+    lv.push({ v: it.buy.price, k: "b", t: "買" }); if (it.tp) lv.push({ v: it.tp.price, k: "u", t: "利" }); if (it.sl) lv.push({ v: it.sl.price, k: "d", t: "損" }); else if (it.tr) lv.push({ v: it.tr.price, k: "d", t: "損" });
+    chips = [["買", px(it.buy.price), ""]]; if (it.tp) chips.push(["停利", px(it.tp.price) + "（+" + it.tp.pct + "%）", "up"]); else if (it.rr) chips.push(["目標", px(it.rr), "up"]); if (it.sl) chips.push(["停損", px(it.sl.price) + "（−" + it.sl.pct + "%）", "dn"]); if (it.tr) chips.push(["移動停損", "高點回落 " + it.tr.pct + "%", "dn"]); chips.push(["最晚賣出", md(it.exitBy), ""]); if (it.rank) chips.push(["總排名", "#" + it.rank + "／" + it.of + (it.votes > 1 ? "・" + it.votes + " 策略" : ""), ""]);
+  } else if (s.lines) { chips = s.lines.map(([k, v]) => [k, v, k === "停利" ? "up" : k === "停損" ? "dn" : ""]); lv = s.lv || []; }
+  const chart = fwPriceChart(cl, O.pxDates || [], lv);
+  fw.chart = chart ? { cl, dates: O.pxDates || [], lv, v: { a: Math.max(0, cl.length - 60), span: Math.min(cl.length - 1, 59) } } : null;
+  const plan = chips.length ? `<div class="stPlan">${chips.map(([k, v, c]) => `<span class="${c}">${esc(k)} <b>${esc(String(v))}</b></span>`).join("")}</div>` : "";
+  return `<div class="stkS">${top}${chart ? `<div class="stCh" id="stCh"><div class="stSvgBox">${chart}</div><div class="stLg"><i class="a"></i>收盤<i class="b"></i>月線<span class="hint">滾輪／雙指縮放・拖曳平移・連點兩下還原</span></div></div>` : ""}${body}${plan}<button type="button" class="btn stFull" data-fwfull="${esc(s.c)}">看完整籌碼分析</button></div>`;
+}
+function fwStockOpen(key) {
+  const s = fw.stk && fw.stk[key]; if (!s) return;
+  const draw = () => { openCustom(`${s.n} ${s.c}`, fwStockHtml(s, fwMetric(s.c)), null); fwChartBind(); const b = $("sheetBody").querySelector("[data-fwfull]"); if (b) b.onclick = () => { closeSheet(); showTab("analyze"); selectStock(s.c, s.n); window.scrollTo(0, 0); }; };
+  draw();
+  if (!fwMetric(s.c) && !fw.scrTried) {
+    fw.scrTried = true;
+    fetch("screener.json?d=" + todayTW(), { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(j => { if (j && j.metrics) fw.scrM = j.metrics; if (!$("sheet").hidden && $("sheetT").textContent === `${s.n} ${s.c}`) draw(); }).catch(() => { if (!$("sheet").hidden) draw(); });
+  }
+}
 function admOpt() {
   if (!fw.opt) { if (!fw.optLoading && !fw.optErr) fwLoadOpt(); return fw.optErr ? `<div class="status err">${esc(fw.optErr)}</div><button type="button" class="info-link" data-act="optReload">再試一次</button>` : `<div class="status">載入最佳策略中…</div>`; }
   const O = fw.opt, C = O.config, R = O.reco || { items: [] }, OS = O.oos || {};
   const sg = (v, d = 1) => v == null ? "—" : (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(d), cl = v => v > 0 ? "up" : v < 0 ? "dn" : "";
   const px = v => v == null ? "—" : Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 });
   const md = s => s ? s.slice(5).replace("-", "/") : "—";
-  const pick = it => `<div class="optPick"><div class="hd"><b>${esc(it.n)}</b><code>${esc(it.c)}</code><span class="cl">收盤 ${px(it.close)}</span></div>
+  // 總排名：這檔在「同一個策略今天所有達標股票」（不分價位）裡排第幾。前三分之一深色、中段淺色、後段虛線灰
+  fw.stk = {};
+  const reg = (key, o) => { fw.stk[key] = o; return key; };
+  const rkMedal = it => { if (!it.rank || !it.of) return ""; const f = it.rank / it.of, lv = it.of === 1 ? "one" : f <= 0.34 ? "hi" : f <= 0.67 ? "mid" : "lo"; return `<span class="rkM ${lv}" title="這個策略今天共 ${it.of} 檔達標，這檔排第 ${it.rank}"><small>總排名</small><b>${it.of === 1 ? "唯一" : "#" + it.rank}</b>${it.of > 1 ? `<i>共 ${it.of} 檔</i>` : ""}</span>`; };
+  const votesChip = it => it.votes > 1 ? `<em class="vt">${it.votes} 種策略同時選中</em>` : "";
+  const pick = it => { const k = reg("main|" + it.c, { c: it.c, n: it.n, close: it.close, it, tag: "主推薦" }); return `<div class="optPick" data-stk="${k}" role="button" tabindex="0"><div class="hd2">${rkMedal(it)}<div class="nm2"><b>${esc(it.n)}</b><span>${esc(it.c)}・收盤 ${px(it.close)}</span>${votesChip(it)}</div><span class="chev">›</span></div>
     <div class="buy"><i>買</i><span>${esc(it.buy.text)}</span></div>
     <div class="sell">${it.tp ? `<div class="up"><small>停利賣出</small><b>${px(it.tp.price)}</b><em>+${it.tp.pct}%</em></div>` : ""}${it.sl ? `<div class="dn"><small>停損賣出</small><b>${px(it.sl.price)}</b><em>−${it.sl.pct}%</em></div>` : ""}${it.tr ? `<div><small>移動停損起點</small><b>${px(it.tr.price)}</b><em>高點回落 ${it.tr.pct}%</em></div>` : ""}${!it.tp && it.rr ? `<div class="up"><small>參考目標（模型壓力）</small><b>${px(it.rr)}</b><em>+${((it.rr / it.close - 1) * 100).toFixed(1)}%</em></div>` : ""}<div><small>最晚賣出（約）</small><b>${md(it.exitBy)}</b><em>開盤價</em></div></div>
-    ${it.tr ? `<div class="ref">移動停損：股價每創新高，停損價就跟著上移到「最高價 −${it.tr.pct}%」。</div>` : ""}${(it.rr && it.tp) || it.ss ? `<div class="ref">模型壓力 ${px(it.rr)}・支撐 ${px(it.ss)}</div>` : ""}</div>`;
+    ${it.tr ? `<div class="ref">移動停損：股價每創新高，停損價就跟著上移到「最高價 −${it.tr.pct}%」。</div>` : ""}</div>`; };
   const kv = c => `<div class="optKv"><div><small>投資標的</small><b>${esc(c.stratName)}・前 ${c.K} 名</b></div><div><small>買進時間</small><b>${esc(c.eName)}</b></div><div><small>賣出時間</small><b>最長 ${c.H} 個交易日</b></div><div><small>停利</small><b class="${c.tp ? "up" : ""}">${c.tp ? "+" + c.tp + "%" : "不設"}</b></div><div><small>停損</small><b class="${c.sl ? "dn" : ""}">${c.sl ? "−" + c.sl + "%" : "不設"}</b></div><div><small>移動停損</small><b>${c.tr ? "高點回落 " + c.tr + "%" : "不設"}</b></div></div>`;
   const reco = !C ? `<div class="fwV"><b>目前沒有任何參數組合的期望報酬是正的</b><p>建議空手，系統每晚會重新計算。</p></div>`
     : R.items.length ? `<h2>今天的建議<small class="fwHint">資料到 ${esc(O.asOf)} 收盤・明天執行</small></h2>${R.items.map(pick).join("")}`
     : `<h2>今天的建議</h2><div class="fwV"><b>今天沒有符合條件的標的，建議空手</b><p>最佳策略（${esc(C.stratName)}）今天沒有任何一檔達標。</p></div>${R.alt ? `<h2>備選：${esc(R.alt.cfg.label)}<small class="fwHint">日均 ${sg(R.alt.cfg.day, 2)}%</small></h2>${R.alt.items.map(pick).join("")}` : ""}`;
-  const mini = it => `<div class="optMini"><div class="m1"><b>${esc(it.n)}</b><code>${esc(it.c)}</code><span>收盤 ${px(it.close)}</span></div><div class="m2"><div><small>${it.buy.kind === "隔日開盤買" ? "開盤買" : it.buy.kind === "掛單" ? "掛單買" : "收盤確認買"}</small><b>${px(it.buy.price)}</b></div><div class="up"><small>${it.tp ? "停利" : "參考目標"}</small><b>${it.tp ? px(it.tp.price) : it.rr ? px(it.rr) : "—"}</b></div><div class="dn"><small>${it.sl ? "停損" : "移動停損"}</small><b>${it.sl ? px(it.sl.price) : it.tr ? px(it.tr.price) : "—"}</b></div><div><small>最晚賣出</small><b>${md(it.exitBy)}</b></div></div></div>`;
-  const tiersHtml = (R.tiers || []).length ? `<h2>依股價分級推薦<small class="fwHint">每個價位 1～3 檔</small></h2>${R.tiers.map(T => `<div class="card optTier"><div class="th"><b>${esc(T.name)}</b>${T.cfg ? `<span class="tg${T.fallback ? " fb" : ""}">${esc(T.cfg.stratName)}${T.fallback ? "・備選" : ""}</span>` : ""}${T.hist && T.hist.n ? `<span class="hs">歷史實戰 勝率 ${T.hist.win.toFixed(0)}%・平均 ${sg(T.hist.avg)}%・${T.hist.n} 筆</span>` : ""}</div>${T.items.length ? T.items.map(mini).join("") : `<div class="none">目前沒有達標的標的</div>`}${T.fallback && T.cfg ? `<div class="ref">${esc(T.cfg.label)}</div>` : ""}</div>`).join("")}` : "";
+  const stkRow = (it, scope, tag) => { const k = reg(scope + "|" + it.c, { c: it.c, n: it.n, close: it.close, it, tag }); return `<div class="stkRow" data-stk="${k}" role="button" tabindex="0">${rkMedal(it)}<div class="si"><b>${esc(it.n)}</b><span>${esc(it.c)}・收盤 ${px(it.close)}</span>${votesChip(it)}</div><div class="sp"><div><small>${it.buy.kind === "隔日開盤買" ? "開盤買" : it.buy.kind === "掛單" ? "掛單買" : "收盤確認"}</small><b>${px(it.buy.price)}</b></div><div class="up"><small>${it.tp ? "停利" : "目標"}</small><b>${it.tp ? px(it.tp.price) : it.rr ? px(it.rr) : "—"}</b></div><div class="dn"><small>${it.sl ? "停損" : "移動停損"}</small><b>${it.sl ? px(it.sl.price) : it.tr ? px(it.tr.price) : "—"}</b></div></div><span class="chev">›</span></div>`; };
+  const tiersHtml = (R.tiers || []).length ? `<h2>依股價分級推薦<small class="fwHint">每個價位 1～3 檔・點股票看簡易資訊</small></h2>
+    <div class="stkLg"><span><i class="rkM hi"><b>#1</b></i>總排名前段</span><span><i class="rkM mid"><b>#5</b></i>中段</span><span><i class="rkM lo"><b>#9</b></i>後段</span><em>名次＝在該策略今天全部達標股票（不分價位）中的位置</em></div>
+    ${R.tiers.map((T, ti) => `<div class="card optTier"><div class="th"><b>${esc(T.name)}</b>${T.cfg ? `<span class="tg${T.fallback ? " fb" : ""}">${esc(T.cfg.stratName)}${T.fallback ? "・備選" : ""}</span>` : ""}</div>${T.hist && T.hist.n ? `<div class="hs"><span>歷史實戰</span><span>勝率 ${T.hist.win.toFixed(0)}%</span><span class="${cl(T.hist.avg)}">平均 ${sg(T.hist.avg)}%</span><span>${T.hist.n} 筆</span></div>` : ""}${T.items.length ? T.items.map(it => stkRow(it, "t" + ti, T.name)).join("") : `<div class="none">目前沒有達標的標的</div>`}${T.fallback && T.cfg ? `<div class="ref">${esc(T.cfg.label)}</div>` : ""}</div>`).join("")}` : "";
   const hero = C ? `<div class="fwHero"><div class="k">目前最佳策略・用過去 ${O.lookback} 個交易日自動選出</div>${kv(C)}<div class="kp"><div><small>勝率</small><b>${C.win.toFixed(0)}%</b></div><div><small>平均每筆</small><b class="${cl(C.avg)}">${sg(C.avg)}%</b></div><div><small>平均持有</small><b>${C.hold.toFixed(0)} 日</b></div><div><small>訓練樣本</small><b>${C.n} 筆</b></div></div></div>` : "";
   const oos = OS.n ? `<h2>實戰檢驗<small class="fwHint">每 5 天重新挑參數，只用當時已知的資料</small></h2><div class="fwHero"><div class="k">${esc(OS.from)} 起，系統自己調整參數後的真實成績</div><div class="top"><div class="nm">平均每買 1 張</div><div class="big ${cl(OS.avg)}">${sg(OS.avg)}<em>%</em></div><small>已扣手續費與證交稅・共 ${OS.n} 筆</small></div>
       <div class="kp"><div><small>勝率</small><b>${OS.win.toFixed(0)}%</b></div><div><small>平均持有</small><b>${OS.hold.toFixed(0)} 日</b></div><div><small>最差一張</small><b class="${cl(OS.worst)}">${sg(OS.worst)}%</b></div><div><small>累計損益</small><b class="${cl(OS.pnl)}">${OS.pnl >= 0 ? "+" : "−"}${Math.abs(OS.pnl / 1e4).toFixed(0)} 萬</b></div></div>
@@ -3887,7 +3997,29 @@ function admOpt() {
     <div><b>怎麼驗證</b><span>每 5 個交易日重新挑一次，只能用當時已經結束的交易；挑出來的參數再去跑接下來 5 天的新訊號，這些才算「實戰」成績。上面的實戰檢驗就是這樣累積出來的。</span></div>
     <div><b>成交規則</b><span>停利停損用盤中最高最低價判斷，同一天都碰到先算停損，跳空就用開盤價；成本含手續費 0.1425% 與證交稅 0.3%；沒有買到（掛單沒成交、隔日收盤比今天弱）就不算。</span></div>
     <div><b>更新頻率</b><span>每晚排程重算，資料更新後建議與參數會一起更新。</span></div></div></div></details>`;
-  return `<div class="fwAsof">資料到 ${esc(O.asOf)}・歷史名單 ${O.range ? O.range.days : ""} 個交易日・每晚自動更新</div>${reco}${tiersHtml}${hero}${oos}${looks}${adj}${tops}${how}`;
+  const segH = (id, cur, items) => `<div class="seg fwSeg" id="${id}" role="group">${items.map(([k, tx]) => `<button type="button" data-k="${k}" aria-pressed="${cur === k}">${tx}</button>`).join("")}</div>`;
+  const subBar = segH("fwSub", fw.sub, [["reco", "今日建議"], ["paper", "模擬交易"], ["perf", "績效與調整"]]);
+  // ---------- 模擬交易：每天的推薦照計畫買賣，驗證推薦有沒有用 ----------
+  const PP = O.paper, ppSel = PP && PP.stat ? PP.stat[fw.pp] : null, pt = ppSel && ppSel.total && ppSel.total.n ? ppSel.total : null;
+  const moneyW = v => (v >= 0 ? "+" : "−") + Math.abs(v / 1e4).toFixed(1);
+  const grName = k => (PP && PP.groups[k]) || k;
+  const posCard = x => `<div class="optMini" data-stk="${reg("o|" + x.c + "|" + x.gr, { c: x.c, n: x.n, close: x.px, tag: grName(x.gr), lines: [["買進 " + md(x.b), px(x.p0), ""], ["損益", sg(x.r) + "%", ""], ["停利", x.tp ? px(x.tp) : "不設", ""], ["停損", x.sl ? px(x.sl) : "不設", ""], ["最晚賣出", md(x.by), ""]], lv: [{ v: x.p0, k: "b", t: "買" }, ...(x.tp ? [{ v: x.tp, k: "u", t: "利" }] : []), ...(x.sl ? [{ v: x.sl, k: "d", t: "損" }] : [])] })}" role="button" tabindex="0" style="cursor:pointer"><div class="m1"><b>${esc(x.n)}</b><code>${esc(x.c)}</code><span class="${cl(x.r)}" style="font-weight:700">${sg(x.r)}%</span></div><div class="m2"><div><small>買進 ${md(x.b)}</small><b>${px(x.p0)}</b></div><div><small>現價</small><b class="${cl(x.r)}">${px(x.px)}</b></div><div class="up"><small>停利</small><b>${x.tp ? px(x.tp) : "—"}</b></div><div class="dn"><small>停損</small><b>${x.sl ? px(x.sl) : "—"}</b></div></div><div class="optSub" style="border:0;padding:4px 0 0">${esc(grName(x.gr))}・持有第 ${x.days} 天・最晚 ${md(x.by)}${x.live ? "" : "・回補"}</div></div>`;
+  const pendCard = x => `<div class="optMini" data-stk="${reg("p|" + x.c + "|" + x.gr, { c: x.c, n: x.n, close: x.close, tag: grName(x.gr), lines: [[x.kind, px(x.buy), ""], ["停利", x.tp ? px(x.tp) : "不設", ""], ["停損", x.sl ? px(x.sl) : "不設", ""], ["最長持有", x.H + " 日", ""]], lv: [{ v: x.buy, k: "b", t: "買" }, ...(x.tp ? [{ v: x.tp, k: "u", t: "利" }] : []), ...(x.sl ? [{ v: x.sl, k: "d", t: "損" }] : [])] })}" role="button" tabindex="0" style="cursor:pointer"><div class="m1"><b>${esc(x.n)}</b><code>${esc(x.c)}</code><span>收盤 ${px(x.close)}</span></div><div class="m2"><div><small>${esc(x.kind)}</small><b>${px(x.buy)}</b></div><div class="up"><small>停利</small><b>${x.tp ? px(x.tp) : "—"}</b></div><div class="dn"><small>停損</small><b>${x.sl ? px(x.sl) : "—"}</b></div><div><small>最長持有</small><b>${x.H} 日</b></div></div><div class="optSub" style="border:0;padding:4px 0 0">${esc(grName(x.gr))}・${md(x.d)} 的推薦</div></div>`;
+  const soldRow = x => `<div class="optH"><span class="d">${md(x.x)}</span><span class="t">${esc(x.n)} ${esc(x.c)}・${esc(grName(x.gr))}・${esc(x.w || "")}${x.live ? "" : "・回補"}　<b class="${cl(x.r)}">${sg(x.r)}%</b></span></div>`;
+  const grRows = PP && ppSel ? Object.keys(PP.groups).map(k => { const s = ppSel.groups[k]; return s && s.n ? `<div class="fwRw"><span class="no"></span><span class="nm"><b>${esc(PP.groups[k])}</b><small>${s.n} 筆・勝率 ${s.win.toFixed(0)}%・已賣 ${s.closed}・持有中 ${s.open}</small></span><b class="v ${cl(s.avg)}">${sg(s.avg)}%</b></div>` : ""; }).join("") : "";
+  const pcurve = PP && PP.curve ? PP.curve[fw.pp] : null;
+  const paperHtml = !PP ? `<div class="status">還沒有模擬交易資料，下一次夜間排程之後就會出現。</div>`
+    : `<h2>模擬交易<small class="fwHint">每天的推薦照計畫買賣，每筆模擬投入 ${PP.per / 1e4} 萬</small></h2>${segH("fwPP", fw.pp, [["all", "含回補近半年"], ["live", "只看實際追蹤"]])}
+    ${pt ? `<div class="fwHero" style="margin-top:10px"><div class="k">${fw.pp === "live" ? esc(PP.from) + " 起，每天推薦的真實模擬成績" : "近半年回補＋實際追蹤"}</div><div class="top"><div class="nm">累計損益</div><div class="big ${cl(pt.pnl)}">${moneyW(pt.pnl)}<em>萬</em></div><small>已扣手續費與證交稅・共 ${pt.n} 筆</small></div>
+      <div class="kp"><div><small>平均每筆</small><b class="${cl(pt.avg)}">${sg(pt.avg)}%</b></div><div><small>勝率</small><b>${pt.win.toFixed(0)}%</b></div><div><small>已賣／持有中</small><b>${pt.closed}／${pt.open}</b></div><div><small>沒買到</small><b>${PP.unfilled}</b></div></div>
+      ${pcurve && pcurve.length > 2 ? `<div class="fwCh"><div class="ct">累積報酬走勢<small>到那天為止，每一筆交易的平均報酬</small></div>${fwSvgLine(pcurve, fw.pp === "all" ? PP.from : "")}</div>` : ""}</div>`
+      : `<div class="fwV" style="margin-top:10px"><b>實際追蹤才剛開始</b><p>今天的推薦已經記下來，隔天開盤起會依計畫模擬買進，結果會陸續出現在這裡。</p></div>`}
+    ${grRows ? `<h2>各組推薦的成績<small class="fwHint">主推薦＋四個價位</small></h2><div class="card fwRank">${grRows}</div>` : ""}
+    ${PP.pending.length ? `<h2>明天要買的單<small class="fwHint">今天推薦、還沒成交</small></h2><div class="card optTier">${PP.pending.map(pendCard).join("")}</div>` : ""}
+    ${PP.open.length ? `<h2>持有中<small class="fwHint">${PP.open.length} 檔</small></h2><div class="card optTier">${PP.open.map(posCard).join("")}</div>` : ""}
+    ${PP.recent.length ? `<h2>最近賣出</h2><div class="card optAdj">${PP.recent.slice(0, 15).map(soldRow).join("")}</div>` : ""}`;
+  const body = fw.sub === "paper" ? paperHtml : fw.sub === "perf" ? `${oos}${looks}${adj}${tops}${how}` : `${reco}${tiersHtml}${hero}`;
+  return `<div class="fwAsof">資料到 ${esc(O.asOf)}・歷史名單 ${O.range ? O.range.days : ""} 個交易日・每晚自動更新</div>${subBar}${body}`;
 }
 function admForwardVal() {
   if (!fw.data) { if (!fw.loading && !fw.err) fwLoad(); return fw.err ? `<div class="status err">${esc(fw.err)}</div><button type="button" class="info-link" data-act="fwReload">再試一次</button>` : `<div class="status">載入選股驗證資料中…</div>`; }
@@ -3999,10 +4131,14 @@ function admCsv(kind) {
 function admInit() {
   const el = $("admBody");
   el.addEventListener("pointermove", chScrub); el.addEventListener("pointerdown", chScrub); el.addEventListener("pointerout", chHide);
+  el.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-stk]")) { e.preventDefault(); fwStockOpen(e.target.dataset.stk); } });
   el.addEventListener("click", e => {
     const t = e.target.closest("#admTabs button"); if (t) { adm.tab = t.dataset.t; admRender(); window.scrollTo({ top: 0 }); return; }
     const r = e.target.closest("#admRange button"); if (r) { adm.range = +r.dataset.r; admRender(); return; }
     const f = e.target.closest("#admFilt button"); if (f) { adm.filt = f.dataset.f; adm.open = ""; admRender(); return; }
+    const stk = e.target.closest("[data-stk]"); if (stk) { fwStockOpen(stk.dataset.stk); return; }
+    const fsb = e.target.closest("#fwSub button"); if (fsb) { fw.sub = fsb.dataset.k; admRender(); return; }
+    const fpp = e.target.closest("#fwPP button"); if (fpp) { fw.pp = fpp.dataset.k; admRender(); return; }
     const fmd = e.target.closest("#fwMode button"); if (fmd) { fw.mode = fmd.dataset.k; admRender(); window.scrollTo({ top: 0 }); return; }
     if (e.target.closest('[data-act="optReload"]')) { fw.optErr = ""; fw.opt = null; admRender(); return; }
     const fh = e.target.closest("#fwPl button"); if (fh) { fw.pl = fh.dataset.k; admRender(); return; }
