@@ -1884,7 +1884,7 @@ async function fm(dataset, params) {
     if (!r) {
       // 被限流時對方常常沒有帶 CORS 標頭，瀏覽器只看得到「連線失敗」。用量已接近上限時，就當作被擋
       if (log.length >= fmLimit() * 0.8) throw fmLimitError(fmBlockNow(log));
-      throw new Error("連不上資料來源，請檢查網路後再試。");
+      throw new Error("連不上資料來源。最常見的原因是 FinMind 免費查詢次數暫時用完（同一個網路的人共用，約一小時後恢復），也可能是網路不穩；在「進階參數」填入自己的 FinMind token 可以提高上限。");
     }
   }
   if (r.status === 402 || r.status === 429) throw fmLimitError(fmBlockNow(log));
@@ -1916,6 +1916,9 @@ async function idbPut(key, val) { const db = await idbDb(); if (!db) return; try
 let info = [];                // [[id, name, 產業別], ...]
 async function loadInfo() {
   try { const c = JSON.parse(localStorage.getItem("chipInfo3") || "null"); if (c && Date.now() - c.t < 6048e5 && c.l.length) { info = c.l; return; } } catch (e) {}
+  // 先用我們自己的 industry.json（含公司簡稱）頂著，這樣 FinMind 暫時查不到時，搜尋股票（含資金輪動的查類股）仍然能用；FinMind 查得到再換成完整名單（含 ETF）
+  await loadIndustry();
+  if (indMap && !info.length) info = Object.entries(indMap).filter(([, v]) => v[2]).map(([c, v]) => [c, v[2], v[0]]);
   try {
     const best = new Map(), PARENT = new Set(["電子工業", "電子", "化學生技醫療"]);        // 上層分類：同一檔如果還有細分類，就用細分類
     for (const r of await fm("TaiwanStockInfo", {})) {
@@ -1923,9 +1926,9 @@ async function loadInfo() {
       const ind = r.industry_category || "", cur = best.get(r.stock_id);
       if (!cur) best.set(r.stock_id, [r.stock_id, r.stock_name, ind]); else if (PARENT.has(cur[2]) && ind && !PARENT.has(ind)) cur[2] = ind;
     }
-    info.push(...best.values());
-    try { localStorage.setItem("chipInfo3", JSON.stringify({ t: Date.now(), l: info })); } catch (e) {}
-  } catch (e) { info = []; }
+    const full = [...best.values()];
+    if (full.length) { info = full; try { localStorage.setItem("chipInfo3", JSON.stringify({ t: Date.now(), l: info })); } catch (e) {} }
+  } catch (e) { /* 查不到就沿用上面 industry.json 的名單 */ }
 }
 /* 股票 → 產業別：優先用夜間排程存下來的 industry.json（交易所／櫃買中心的公司基本資料，每檔只有一個、最準），沒有才退回 FinMind 的產業別 */
 let indMap = null;

@@ -104,9 +104,9 @@ async function buildData({ html, getJson, log = () => {}, old = null, limit = 0,
 const IND_NAMES = { "01": "水泥工業", "02": "食品工業", "03": "塑膠工業", "04": "紡織纖維", "05": "電機機械", "06": "電器電纜", "08": "玻璃陶瓷", "09": "造紙工業", "10": "鋼鐵工業", "11": "橡膠工業", "12": "汽車工業", "14": "建材營造業", "15": "航運業", "16": "觀光餐旅", "17": "金融保險業", "18": "貿易百貨業", "20": "其他業", "21": "化學工業", "22": "生技醫療業", "23": "油電燃氣業", "24": "半導體業", "25": "電腦及週邊設備業", "26": "光電業", "27": "通信網路業", "28": "電子零組件業", "29": "電子通路業", "30": "資訊服務業", "31": "其他電子業", "32": "文化創意業", "33": "農業科技業", "34": "電子商務", "35": "綠能環保", "36": "數位雲端", "37": "運動休閒", "38": "居家生活", "91": "存託憑證" };
 async function fetchIndustry() {
   const m = {};
-  for (const [url, mk, fc, fk] of [["https://openapi.twse.com.tw/v1/opendata/t187ap03_L", "L", "公司代號", "產業別"], ["https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O", "O", "SecuritiesCompanyCode", "SecuritiesIndustryCode"]]) {
+  for (const [url, mk, fc, fk, fn] of [["https://openapi.twse.com.tw/v1/opendata/t187ap03_L", "L", "公司代號", "產業別", "公司簡稱"], ["https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O", "O", "SecuritiesCompanyCode", "SecuritiesIndustryCode", "CompanyAbbreviation"]]) {
     const res = await fetch(url); if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
-    for (const r of await res.json()) { const c = String(r[fc] || "").trim(), k = String(r[fk] || "").trim(); if (c && IND_NAMES[k]) m[c] = [IND_NAMES[k], mk]; }
+    for (const r of await res.json()) { const c = String(r[fc] || "").trim(), k = String(r[fk] || "").trim(); if (c && IND_NAMES[k]) m[c] = [IND_NAMES[k], mk, String(r[fn] || "").trim()]; }
   }
   return m;
 }
