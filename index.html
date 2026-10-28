@@ -454,6 +454,8 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .stkS h4 { margin: 16px 0 8px; font-size: .84rem; } .stP { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .stP > div { padding: 8px 10px; border-radius: 10px; background: color-mix(in srgb, var(--muted) 10%, var(--surface)); } .stP > div:first-child:nth-last-child(n+1) { grid-column: 1 / -1; } .stP small { display: block; font-size: .66rem; color: var(--muted); } .stP b { font-size: .84rem; line-height: 1.45; } .stFull { width: 100%; margin-top: 16px; }
 .optTier { padding: 12px 14px; margin-bottom: 10px; } .optTier .th { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; } .optTier .th b { font-size: 1rem; } .optTier .tg { font-size: .7rem; padding: 2px 8px; border-radius: 999px; background: var(--ink); color: var(--surface); } .optTier .tg.fb { background: color-mix(in srgb, var(--muted) 25%, var(--surface)); color: var(--ink); } .optTier .hs { margin-left: auto; font-size: .7rem; color: var(--muted); } .optTier .none { padding: 10px 0 2px; font-size: .84rem; color: var(--muted); } .optTier .ref { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .72rem; line-height: 1.5; color: var(--muted); }
 .optMini { padding: 10px 0 2px; } .optMini + .optMini { margin-top: 8px; border-top: 1px solid var(--line); padding-top: 10px; } .optMini .m1 { display: flex; align-items: baseline; gap: 8px; } .optMini .m1 b { font-size: 1rem; } .optMini .m1 code { font: 400 .76rem var(--font-num); color: var(--muted); } .optMini .m1 span { margin-left: auto; font: 400 .76rem var(--font-num); color: var(--muted); } .optMini .m2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px; } .optMini .m2 small { display: block; font-size: .66rem; color: var(--muted); } .optMini .m2 b { font: 700 .88rem var(--font-num); } .optMini .up b { color: var(--bull); } .optMini .dn b { color: var(--bear); }
+.zc { touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; } .zc:active { cursor: grabbing; } .zc svg { display: block; width: 100%; height: auto; }
+.zh { margin-top: 2px; font-size: .66rem; color: var(--muted); text-align: right; } .zh .zm { display: none; } @media (hover: none) { .zh .zd { display: none; } .zh .zm { display: inline; } }
 .fwMode { margin: 4px 0 10px; } .fwMode button { flex: 1; }
 .optPick { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: var(--surface); margin-bottom: 10px; } .optPick .hd { display: flex; align-items: baseline; gap: 8px; } .optPick .hd b { font-size: 1.15rem; } .optPick .hd code { font: 400 .8rem var(--font-num); color: var(--muted); } .optPick .cl { margin-left: auto; font: 400 .78rem var(--font-num); color: var(--muted); }
 .optPick .buy { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; font-size: .88rem; line-height: 1.5; } .optPick .buy i { flex: none; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; background: var(--ink); color: var(--surface); font: 700 .74rem var(--font-ui); font-style: normal; }
@@ -487,6 +489,14 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .mcOut .big { font: 600 1.5rem/1.2 var(--font-num); }
 .mcOut .row { font-size: .86rem; line-height: 1.6; }
 .mcOut .row b { font-family: var(--font-num); }
+.simAvail { margin: 14px 0 8px; } .simAvail .k { font-size: .74rem; color: var(--muted); } .simAvail .v { font: 700 1.55rem/1.2 var(--font-num); letter-spacing: -.01em; }
+.simBar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--line); gap: 2px; } .simBar i { display: block; height: 100%; min-width: 0; } .simBar .sbA, .simLg .sbA { background: var(--profit); } .simBar .sbR, .simLg .sbR { background: var(--trapped, #ff9500); } .simBar .sbH, .simLg .sbH { background: color-mix(in srgb, var(--ink) 55%, var(--surface)); }
+.simLg { display: grid; gap: 2px; margin: 10px 0 4px; } .simLg .r { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto 3.6em; gap: 10px; align-items: center; padding: 7px 0; } .simLg .r + .r { border-top: 1px solid var(--line); } .simLg .r i { width: 12px; height: 12px; border-radius: 4px; } .simLg .r span { font-size: .9rem; font-weight: 600; } .simLg .r small { display: block; font-size: .68rem; font-weight: 400; color: var(--muted); } .simLg .r b { font: 600 .98rem var(--font-num); } .simLg .r em { font: 400 .76rem var(--font-num); font-style: normal; color: var(--muted); text-align: right; }
+.simMore { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; } .simMore > summary { cursor: pointer; font-size: .84rem; color: var(--profit); font-weight: 600; padding: 4px 0 10px; list-style: none; } .simMore > summary::-webkit-details-marker { display: none; } .simMore > summary::after { content: " ▾"; } .simMore[open] > summary::after { content: " ▴"; }
+.simEstBox { margin-top: 12px; display: grid; gap: 10px; } .simEstBox[hidden] { display: none; } .seTop { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; } .seTop > div { padding: 9px 12px; border-radius: 10px; background: color-mix(in srgb, var(--muted) 11%, var(--surface)); } .seTop small { display: block; font-size: .7rem; color: var(--muted); } .seTop b { font: 700 1.02rem var(--font-num); }
+.seCalc { border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; background: var(--surface); } .seCalc .r { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; font-size: .88rem; } .seCalc .r + .r { border-top: 1px solid var(--line); } .seCalc .r span small { display: block; font-size: .68rem; color: var(--muted); } .seCalc .r b { font: 600 .98rem var(--font-num); white-space: nowrap; } .seCalc .r.tot { border-top: 2px solid var(--ink); } .seCalc .r.tot span { font-weight: 700; } .seCalc .r.tot b { font-size: 1.3rem; }
+.seBar { height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; margin-top: -2px; } .seBar i { display: block; height: 100%; border-radius: 5px; } .seBar i.ok { background: var(--profit); } .seBar i.bad { background: var(--bull); }
+.seVerdict { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding: 10px 14px; border-radius: 12px; } .seVerdict b { font-size: .98rem; } .seVerdict span { font-size: .84rem; } .seVerdict.ok { background: color-mix(in srgb, var(--bear) 12%, var(--surface)); color: var(--bear); } .seVerdict.bad { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); color: var(--bull); } .seNote { font-size: .74rem; color: var(--muted); }
 .simGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
 .simGrid > div .k { font-size: .7rem; color: var(--muted); }
 .simGrid > div .v { font: 500 .95rem var(--font-num); }
@@ -1311,7 +1321,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <button type="button" class="btn ghost" data-go="backtest">去回測</button>
       </div>
       <p class="gLead">往下還有「法人與融資」區塊（點開才載入），說明在下一段。</p>
-      <div class="card gTip"><div class="gName">圖表怎麼操作</div><ul><li><b>手機：</b>單指左右滑動，看每一天的數字；兩指捏合縮放，兩指一起移動平移。</li><li><b>電腦：</b>滑鼠移上去看數字；按住拖曳平移；Ctrl（⌘）＋滾輪或觸控板捏合縮放；雙擊還原。</li><li>籌碼分析、技術分析、大盤指數、夜盤、法人與融資的圖，操作方式都一樣。</li></ul></div>
+      <div class="card gTip"><div class="gName">圖表怎麼操作</div><ul><li><b>手機：</b>單指左右滑動，看每一天的數字；兩指捏合縮放，兩指一起移動平移。</li><li><b>電腦：</b>滑鼠移上去看數字；按住拖曳平移；直接滾動滾輪縮放（Shift＋滾輪或左右捲動＝平移，觸控板捏合也能縮放）；雙擊還原。</li><li>籌碼分析、技術分析、大盤指數、夜盤、法人與融資，以及管理後台的走勢圖，操作方式都一樣。</li></ul></div>
       <p class="gNext">下一步：位置看完了，去 <button type="button" class="gLink" data-go="tech">技術分析</button> 看狀態，確認兩者同不同向。</p>
       </div></details>
     </div>
@@ -1702,7 +1712,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         </div>
         <label class="fld" for="simDays" id="simDaysBox" hidden><span>委託有效期</span><select id="simDays"><option value="1">當日有效（ROD）</option><option value="5">長效單：5 個營業日</option><option value="10">長效單：10 個營業日</option><option value="20">長效單：20 個營業日</option></select></label>
         <div id="simRule" class="status"></div>
-        <div id="simEst" class="status"></div>
+        <div id="simEst" class="simEstBox"></div>
         <button id="simPlace" type="button" class="btn">送出預約單</button>
         <div id="simMsg" class="status" hidden></div>
       </div>
@@ -2648,8 +2658,7 @@ function attachPinch(box, rng) {
   // 滑鼠（桌機）：和 TradingView 一樣的操作；一般的上下滾輪仍然是捲動頁面
   let wt = 0;
   box.addEventListener("wheel", e => {
-    const zoom = e.ctrlKey || e.metaKey, pan = e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY);
-    if (!zoom && !pan) return;
+    const pan = !(e.ctrlKey || e.metaKey) && (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)), zoom = !pan;
     const r = rng(e); if (!r) return;
     e.preventDefault();
     const [a, b] = r.get(), len = b - a, rc = (r.el || box).getBoundingClientRect(), f = Math.min(1, Math.max(0, (e.clientX - rc.left) / (rc.width || 1)));
@@ -3834,7 +3843,7 @@ async function regenReport() {
 }
 /* ---------- 選股驗證：篩選器四種策略的前三名，每檔買一張，同時比較多種賣出規則的長期報酬 ----------
    資料由夜間排程算好（scripts/forward_job.js）存成 forward.json，這裡只負責顯示。 */
-const fw = { data: null, loading: false, err: "", metric: "day", period: "all", sel: "rise|hold60", plot: null, view: "rank", more: false, pl: "hold60", ss: "", adv: false, mode: "opt", sub: "reco", pp: "all", opt: null, optLoading: false, optErr: "" };
+const fw = { data: null, loading: false, err: "", metric: "day", period: "all", sel: "rise|hold60", plot: null, view: "rank", more: false, pl: "hold60", ss: "", adv: false, zc: {}, mode: "opt", sub: "reco", pp: "all", opt: null, optLoading: false, optErr: "" };
 async function fwLoad() {
   fw.loading = true; fw.err = "";
   try { const res = await fetch("forward.json?d=" + todayTW(), { cache: "no-cache" }); if (!res.ok) throw new Error(res.status === 404 ? "還沒有資料：夜間排程第一次執行之後就會出現（也可以到 GitHub 的 Actions 手動執行 nightly-screener）。" : "讀取失敗（" + res.status + "）"); fw.data = await res.json(); }
@@ -3851,6 +3860,17 @@ const FW_SELL = {
   drop: "這檔股票不再符合這個策略的全部條件（掉出名單），就隔天開盤賣出。",
   hold: "不賣，一直放到現在。只拿來對照（它是賺最多的，但只是因為這一年大盤一路漲）。"
 };
+/* 可縮放的折線圖：d = [[日期, 數值], ...]，預設顯示全部。電腦：滾輪縮放、拖曳平移、雙擊還原；手機：兩指縮放、兩指一起移動平移（單指仍然是捲動頁面） */
+function zoomLine(id, d, liveFrom) {
+  if (!d || d.length < 3) return "";
+  fw.zc[id] = { d, liveFrom, a: 0, b: d.length - 1 };
+  return `<div class="zc" id="zc_${id}" data-zc="${id}">${fwSvgLine(d, liveFrom)}</div><div class="zh"><span class="zd">滾輪縮放・拖曳平移・雙擊還原</span><span class="zm">兩指縮放・兩指一起移動平移</span></div>`;
+}
+function zoomRng(el) {
+  const z = fw.zc[el.dataset.zc]; if (!z) return null;
+  const draw = (a, b) => { z.a = a; z.b = b; el.innerHTML = fwSvgLine(z.d.slice(a, b + 1), z.liveFrom); };
+  return { el, n: z.d.length, minSpan: 7, get: () => [z.a, z.b], set: (a, b) => draw(a, b), end: () => {}, reset: () => draw(0, z.d.length - 1) };
+}
 function fwSvgLine(d, liveFrom) {
   if (!d || d.length < 3) return "";
   const sg = v => (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(1), W = 340, H = 176, ml = 40, mr = 16, mt = 14, mb = 22;
@@ -3983,7 +4003,7 @@ function admOpt() {
   const oos = OS.n ? `<h2>實戰檢驗<small class="fwHint">每 5 天重新挑參數，只用當時已知的資料</small></h2><div class="fwHero"><div class="k">${esc(OS.from)} 起，系統自己調整參數後的真實成績</div><div class="top"><div class="nm">平均每買 1 張</div><div class="big ${cl(OS.avg)}">${sg(OS.avg)}<em>%</em></div><small>已扣手續費與證交稅・共 ${OS.n} 筆</small></div>
       <div class="kp"><div><small>勝率</small><b>${OS.win.toFixed(0)}%</b></div><div><small>平均持有</small><b>${OS.hold.toFixed(0)} 日</b></div><div><small>最差一張</small><b class="${cl(OS.worst)}">${sg(OS.worst)}%</b></div><div><small>累計損益</small><b class="${cl(OS.pnl)}">${OS.pnl >= 0 ? "+" : "−"}${Math.abs(OS.pnl / 1e4).toFixed(0)} 萬</b></div></div>
       <div class="optCmp"><div><small>挑參數時看到的（訓練）</small><span class="bar"><i class="${cl(OS.train)}" style="width:${Math.min(100, Math.abs(OS.train) / Math.max(Math.abs(OS.train), Math.abs(OS.avg), 1e-9) * 100).toFixed(0)}%"></i></span><b>${sg(OS.train)}%</b></div><div><small>之後實際發生的（實測）</small><span class="bar"><i class="${cl(OS.avg)}" style="width:${Math.min(100, Math.abs(OS.avg) / Math.max(Math.abs(OS.train), Math.abs(OS.avg), 1e-9) * 100).toFixed(0)}%"></i></span><b>${sg(OS.avg)}%</b></div></div>
-      ${OS.curve && OS.curve.length > 2 ? `<div class="fwCh"><div class="ct">累積報酬走勢<small>到那天為止，每一筆交易的平均報酬</small></div>${fwSvgLine(OS.curve, "")}</div>` : ""}</div>` : "";
+      ${OS.curve && OS.curve.length > 2 ? `<div class="fwCh"><div class="ct">累積報酬走勢<small>到那天為止，每一筆交易的平均報酬</small></div>${zoomLine("oos", OS.curve, "")}</div>` : ""}</div>` : "";
   const Ls = Object.keys(O.byL || {}).map(Number).sort((a, b) => a - b);
   const looks = Ls.length ? `<h2>過去時間<small class="fwHint">回頭看多久最準，系統自己選</small></h2><div class="card fwRank">${Ls.map(L => { const s = O.byL[L], ok = L === O.lookback; return `<div class="fwRw${ok ? " sel" : ""}"><span class="no">${ok ? "✓" : ""}</span><span class="nm"><b>最近 ${L} 個交易日</b><small>${s.n ? `勝率 ${s.win.toFixed(0)}%・${s.n} 筆・調整 ${s.changes} 次` : "樣本不足"}</small></span><b class="v ${cl(s.avg)}">${s.n ? sg(s.avg) + "%" : "—"}</b></div>`; }).join("")}</div>` : "";
   const mixTot = OS.mix ? Object.values(OS.mix.strat).reduce((a, b) => a + b, 0) : 0;
@@ -4012,7 +4032,7 @@ function admOpt() {
     : `<h2>模擬交易<small class="fwHint">每天的推薦照計畫買賣，每筆模擬投入 ${PP.per / 1e4} 萬</small></h2>${segH("fwPP", fw.pp, [["all", "含回補近半年"], ["live", "只看實際追蹤"]])}
     ${pt ? `<div class="fwHero" style="margin-top:10px"><div class="k">${fw.pp === "live" ? esc(PP.from) + " 起，每天推薦的真實模擬成績" : "近半年回補＋實際追蹤"}</div><div class="top"><div class="nm">累計損益</div><div class="big ${cl(pt.pnl)}">${moneyW(pt.pnl)}<em>萬</em></div><small>已扣手續費與證交稅・共 ${pt.n} 筆</small></div>
       <div class="kp"><div><small>平均每筆</small><b class="${cl(pt.avg)}">${sg(pt.avg)}%</b></div><div><small>勝率</small><b>${pt.win.toFixed(0)}%</b></div><div><small>已賣／持有中</small><b>${pt.closed}／${pt.open}</b></div><div><small>沒買到</small><b>${PP.unfilled}</b></div></div>
-      ${pcurve && pcurve.length > 2 ? `<div class="fwCh"><div class="ct">累積報酬走勢<small>到那天為止，每一筆交易的平均報酬</small></div>${fwSvgLine(pcurve, fw.pp === "all" ? PP.from : "")}</div>` : ""}</div>`
+      ${pcurve && pcurve.length > 2 ? `<div class="fwCh"><div class="ct">累積報酬走勢<small>到那天為止，每一筆交易的平均報酬</small></div>${zoomLine("pp", pcurve, fw.pp === "all" ? PP.from : "")}</div>` : ""}</div>`
       : `<div class="fwV" style="margin-top:10px"><b>實際追蹤才剛開始</b><p>今天的推薦已經記下來，隔天開盤起會依計畫模擬買進，結果會陸續出現在這裡。</p></div>`}
     ${grRows ? `<h2>各組推薦的成績<small class="fwHint">主推薦＋四個價位</small></h2><div class="card fwRank">${grRows}</div>` : ""}
     ${PP.pending.length ? `<h2>明天要買的單<small class="fwHint">今天推薦、還沒成交</small></h2><div class="card optTier">${PP.pending.map(pendCard).join("")}</div>` : ""}
@@ -4062,20 +4082,14 @@ function admForwardVal() {
   const stat = (k, v, h) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="h">${h || "&nbsp;"}</div></div>`;
   const money = v => (v >= 0 ? "+" : "−") + Math.abs(v).toLocaleString("en-US");
   const stats = st && st.n ? `<section class="stats">${stat("總報酬率", `<span class="${cl(st.ret)}">${sg(st.ret)}%</span>`, "總損益 ÷ 投入成本")}${stat("平均每筆", `<span class="${cl(st.avg)}">${sg(st.avg)}%</span>`, `平均持有 ${st.hold.toFixed(0)} 日`)}${stat("勝率", st.win.toFixed(0) + "%", `最差一張 ${sg(st.worst)}%`)}${stat("買進", st.n + " 張", `已賣 ${st.closed}・持有中 ${st.open}`)}${stat("總損益", `<span class="${cl(st.pnl)}">${money(st.pnl)}</span>`, "元，已扣手續費與稅")}${stat("日均報酬", `<span class="${cl(st.day)}">${sg(st.day, 2)}%</span>`, "平均每筆 ÷ 持有日")}</section>` : `<div class="status">這個期間還沒有買進紀錄。</div>`;
-  let chart = "";
-  if (A.curve && A.curve.length > 2) {
-    const dates = A.curve.map(x => x[0]), vals = A.curve.map(x => x[1]), W = Math.max(300, Math.floor(($("admBody") && $("admBody").clientWidth) || 340) - 24);
-    const plot = flowPlot({ dates, vals, bars: false, price: null, fmtY: v => v.toFixed(0) + "%", fmtTag: v => v.toFixed(1) + "%", cls: "c1", W, label: "累積報酬率" });
-    const li = dates.findIndex(d => d >= F.liveFrom), mk = li > 0 ? `<line x1="${plot.geo.x(li).toFixed(1)}" x2="${plot.geo.x(li).toFixed(1)}" y1="12" y2="172" stroke="var(--muted)" stroke-dasharray="4 3"/><text x="${(plot.geo.x(li) + 4).toFixed(1)}" y="24" font-size="9" fill="var(--muted)">開始實際追蹤</text>` : "";
-    fw.plot = { plot, dates, vals };
-    chart = `<div class="fcRd" id="fwRd"><small>最新</small>　${esc(dates[dates.length - 1])}　累積報酬率 <b>${sg(vals[vals.length - 1])}%</b></div><div class="fcBox chBox" id="fwChart">${plot.svg.replace("</svg>", mk + "</svg>")}</div><div class="fcLg"><span><i class="c1"></i>累積報酬率（到那天為止的總損益 ÷ 總投入成本）</span></div>`;
-  } else fw.plot = null;
+  fw.plot = null;
+  const chart = A.curve && A.curve.length > 2 ? `<div class="fwCh"><div class="ct">累積報酬率<small>到那天為止的總損益 ÷ 總投入成本</small></div>${zoomLine("eq", A.curve, F.liveFrom)}</div>` : "";
   const lot = L => `<div class="fwR"><span class="n">${esc(L.c)} ${esc(L.n)}</span><span>${esc(L.b.slice(5))} 買 ${L.p0.toFixed(2)}</span><span>${L.x ? esc(L.x.slice(5)) + " 賣 " + L.px.toFixed(2) : "現價 " + L.px.toFixed(2)}</span><b class="${cl(L.r)}">${sg(L.r)}%</b><em>${esc(L.w || (L.x ? "" : "持有中"))}</em></div>`;
   const tp = F.today ? S.map(s => { const o = F.today[s]; return `<div class="fwP"><div class="h">${esc(F.strategies[s])}</div>${o.top.length ? `<ol>${o.top.map((x, i) => `<li><i class="rk">${i + 1}</i><span class="nm">${esc(x.n)}</span><code>${esc(x.c)}</code><em>${x.k}<small>分</small></em></li>`).join("")}</ol>` : `<div class="mute">今天沒有達標的，不買</div>`}</div>`; }).join("") : "";
   const sellList = POL.map(pl => `<div><b>${esc(F.policies[pl])}</b><span>${esc(FW_SELL[pl] || "")}</span></div>`).join("");
   // ---------- 簡單版 ----------
   const PL = fw.pl, SHORT = { hold20: "持有 20 日", hold60: "持有 60 日", tp: "停利停損", sr: "壓力支撐", ma20: "破月線賣", drop: "跌出名單賣" };
-  const mchart = o => fwSvgLine(P === "live" ? o.cv.filter(c => c[0] >= F.liveFrom) : o.cv.slice(20), P === "all" ? F.liveFrom : "");   // 剛開始只有幾張單，累積報酬會亂跳，先不畫
+  const mchart = o => zoomLine("val", P === "live" ? o.cv.filter(c => c[0] >= F.liveFrom) : o.cv.slice(20), P === "all" ? F.liveFrom : "");   // 剛開始只有幾張單，累積報酬會亂跳，先不畫
   const rows = S.map(s => { const x = st0(s, PL), a = acc(s, PL); return x ? { s, x, cv: (a && a.curve) || [] } : null; }).filter(Boolean).sort((a, b) => b.x.avg - a.x.avg);
   const cur = rows.find(o => o.s === fw.ss) || rows[0], mc = cur ? mchart(cur) : "", rk = cur ? rows.indexOf(cur) + 1 : 0;
   const simple = `<div class="fwAsof">資料到 ${esc(F.asOf)}・追蹤起點 ${esc(F.liveFrom)}</div>
@@ -4131,6 +4145,7 @@ function admCsv(kind) {
 function admInit() {
   const el = $("admBody");
   el.addEventListener("pointermove", chScrub); el.addEventListener("pointerdown", chScrub); el.addEventListener("pointerout", chHide);
+  attachPinch(el, e => { const z = e.target.closest && e.target.closest(".zc"); return z ? zoomRng(z) : null; });
   el.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-stk]")) { e.preventDefault(); fwStockOpen(e.target.dataset.stk); } });
   el.addEventListener("click", e => {
     const t = e.target.closest("#admTabs button"); if (t) { adm.tab = t.dataset.t; admRender(); window.scrollTo({ top: 0 }); return; }
@@ -4266,7 +4281,7 @@ function mktTaiexDraw() {
 function mktNightChart(sess) {
   if ((sess || []).length < 4) return "";
   return `${mktPre("n", NIGHT_RNG)}<div class="mktRead" id="mktNRead"></div><div class="mktBox chBox" id="mktNBox" data-k="n"></div>
-    <div class="mktLg"><span><i class="ln day"></i>日盤收盤（連線）</span><span><i class="dot nd"></i>夜盤收盤（藍線＝夜盤相對前一個日盤的漲跌）</span><span><i class="bar"></i>下方長條＝夜盤漲跌點數</span><span><i class="ln roll"></i>換月</span><span class="rg" id="mktNRg"></span><span class="chHint">拖曳平移・Ctrl＋滾輪縮放・雙擊還原</span></div>
+    <div class="mktLg"><span><i class="ln day"></i>日盤收盤（連線）</span><span><i class="dot nd"></i>夜盤收盤（藍線＝夜盤相對前一個日盤的漲跌）</span><span><i class="bar"></i>下方長條＝夜盤漲跌點數</span><span><i class="ln roll"></i>換月</span><span class="rg" id="mktNRg"></span><span class="chHint">拖曳平移・滾輪縮放・雙擊還原</span></div>
     <div class="nt" style="margin-top:2px"><b>怎麼讀：</b>每個交易日有兩段：<b>日盤</b>（08:45～13:45）和<b>夜盤</b>（前一晚 15:00 到當天清晨 05:00）。灰線只連每天的日盤收盤；藍點是夜盤收盤，離灰線多遠、往上或往下，就是<b>夜盤相對前一個日盤收盤</b>的漲跌，下方長條把它量化。夜盤收盤是當天日盤開盤前最後的價位，所以常被拿來推估開盤。</div>`;
 }
 function mktNightDraw() {
@@ -5953,14 +5968,21 @@ function renderSim() {
     <div class="simTotal"><div class="k">總資產</div><div class="v">${v == null ? "更新報價中…" : money(v)}</div>
     <div class="r ${signCls(sret)}">${sret == null ? "" : `本季 ${spct(sret, 2)}`}${tip("simRules")}</div>
     <div class="r ${signCls(pnl)}" style="font-weight:500;font-size:.8rem;color:var(--muted)">${ret == null ? "" : `累計 ${spct(ret, 2)}　${pnl >= 0 ? "+" : "−"}${money(Math.abs(pnl)).slice(4)}`}</div></div>
-    <div class="simGrid"><div><div class="k">現金</div><div class="v">${money(a.cash)}</div></div>
-      <div><div class="k">持股市值</div><div class="v">${holdVal == null ? "—" : money(holdVal)}</div></div>
+    ${(() => {
+      const avail = Math.max(0, a.cash - reserved), resv = Math.min(reserved, a.cash), hv = holdVal == null ? 0 : holdVal, tot = avail + resv + hv || 1, pc = x => x / tot * 100;
+      const row = (cls, nm, sub, amt) => `<div class="r"><i class="${cls}"></i><span>${nm}<small>${sub}</small></span><b>${amt == null ? "—" : money(amt)}</b><em>${amt == null ? "" : pc(amt).toFixed(1) + "%"}</em></div>`;
+      return `<div class="simAvail"><div class="k">可用現金（可以拿來下新的買單）</div><div class="v">${money(avail)}</div></div>
+      ${v == null ? "" : `<div class="simBar" role="img" aria-label="資金配置：可用現金、預約買單占用、持股市值"><i class="sbA" style="width:${pc(avail).toFixed(2)}%"></i><i class="sbR" style="width:${pc(resv).toFixed(2)}%"></i><i class="sbH" style="width:${pc(hv).toFixed(2)}%"></i></div>`}
+      <div class="simLg">${row("sbA", "可用現金", "現金扣掉預約買單", avail)}${row("sbR", "預約買單占用", "已預留給還沒成交的買單", resv)}${row("sbH", "持股市值", "目前持有股票的市價", holdVal)}</div>`;
+    })()}
+    <details class="simMore"><summary>更多資金細節</summary><div class="simGrid">
+      <div><div class="k">帳上現金（含預約占用）</div><div class="v">${money(a.cash)}</div></div>
       <div><div class="k">累計投入本金${tip("simInvested")}</div><div class="v">${money(invested)}</div></div>
       <div><div class="k">已領取</div><div class="v">${a.claimedCount} 週</div></div>
       <div><div class="k">預約買單預估占用${tip("simAvail")}</div><div class="v">${money(reserved)}</div></div>
       <div><div class="k">預約賣單預估所得</div><div class="v">${money(proceeds)}</div></div>
       <div><div class="k">預約成交後預估現金</div><div class="v">${money(a.cash - reserved + proceeds)}</div></div>
-      <div><div class="k">扣除預約買單後資產</div><div class="v">${v == null ? "—" : money(v - reserved)}</div></div></div>
+      <div><div class="k">扣除預約買單後資產</div><div class="v">${v == null ? "—" : money(v - reserved)}</div></div></div></details>
     <div class="simClaim">${canClaim ? `<button type="button" class="btn" data-act="claim">領取本週資金 ${money(SIM_WEEKLY)}</button>`
       : `<button type="button" class="btn ghost" disabled>本週已領取</button><div class="hint">下一次可以領取：${weekMonday(W + 1)}（週一）起。</div>`}</div>`;
   // 預約單
@@ -6115,15 +6137,24 @@ function renderSimForm() {
   $("simRule").innerHTML = how + (needP ? `${range}${+$("simDays").value > 1 ? "長效單到期仍沒成交就作廢。" : "當日有效：只看第一個交易日，沒成交就作廢。"}` : "") + (odd ? "<br>零股只能用限價單，一次最多 999 股。" : "");
   $("simRule").className = "status"; $("simRule").style.cssText = "line-height:1.6";
   let est = "";
+  const resvAll = a ? simReserved(a) : 0, availC = a ? Math.max(0, a.cash - resvAll) : 0;
+  const kv = (k, v, cls = "") => `<div class="r ${cls}"><span>${k}</span><b>${v}</b></div>`;
+  if (a) est += `<div class="seTop"><div><small>可用現金</small><b>${money(availC)}</b></div><div><small>預約買單占用</small><b>${money(resvAll)}</b></div>${sim.side === "sell" && p ? `<div><small>${esc(p.code)} 持有</small><b>${have.toLocaleString("en-US")} 股</b></div>` : ""}</div>`;
   if (p && q && qty > 0) {
-    const refP = needP && price > 0 ? price : q.close, amt = refP * qty;
-    est = `預估約 ${money(amt)}（以${needP && price > 0 ? "你設定的價格" : "最新收盤"}估算，手續費約 ${Math.max(1, Math.round(amt * SIM_FEE)).toLocaleString("en-US")} 元）。${sim.side === "sell" ? `目前持有 ${have.toLocaleString("en-US")} 股。` : ""}預計 ${simAfterDate(Date.now())} 起${needP ? "生效" : "第一個交易日的開盤價成交"}。`;
+    const refP = needP && price > 0 ? price : q.close, amt = refP * qty, fee = Math.max(1, Math.round(amt * SIM_FEE)), basis = needP && price > 0 ? "你設定的價格" : "最新收盤";
+    const when = `預計 ${simAfterDate(Date.now())} 起${needP ? "生效" : "第一個交易日的開盤價成交"}。`;
+    if (sim.side === "buy") {
+      const need = amt + fee, after = availC - need, ok = a ? after >= 0 : true, pctU = availC > 0 ? Math.min(100, need / availC * 100) : 100;
+      est += `<div class="seCalc">${kv(`成交金額<small>${fmt(refP)} 元 × ${qty.toLocaleString("en-US")} 股（以${basis}估算）</small>`, money(amt))}${kv("手續費", "+ " + money(fee))}${kv("這筆買單需要現金", money(need), "tot")}</div>`
+        + (a ? `<div class="seBar"><i class="${ok ? "ok" : "bad"}" style="width:${pctU.toFixed(1)}%"></i></div><div class="seVerdict ${ok ? "ok" : "bad"}"><b>${ok ? "✓ 餘額足夠" : "✗ 餘額不足"}</b><span>${ok ? `下單後可用現金剩 ${money(after)}` : `還差 ${money(-after)}，請減少數量或價格`}</span></div>` : "");
+    } else {
+      const tax = Math.round(amt * taxRate(p.code)), net = amt - fee - tax, left = have - qty, ok = left >= 0;
+      est += `<div class="seCalc">${kv(`成交金額<small>${fmt(refP)} 元 × ${qty.toLocaleString("en-US")} 股（以${basis}估算）</small>`, money(amt))}${kv("手續費", "− " + money(fee))}${kv("證交稅", "− " + money(tax))}${kv("預估賣出入帳", money(net), "tot")}</div>`
+        + `<div class="seVerdict ${ok ? "ok" : "bad"}"><b>${ok ? "✓ 持股足夠" : "✗ 持股不足"}</b><span>${ok ? `賣出後 ${esc(p.code)} 剩 ${left.toLocaleString("en-US")} 股，現金預估增加 ${money(net)}` : `目前只有 ${have.toLocaleString("en-US")} 股，少了 ${(-left).toLocaleString("en-US")} 股`}</span></div>`;
+    }
+    est += `<div class="seNote">${when}</div>`;
   }
-  if (a) {
-    const resv = simReserved(a), v = simValue(a, true), pro = simSellProceeds(a);
-    est = `目前可用現金約 ${money(Math.max(0, a.cash - resv))}（預約買單占用 ${money(resv)}）。預約賣單成交後預估現金約 ${money(a.cash - resv + pro)}（含賣單預估所得 ${money(pro)}）。扣除預約買單後資產約 ${money(v - resv)}。` + (est ? "\n" + est : "");
-  }
-  $("simEst").textContent = est; $("simEst").hidden = !est; $("simEst").style.whiteSpace = "pre-line";
+  $("simEst").innerHTML = est; $("simEst").hidden = !est;
 }
 async function simPick(code, name) {
   code = String(code).trim().toUpperCase();
@@ -6576,7 +6607,7 @@ function flowChart(kind) {
       legend = `<span><i class="c1"></i>${lab}累計買賣超（張）</span>${okPx ? `<span><i class="px"></i>股價（對照用）</span>` : ""}`;
     } else {
       plot = flowPlot({ dates, vals, bars: true, price: okPx ? px : null, fmtY: flowK, fmtTag: flowK, cls: "c1", W, label: `${lab}每日買賣超` });
-      legend = `<span><i class="up"></i>買超</span><span><i class="dn"></i>賣超</span>${okPx ? `<span><i class="px"></i>股價（對照用）</span>` : ""}<span>1 張＝1000 股</span><span class="chHint">拖曳平移・Ctrl＋滾輪縮放・雙擊還原</span>`;
+      legend = `<span><i class="up"></i>買超</span><span><i class="dn"></i>賣超</span>${okPx ? `<span><i class="px"></i>股價（對照用）</span>` : ""}<span>1 張＝1000 股</span><span class="chHint">拖曳平移・滾輪縮放・雙擊還原</span>`;
     }
     read = i => `<b>${dates[i].replace(/-/g, "/")}</b>　外資 <span class="${flowCls(ser[i].f)}">${flowN(ser[i].f)}</span>　投信 <span class="${flowCls(ser[i].t)}">${flowN(ser[i].t)}</span>　自營商 <span class="${flowCls(ser[i].dl)}">${flowN(ser[i].dl)}</span>　合計 <span class="${flowCls(ser[i].all)}">${flowN(ser[i].all)}</span> 張${FLOW.mode === "cum" ? `<br>${lab}累計 <span class="${flowCls(cum[i])}">${flowN(cum[i])}</span> 張` : ""}${okPx ? `　股價 ${fmt(px[i])}` : ""}`;
   } else {
