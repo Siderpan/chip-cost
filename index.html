@@ -1819,7 +1819,7 @@ function fmLimitError(until) {
   e.limit = true; return e;
 }
 function fmUsageRender() {
-  const b = fmBlocked(), txt = b ? `查詢暫停中，預計 ${hhmm(b)} 恢復` : `本小時約已用 ${fmLog().length} / ${fmLimit()} 次${getToken() ? "（已使用 token）" : ""}`;
+  const b = fmBlocked(), txt = b ? `查詢暫停中，預計 ${hhmm(b)} 恢復` : `本小時約已用 ${fmLog().length} / ${fmLimit()} 次${getToken() ? (lsRead("fmTokenBad") === getToken() ? "（token 已失效，改用免登入額度，請到進階參數更新）" : "（已使用 token）") : ""}`;
   document.querySelectorAll(".fmUsage").forEach(el => { el.textContent = txt; el.classList.toggle("low", !!b || fmLeft() < FM_RESERVE); });
 }
 async function fm(dataset, params) {
@@ -1828,15 +1828,20 @@ async function fm(dataset, params) {
   const u = new URL(FM);
   u.searchParams.set("dataset", dataset);
   for (const k in params) u.searchParams.set(k, params[k]);
-  const t = getToken();
+  let t = getToken();
+  if (t && lsRead("fmTokenBad") === t) t = "";          // 這組 token 被 FinMind 拒絕過，先不用
   if (t) u.searchParams.set("token", t);
   const log = fmLog(); log.push(Date.now()); lsWrite("fmLog", log); fmUsageRender();
   let r, j;
   try { r = await fetch(u); }
   catch (e) {
-    // 被限流時對方常常沒有帶 CORS 標頭，瀏覽器只看得到「連線失敗」。用量已接近上限時，就當作被擋
-    if (log.length >= fmLimit() * 0.8) throw fmLimitError(fmBlockNow(log));
-    throw new Error("連不上資料來源，請檢查網路後再試。");
+    // token 失效時 FinMind 的錯誤回應沒有 CORS 標頭，瀏覽器只看得到「連線失敗」：改用免登入額度再試一次
+    if (t) { try { const u2 = new URL(u); u2.searchParams.delete("token"); r = await fetch(u2); lsWrite("fmTokenBad", t); fmUsageRender(); } catch (e2) { r = null; } }
+    if (!r) {
+      // 被限流時對方常常沒有帶 CORS 標頭，瀏覽器只看得到「連線失敗」。用量已接近上限時，就當作被擋
+      if (log.length >= fmLimit() * 0.8) throw fmLimitError(fmBlockNow(log));
+      throw new Error("連不上資料來源，請檢查網路後再試。");
+    }
   }
   if (r.status === 402 || r.status === 429) throw fmLimitError(fmBlockNow(log));
   try { j = await r.json(); } catch (e) { throw new Error(`資料來源回應異常（HTTP ${r.status}）。`); }
