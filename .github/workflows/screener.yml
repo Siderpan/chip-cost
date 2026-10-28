@@ -29,6 +29,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add screener.json forward.json forward_ext.json strategy.json paper.json
+          git add screener.json forward.json forward_ext.json strategy.json paper.json industry.json
           # 計算期間如果有人更新了 main（例如剛好上傳新版網頁），先接上最新的再推，避免被拒絕
           git diff --cached --quiet || (git commit -m "Nightly screener data, forward-test and auto strategy" && git pull --rebase -q origin main && git push)

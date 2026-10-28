@@ -324,6 +324,11 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .odGrid { display: grid; gap: 10px; }
 .odGrid .odS { font-weight: 700; color: var(--ink); margin: 2px 0 4px; }
 .rotCard { padding: 10px; }
+.rotFindWrap { margin-bottom: 10px; } .rotFindBox .sugg { top: 50px; } .rotFindBox .sugg .ind { margin-left: auto; font-size: .68rem; color: var(--muted); } .rfOut:empty { display: none; } .rfOut { margin-top: 8px; }
+.rfHit { font-size: .95rem; line-height: 1.7; } .rfHit small { margin: 0 8px 0 6px; font: 400 .78rem var(--font-num); color: var(--muted); } .rfSec { display: inline-block; padding: 1px 11px; border-radius: 999px; background: var(--profit); color: #fff; font-weight: 700; } .rfNo { color: var(--muted); font-size: .86rem; }
+.rfPos { margin-top: 4px; font-size: .8rem; line-height: 1.65; color: var(--muted); } .rfPos b { color: var(--ink); } .rfAct { display: flex; gap: 8px; margin-top: 8px; } .rfAct button { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 .8rem var(--font-ui); cursor: pointer; }
+.rotSvg .fring { fill: none; stroke: var(--profit); stroke-width: 2.6; stroke-dasharray: 5 4; animation: rfPulse 1.3s ease-in-out infinite; pointer-events: none; } .rotSvg .fTag { pointer-events: none; } .rotSvg .fTag rect { fill: var(--profit); } .rotSvg .fTag text { fill: #fff; font: 700 11px var(--font-ui); }
+@keyframes rfPulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } } @media (prefers-reduced-motion: reduce) { .rotSvg .fring { animation: none; } }
 .rotSvg { width: 100%; height: auto; display: block; touch-action: manipulation; margin-top: 6px; }
 .rotSvg .qr { fill: color-mix(in srgb, var(--bull) 7%, transparent); }
 .rotSvg .qg { fill: color-mix(in srgb, var(--bear) 7%, transparent); }
@@ -1321,7 +1326,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <button type="button" class="btn ghost" data-go="backtest">去回測</button>
       </div>
       <p class="gLead">往下還有「法人與融資」區塊（點開才載入），說明在下一段。</p>
-      <div class="card gTip"><div class="gName">圖表怎麼操作</div><ul><li><b>手機：</b>單指左右滑動，看每一天的數字；兩指捏合縮放，兩指一起移動平移。</li><li><b>電腦：</b>滑鼠移上去看數字；按住拖曳平移；直接滾動滾輪縮放（Shift＋滾輪或左右捲動＝平移，觸控板捏合也能縮放）；雙擊還原。</li><li>籌碼分析、技術分析、大盤指數、夜盤、法人與融資，以及管理後台的走勢圖，操作方式都一樣。</li></ul></div>
+      <div class="card gTip"><div class="gName">圖表怎麼操作</div><ul><li><b>手機：</b>單指點一下，看那一天的數字；單指左右拖動，圖會往前後移動（上下拖動仍然是捲動頁面）；兩指捏合縮放，兩指一起移動平移。</li><li><b>電腦：</b>滑鼠移上去看數字；按住拖曳平移；直接滾動滾輪縮放（Shift＋滾輪或左右捲動＝平移，觸控板捏合也能縮放）；雙擊還原。</li><li>籌碼分析、技術分析、大盤指數、夜盤、法人與融資，以及管理後台的走勢圖，操作方式都一樣。</li></ul></div>
       <p class="gNext">下一步：位置看完了，去 <button type="button" class="gLink" data-go="tech">技術分析</button> 看狀態，確認兩者同不同向。</p>
       </div></details>
     </div>
@@ -1361,7 +1366,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <div class="card gSteps">
         <div class="gStep"><i>1</i><div><b>查股票（和「籌碼分析」共用）</b><p>在這個頁籤查，或在籌碼分析查，換一邊兩邊一起換。</p></div></div>
         <div class="gStep"><i>2</i><div><b>先看最上面的總結</b><p>「技術面偏多／偏空／中性」，下面四張卡片分別是趨勢、動能、波動、量價，一眼看出哪裡強、哪裡弱。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>再看圖和搭配組合</b><p>手指滑過圖，上方讀數列會顯示那一天所有的數字；圖下方的色帶看這段時間是強還是弱；「搭配組合」會告訴你目前有沒有特別的型態。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>再看圖和搭配組合</b><p>手指點一下圖（電腦：滑鼠移過去），上方讀數列會顯示那一天所有的數字；圖下方的色帶看這段時間是強還是弱；「搭配組合」會告訴你目前有沒有特別的型態。</p></div></div>
       </div>
       <p class="gLead"><b>先記得：</b>技術指標都是用同一份價量算出來的，彼此高度相關，偏多的項目多不代表一定會漲。它是幫你「讀現在的狀態」，不是預測工具。</p>
       <p class="gLead">下面是這個頁籤所有圖、指標和名詞的詳細說明：</p>
@@ -1910,16 +1915,25 @@ async function idbGet(key) {
 async function idbPut(key, val) { const db = await idbDb(); if (!db) return; try { db.transaction("stocks", "readwrite").objectStore("stocks").put(val, key); } catch (e) {} }
 let info = [];                // [[id, name, 產業別], ...]
 async function loadInfo() {
-  try { const c = JSON.parse(localStorage.getItem("chipInfo2") || "null"); if (c && Date.now() - c.t < 6048e5 && c.l.length) { info = c.l; return; } } catch (e) {}
+  try { const c = JSON.parse(localStorage.getItem("chipInfo3") || "null"); if (c && Date.now() - c.t < 6048e5 && c.l.length) { info = c.l; return; } } catch (e) {}
   try {
-    const seen = new Set();
+    const best = new Map(), PARENT = new Set(["電子工業", "電子", "化學生技醫療"]);        // 上層分類：同一檔如果還有細分類，就用細分類
     for (const r of await fm("TaiwanStockInfo", {})) {
-      if (seen.has(r.stock_id) || !/^\d{4,6}[A-Z]?$/.test(r.stock_id)) continue;
-      seen.add(r.stock_id); info.push([r.stock_id, r.stock_name, r.industry_category || ""]);
+      if (!/^\d{4,6}[A-Z]?$/.test(r.stock_id)) continue;
+      const ind = r.industry_category || "", cur = best.get(r.stock_id);
+      if (!cur) best.set(r.stock_id, [r.stock_id, r.stock_name, ind]); else if (PARENT.has(cur[2]) && ind && !PARENT.has(ind)) cur[2] = ind;
     }
-    try { localStorage.setItem("chipInfo2", JSON.stringify({ t: Date.now(), l: info })); } catch (e) {}
+    info.push(...best.values());
+    try { localStorage.setItem("chipInfo3", JSON.stringify({ t: Date.now(), l: info })); } catch (e) {}
   } catch (e) { info = []; }
 }
+/* 股票 → 產業別：優先用夜間排程存下來的 industry.json（交易所／櫃買中心的公司基本資料，每檔只有一個、最準），沒有才退回 FinMind 的產業別 */
+let indMap = null;
+async function loadIndustry() {
+  if (indMap) return;
+  try { const res = await fetch("industry.json?d=" + todayTW(), { cache: "no-cache" }); if (!res.ok) return; const j = await res.json(); if (j && j.m) indMap = j.m; } catch (e) {}
+}
+const indOf = code => { if (indMap && indMap[code]) return indMap[code][0]; const row = info.find(s => s[0] === code); return row ? row[2] : ""; };
 function searchStocks(q) {
   q = q.trim().toLowerCase();
   if (!q) return [];
@@ -2415,7 +2429,7 @@ const GLOSS = {
     calc: "比較每天的「MA20 − MA60」，由負變正是黃金交叉，由正變負是死亡交叉。" },
   tcStrip: { t: "強弱色帶",
     def: "K 線下方那條彩色帶，每一天一格，把當天四個問題的答案加起來，用顏色表示整體偏強還是偏弱。",
-    read: ["<b>四個問題</b>（偏多 +1、偏空 −1）：① 收盤 ＞ MA20 ＞ MA60 嗎？② MACD 柱狀在 0 以上嗎？③ RSI 在 50 以上嗎？④ KD 的 K 在 D 之上嗎？", "加總 −4～+4：<b>深紅（+3～+4）強多、淺紅（+1～+2）偏多、灰色（0）中性、淺綠（−1～−2）偏空、深綠（−3～−4）強空</b>。", "整條帶子紅色多，代表這段時間偏強；綠色多就偏弱；由綠轉紅的地方是轉強。手指滑過圖，上方會顯示那天四個問題各答了什麼。", "這四項都是用同一份價量算的，不是四個獨立的證據；它只是把現在的狀態用顏色整理起來，不是預測。"] },
+    read: ["<b>四個問題</b>（偏多 +1、偏空 −1）：① 收盤 ＞ MA20 ＞ MA60 嗎？② MACD 柱狀在 0 以上嗎？③ RSI 在 50 以上嗎？④ KD 的 K 在 D 之上嗎？", "加總 −4～+4：<b>深紅（+3～+4）強多、淺紅（+1～+2）偏多、灰色（0）中性、淺綠（−1～−2）偏空、深綠（−3～−4）強空</b>。", "整條帶子紅色多，代表這段時間偏強；綠色多就偏弱；由綠轉紅的地方是轉強。手指點一下圖（電腦：滑鼠移過去），上方會顯示那天四個問題各答了什麼。", "這四項都是用同一份價量算的，不是四個獨立的證據；它只是把現在的狀態用顏色整理起來，不是預測。"] },
   techCombos: { t: "指標的搭配組合",
     def: "把不同「類型」的技術指標放在一起看，互相確認。類型有：趨勢（均線、SuperTrend）、動能（MACD、RSI、KD）、波動（布林通道）、量價，以及籌碼。",
     read: ["<b>順勢三步驟</b>：先用均線看方向，再用 MACD 確認力道，最後用量能確認有沒有人跟。三層同向，訊號比較一致。", "<b>多頭回檔／過熱</b>：用均線判斷多頭或空頭，再用 KD、RSI 看位置。多頭中的低檔是回檔，高檔是過熱；空頭中的低檔常只是鈍化。", "<b>波動與量能</b>：布林通道很窄又量縮，是蓄勢；放量突破上軌比較可靠，量縮的突破要小心假突破。", "<b>動能一致性</b>：MACD、RSI、KD 都是看力道，彼此很像，同向只代表「力道方向明確」，不是「三倍可靠」。", "<b>技術＋籌碼</b>：技術面看趨勢，籌碼面看價位和賣壓；兩者同向訊號比較完整。", "這些是市場上常見的判讀方式，<b>不是我們驗證過有預測力的規則</b>。我們自己的回測發現，單靠這些指標沒有穩定的預測力，所以請當成讀盤的輔助。"] },
@@ -2614,7 +2628,7 @@ function chCross(svg, sp, i) {
   if (tx) { const w = 52, xc = Math.max(sp.ml + w / 2, Math.min(sp.W - sp.mr - w / 2, x)); tx.setAttribute("transform", `translate(${xc} 0)`); tx.querySelector("text").textContent = sp.dateTxt(i); tx.style.display = ""; }
 }
 function chScrub(e) {
-  if (PINCH.live || (e.pointerType === "touch" && !e.isPrimary)) return;
+  if (PINCH.live || (e.pointerType === "touch" && (!e.isPrimary || e.type === "pointermove"))) return;
   const box = e.target.closest && e.target.closest(".chBox"), sp = box && box.__spec; if (!sp) return;
   const rc = box.getBoundingClientRect(), px = (e.clientX - rc.left) / (rc.width || 1) * sp.W, w = sp.W - sp.ml - sp.mr;
   const i = Math.max(0, Math.min(sp.n - 1, sp.bars ? Math.floor((px - sp.ml) / w * sp.n) : Math.round((px - sp.ml) / w * (sp.n - 1))));
@@ -2636,15 +2650,24 @@ function setChartHtml(el, html) {
 function pinchEnd() { PINCH.live = false; document.querySelectorAll(".pinchGrave").forEach(n => n.remove()); }
 // 兩指縮放：捏合（兩指靠近／拉開）改變區間長度，兩指一起左右移動則平移；以兩指中點為錨點
 function attachPinch(box, rng) {
-  let p = null;
+  let p = null, s = null;                                          // p = 兩指縮放，s = 單指拖動
   const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY), midX = t => (t[0].clientX + t[1].clientX) / 2;
   box.addEventListener("touchstart", e => {
     const r = rng(e);
+    if (e.touches.length === 1 && r) { const [a, b] = r.get(), w = (r.el || box).getBoundingClientRect(); s = { x: e.touches[0].clientX, y: e.touches[0].clientY, a, b, w: w.width || 1, r, on: false }; p = null; return; }
+    s = null;
     if (e.touches.length !== 2 || !r) { p = null; return; }
     const [a, b] = r.get(), w = (r.el || box).getBoundingClientRect();
     p = { d: dist(e.touches) || 1, a, b, f: w.width ? Math.min(1, Math.max(0, (midX(e.touches) - w.left) / w.width)) : 0.5, mx: midX(e.touches), w: w.width || 1, r };
   }, { passive: true });
   box.addEventListener("touchmove", e => {
+    if (s && e.touches.length === 1) {
+      const dx = e.touches[0].clientX - s.x, dy = e.touches[0].clientY - s.y;
+      if (!s.on) { if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy) * 1.2) return; s.on = true; }          // 先看是橫著拖還是直著拖：直的就是捲頁面
+      e.preventDefault();
+      const len = s.b - s.a, na = Math.max(0, Math.min(s.r.n - 1 - len, Math.round(s.a - dx / s.w * len)));
+      PINCH.live = true; s.r.set(na, na + len, true); return;
+    }
     if (!p || e.touches.length !== 2) return;
     e.preventDefault();
     const r = p.r, len0 = p.b - p.a, len = Math.round(Math.min(r.n - 1, Math.max(r.minSpan, len0 * p.d / (dist(e.touches) || 1))));
@@ -2652,7 +2675,7 @@ function attachPinch(box, rng) {
     const na = Math.max(0, Math.min(r.n - 1 - len, Math.round(p.a + len0 * p.f - len * p.f + shift)));
     p.moved = true; PINCH.live = true; r.set(na, na + len, true);
   }, { passive: false });
-  const done = e => { if (p && e.touches.length < 2) { const { moved, r } = p; p = null; pinchEnd(); if (moved) r.end(); } };
+  const done = e => { if (s && e.touches.length === 0) { const { on, r } = s; s = null; if (on) { pinchEnd(); r.end(); } } if (p && e.touches.length < 2) { const { moved, r } = p; p = null; pinchEnd(); if (moved) r.end(); } };
   box.addEventListener("touchend", done);
   box.addEventListener("touchcancel", done);
   // 滑鼠（桌機）：和 TradingView 一樣的操作；一般的上下滾輪仍然是捲動頁面
@@ -3864,11 +3887,11 @@ const FW_SELL = {
 function zoomLine(id, d, liveFrom) {
   if (!d || d.length < 3) return "";
   fw.zc[id] = { d, liveFrom, a: 0, b: d.length - 1 };
-  return `<div class="zc" id="zc_${id}" data-zc="${id}">${fwSvgLine(d, liveFrom)}</div><div class="zh"><span class="zd">滾輪縮放・拖曳平移・雙擊還原</span><span class="zm">兩指縮放・兩指一起移動平移</span></div>`;
+  return `<div class="zc" id="zc_${id}" data-zc="${id}">${fwSvgLine(d, liveFrom)}</div><div class="zh"><span class="zd">滾輪縮放・拖曳平移・雙擊還原</span><span class="zm">單指左右拖動平移・兩指縮放</span></div>`;
 }
 function zoomRng(el) {
   const z = fw.zc[el.dataset.zc]; if (!z) return null;
-  const draw = (a, b) => { z.a = a; z.b = b; el.innerHTML = fwSvgLine(z.d.slice(a, b + 1), z.liveFrom); };
+  const draw = (a, b) => { z.a = a; z.b = b; setChartHtml(el, fwSvgLine(z.d.slice(a, b + 1), z.liveFrom)); };
   return { el, n: z.d.length, minSpan: 7, get: () => [z.a, z.b], set: (a, b) => draw(a, b), end: () => {}, reset: () => draw(0, z.d.length - 1) };
 }
 function fwSvgLine(d, liveFrom) {
@@ -4524,7 +4547,7 @@ function heatRender() {
    泡泡大小 = 最近 3 日平均占比（越大，成交的錢越多）；紅漲綠跌。
    資料：證交所「每日類股成交統計」（成交金額、漲跌點數）+ 起點那天的「類股價格指數」。漲跌點數逐日累加，就能還原每天的指數水準。
    每個交易日的資料只查一次並存在手機裡。 */
-const rot = { data: null, loading: false, err: "", prog: "", sel: [], pop: "", t: 0, playing: false, raf: 0, last: 0, done: false };
+const rot = { data: null, loading: false, err: "", prog: "", sel: [], pop: "", find: null, t: 0, playing: false, raf: 0, last: 0, done: false };
 const ROT_WIN = 10, ROT_DAY_MS = 900;                                // 10 個交易日，動畫每天停留約 0.9 秒
 const rotKey = n => { n = String(n).trim().replace(/類?指數$/, "").replace(/類$/, ""); return n === "航運業" ? "航運" : n; };
 const ROT_SKIP = new Set(["電子", "電子工業", "化學生技醫療"]);       // 這幾個是上層分類，底下的細分類已經各自算過，不重複放
@@ -4554,6 +4577,7 @@ async function rotLoad(force) {
   if (rot.loading) return;
   if (!force && rot.data && Date.now() - rot.data.at < 15 * 60e3) { rot.autoplay = !matchMedia("(prefers-reduced-motion: reduce)").matches; rotRender(); return; }   // 每次回到這一頁，動畫重播一次
   rot.loading = true; rot.err = ""; rot.prog = "準備中…"; rotRender();
+  loadIndustry().then(() => { if (rot.data && rot.pop) rotSheetDraw(); });
   try {
     const dates = (await rotTradingDates()).slice(-(ROT_WIN + 1));
     if (dates.length < ROT_WIN + 1) throw new Error("交易日資料不足");
@@ -4636,8 +4660,10 @@ function rotRender() {
   const order = d.secs.map((s, i) => i);                                  // secs 已依成交金額由大到小排好；大的先畫在底下
   g += order.map(i => `<circle class="b" data-n="${esc(d.secs[i].n)}" r="6"><title>${esc(d.secs[i].n)}</title></circle>`).join("");
   g += order.map(i => `<text class="lb" data-n="${esc(d.secs[i].n)}" text-anchor="middle"></text>`).join("");
+  g += `<g id="rotFindG"></g>`;
   g += `<text id="rotDate" class="dt" x="${W - mr - 6}" y="${H - mb - 22}" text-anchor="end"></text>`;
   el.innerHTML = `<div class="card rotCard">
+    <div class="rotFindWrap"><div class="searchBox rotFindBox"><form class="search" id="rotForm" autocomplete="off" role="search"><input id="rotQ" type="search" inputmode="search" enterkeyhint="search" placeholder="查股票屬於哪個類股：輸入代碼或名稱" aria-label="查詢股票所屬類股" autocomplete="off" autocapitalize="off" spellcheck="false"><button type="submit">查類股</button></form><ul id="rotSugg" class="sugg" hidden></ul></div><div id="rotFindOut" class="rfOut" aria-live="polite"></div></div>
     <div class="rotChips">${chips}</div>
     <div class="rotCtl"><button type="button" class="rotPlay" id="rotPlay" aria-label="播放或暫停"></button>
       <input id="rotScrub" type="range" min="0" max="${last}" step="0.01" value="0" aria-label="拖曳時間軸，看每一天的位置">
@@ -4651,6 +4677,7 @@ function rotRender() {
   rotSyncSel();
   rotFrame(rot.t);
   rotSyncUi();
+  rotFindDraw();
   if (rot.autoplay) { rot.autoplay = false; rot.t = 0; rotFrame(0); rotPlay(true); }
 }
 function rotSyncUi() {
@@ -4717,6 +4744,17 @@ function rotFrame(t) {
     pts.push([sc.X(cur.x), sc.Y(cur.y)]);
     return `<polyline class="tr" points="${pts.map(p => p.map(v => v.toFixed(1)).join(",")).join(" ")}"/>` + (sel.length === 1 ? pts.slice(0, -1).map((p, k) => `<circle class="td" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6"/><text class="tl" x="${p[0].toFixed(1)}" y="${(p[1] - 6).toFixed(1)}" text-anchor="middle">${esc(d.days[k].slice(8))}</text>`).join("") : "");
   }).join("");
+  // 搜尋到的股票所屬的類股：虛線圈＋「○○在這裡」標籤，跟著泡泡一起動
+  const fg = svg.querySelector("#rotFindG");
+  if (fg) {
+    const f = rot.find, p = f && f.sec && byName[f.sec];
+    if (!p) fg.innerHTML = "";
+    else {
+      const cx = sc.X(p.x), cy = sc.Y(p.y), rr = sc.R(p.v) * 1.15 + 6, lab = `${f.name} 在這裡`, w = lab.length * 11 + 18;
+      const tx = Math.max(ROT.ml + 2, Math.min(ROT.W - ROT.mr - w - 2, cx - w / 2)), ty = cy - rr - 24 < ROT.mt ? cy + rr + 6 : cy - rr - 24;
+      fg.innerHTML = `<circle class="fring" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${rr.toFixed(1)}"/><g class="fTag"><rect x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" width="${w}" height="19" rx="9.5"/><text x="${(tx + w / 2).toFixed(1)}" y="${(ty + 13).toFixed(1)}" text-anchor="middle">${esc(lab)}</text></g>`;
+    }
+  }
   // 日期、時間軸、說明文字
   const di = Math.round(t), dd = d.days[Math.min(last, di)];
   svg.querySelector("#rotDate").textContent = `${dd.slice(5).replace("-", "/")}　第 ${Math.min(last, di) + 1} / ${last + 1} 日`;
@@ -4729,6 +4767,39 @@ function rotFrame(t) {
   } else if (picked.length > 1) {
     $("rotPick").innerHTML = `<div class="rotMulti">${picked.map(({ s }) => `<div><b>${esc(s.n)}</b><span class="${signCls(s.y[k])}">累計 ${sg(s.y[k], 1)}</span><span>占比 ${(s.sh3[k] * 100).toFixed(1)}%（<i class="${signCls(s.x[k])}">${sg(s.x[k])}</i>）</span></div>`).join("")}</div>`;
   } else $("rotPick").innerHTML = `沒有聚焦時顯示整體：按<b>播放</b>看資金怎麼流動，或點上方的重點、選單、泡泡聚焦類別（可複選）；點泡泡會列出該類別的股票。`;
+}
+/* 股票 → 類股：用 FinMind 的產業別，對上證交所類股名稱（和成分股面板用同一套比對）。找到就聚焦那個泡泡、標出位置 */
+function rotSectorOf(code) {
+  const ind = indOf(code), mk = indMap && indMap[code] ? indMap[code][1] : "";
+  if (!ind) return { ind: "", sec: null, mk };
+  const k = indKey(ind), sec = rot.data && rot.data.secs.find(s => new Set([IND_ALIAS[s.n] || indKey(s.n), indKey(s.n)]).has(k));
+  return { ind, sec: sec ? sec.n : null, mk };
+}
+async function rotFindPick(code, name) {
+  if (!rot.data) return;
+  if (!indMap) await loadIndustry();
+  const { ind, sec, mk } = rotSectorOf(code);
+  rot.find = { code, name, ind, sec, mk };
+  if (sec) { rot.sel = [sec]; rot.pop = ""; rotSheetDraw(); }
+  $("rotSugg").hidden = true; $("rotQ").value = `${code} ${name}`; $("rotQ").blur();
+  rotSyncSel(); rotFindDraw(); rotFrame(rot.t);
+  if (sec) { const svg = document.querySelector("#rotBody .rotSvg"); if (svg && svg.scrollIntoView) svg.scrollIntoView({ block: "center", behavior: "smooth" }); }
+}
+function rotFindDraw() {
+  const out = $("rotFindOut"); if (!out) return;
+  const f = rot.find, q = $("rotQ");
+  if (!f) { out.innerHTML = ""; return; }
+  if (q && document.activeElement !== q && !q.value) q.value = `${f.code} ${f.name}`;
+  const nm = `<b>${esc(f.name)}</b><small>${esc(f.code)}</small>`;
+  if (!f.ind) { out.innerHTML = `<div class="rfHit rfNo">${nm}查不到產業別（可能是 ETF、存託憑證或剛上市），所以不在類股泡泡圖裡。</div>`; return; }
+  if (!f.sec && ROT_SKIP.has(f.ind) || !f.sec && ROT_SKIP.has(rotKey(f.ind))) { out.innerHTML = `<div class="rfHit rfNo">${nm}在資料來源只被歸到上層分類「${esc(f.ind)}」，沒有細分的類股，所以圖上找不到它自己的泡泡。電子股通常落在「半導體、電腦及週邊設備、其他電子、光電、通信網路…」這幾顆，可以用上方「聚焦類別」自己選。</div>`; return; }
+  if (!f.sec) { out.innerHTML = `<div class="rfHit rfNo">${nm}屬於「${esc(f.ind)}」，不在這張圖上。泡泡圖只畫上市的類股指數，上櫃股票和 ETF 沒有放進來。</div>`; return; }
+  const s = rot.data.secs.find(x => x.n === f.sec), k = rot.data.days.length - 1, x = s.x[k], y = s.y[k], sg = (v, d = 0) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(d)}%`;
+  const quad = x >= 0 ? (y >= 0 ? "右上（資金湧入・上漲）" : "右下（資金湧入・下跌）") : (y >= 0 ? "左上（價漲量縮）" : "左下（資金退潮）");
+  out.innerHTML = `<div class="rfHit">${nm}屬於 <span class="rfSec">${esc(f.sec)}</span> 類股</div>
+    ${f.mk === "O" ? `<div class="rfPos">注意：這檔是<b>上櫃</b>股票。泡泡圖只畫上市類股，圖上這顆泡泡代表「上市的${esc(f.sec)}公司」，僅供對照這個族群的資金動向。</div>` : ""}
+    <div class="rfPos">最新一天，這個類股在泡泡圖的<b>${quad}</b>：累計 <span class="${signCls(y)}">${sg(y, 1)}</span>，資金占比變化 <span class="${signCls(x)}">${sg(x)}</span>。圖上已經聚焦這個類股，用<b>藍色虛線圈</b>和「${esc(f.name)} 在這裡」標出位置。</div>
+    <div class="rfAct"><button type="button" data-rf="list">看同類股的股票</button><button type="button" data-rf="clear">清除</button></div>`;
 }
 function rotSyncSel() {
   const c = $("rotSelCnt"); if (!c) return;
@@ -4747,8 +4818,8 @@ const indKey = s => String(s || "").replace(/(工業|事業|業)$/, "").replace(
 const IND_ALIAS = { 觀光餐旅: "觀光" };
 function rotStocksOf(n) {
   if (!heat.all) return null;
-  const wants = new Set([IND_ALIAS[n] || indKey(n), indKey(n)]), ind = new Map(info.map(s => [s[0], s[2]]));
-  return heat.all.filter(s => ind.get(s.c) && wants.has(indKey(ind.get(s.c)))).sort((a, b) => b.mc - a.mc);
+  const wants = new Set([IND_ALIAS[n] || indKey(n), indKey(n)]);
+  return heat.all.filter(s => { const k = indOf(s.c); return k && wants.has(indKey(k)); }).sort((a, b) => b.mc - a.mc);
 }
 // 成分股面板：固定在畫面下方的浮動面板，不推動頁面排版；再點一次泡泡或按 × 關閉
 function rotSheetDraw() {
@@ -4849,12 +4920,31 @@ function mktInit() {
     if (e.target.closest('[data-act="rotRetry"]')) { rotLoad(true); return; }
     if (e.target.closest("#rotPlay")) { rotPlay(!rot.playing); return; }
     if (e.target.closest("#rotSelBtn")) { const m = $("rotMenu"), on = m.hidden; m.hidden = !on; $("rotSelBtn").setAttribute("aria-expanded", on); return; }
-    if (e.target.closest("#rotSelClr")) { rot.sel = []; rot.pop = ""; rotSheetDraw(); rotSyncSel(); rotFrame(rot.t); return; }
+    if (e.target.closest("#rotSelClr")) { rot.sel = []; rot.pop = ""; rot.find = null; rotSheetDraw(); rotSyncSel(); rotFindDraw(); rotFrame(rot.t); return; }
+    const sg2 = e.target.closest("#rotSugg button[data-code]"); if (sg2) { rotFindPick(sg2.dataset.code, sg2.dataset.name); return; }
+    const rf = e.target.closest("[data-rf]");
+    if (rf) {
+      if (rf.dataset.rf === "list" && rot.find && rot.find.sec) { rot.pop = rot.find.sec; rotSheetDraw(); }
+      else if (rf.dataset.rf === "clear") { rot.find = null; rot.sel = []; rot.pop = ""; rotSheetDraw(); $("rotQ").value = ""; rotSyncSel(); rotFindDraw(); rotFrame(rot.t); }
+      return;
+    }
     const c = e.target.closest("circle[data-n], .rotChip[data-n]"); if (c) rotToggle(c.dataset.n, c.tagName.toLowerCase() === "circle");
   });
+  $("rotBody").addEventListener("submit", e => {
+    if (e.target.id !== "rotForm") return;
+    e.preventDefault();
+    const v = $("rotQ").value.trim(), hit = searchStocks(v)[0];
+    if (hit) rotFindPick(hit[0], hit[1]); else if (v) { rot.find = null; $("rotFindOut").innerHTML = `<div class="rfHit rfNo">找不到「${esc(v)}」，請輸入股票代碼或名稱。</div>`; }
+  });
   $("rotBody").addEventListener("change", e => { const i = e.target.closest("#rotMenu input[data-n]"); if (i) rotToggle(i.dataset.n, false); });
-  document.addEventListener("click", e => { const m = $("rotMenu"); if (m && !m.hidden && !e.target.closest(".rotSel")) { m.hidden = true; $("rotSelBtn").setAttribute("aria-expanded", "false"); } });
+  document.addEventListener("click", e => { const m = $("rotMenu"); if (m && !m.hidden && !e.target.closest(".rotSel")) { m.hidden = true; $("rotSelBtn").setAttribute("aria-expanded", "false"); } const g = $("rotSugg"); if (g && !g.hidden && !e.target.closest(".rotFindBox")) g.hidden = true; });
   $("rotBody").addEventListener("input", e => {
+    if (e.target.id === "rotQ") {
+      const sug = $("rotSugg"), shown = searchStocks(e.target.value);
+      sug.hidden = !shown.length;
+      sug.innerHTML = shown.map(s => `<li><button type="button" data-code="${esc(s[0])}" data-name="${esc(s[1])}"><span class="c">${esc(s[0])}</span><span>${esc(s[1])}</span>${s[2] ? `<small class="ind">${esc(s[2])}</small>` : ""}</button></li>`).join("");
+      return;
+    }
     if (e.target.id !== "rotScrub") return;
     if (rot.playing) rotPlay(false);                                // 手動拖曳時間軸，就先暫停動畫
     rot.t = +e.target.value; rot.done = false; rotFrame(rot.t); rotSyncUi();
@@ -7059,7 +7149,7 @@ function techHowHtml() {
     <div class="tcSwBig"><span><i class="a2"></i>深紅<br><small>+3～+4　強多</small></span><span><i class="a1"></i>淺紅<br><small>+1～+2　偏多</small></span><span><i class="a0"></i>灰色<br><small>0　中性</small></span><span><i class="b1"></i>淺綠<br><small>−1～−2　偏空</small></span><span><i class="b2"></i>深綠<br><small>−3～−4　強空</small></span></div>
     <p>圖下方那條彩色帶，<b>每一天一格</b>。每天問四個問題，答「偏多」加 1 分，答「偏空」扣 1 分：</p>
     <ol><li>收盤價 ＞ MA20 ＞ MA60 嗎？（均線排列）</li><li>MACD 的柱狀在 0 以上嗎？（力道）</li><li>RSI 在 50 以上嗎？（多空力氣）</li><li>KD 的 K 在 D 之上嗎？（短線方向）</li></ol>
-    <p>四個加起來是 −4～+4，再換成顏色。<b>整條帶子紅色多＝這段時間偏強，綠色多＝偏弱，由綠轉紅的地方就是轉強。</b>手指滑過圖，上方會告訴你那一天四個問題各答了什麼。</p>
+    <p>四個加起來是 −4～+4，再換成顏色。<b>整條帶子紅色多＝這段時間偏強，綠色多＝偏弱，由綠轉紅的地方就是轉強。</b>手指點一下圖（電腦：滑鼠移過去），上方會告訴你那一天四個問題各答了什麼。</p>
     <p class="tcNote">注意：這四項都是用同一份價量算出來的，不是四個獨立的證據；它只是把目前的狀態用顏色整理起來，不是預測。</p></div>
     <div class="tcHowItem"><h4>④ 其他線條</h4><p><b>MA5</b> 最近一週的平均成本，反應最快；<b>布林通道</b>是股價平常活動的範圍；<b>籌碼支撐／壓力</b>（藍、橘虛線）來自「籌碼分析」，是成本集中的價位。技術面轉強、又接近壓力時，要留意能不能突破。</p></div>`;
 }

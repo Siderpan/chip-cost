@@ -100,6 +100,17 @@ async function buildData({ html, getJson, log = () => {}, old = null, limit = 0,
   return out;
 }
 
+// 股票 → 產業別（交易所、櫃買中心的公司基本資料，每檔只有一個產業別，比 FinMind 的更準）。網頁的資金輪動「查股票屬於哪個類股」會用到
+const IND_NAMES = { "01": "水泥工業", "02": "食品工業", "03": "塑膠工業", "04": "紡織纖維", "05": "電機機械", "06": "電器電纜", "08": "玻璃陶瓷", "09": "造紙工業", "10": "鋼鐵工業", "11": "橡膠工業", "12": "汽車工業", "14": "建材營造業", "15": "航運業", "16": "觀光餐旅", "17": "金融保險業", "18": "貿易百貨業", "20": "其他業", "21": "化學工業", "22": "生技醫療業", "23": "油電燃氣業", "24": "半導體業", "25": "電腦及週邊設備業", "26": "光電業", "27": "通信網路業", "28": "電子零組件業", "29": "電子通路業", "30": "資訊服務業", "31": "其他電子業", "32": "文化創意業", "33": "農業科技業", "34": "電子商務", "35": "綠能環保", "36": "數位雲端", "37": "運動休閒", "38": "居家生活", "91": "存託憑證" };
+async function fetchIndustry() {
+  const m = {};
+  for (const [url, mk, fc, fk] of [["https://openapi.twse.com.tw/v1/opendata/t187ap03_L", "L", "公司代號", "產業別"], ["https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O", "O", "SecuritiesCompanyCode", "SecuritiesIndustryCode"]]) {
+    const res = await fetch(url); if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
+    for (const r of await res.json()) { const c = String(r[fc] || "").trim(), k = String(r[fk] || "").trim(); if (c && IND_NAMES[k]) m[c] = [IND_NAMES[k], mk]; }
+  }
+  return m;
+}
+
 async function main() {
   const fs = require("fs"), path = require("path");
   const root = path.join(__dirname, ".."), out = path.join(root, "screener.json");
@@ -138,6 +149,11 @@ async function main() {
       } catch (e) { console.error("自動最佳策略更新失敗（不影響其他資料）：", e); }
     } else console.log("這次成功抓到的股票不到 30 檔，選股驗證先跳過。");
   } catch (e) { console.error("選股驗證更新失敗（不影響篩選資料）：", e); }
+  try {      // 產業別對照表：抓得到、而且數量合理才更新（抓不到就沿用上一份）
+    const m = await fetchIndustry(), n = Object.keys(m).length;
+    if (n >= 1500) { fs.writeFileSync(path.join(root, "industry.json"), JSON.stringify({ v: 1, updated: new Date().toISOString(), m })); console.log(`已寫入 industry.json：${n} 檔。`); }
+    else console.log(`產業別對照表只抓到 ${n} 檔，不更新。`);
+  } catch (e) { console.error("產業別對照表更新失敗（不影響其他資料）：", e.message); }
   const round = (k, v) => typeof v === "number" ? Math.round(v * 1e6) / 1e6 : v;
   const same = old && JSON.stringify(old.metrics) === JSON.stringify(JSON.parse(JSON.stringify(data.metrics, round)));
   if (same) { console.log("資料和上次相同（可能是休市日），不更新。"); return; }
