@@ -1055,20 +1055,32 @@ html[data-layout="ios"] .brand h1, html[data-layout="android"] .brand h1 { font-
 .mTags, .mFx, .mFlow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; color: var(--muted); font-size: .74rem; } .mTags i, .mFx i, .mFlow i { font-style: normal; padding: 2px 7px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); } .mTags em, .mFx em, .mFlow em { font-style: normal; font-weight: 700; } .mTags em { color: var(--profit); margin-right: 4px; } .mFlow i.hl { background: var(--profit); border-color: var(--profit); color: #fff; } .mFx + small { display: block; margin-top: 4px; font-size: .7rem; color: var(--muted); }
 .trCfg { padding: 12px; } .trCfg .t { font-size: .9rem; font-weight: 700; } .trCfg .t small { margin-left: 8px; font-size: .7rem; font-weight: 400; color: var(--muted); } .trCfg .ch { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; } .trCfg .ch span { padding: 3px 8px; border-radius: 4px; border: 1px solid var(--line); font-size: .76rem; } .trCfg .ch span.up { color: var(--bull); } .trCfg .ch span.dn { color: var(--bear); }
 .trCfg .kp { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .74rem; color: var(--muted); } .trCfg .kp b { font: 700 .86rem var(--font-num); color: var(--ink); } .trCfg .kp b.up { color: var(--bull); } .trCfg .kp b.dn { color: var(--bear); }
-.trTbl { padding: 0 12px; } .trRow { display: grid; grid-template-columns: minmax(0, 1fr) 3.8em 3.8em 3.9em; gap: 6px; align-items: center; padding: 10px 0; cursor: pointer; } .trRow + .trRow { border-top: 1px solid var(--line); } .trRow.hd { cursor: default; padding: 8px 0 6px; font-size: .66rem; color: var(--muted); } .trRow.hd div:not(:first-child) { text-align: right; }
-.trRow:not(.hd):hover { background: color-mix(in srgb, var(--muted) 7%, transparent); } .trRow:focus-visible { outline: 2px solid var(--profit); outline-offset: 2px; }
-.trRow .nm { min-width: 0; } .trRow .l1 { display: flex; align-items: center; gap: 6px; min-width: 0; } .trRow .l1 b { font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .trRow .l2 { display: flex; align-items: center; gap: 5px; margin-top: 3px; font: 400 .68rem var(--font-num); color: var(--muted); white-space: nowrap; overflow: hidden; }
-.trRow .ind { padding: 0 5px; border-radius: 3px; font: 500 .64rem var(--font-ui); color: var(--ink); background: color-mix(in srgb, var(--ic) 22%, transparent); border-left: 2px solid var(--ic); }
-.trRow .v { text-align: right; } .trRow .v b { display: block; font: 600 .86rem var(--font-num); white-space: nowrap; } .trRow .v small { font-size: .6rem; color: var(--muted); white-space: nowrap; } .trRow .v.up b { color: var(--bull); } .trRow .v.dn b { color: var(--bear); }
-.rkT { flex: none; min-width: 26px; padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); font: 700 .66rem var(--font-num); text-align: center; } .rkT.hi, .rkT.one { background: var(--ink); color: var(--surface); border-color: var(--ink); } .rkT.mid { background: color-mix(in srgb, var(--muted) 20%, var(--surface)); } .rkT.lo { color: var(--muted); border-style: dashed; }
-.vt2 { flex: none; padding: 0 4px; border-radius: 4px; border: 1px solid var(--profit); color: var(--profit); font: 700 .62rem var(--font-num); font-style: normal; }
-.trGrp { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 12px 0 4px; border-top: 1px solid var(--line); } .trGrp b { font-size: .86rem; } .trGrp .tg { padding: 1px 6px; border-radius: 4px; font-size: .66rem; background: color-mix(in srgb, var(--muted) 15%, transparent); } .trGrp .tg.fb { background: none; border: 1px dashed var(--muted); } .trGrp .hs { margin-left: auto; font: 400 .66rem var(--font-num); color: var(--muted); } .trGrp .hs i { font-style: normal; } .trGrp .hs .up { color: var(--bull); } .trGrp .hs .dn { color: var(--bear); }
-.trGrp + .trRow { border-top: 0; } .trNone { padding: 8px 0 12px; font-size: .78rem; color: var(--muted); } .card.trNone { padding: 12px; } .trLg { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 6px 2px 0; font-size: .68rem; color: var(--muted); } .trLg .vt2 { margin-left: 8px; }
-.relCard { padding: 12px; } .relH { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; margin: 2px 0 8px; font-size: .8rem; font-weight: 700; } .relH small { font-size: .66rem; font-weight: 400; color: var(--muted); } .relLv { margin-left: auto; padding: 1px 7px; border-radius: 4px; font: 600 .68rem var(--font-ui); background: color-mix(in srgb, var(--muted) 14%, transparent); } .relLv.dn { color: var(--bull); } .relLv.up { color: var(--bear); }
-.relInd { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; } .relInd span { display: grid; grid-template-columns: 8px auto auto minmax(0, 1fr); align-items: center; gap: 6px; padding: 4px 8px; border-radius: 4px; font-size: .76rem; background: color-mix(in srgb, var(--ic) 10%, transparent); } .relInd i { width: 8px; height: 8px; border-radius: 2px; background: var(--ic); } .relInd b { font-family: var(--font-num); } .relInd small { font-size: .7rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.relSvg { display: block; width: 100%; max-width: 360px; height: auto; } .relSvg text { font: 400 9px var(--font-num); fill: var(--muted); } .relSvg text.nm { font: 500 10px var(--font-ui); fill: var(--ink); } .relSvg text.cv { font-size: 8.5px; fill: var(--ink); pointer-events: none; }
-.relLg { display: flex; gap: 12px; margin-top: 6px; font-size: .66rem; color: var(--muted); } .relLg span { display: inline-flex; align-items: center; gap: 4px; } .relLg i { width: 10px; height: 10px; border-radius: 2px; }
-.relPairs { margin-top: 10px; } .relPairs div { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); font-size: .8rem; } .relPairs small { margin-left: 6px; padding: 0 5px; border-radius: 3px; font-size: .64rem; color: var(--muted); background: color-mix(in srgb, var(--muted) 12%, transparent); } .relPairs b { font-family: var(--font-num); color: var(--trapped); } .relSum { margin-top: 6px; font-size: .74rem; color: var(--muted); }
+.rkT { flex: none; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); font: 700 .66rem var(--font-ui); white-space: nowrap; } .rkT.hi, .rkT.one { background: var(--ink); color: var(--surface); border-color: var(--ink); } .rkT.mid { background: color-mix(in srgb, var(--muted) 20%, var(--surface)); } .rkT.lo { color: var(--muted); border-style: dashed; }
+.vt2 { flex: none; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--profit); color: var(--profit); font: 600 .64rem var(--font-ui); font-style: normal; white-space: nowrap; }
+.trNone { padding: 4px 2px 8px; font-size: .78rem; color: var(--muted); } .card.trNone { padding: 12px; }
+.tkGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.tk { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); cursor: pointer; } .tk:hover { border-color: var(--muted); } .tk:focus-visible { outline: 2px solid var(--profit); outline-offset: 2px; }
+.tk.big { border-color: color-mix(in srgb, var(--profit) 55%, var(--line)); box-shadow: inset 3px 0 0 var(--profit); }
+.tkH { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; } .tkH b { font-size: 1.05rem; } .tk.big .tkH b { font-size: 1.25rem; } .tkH code { font: 400 .76rem var(--font-num); color: var(--muted); } .tkH .sp { flex: 1; }
+.tkInd { padding: 0 6px; border-radius: 3px; font: 500 .66rem var(--font-ui); color: var(--ink); background: color-mix(in srgb, var(--ic) 20%, transparent); border-left: 2px solid var(--ic); white-space: nowrap; }
+.tkAct { display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: .86rem; line-height: 1.5; } .tkAct i { flex: none; width: 20px; height: 20px; border-radius: 4px; display: grid; place-items: center; background: var(--ink); color: var(--surface); font: 700 .7rem var(--font-ui); font-style: normal; }
+.tkBar { position: relative; height: 22px; margin: 14px 6px 4px; } .tkBar::before { content: ""; position: absolute; left: 0; right: 0; top: 10px; height: 2px; background: var(--line); }
+.tkBar .seg { position: absolute; top: 8px; height: 6px; border-radius: 3px; } .tkBar .seg.dn { background: color-mix(in srgb, var(--bear) 45%, transparent); } .tkBar .seg.up { background: color-mix(in srgb, var(--bull) 45%, transparent); }
+.tkBar .pt { position: absolute; top: 4px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid var(--surface); } .tkBar .pt.dn { background: var(--bear); } .tkBar .pt.up { background: var(--bull); } .tkBar .pt.by { background: var(--ink); width: 16px; height: 16px; margin-left: -8px; top: 3px; }
+.tkBar .cur { position: absolute; top: -2px; width: 0; height: 0; margin-left: -5px; border: 5px solid transparent; border-top: 6px solid var(--muted); }
+.tkV { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 6px; } .tkV > div { display: flex; flex-direction: column; } .tkV .by { align-items: center; text-align: center; } .tkV .up { align-items: flex-end; text-align: right; }
+.tkV small { font-size: .66rem; color: var(--muted); white-space: nowrap; } .tkV b { font: 700 1rem var(--font-num); } .tk.big .tkV b { font-size: 1.15rem; } .tkV em { font: 400 .66rem var(--font-num); font-style: normal; color: var(--muted); } .tkV .dn b, .tkV .dn em { color: var(--bear); } .tkV .up b, .tkV .up em { color: var(--bull); }
+.tkF { margin-top: 8px; padding-top: 7px; border-top: 1px dashed var(--line); font-size: .7rem; color: var(--muted); }
+.tkTier { margin-bottom: 14px; } .tkTierH { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 2px 0 8px; padding: 8px 12px; border-radius: 6px; background: color-mix(in srgb, var(--tc) 12%, var(--surface)); border-left: 4px solid var(--tc); }
+.tkTier.t0 { --tc: #26a69a; } .tkTier.t1 { --tc: #2962ff; } .tkTier.t2 { --tc: #ab47bc; } .tkTier.t3 { --tc: #ff9800; }
+.tkTierH .rg { font-size: .8rem; color: var(--muted); } .tkTierH .rg b { font: 700 1.2rem var(--font-num); color: var(--ink); margin-right: 2px; } .tkTierH .tg { padding: 1px 7px; border-radius: 4px; font-size: .68rem; background: var(--surface); border: 1px solid var(--line); } .tkTierH .tg.fb { border-style: dashed; color: var(--muted); }
+.tkTierH .hs { margin-left: auto; font-size: .7rem; color: var(--muted); } .tkTierH .hs b { font-family: var(--font-num); color: var(--ink); } .tkTierH .hs b.up { color: var(--bull); } .tkTierH .hs b.dn { color: var(--bear); }
+.rlCard { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; } .rlSum { font-size: .9rem; } .rlSum b { font: 700 1.05rem var(--font-num); color: var(--profit); }
+.rlG { padding: 10px 12px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--trapped) 45%, var(--line)); background: color-mix(in srgb, var(--trapped) 7%, var(--surface)); } .rlG.solo { border-color: color-mix(in srgb, var(--bear) 40%, var(--line)); background: color-mix(in srgb, var(--bear) 6%, var(--surface)); }
+.rlTop { display: flex; align-items: center; gap: 10px; } .rlIc { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--trapped); color: #fff; font-weight: 700; } .rlIc.ok { background: var(--bear); }
+.rlNames { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; } .rlS { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 4px; background: var(--surface); border: 1px solid var(--line); font-weight: 700; font-size: .88rem; } .rlEq { font-style: normal; color: var(--trapped); font-weight: 700; }
+.rlMeter { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 8px 0 4px 36px; } .rlMeter .bar { width: 110px; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; } .rlMeter .bar i { display: block; height: 100%; background: var(--trapped); } .rlMeter b { font-size: .8rem; color: var(--trapped); } .rlMeter small { font-size: .68rem; color: var(--muted); }
+.rlTip { margin: 6px 0 0 36px; font-size: .8rem; line-height: 1.55; } .rlNote { font-size: .68rem; color: var(--muted); }
 /* 圖示公式：三個色塊加起來＝結果，用來取代整段文字說明 */
 .fx { display: flex; align-items: stretch; gap: 4px; } .fx > i { flex: var(--w) 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 8px 4px; border-radius: 6px; font-style: normal; font-size: .72rem; color: #fff; text-align: center; line-height: 1.25; } .fx > i b { font: 700 .9rem var(--font-num); }
 .fx > i:nth-of-type(1) { background: var(--profit); } .fx > i:nth-of-type(2) { background: var(--bb); } .fx > i:nth-of-type(3) { background: var(--trapped); } .fx > i small { font-size: .62rem; opacity: .85; } .fx > em { flex: none; align-self: center; font-style: normal; color: var(--muted); font-weight: 700; }
@@ -3966,59 +3978,58 @@ function admOpt() {
   const md = s => s ? s.slice(5).replace("-", "/") : "—";
   fw.stk = {};
   const reg = (key, o) => { fw.stk[key] = o; return key; };
-  // 推薦的所有股票（去重複），產業用同一個顏色標在表格與關聯圖上
   const tiers = R.tiers || [], all = new Map();
   [...R.items.map(it => [it, "主推薦"]), ...(R.alt ? R.alt.items.map(it => [it, "備選"]) : []), ...tiers.flatMap(T => T.items.map(it => [it, T.name]))].forEach(([it, g]) => { const o = all.get(it.c) || { it, gs: [] }; o.gs.push(g); all.set(it.c, o); });
   const PAL = ["#2962ff", "#ff9800", "#9c27b0", "#089981", "#f23645", "#00acc1", "#8d6e63", "#7e57c2", "#c0ca33", "#ec407a"], icol = new Map();
   const indS = c => (indOf(c) || "").replace(/(工業|事業|業)$/, "");
   for (const c of all.keys()) { const k = indS(c); if (k && !icol.has(k)) icol.set(k, PAL[icol.size % PAL.length]); }
-  const rkTag = it => { if (!it.rank || !it.of) return ""; const f = it.rank / it.of, lv = it.of === 1 ? "one" : f <= 0.34 ? "hi" : f <= 0.67 ? "mid" : "lo"; return `<span class="rkT ${lv}" title="這個策略今天共 ${it.of} 檔達標，這檔排第 ${it.rank}">${it.of === 1 ? "唯一" : "#" + it.rank}</span>`; };
-  const buyK = it => it.buy.kind === "隔日開盤買" ? "開盤買" : it.buy.kind === "掛單" ? "掛單3日" : "收盤確認";
-  const row = (it, scope, tag) => {
-    const k = reg(scope + "|" + it.c, { c: it.c, n: it.n, close: it.close, it, tag }), ind = indS(it.c);
-    const slB = it.sl ? px(it.sl.price) : it.tr ? px(it.tr.price) : it.rule ? (it.rule.kind === "ma20" ? "破月線" : "掉出名單") : "—", slS = it.sl ? "−" + it.sl.pct + "%" : it.tr ? "移動停損" : it.rule ? "隔日開盤賣" : "";
-    return `<div class="trRow" data-stk="${k}" role="button" tabindex="0"><div class="nm"><div class="l1">${rkTag(it)}<b>${esc(it.n)}</b>${it.votes > 1 ? `<em class="vt2" title="${it.votes} 種策略同時選中">×${it.votes}</em>` : ""}</div><div class="l2">${esc(it.c)}${ind ? `<span class="ind" style="--ic:${icol.get(ind)}">${esc(ind)}</span>` : ""}收 ${px(it.close)}</div></div>
-      <div class="v"><b>${px(it.buy.price)}</b><small>${buyK(it)}</small></div><div class="v up"><b>${it.tp ? px(it.tp.price) : it.rr ? px(it.rr) : "—"}</b><small>${it.tp ? "+" + it.tp.pct + "%" : it.rr ? "參考壓力" : ""}</small></div><div class="v dn"><b>${slB}</b><small>${slS}</small></div></div>`;
+  const indTag = c => { const k = indS(c); return k ? `<span class="tkInd" style="--ic:${icol.get(k)}">${esc(k)}</span>` : ""; };
+  const rkTag = it => { if (!it.rank || !it.of) return ""; const f = it.rank / it.of, lv = it.of === 1 ? "one" : f <= 0.34 ? "hi" : f <= 0.67 ? "mid" : "lo"; return `<span class="rkT ${lv}" title="這個策略今天共 ${it.of} 檔達標，這檔排第 ${it.rank}">${it.of === 1 ? "唯一" : "第 " + it.rank + " 名"}</span>`; };
+  const buyTxt = it => it.buy.kind === "隔日開盤買" ? "明天開盤買" : it.buy.kind === "掛單" ? "掛單買（3 日內）" : "明天收盤確認後買";
+  // 一檔股票＝一張卡：上方名稱，中間「停損 ← 買進 → 停利」價格尺，下方最晚賣出
+  const card = (it, scope, tag, big) => {
+    const k = reg(scope + "|" + it.c, { c: it.c, n: it.n, close: it.close, it, tag });
+    const b = it.buy.price, tp = it.tp ? it.tp.price : it.rr || null, sl = it.sl ? it.sl.price : it.tr ? it.tr.price : null;
+    const lo = Math.min(sl || b * 0.9, it.close, b), hi = Math.max(tp || b * 1.1, it.close, b), pos = v => ((v - lo) / (hi - lo || 1) * 100).toFixed(1);
+    const slLab = it.sl ? (it.sl.kind ? "跌破支撐" : "停損") : it.tr ? "移動停損" : it.rule ? (it.rule.kind === "ma20" ? "跌破月線" : "掉出名單") : "停損";
+    return `<div class="tk${big ? " big" : ""}" data-stk="${k}" role="button" tabindex="0">
+      <div class="tkH"><b>${esc(it.n)}</b><code>${esc(it.c)}</code>${indTag(it.c)}<span class="sp"></span>${rkTag(it)}${it.votes > 1 ? `<em class="vt2" title="${it.votes} 種策略同時選中">${it.votes} 策略同選</em>` : ""}</div>
+      ${big ? `<div class="tkAct"><i>買</i>${esc(it.buy.text)}</div>` : ""}
+      <div class="tkBar"><span class="seg dn" style="left:${sl ? pos(sl) : 0}%;right:${(100 - pos(b)).toFixed(1)}%"></span><span class="seg up" style="left:${pos(b)}%;right:${tp ? (100 - pos(tp)).toFixed(1) : 0}%"></span>${sl ? `<span class="pt dn" style="left:${pos(sl)}%"></span>` : ""}<span class="pt by" style="left:${pos(b)}%"></span>${tp ? `<span class="pt up" style="left:${pos(tp)}%"></span>` : ""}<span class="cur" style="left:${pos(it.close)}%" title="收盤 ${px(it.close)}"></span></div>
+      <div class="tkV"><div class="dn"><small>${slLab}</small><b>${sl ? px(sl) : it.rule ? "隔日賣" : "—"}</b><em>${it.sl ? "−" + it.sl.pct + "%" : ""}</em></div><div class="by"><small>${buyTxt(it)}</small><b>${px(b)}</b><em>收盤 ${px(it.close)}</em></div><div class="up"><small>${it.tp ? (it.tp.kind ? "到壓力停利" : "停利") : "參考目標"}</small><b>${tp ? px(tp) : "—"}</b><em>${it.tp ? "+" + it.tp.pct + "%" : ""}</em></div></div>
+      <div class="tkF">最晚 ${md(it.exitBy)} 開盤賣${it.rule ? "・" + esc(it.rule.text) : ""}</div></div>`;
   };
-  const head = `<div class="trRow hd"><div>股票</div><div>買進</div><div>停利</div><div>停損</div></div>`;
-  // 目前策略：一排標籤＋實戰成績
   const x = C ? C.x || 0 : 0;
   const strip = !C ? `<div class="fwV"><b>目前沒有期望報酬為正的組合</b><p>建議空手，每晚會重新計算。</p></div>`
     : `<div class="card trCfg"><div class="t">目前策略<small>用過去 ${O.lookback} 日自動選出</small></div><div class="ch"><span><b>${esc(C.stratName)}</b> 前 ${C.K} 名</span><span>${esc(C.eName)}</span><span class="up">停利 ${x === 1 ? "到壓力價" : C.tp ? "+" + C.tp + "%" : "不設"}</span><span class="dn">停損 ${x === 1 ? "跌破支撐" : x === 2 ? "跌破月線" : C.sl ? "−" + C.sl + "%" : "不設"}</span>${C.tr ? `<span>移動停損 ${C.tr}%</span>` : ""}${x === 3 ? `<span>掉出名單就賣</span>` : ""}<span>最長 ${C.H} 日</span></div>
       ${OS.n ? `<div class="kp"><span>實戰勝率 <b>${OS.win.toFixed(0)}%</b></span><span>平均每筆 <b class="${cl(OS.avg)}">${sg(OS.avg)}%</b></span><span>最差 <b class="dn">${sg(OS.worst)}%</b></span><span><b>${OS.n}</b> 筆</span></div>` : ""}</div>`;
-  const main = !C ? "" : R.items.length ? `<h2>主推薦<small class="fwHint">明天執行・點股票看詳情</small></h2><div class="card trTbl">${head}${R.items.map(it => row(it, "main", "主推薦")).join("")}</div>`
-    : `<h2>主推薦</h2><div class="trNone card">今天沒有達標的股票，建議空手。</div>${R.alt ? `<h2>備選<small class="fwHint">${esc(R.alt.cfg.stratName)}</small></h2><div class="card trTbl">${head}${R.alt.items.map(it => row(it, "alt", "備選")).join("")}</div>` : ""}`;
-  const tierHtml = tiers.length ? `<h2>依股價分級</h2><div class="card trTbl">${head}${tiers.map((T, ti) => `<div class="trGrp"><b>${esc(T.name)}</b>${T.cfg ? `<span class="tg${T.fallback ? " fb" : ""}">${esc(T.cfg.stratName)}${T.fallback ? "・備選" : ""}</span>` : ""}${T.hist && T.hist.n ? `<span class="hs">歷史 勝率 ${T.hist.win.toFixed(0)}%・平均 <i class="${cl(T.hist.avg)}">${sg(T.hist.avg)}%</i></span>` : ""}</div>${T.items.length ? T.items.map(it => row(it, "t" + ti, T.name)).join("") : `<div class="trNone">沒有達標的股票</div>`}`).join("")}</div>
-    <div class="trLg"><span class="rkT hi">#1</span> 在該策略今天達標股票中的排名　<em class="vt2">×3</em> 同時被 3 種策略選中</div>` : "";
-  // ---------- 關聯性：產業分布＋近 60 日走勢相關 ----------
+  const main = !C ? "" : R.items.length ? `<h2>明天買這${R.items.length > 1 ? " " + R.items.length + " 檔" : "一檔"}<small class="fwHint">主推薦・點卡片看走勢</small></h2><div class="tkGrid">${R.items.map(it => card(it, "main", "主推薦", true)).join("")}</div>`
+    : `<h2>主推薦</h2><div class="trNone card">今天沒有達標的股票，建議空手。</div>${R.alt ? `<h2>備選<small class="fwHint">${esc(R.alt.cfg.stratName)}</small></h2><div class="tkGrid">${R.alt.items.map(it => card(it, "alt", "備選", true)).join("")}</div>` : ""}`;
+  const RNG = ["<b>100</b> 元以下", "<b>100</b>～<b>300</b> 元", "<b>300</b>～<b>600</b> 元", "<b>600</b> 元以上"];
+  const tierHtml = tiers.length ? `<h2>依股價分級<small class="fwHint">每個價位 1～3 檔</small></h2>${tiers.map((T, ti) => `<section class="tkTier t${ti}"><div class="tkTierH"><span class="rg">${RNG[ti] || esc(T.name)}</span>${T.cfg ? `<span class="tg${T.fallback ? " fb" : ""}">${esc(T.cfg.stratName)}${T.fallback ? "・備選策略" : ""}</span>` : ""}${T.hist && T.hist.n ? `<span class="hs">歷史勝率 <b>${T.hist.win.toFixed(0)}%</b>・平均 <b class="${cl(T.hist.avg)}">${sg(T.hist.avg)}%</b></span>` : ""}</div>
+      ${T.items.length ? `<div class="tkGrid">${T.items.map(it => card(it, "t" + ti, T.name, false)).join("")}</div>` : `<div class="trNone">這個價位今天沒有達標的股票</div>`}</section>`).join("")}` : "";
+  // ---------- 推薦股票的關聯：把走勢很像的分成一組，白話說明要不要一起買 ----------
   const codes = [...all.keys()];
-  const byInd = new Map(); for (const c of codes) { const k = indS(c) || "其他"; if (!byInd.has(k)) byInd.set(k, []); byInd.get(k).push(c); }
-  const indChips = [...byInd.entries()].sort((a, b) => b[1].length - a[1].length).map(([k, cs]) => `<span style="--ic:${icol.get(k) || "var(--muted)"}"><i></i>${esc(k)} <b>${cs.length}</b><small>${cs.map(c => esc(all.get(c).it.n)).join("、")}</small></span>`).join("");
-  const N = 60, rets = c => { const a = O.px && O.px[c]; if (!a) return null; const v = a.slice(-N - 1), o = []; for (let k = 1; k < v.length; k++) o.push(v[k] != null && v[k - 1] ? v[k] / v[k - 1] - 1 : null); return o; };
-  const corr = (a, b) => { let n = 0, sa = 0, sb = 0, saa = 0, sbb = 0, sab = 0; for (let k = 0; k < Math.min(a.length, b.length); k++) { const x1 = a[k], y1 = b[k]; if (x1 == null || y1 == null) continue; n++; sa += x1; sb += y1; saa += x1 * x1; sbb += y1 * y1; sab += x1 * y1; } if (n < 20) return null; const cv = sab / n - sa / n * sb / n, va = saa / n - (sa / n) ** 2, vb = sbb / n - (sb / n) ** 2; return va > 0 && vb > 0 ? cv / Math.sqrt(va * vb) : null; };
-  const cc = codes.filter(c => rets(c)), RT = cc.map(rets), M = cc.map((_, a) => cc.map((_, b) => a === b ? 1 : corr(RT[a], RT[b])));
-  let heat = "", pairs = [], avgR = null;
-  if (cc.length >= 2) {
-    const n = cc.length, lw = 74, cs = Math.min(30, Math.floor((330 - lw) / n)), W = lw + n * cs + 2, H = 16 + n * cs;
-    let g = "";
-    cc.forEach((c, a) => { g += `<text class="nm" x="${lw - 6}" y="${(16 + a * cs + cs / 2 + 3.5).toFixed(1)}" text-anchor="end">${a + 1} ${esc(all.get(c).it.n.slice(0, 4))}</text><text x="${(lw + a * cs + cs / 2).toFixed(1)}" y="11" text-anchor="middle">${a + 1}</text>`; });
-    for (let a = 0; a < n; a++) for (let b = 0; b <= a; b++) {
-      const v = M[a][b], X0 = lw + b * cs, Y0 = 16 + a * cs, fill = a === b ? "var(--line)" : v == null ? "transparent" : v >= 0 ? "var(--trapped)" : "var(--profit)", op = a === b || v == null ? 1 : (0.1 + 0.85 * Math.min(1, Math.abs(v))).toFixed(2);
-      g += `<rect x="${X0 + 1}" y="${Y0 + 1}" width="${cs - 2}" height="${cs - 2}" rx="3" style="fill:${fill};opacity:${op}"><title>${esc(all.get(cc[a]).it.n)} × ${esc(all.get(cc[b]).it.n)}：${v == null ? "資料不足" : v.toFixed(2)}</title></rect>`;
-      if (a !== b && v != null && cs >= 22) g += `<text class="cv" x="${(X0 + cs / 2).toFixed(1)}" y="${(Y0 + cs / 2 + 3).toFixed(1)}" text-anchor="middle">${Math.abs(v) < 0.05 ? "0" : v.toFixed(1).replace(/^(-?)0\./, "$1.")}</text>`;
-    }
-    heat = `<svg class="relSvg" viewBox="0 0 ${W} ${H}" role="img" aria-label="推薦股票近 60 日報酬的相關係數">${g}</svg>`;
-    for (let a = 0; a < n; a++) for (let b = 0; b < a; b++) if (M[a][b] != null) pairs.push([cc[a], cc[b], M[a][b]]);
-    if (pairs.length) avgR = pairs.reduce((s, q) => s + q[2], 0) / pairs.length;
-    pairs.sort((q1, q2) => q2[2] - q1[2]);
-  }
-  const hi = pairs.filter(q => q[2] >= 0.6).slice(0, 5);
-  const lvl = avgR == null ? "" : avgR >= 0.6 ? ["高度連動", "dn"] : avgR >= 0.35 ? ["中度連動", ""] : ["分散良好", "up"];
-  const rel = codes.length >= 2 ? `<h2>推薦股票的關聯<small class="fwHint">${codes.length} 檔</small></h2><div class="card relCard">
-      <div class="relH">產業分布</div><div class="relInd">${indChips}</div>
-      ${heat ? `<div class="relH">走勢相關<small>近 ${N} 日漲跌，1＝同漲同跌</small>${lvl ? `<span class="relLv ${lvl[1]}">平均 ${avgR.toFixed(2)}・${lvl[0]}</span>` : ""}</div>${heat}
-      <div class="relLg"><span><i style="background:var(--profit)"></i>反向</span><span><i style="background:color-mix(in srgb,var(--trapped) 25%,transparent)"></i>低</span><span><i style="background:var(--trapped)"></i>高（一起漲跌）</span></div>
-      ${hi.length ? `<div class="relPairs">${hi.map(([a, b, v]) => { const same = indS(a) && indS(a) === indS(b); return `<div><span>${esc(all.get(a).it.n)} × ${esc(all.get(b).it.n)}${same ? `<small>同屬${esc(indS(a))}</small>` : ""}</span><b>${v.toFixed(2)}</b></div>`; }).join("")}</div><div class="relSum">高度連動的股票一起買，等於押同一個方向；分散的話擇一即可。</div>` : `<div class="relSum">沒有高度連動的組合，同時買的分散效果不錯。</div>`}` : ""}</div>` : "";
+  const N = 60, rets = c => { const a = O.px && O.px[c]; if (!a) return null; const v = a.slice(-N - 1), o = []; for (let q = 1; q < v.length; q++) o.push(v[q] != null && v[q - 1] ? v[q] / v[q - 1] - 1 : null); return o; };
+  const corr = (a, b) => { let n = 0, sa = 0, sb = 0, saa = 0, sbb = 0, sab = 0; for (let q = 0; q < Math.min(a.length, b.length); q++) { const x1 = a[q], y1 = b[q]; if (x1 == null || y1 == null) continue; n++; sa += x1; sb += y1; saa += x1 * x1; sbb += y1 * y1; sab += x1 * y1; } if (n < 20) return null; const cv = sab / n - sa / n * sb / n, va = saa / n - (sa / n) ** 2, vb = sbb / n - (sb / n) ** 2; return va > 0 && vb > 0 ? cv / Math.sqrt(va * vb) : null; };
+  const cc = codes.filter(c => rets(c)), RT = new Map(cc.map(c => [c, rets(c)])), LINK = 0.6;
+  const par = new Map(cc.map(c => [c, c])), find = c => par.get(c) === c ? c : find(par.get(c)), edges = [];
+  for (let a = 0; a < cc.length; a++) for (let b = a + 1; b < cc.length; b++) { const v = corr(RT.get(cc[a]), RT.get(cc[b])); if (v != null && v >= LINK) { edges.push([cc[a], cc[b], v]); par.set(find(cc[a]), find(cc[b])); } }
+  const grp = new Map(); for (const c of codes) { const k = cc.includes(c) ? find(c) : c; if (!grp.has(k)) grp.set(k, []); grp.get(k).push(c); }
+  const groups = [...grp.values()].filter(g => g.length > 1), solo = [...grp.values()].filter(g => g.length === 1).map(g => g[0]);
+  const word = v => v >= 0.8 ? "幾乎同步" : v >= 0.7 ? "很常一起漲跌" : "常一起漲跌";
+  const nm = c => esc(all.get(c).it.n), chip = c => `<span class="rlS">${nm(c)}${indTag(c)}</span>`;
+  const pickOf = g => g.slice().sort((a, b) => { const A = all.get(a), B = all.get(b), m = o => o.gs.includes("主推薦") ? 1 : 0; return m(B) - m(A) || (B.it.votes || 0) - (A.it.votes || 0) || A.it.rank / (A.it.of || 1) - B.it.rank / (B.it.of || 1); })[0];
+  const grpHtml = g => { const es = edges.filter(e => g.includes(e[0]) && g.includes(e[1])), v = Math.max(...es.map(e => e[2])), same = g.every(c => indS(c) && indS(c) === indS(g[0])), best = pickOf(g);
+    return `<div class="rlG"><div class="rlTop"><span class="rlIc">⇄</span><div class="rlNames">${g.map(chip).join('<i class="rlEq">＝</i>')}</div></div>
+      <div class="rlMeter"><span class="bar"><i style="width:${Math.round(v * 100)}%"></i></span><b>${word(v)}</b><small>相似度 ${v.toFixed(2)}${same ? `・同屬${esc(indS(g[0]))}` : ""}</small></div>
+      <div class="rlTip">走勢很像，一起買等於押同一邊。<b>擇一就好</b>，建議 <b>${nm(best)}</b>${all.get(best).gs.includes("主推薦") ? "（主推薦）" : ""}。</div></div>`; };
+  const dirs = groups.length + solo.length;
+  const rel = codes.length >= 2 ? `<h2>這些股票要不要一起買？<small class="fwHint">看近 ${N} 日走勢像不像</small></h2><div class="card rlCard">
+      <div class="rlSum"><b>${codes.length}</b> 檔推薦，其實是 <b>${dirs}</b> 個不同方向${groups.length ? `：有 <b>${groups.length}</b> 組走勢很像` : "，彼此走勢都不太像"}。</div>
+      ${groups.map(grpHtml).join("")}
+      ${solo.length ? `<div class="rlG solo"><div class="rlTop"><span class="rlIc ok">✓</span><div class="rlNames">${solo.map(chip).join("")}</div></div><div class="rlTip">各走各的，和其他推薦的走勢不太像，<b>一起買可以分散風險</b>。</div></div>` : ""}
+      <div class="rlNote">相似度：0＝各走各的、1＝完全同漲同跌，0.6 以上算「很像」。</div></div>` : "";
   return `<div class="fwAsof">資料到 ${esc(O.asOf)} 收盤・明天執行・每晚自動更新</div>${strip}${main}${tierHtml}${rel}`;
 }
 function admRender() {
