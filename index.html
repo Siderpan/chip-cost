@@ -31,19 +31,19 @@ body{margin:0;font-size:14px;-webkit-text-size-adjust:100%}
   --ink: #131722;
   --muted: #6b6f7b;
   --grid: #eceff4;
-  --line: #dfe2ea;
+  --line: #e0e3eb;
   --profit: #2962ff;
   --trapped: #e07b00;
   --warn-bg: #fff4e0;
   --warn-ink: #7a4a07;
-  --bull: #e0303e;
-  --bear: #078a73;
+  --bull: #f23645;
+  --bear: #089981;
   --bb: #8b5cf6;
   --font-ui: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   --font-num: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
 }
 
-:root[data-theme="dark"] { --bg: #0b0e14; --surface: #171c27; --ink: #eceff6; --muted: #a3aab8; --grid: #272e3c; --line: #343c4d; --profit: #78a2ff; --trapped: #ffb35e; --warn-bg: #33280f; --warn-ink: #ffd48a; --bull: #ff6f7d; --bear: #3ad6b4; --bb: #b79cff; color-scheme: dark; }
+:root[data-theme="dark"] { --bg: #131722; --surface: #1e222d; --ink: #d1d4dc; --muted: #9598a1; --grid: #2a2e39; --line: #363a45; --profit: #5b8def; --trapped: #ffa726; --warn-bg: #33280f; --warn-ink: #ffd48a; --bull: #f7525f; --bear: #22ab94; --bb: #b39ddb; color-scheme: dark; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); }
 * { box-sizing: border-box; }
 .app { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 32px; display: flex; flex-direction: column; gap: 14px; }
@@ -120,20 +120,20 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .scrProg .bar { height: 8px; border-radius: 4px; background: var(--grid); overflow: hidden; }
 .scrProg .bar i { display: block; height: 100%; width: 0; background: var(--profit); transition: width .2s; }
 .scrProg .txt { font: 400 .76rem var(--font-num); color: var(--muted); }
-.pick { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
 .pick + .pick { margin-top: 2px; }
 .pkHead { display: grid; grid-template-columns: 2em minmax(0, 1fr) auto; gap: 10px; align-items: center; }
 .pkHead .rk { font: 700 1.3rem var(--font-num); color: var(--trapped); text-align: center; }
 .pkName .c { font: 700 1.02rem var(--font-ui); overflow-wrap: anywhere; }
 .pkName .p { font: 400 .76rem var(--font-num); color: var(--muted); margin-top: 1px; }
-.pkTag { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; } .pkTag .pkSum { font-size: .78rem; color: var(--muted); } .pkTag .pkMiss { font: 600 .7rem var(--font-ui); color: var(--bull); border: 1px solid var(--bull); border-radius: 999px; padding: 0 8px; }
+.pkTag { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; } .pkTag .pkSum { font-size: .78rem; color: var(--muted); } .pkTag .pkMiss { font: 600 .7rem var(--font-ui); color: var(--bull); border: 1px solid var(--bull); border-radius: 4px; padding: 0 8px; }
 .scrIntro p { font-size: .88rem; line-height: 1.7; }
 .scrPre { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
 .scrPre button { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; text-align: left; min-height: 62px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; }
 .scrPre button b { font-size: .95rem; } .scrPre button small { font-size: .72rem; color: var(--muted); line-height: 1.4; }
 .scrPre button[aria-pressed="true"] { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); box-shadow: inset 0 0 0 1px var(--profit); }
 .scrPre button[data-k="rise"] { grid-column: 1 / -1; }
-.scSig { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; } .scSig span { font: 500 .72rem var(--font-ui); padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); } .scSig span.ok { color: var(--ink); border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); } .scSig span.na { border-style: dashed; }
+.scSig { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; } .scSig span { font: 500 .72rem var(--font-ui); padding: 2px 9px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); } .scSig span.ok { color: var(--ink); border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); } .scSig span.na { border-style: dashed; }
 .scrSum { font-size: .78rem; color: var(--muted); line-height: 1.6; margin: 2px 0 6px; }
 .scrAdv { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 4px; } .scrAdv summary { cursor: pointer; font: 600 .84rem var(--font-ui); min-height: 40px; display: flex; align-items: center; }
 .scrAdv .hint { display: block; font-size: .7rem; color: var(--muted); line-height: 1.4; margin-top: 3px; }
@@ -171,7 +171,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .tocArr { position: absolute; top: 50%; transform: translateY(-55%); z-index: 2; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.2); font: 700 1.2rem/1 var(--font-ui); padding: 0 0 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .tocArr.l { left: 6px; } .tocArr.r { right: 6px; }
 .toc::-webkit-scrollbar { display: none; }
-.toc button { flex: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 0 13px; min-height: 36px; font: 500 .8rem var(--font-ui); cursor: pointer; white-space: nowrap; }
+.toc button { flex: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 4px; padding: 0 13px; min-height: 36px; font: 500 .8rem var(--font-ui); cursor: pointer; white-space: nowrap; }
 .toc-h { font-size: .72rem; color: var(--muted); margin: 2px 0 -4px; }
 .gSec, #pgMarket h2, #pgSim h2 { scroll-margin-top: 58px; }
 .info::after { content: ""; position: absolute; inset: -14px; border-radius: 50%; }
@@ -203,7 +203,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .vdHead { display: flex; gap: 12px; align-items: center; }
 .vdScore { font: 700 2.3rem/1 var(--font-num); letter-spacing: -.03em; white-space: nowrap; }
 .vdScore small { font: 500 .8rem var(--font-num); color: var(--muted); letter-spacing: 0; margin-left: 2px; }
-.vdTag { display: inline-block; font: 700 .82rem/1.4 var(--font-ui); padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); }
+.vdTag { display: inline-block; font: 700 .82rem/1.4 var(--font-ui); padding: 2px 10px; border-radius: 4px; border: 1px solid var(--line); }
 .vdTag.good { background: var(--profit); border-color: var(--profit); color: var(--surface); }
 .vdTag.bad { border-color: var(--trapped); color: var(--trapped); }
 .vdSum { font-size: .8rem; color: var(--muted); line-height: 1.5; margin-top: 4px; }
@@ -226,7 +226,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .vdNote { font-size: .72rem; color: var(--muted); line-height: 1.55; margin: 10px 0 0; }
 /* 持股明細：表格式 */
 .sortbar { display: flex; gap: 6px; font-size: .74rem; color: var(--muted); align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
-.sortbar button { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 0 11px; min-height: 32px; font: 500 .76rem var(--font-ui); cursor: pointer; }
+.sortbar button { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 4px; padding: 0 11px; min-height: 32px; font: 500 .76rem var(--font-ui); cursor: pointer; }
 .sortbar button[aria-pressed="true"] { color: var(--profit); border-color: var(--profit); font-weight: 600; }
 .sortbar .hint { margin-left: auto; font-size: .7rem; }
 .tblB { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
@@ -316,7 +316,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .mrow.open { background: color-mix(in srgb, var(--profit) 7%, transparent); } .mrow:focus-visible { outline: 2px solid var(--profit); outline-offset: -2px; }
 .mrow .m1 { display: flex; flex-direction: column; gap: 3px; min-width: 0; align-items: flex-start; } .mrow .m1 b { font-size: .88rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mrow small { display: block; font-size: .62rem; color: var(--muted); font-weight: 400; } .mrow .m2, .mrow .m3, .mrow .m4 { text-align: right; font: 600 .8rem var(--font-num); }
-.tg { font: 600 .64rem var(--font-ui); padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); } .tg.good { background: var(--profit); border-color: var(--profit); color: var(--surface); } .tg.bad { border-color: var(--trapped); color: var(--trapped); }
+.tg { font: 600 .64rem var(--font-ui); padding: 1px 7px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); } .tg.good { background: var(--profit); border-color: var(--profit); color: var(--surface); } .tg.bad { border-color: var(--trapped); color: var(--trapped); }
 .mdet { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 14px; padding: 8px 12px 12px; font-size: .76rem; background: color-mix(in srgb, var(--bg) 60%, transparent); border-top: 1px dashed var(--line); } .mdet > div { display: flex; justify-content: space-between; gap: 8px; } .mdet span { color: var(--muted); } .mdet b { font: 600 .78rem var(--font-num); text-align: right; }
 .lblRow { display: flex; align-items: center; gap: 4px; font-size: .76rem; color: var(--muted); margin-top: 2px; }
 .seg button:disabled { opacity: .4; cursor: not-allowed; }
@@ -325,8 +325,8 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .odGrid .odS { font-weight: 700; color: var(--ink); margin: 2px 0 4px; }
 .rotCard { padding: 10px; }
 .rotFindWrap { margin-bottom: 10px; } .rotFindBox .sugg { top: 50px; } .rotFindBox .sugg .ind { margin-left: auto; font-size: .68rem; color: var(--muted); } .rfOut:empty { display: none; } .rfOut { margin-top: 8px; }
-.rfHit { font-size: .95rem; line-height: 1.7; } .rfHit small { margin: 0 8px 0 6px; font: 400 .78rem var(--font-num); color: var(--muted); } .rfSec { display: inline-block; padding: 1px 11px; border-radius: 999px; background: var(--profit); color: #fff; font-weight: 700; } .rfNo { color: var(--muted); font-size: .86rem; }
-.rfPos { margin-top: 4px; font-size: .8rem; line-height: 1.65; color: var(--muted); } .rfPos b { color: var(--ink); } .rfAct { display: flex; gap: 8px; margin-top: 8px; } .rfAct button { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 .8rem var(--font-ui); cursor: pointer; }
+.rfHit { font-size: .95rem; line-height: 1.7; } .rfHit small { margin: 0 8px 0 6px; font: 400 .78rem var(--font-num); color: var(--muted); } .rfSec { display: inline-block; padding: 1px 11px; border-radius: 4px; background: var(--profit); color: #fff; font-weight: 700; } .rfNo { color: var(--muted); font-size: .86rem; }
+.rfPos { margin-top: 4px; font-size: .8rem; line-height: 1.65; color: var(--muted); } .rfPos b { color: var(--ink); } .rfAct { display: flex; gap: 8px; margin-top: 8px; } .rfAct button { min-height: 36px; padding: 0 14px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 .8rem var(--font-ui); cursor: pointer; }
 .rotSvg .fring { fill: none; stroke: var(--profit); stroke-width: 2.6; stroke-dasharray: 5 4; animation: rfPulse 1.3s ease-in-out infinite; pointer-events: none; } .rotSvg .fTag { pointer-events: none; } .rotSvg .fTag rect { fill: var(--profit); } .rotSvg .fTag text { fill: #fff; font: 700 11px var(--font-ui); }
 @keyframes rfPulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } } @media (prefers-reduced-motion: reduce) { .rotSvg .fring { animation: none; } }
 .rotSvg { width: 100%; height: auto; display: block; touch-action: manipulation; margin-top: 6px; }
@@ -388,7 +388,7 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .shDots { display: flex; flex-wrap: wrap; gap: 4px; min-height: 12px; }
 .shMeta { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: .78rem; color: var(--muted); }
 .shMeta b { font: 600 .86rem var(--font-num); color: var(--ink); }
-.shTag { margin-left: auto; box-sizing: border-box; width: 11em; padding: 3px 0; text-align: center; white-space: nowrap; font: 600 .74rem/1.4 var(--font-ui); border-radius: 999px; border: 1px solid var(--line); color: var(--ink); }
+.shTag { margin-left: auto; box-sizing: border-box; width: 11em; padding: 3px 0; text-align: center; white-space: nowrap; font: 600 .74rem/1.4 var(--font-ui); border-radius: 4px; border: 1px solid var(--line); color: var(--ink); }
 .shTag.good { background: var(--profit); border-color: var(--profit); color: var(--surface); }
 .shTag.bad { border-color: var(--trapped); color: var(--trapped); }
 .shMnemo { padding: 14px 16px; text-align: center; border-color: var(--profit); }
@@ -420,12 +420,12 @@ svg .chLast { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; opac
 html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%, var(--bg)); }
 .fwV { margin: 10px 0; padding: 12px 14px; border: 1px solid var(--line); border-left: 4px solid var(--trapped); border-radius: 10px; background: var(--surface); } .fwV.good { border-left-color: var(--bull); } .fwV .k { font-size: .72rem; color: var(--muted); } .fwV > b { display: block; font-size: 1.05rem; margin: 2px 0 6px; line-height: 1.5; } .fwV ul { margin: 0; padding-left: 1.2em; font-size: .84rem; line-height: 1.7; } .fwV small { display: block; margin-top: 6px; font-size: .74rem; line-height: 1.6; color: var(--muted); } .fwV p { margin: 4px 0 0; font-size: .86rem; line-height: 1.7; }
 .fwEx { padding: 10px 6px; margin: 10px 0; } .fwT { font: 700 .9rem var(--font-ui); padding: 0 8px 4px; } .fwT small { display: block; font: 400 .72rem var(--font-ui); color: var(--muted); margin-top: 2px; } .fwEx .gTbl th { text-align: center; } .fwEx .gTbl th small { font-weight: 400; display: block; } .fwEx td { text-align: center; } .fwEx td:first-child { text-align: left; } .fwD { display: block; font: 600 .72rem var(--font-num); margin-top: 2px; } .fwD.up { color: var(--bull); } .fwD.dn { color: var(--bear); }
-.fwRk { display: flex; flex-direction: column; gap: 4px; } .fwRow { display: grid; grid-template-columns: 1.6em minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 44px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font-family: var(--font-ui); } .fwRow.sel { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); } .fwRow.ref { opacity: .7; } .fwRow .no { font: 700 .74rem var(--font-num); color: var(--muted); } .fwRow .nm { font-size: .8rem; line-height: 1.35; } .fwRow .nm em { font-style: normal; margin-left: 6px; font-size: .66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 6px; } .fwRow .bar { height: 10px; background: color-mix(in srgb, var(--muted) 12%, transparent); border-radius: 5px; overflow: hidden; } .fwRow .bar i { display: block; height: 100%; background: var(--muted); border-radius: 5px; } .fwRow .bar i.up { background: var(--bull); } .fwRow .bar i.bl { background: #3b82f6; } .fwRow .bar i.dn { background: var(--bear); } .fwRow b { font: 700 .8rem var(--font-num); min-width: 5.5em; text-align: right; } .fwRow b.up { color: var(--bull); } .fwRow b.dn { color: var(--bear); }
+.fwRk { display: flex; flex-direction: column; gap: 4px; } .fwRow { display: grid; grid-template-columns: 1.6em minmax(0, 1.5fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; min-height: 44px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font-family: var(--font-ui); } .fwRow.sel { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); } .fwRow.ref { opacity: .7; } .fwRow .no { font: 700 .74rem var(--font-num); color: var(--muted); } .fwRow .nm { font-size: .8rem; line-height: 1.35; } .fwRow .nm em { font-style: normal; margin-left: 6px; font-size: .66rem; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; } .fwRow .bar { height: 10px; background: color-mix(in srgb, var(--muted) 12%, transparent); border-radius: 5px; overflow: hidden; } .fwRow .bar i { display: block; height: 100%; background: var(--muted); border-radius: 5px; } .fwRow .bar i.up { background: var(--bull); } .fwRow .bar i.bl { background: #3b82f6; } .fwRow .bar i.dn { background: var(--bear); } .fwRow b { font: 700 .8rem var(--font-num); min-width: 5.5em; text-align: right; } .fwRow b.up { color: var(--bull); } .fwRow b.dn { color: var(--bear); }
 .fwWhy { padding: 4px 12px; } .fwWhy > div { padding: 8px 0; border-top: 1px solid var(--line); display: grid; gap: 2px; font-size: .82rem; line-height: 1.65; } .fwWhy > div:first-child { border-top: 0; } .fwWhy b { font-size: .84rem; } .fwWhy span { color: var(--muted); } .fwSell { display: grid; gap: 8px; padding-top: 4px; } .fwSell > div { display: grid; gap: 1px; font-size: .8rem; line-height: 1.6; } .fwSell span { color: var(--muted); } .fwP small { margin-left: 4px; color: var(--muted); font-size: .7rem; } .fwSellD { margin: 10px 0; }
 .fwAsof { font-size: .76rem; color: var(--muted); margin: 2px 2px 0; }
-.fwChips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 2px 0 8px; } .fwChips button { min-height: 40px; padding: 0 6px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 .84rem var(--font-ui); cursor: pointer; } .fwChips button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.fwChips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 2px 0 8px; } .fwChips button { min-height: 40px; padding: 0 6px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 .84rem var(--font-ui); cursor: pointer; } .fwChips button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 .fwCap { margin: 2px 2px 10px; font-size: .8rem; line-height: 1.6; color: var(--muted); } .fwCap b { color: var(--ink); }
-.fwHero { padding: 16px; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(145deg, color-mix(in srgb, var(--bull) 9%, var(--surface)), var(--surface) 62%); }
+.fwHero { padding: 16px; border-radius: 8px; border: 1px solid var(--line); background: linear-gradient(145deg, color-mix(in srgb, var(--bull) 9%, var(--surface)), var(--surface) 62%); }
 .fwHero .k { font-size: .76rem; font-weight: 600; letter-spacing: .04em; color: var(--muted); } .fwHero .top { margin-top: 8px; } .fwHero .nm { font-size: 1.05rem; font-weight: 700; } .fwHero .big { font: 700 2.5rem/1.1 var(--font-num); letter-spacing: -.02em; } .fwHero .big em { font-size: 1.1rem; font-style: normal; margin-left: 2px; } .fwHero .top small { display: block; margin-top: 2px; font-size: .72rem; color: var(--muted); } .fwHero .fwSp { width: 100%; height: 56px; margin-top: 12px; }
 .fwHero .kp { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); } .fwHero .kp small { display: block; font-size: .7rem; color: var(--muted); } .fwHero .kp b { font: 700 .95rem var(--font-num); }
 .fwSp { display: block; overflow: visible; } .fwSp line { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; } .fwSp .ln { fill: none; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; } .fwSp .ar { stroke: none; opacity: .13; } .fwSp.up .ln { stroke: var(--bull); } .fwSp.up .ar { fill: var(--bull); } .fwSp.dn .ln { stroke: var(--bear); } .fwSp.dn .ar { fill: var(--bear); }
@@ -435,39 +435,39 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .fwCh { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); } .fwCh .ct { font-size: .84rem; font-weight: 700; } .fwCh .ct small { margin-left: 8px; font-size: .72rem; font-weight: 400; color: var(--muted); }
 .fwMc .ln { fill: none; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; } .fwMc .ar { stroke: none; opacity: .12; } .fwMc.up .ln { stroke: var(--bull); } .fwMc.up .ar, .fwMc.up circle, .fwMc.up .tg { fill: var(--bull); } .fwMc.dn .ln { stroke: var(--bear); } .fwMc.dn .ar, .fwMc.dn circle, .fwMc.dn .tg { fill: var(--bear); } .fwMc .tgt { fill: #fff; font: 700 11px var(--font-num); }
 .fwRw { width: 100%; background: none; border: 0; border-radius: 10px; color: inherit; text-align: left; cursor: pointer; font: inherit; } .fwRw.sel { background: color-mix(in srgb, var(--muted) 12%, var(--surface)); margin: 0 -8px; padding-left: 8px; padding-right: 8px; width: calc(100% + 16px); }
-.fwMore { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 14px; padding: 14px 16px; min-height: 64px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font: inherit; box-shadow: 0 1px 2px rgba(0,0,0,.05); } .fwMore:hover { border-color: var(--muted); } .fwMore .ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--ink); color: var(--surface); } .fwMore .tx { flex: 1; display: grid; gap: 1px; } .fwMore .tx b { font-size: .95rem; } .fwMore .tx small { font-size: .76rem; color: var(--muted); } .fwMore .ch { flex: none; color: var(--muted); transition: transform .2s; } .fwMore.open .ch { transform: rotate(180deg); }
-.rkM { flex: none; width: 56px; height: 52px; border-radius: 12px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.15; border: 1px solid var(--line); box-sizing: border-box; } .rkM small { font: 600 .56rem var(--font-ui); letter-spacing: .06em; opacity: .75; } .rkM b { font: 700 1.1rem var(--font-num); } .rkM i { font: 400 .56rem var(--font-ui); font-style: normal; opacity: .75; }
+.fwMore { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 14px; padding: 14px 16px; min-height: 64px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font: inherit; box-shadow: 0 1px 2px rgba(0,0,0,.05); } .fwMore:hover { border-color: var(--muted); } .fwMore .ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--ink); color: var(--surface); } .fwMore .tx { flex: 1; display: grid; gap: 1px; } .fwMore .tx b { font-size: .95rem; } .fwMore .tx small { font-size: .76rem; color: var(--muted); } .fwMore .ch { flex: none; color: var(--muted); transition: transform .2s; } .fwMore.open .ch { transform: rotate(180deg); }
+.rkM { flex: none; width: 56px; height: 52px; border-radius: 8px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.15; border: 1px solid var(--line); box-sizing: border-box; } .rkM small { font: 600 .56rem var(--font-ui); letter-spacing: .06em; opacity: .75; } .rkM b { font: 700 1.1rem var(--font-num); } .rkM i { font: 400 .56rem var(--font-ui); font-style: normal; opacity: .75; }
 .rkM.hi, .rkM.one { background: var(--ink); color: var(--surface); border-color: var(--ink); } .rkM.mid { background: color-mix(in srgb, var(--muted) 20%, var(--surface)); color: var(--ink); } .rkM.lo { background: transparent; color: var(--muted); border-style: dashed; }
-.vt { display: inline-block; align-self: flex-start; margin-top: 2px; font: 600 .66rem var(--font-ui); font-style: normal; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--profit) 14%, var(--surface)); color: var(--profit); } .chev { flex: none; color: var(--muted); font-size: 1.3rem; line-height: 1; }
+.vt { display: inline-block; align-self: flex-start; margin-top: 2px; font: 600 .66rem var(--font-ui); font-style: normal; padding: 1px 8px; border-radius: 4px; background: color-mix(in srgb, var(--profit) 14%, var(--surface)); color: var(--profit); } .chev { flex: none; color: var(--muted); font-size: 1.3rem; line-height: 1; }
 .stkLg { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 0 2px 10px; font-size: .72rem; color: var(--muted); } .stkLg span { display: inline-flex; align-items: center; gap: 6px; } .stkLg .rkM { width: 34px; height: 24px; border-radius: 7px; flex-direction: row; } .stkLg .rkM b { font-size: .72rem; } .stkLg em { flex-basis: 100%; font-style: normal; }
 .stkRow { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto 12px; gap: 12px; align-items: center; padding: 12px 0; cursor: pointer; } .stkRow + .stkRow { border-top: 1px solid var(--line); } .stkRow:hover .chev { color: var(--ink); } .stkRow:focus-visible, .optPick:focus-visible { outline: 2px solid var(--profit); outline-offset: 2px; border-radius: 10px; }
 .stkRow .si { display: flex; flex-direction: column; gap: 2px; min-width: 0; } .stkRow .si b { font-size: 1.02rem; } .stkRow .si span { font: 400 .74rem var(--font-num); color: var(--muted); } .stkRow .sp { display: grid; gap: 3px; min-width: 7.2em; } .stkRow .sp > div { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; } .stkRow .sp small { font-size: .64rem; color: var(--muted); } .stkRow .sp b { font: 700 .86rem var(--font-num); } .stkRow .sp .up b { color: var(--bull); } .stkRow .sp .dn b { color: var(--bear); }
 .optPick { cursor: pointer; } .optPick .hd2 { display: flex; align-items: center; gap: 12px; } .optPick .nm2 { display: flex; flex-direction: column; gap: 2px; min-width: 0; } .optPick .nm2 b { font-size: 1.2rem; } .optPick .nm2 span { font: 400 .78rem var(--font-num); color: var(--muted); } .optPick .chev { margin-left: auto; }
-.optTier .hs { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; } .optTier .hs span { font-size: .7rem; padding: 2px 9px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .optTier .hs span:first-child { background: none; padding-left: 0; color: var(--muted); } .optTier .hs .up { color: var(--bull); } .optTier .hs .dn { color: var(--bear); }
-.stkS .stkTop { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; } .stkS .stkTop b { font: 700 1.9rem var(--font-num); } .stkS .stkTop span { font-size: .78rem; color: var(--muted); } .stkS .stkTop em { margin-left: auto; font: 700 .76rem var(--font-ui); font-style: normal; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 16%, var(--surface)); } .stkS .stkTop em.up { background: color-mix(in srgb, var(--bull) 16%, var(--surface)); color: var(--bull); } .stkS .stkTop em.dn { background: color-mix(in srgb, var(--bear) 16%, var(--surface)); color: var(--bear); }
-.stTiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0 12px; } .stT { text-align: center; padding: 10px 4px; border-radius: 12px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .stT b { display: block; font: 700 1.35rem var(--font-num); } .stT small { font-size: .66rem; color: var(--muted); } .stT.up { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); } .stT.up b { color: var(--bull); } .stT.dn { background: color-mix(in srgb, var(--bear) 13%, var(--surface)); } .stT.dn b { color: var(--bear); }
-.stKv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; } .stKv small { display: block; font-size: .66rem; color: var(--muted); } .stKv b { font: 700 1rem var(--font-num); } .stKv b.up { color: var(--bull); } .stKv b.dn { color: var(--bear); } .stKv em { display: block; font: 400 .7rem var(--font-num); font-style: normal; color: var(--muted); }
-.stC { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; } .stC span { font-size: .72rem; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); color: var(--muted); } .stC span.ok { background: color-mix(in srgb, var(--bull) 14%, var(--surface)); color: var(--bull); } .stC.t span { color: var(--ink); }
+.optTier .hs { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; } .optTier .hs span { font-size: .7rem; padding: 2px 9px; border-radius: 4px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .optTier .hs span:first-child { background: none; padding-left: 0; color: var(--muted); } .optTier .hs .up { color: var(--bull); } .optTier .hs .dn { color: var(--bear); }
+.stkS .stkTop { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; } .stkS .stkTop b { font: 700 1.9rem var(--font-num); } .stkS .stkTop span { font-size: .78rem; color: var(--muted); } .stkS .stkTop em { margin-left: auto; font: 700 .76rem var(--font-ui); font-style: normal; padding: 3px 10px; border-radius: 4px; background: color-mix(in srgb, var(--muted) 16%, var(--surface)); } .stkS .stkTop em.up { background: color-mix(in srgb, var(--bull) 16%, var(--surface)); color: var(--bull); } .stkS .stkTop em.dn { background: color-mix(in srgb, var(--bear) 16%, var(--surface)); color: var(--bear); }
+.stTiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0 12px; } .stT { text-align: center; padding: 10px 4px; border-radius: 8px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .stT b { display: block; font: 700 1.35rem var(--font-num); } .stT small { font-size: .66rem; color: var(--muted); } .stT.up { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); } .stT.up b { color: var(--bull); } .stT.dn { background: color-mix(in srgb, var(--bear) 13%, var(--surface)); } .stT.dn b { color: var(--bear); }
+.stKv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; } .stKv small { display: block; font-size: .66rem; color: var(--muted); } .stKv b { font: 700 1rem var(--font-num); } .stKv b.up { color: var(--bull); } .stKv b.dn { color: var(--bear); } .stKv em { display: block; font: 400 .7rem var(--font-num); font-style: normal; color: var(--muted); }
+.stC { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; } .stC span { font-size: .72rem; padding: 3px 9px; border-radius: 4px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); color: var(--muted); } .stC span.ok { background: color-mix(in srgb, var(--bull) 14%, var(--surface)); color: var(--bull); } .stC.t span { color: var(--ink); }
 .stL { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: .82rem; line-height: 1.55; } .stL b { display: inline-block; margin-right: 8px; padding: 0 7px; border-radius: 6px; background: color-mix(in srgb, var(--muted) 14%, var(--surface)); font-size: .72rem; } .stNote { color: var(--muted); font-size: .84rem; }
 .stkS .stkTop span.up { color: var(--bull); font-weight: 700; } .stkS .stkTop span.dn { color: var(--bear); font-weight: 700; }
 .stCh { margin: 10px 0 4px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; } .stCh:active { cursor: grabbing; } .stLg .hint { margin-left: auto; font-size: .64rem; opacity: .8; } .stSvg { display: block; width: 100%; height: auto; } .stSvg .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; } .stSvg.up .ln { stroke: var(--bull); } .stSvg.dn .ln { stroke: var(--bear); } .stSvg .ar { stroke: none; opacity: .09; } .stSvg.up .ar, .stSvg.up circle { fill: var(--bull); } .stSvg.dn .ar, .stSvg.dn circle { fill: var(--bear); } .stSvg .ma { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 3; }
 .stSvg .lv { stroke-width: 1; stroke-dasharray: 4 3; } .stSvg .lv.u { stroke: var(--bull); } .stSvg .lv.d { stroke: var(--bear); } .stSvg .lv.b { stroke: var(--muted); } .stSvg text { font: 600 9.5px var(--font-num); } .stSvg .lt.u { fill: var(--bull); } .stSvg .lt.d { fill: var(--bear); } .stSvg .lt.b { fill: var(--muted); } .stSvg .ax { fill: var(--muted); font-weight: 400; }
 .stLg { display: flex; gap: 6px; align-items: center; font-size: .68rem; color: var(--muted); } .stLg i { display: inline-block; width: 14px; height: 0; border-top: 2px solid var(--muted); margin-left: 6px; } .stLg i.a { border-color: var(--ink); margin-left: 0; } .stLg i.b { border-top-style: dashed; }
 .stSum { margin: 10px 0 0; font-size: .8rem; line-height: 1.6; color: var(--muted); }
-.stPlan { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; } .stPlan span { font-size: .74rem; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .stPlan b { font-family: var(--font-num); } .stPlan .up { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); color: var(--bull); } .stPlan .dn { background: color-mix(in srgb, var(--bear) 13%, var(--surface)); color: var(--bear); }
+.stPlan { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; } .stPlan span { font-size: .74rem; padding: 4px 10px; border-radius: 4px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .stPlan b { font-family: var(--font-num); } .stPlan .up { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); color: var(--bull); } .stPlan .dn { background: color-mix(in srgb, var(--bear) 13%, var(--surface)); color: var(--bear); }
 .stTiles { margin: 10px 0 8px; gap: 6px; } .stT { padding: 7px 2px; } .stT b { font-size: 1.15rem; } .stKv { padding: 8px 10px; }
 .stkS h4 { margin: 16px 0 8px; font-size: .84rem; } .stP { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .stP > div { padding: 8px 10px; border-radius: 10px; background: color-mix(in srgb, var(--muted) 10%, var(--surface)); } .stP > div:first-child:nth-last-child(n+1) { grid-column: 1 / -1; } .stP small { display: block; font-size: .66rem; color: var(--muted); } .stP b { font-size: .84rem; line-height: 1.45; } .stFull { width: 100%; margin-top: 16px; }
-.optTier { padding: 12px 14px; margin-bottom: 10px; } .optTier .th { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; } .optTier .th b { font-size: 1rem; } .optTier .tg { font-size: .7rem; padding: 2px 8px; border-radius: 999px; background: var(--ink); color: var(--surface); } .optTier .tg.fb { background: color-mix(in srgb, var(--muted) 25%, var(--surface)); color: var(--ink); } .optTier .hs { margin-left: auto; font-size: .7rem; color: var(--muted); } .optTier .none { padding: 10px 0 2px; font-size: .84rem; color: var(--muted); } .optTier .ref { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .72rem; line-height: 1.5; color: var(--muted); }
+.optTier { padding: 12px 14px; margin-bottom: 10px; } .optTier .th { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; } .optTier .th b { font-size: 1rem; } .optTier .tg { font-size: .7rem; padding: 2px 8px; border-radius: 4px; background: var(--ink); color: var(--surface); } .optTier .tg.fb { background: color-mix(in srgb, var(--muted) 25%, var(--surface)); color: var(--ink); } .optTier .hs { margin-left: auto; font-size: .7rem; color: var(--muted); } .optTier .none { padding: 10px 0 2px; font-size: .84rem; color: var(--muted); } .optTier .ref { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .72rem; line-height: 1.5; color: var(--muted); }
 .optMini { padding: 10px 0 2px; } .optMini + .optMini { margin-top: 8px; border-top: 1px solid var(--line); padding-top: 10px; } .optMini .m1 { display: flex; align-items: baseline; gap: 8px; } .optMini .m1 b { font-size: 1rem; } .optMini .m1 code { font: 400 .76rem var(--font-num); color: var(--muted); } .optMini .m1 span { margin-left: auto; font: 400 .76rem var(--font-num); color: var(--muted); } .optMini .m2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px; } .optMini .m2 small { display: block; font-size: .66rem; color: var(--muted); } .optMini .m2 b { font: 700 .88rem var(--font-num); } .optMini .up b { color: var(--bull); } .optMini .dn b { color: var(--bear); }
 .zc { touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; } .zc:active { cursor: grabbing; } .zc svg { display: block; width: 100%; height: auto; }
 .zh { margin-top: 2px; font-size: .66rem; color: var(--muted); text-align: right; } .zh .zm { display: none; } @media (hover: none) { .zh .zd { display: none; } .zh .zm { display: inline; } }
 .fwMode { margin: 4px 0 10px; } .fwMode button { flex: 1; }
-.optPick { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: var(--surface); margin-bottom: 10px; } .optPick .hd { display: flex; align-items: baseline; gap: 8px; } .optPick .hd b { font-size: 1.15rem; } .optPick .hd code { font: 400 .8rem var(--font-num); color: var(--muted); } .optPick .cl { margin-left: auto; font: 400 .78rem var(--font-num); color: var(--muted); }
+.optPick { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: var(--surface); margin-bottom: 10px; } .optPick .hd { display: flex; align-items: baseline; gap: 8px; } .optPick .hd b { font-size: 1.15rem; } .optPick .hd code { font: 400 .8rem var(--font-num); color: var(--muted); } .optPick .cl { margin-left: auto; font: 400 .78rem var(--font-num); color: var(--muted); }
 .optPick .buy { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; font-size: .88rem; line-height: 1.5; } .optPick .buy i { flex: none; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; background: var(--ink); color: var(--surface); font: 700 .74rem var(--font-ui); font-style: normal; }
 .optPick .sell { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .optPick .sell > div { padding: 9px 11px; border-radius: 10px; background: color-mix(in srgb, var(--muted) 10%, var(--surface)); } .optPick .sell small { display: block; font-size: .7rem; color: var(--muted); } .optPick .sell b { display: block; font: 700 1.1rem var(--font-num); } .optPick .sell em { font-style: normal; font-size: .72rem; color: var(--muted); } .optPick .sell .up b { color: var(--bull); } .optPick .sell .dn b { color: var(--bear); } .optPick .ref { margin-top: 8px; font-size: .74rem; line-height: 1.5; color: var(--muted); }
 .optKv { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; margin-top: 12px; } .optKv small { display: block; font-size: .7rem; color: var(--muted); } .optKv b { font-size: .92rem; } .optKv b.up { color: var(--bull); } .optKv b.dn { color: var(--bear); }
 .optCmp { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); display: grid; gap: 8px; } .optCmp > div { display: grid; grid-template-columns: 9.5em 1fr 4.4em; gap: 8px; align-items: center; } .optCmp small { font-size: .72rem; color: var(--muted); } .optCmp b { font: 700 .86rem var(--font-num); text-align: right; } .optCmp .bar { height: 10px; border-radius: 5px; background: color-mix(in srgb, var(--muted) 14%, var(--surface)); overflow: hidden; } .optCmp .bar i { display: block; height: 100%; border-radius: 5px; background: var(--muted); } .optCmp .bar i.up { background: var(--bull); } .optCmp .bar i.dn { background: var(--bear); }
-.optAdj { padding: 6px 14px; } .optMix { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 0 2px; } .optMix span { font-size: .78rem; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .optMix b { margin-right: 6px; } .optSub { font-size: .72rem; color: var(--muted); padding: 2px 0 8px; border-bottom: 1px solid var(--line); }
+.optAdj { padding: 6px 14px; } .optMix { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 0 2px; } .optMix span { font-size: .78rem; padding: 4px 10px; border-radius: 4px; background: color-mix(in srgb, var(--muted) 12%, var(--surface)); } .optMix b { margin-right: 6px; } .optSub { font-size: .72rem; color: var(--muted); padding: 2px 0 8px; border-bottom: 1px solid var(--line); }
 .optH { display: grid; grid-template-columns: 3.4em 1fr; gap: 8px; padding: 9px 0; font-size: .8rem; line-height: 1.5; } .optH + .optH, .optT + .optT { border-top: 1px solid var(--line); } .optH .d { font: 400 .76rem var(--font-num); color: var(--muted); padding-top: 1px; } .optH .mute { color: var(--muted); }
 .optT { padding: 10px 0; } .optT .t { font-size: .82rem; line-height: 1.5; } .optT .s { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 3px; font: 400 .76rem var(--font-num); color: var(--muted); } .optT .s .up { color: var(--bull); } .optT .s .dn { color: var(--bear); }
 .fwLine { margin-top: 10px; padding: 14px 12px 12px; } .fwMc { display: block; width: 100%; height: auto; margin-top: 8px; } .fwMc text { font: 400 10px var(--font-num); fill: var(--muted); } .fwMc .g { stroke: var(--line); stroke-width: 1; } .fwMc .z { stroke: var(--muted); stroke-width: 1; opacity: .6; } .fwMc .lv { stroke: var(--muted); stroke-dasharray: 4 3; opacity: .7; } .fwMc .lvt { font-size: 9px; }
@@ -499,9 +499,9 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .simLg { display: grid; gap: 2px; margin: 10px 0 4px; } .simLg .r { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto 3.6em; gap: 10px; align-items: center; padding: 7px 0; } .simLg .r + .r { border-top: 1px solid var(--line); } .simLg .r i { width: 12px; height: 12px; border-radius: 4px; } .simLg .r span { font-size: .9rem; font-weight: 600; } .simLg .r small { display: block; font-size: .68rem; font-weight: 400; color: var(--muted); } .simLg .r b { font: 600 .98rem var(--font-num); } .simLg .r em { font: 400 .76rem var(--font-num); font-style: normal; color: var(--muted); text-align: right; }
 .simMore { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; } .simMore > summary { cursor: pointer; font-size: .84rem; color: var(--profit); font-weight: 600; padding: 4px 0 10px; list-style: none; } .simMore > summary::-webkit-details-marker { display: none; } .simMore > summary::after { content: " ▾"; } .simMore[open] > summary::after { content: " ▴"; }
 .simEstBox { margin-top: 12px; display: grid; gap: 10px; } .simEstBox[hidden] { display: none; } .seTop { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; } .seTop > div { padding: 9px 12px; border-radius: 10px; background: color-mix(in srgb, var(--muted) 11%, var(--surface)); } .seTop small { display: block; font-size: .7rem; color: var(--muted); } .seTop b { font: 700 1.02rem var(--font-num); }
-.seCalc { border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; background: var(--surface); } .seCalc .r { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; font-size: .88rem; } .seCalc .r + .r { border-top: 1px solid var(--line); } .seCalc .r span small { display: block; font-size: .68rem; color: var(--muted); } .seCalc .r b { font: 600 .98rem var(--font-num); white-space: nowrap; } .seCalc .r.tot { border-top: 2px solid var(--ink); } .seCalc .r.tot span { font-weight: 700; } .seCalc .r.tot b { font-size: 1.3rem; }
+.seCalc { border: 1px solid var(--line); border-radius: 8px; padding: 4px 14px; background: var(--surface); } .seCalc .r { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; font-size: .88rem; } .seCalc .r + .r { border-top: 1px solid var(--line); } .seCalc .r span small { display: block; font-size: .68rem; color: var(--muted); } .seCalc .r b { font: 600 .98rem var(--font-num); white-space: nowrap; } .seCalc .r.tot { border-top: 2px solid var(--ink); } .seCalc .r.tot span { font-weight: 700; } .seCalc .r.tot b { font-size: 1.3rem; }
 .seBar { height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; margin-top: -2px; } .seBar i { display: block; height: 100%; border-radius: 5px; } .seBar i.ok { background: var(--profit); } .seBar i.bad { background: var(--bull); }
-.seVerdict { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding: 10px 14px; border-radius: 12px; } .seVerdict b { font-size: .98rem; } .seVerdict span { font-size: .84rem; } .seVerdict.ok { background: color-mix(in srgb, var(--bear) 12%, var(--surface)); color: var(--bear); } .seVerdict.bad { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); color: var(--bull); } .seNote { font-size: .74rem; color: var(--muted); }
+.seVerdict { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding: 10px 14px; border-radius: 8px; } .seVerdict b { font-size: .98rem; } .seVerdict span { font-size: .84rem; } .seVerdict.ok { background: color-mix(in srgb, var(--bear) 12%, var(--surface)); color: var(--bear); } .seVerdict.bad { background: color-mix(in srgb, var(--bull) 13%, var(--surface)); color: var(--bull); } .seNote { font-size: .74rem; color: var(--muted); }
 .simGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
 .simGrid > div .k { font-size: .7rem; color: var(--muted); }
 .simGrid > div .v { font: 500 .95rem var(--font-num); }
@@ -548,7 +548,7 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .gKicker { font: 500 .72rem var(--font-ui); letter-spacing: .08em; color: var(--muted); }
 .gH1 { margin: 0; font: 700 1.3rem/1.4 var(--font-ui); letter-spacing: 0; color: var(--ink); text-wrap: balance; }
 .gSec { display: flex; flex-direction: column; gap: 10px; }
-.gAcc { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); } .gAcc > summary { list-style: none; cursor: pointer; padding: 12px 14px; min-height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; } .gAcc > summary::-webkit-details-marker { display: none; }
+.gAcc { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); } .gAcc > summary { list-style: none; cursor: pointer; padding: 12px 14px; min-height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; } .gAcc > summary::-webkit-details-marker { display: none; }
 .gAcc > summary h3 { margin: 0; font: 700 .98rem/1.45 var(--font-ui); } .gAcc > summary::after { content: "＋"; grid-row: 1; grid-column: 2; color: var(--profit); font: 700 1.1rem var(--font-ui); } .gAcc[open] > summary::after { content: "－"; }
 .gCollapse { align-self: stretch; min-height: 44px; margin-top: 4px; border: 1px solid var(--line); border-radius: 10px; background: color-mix(in srgb, var(--profit) 7%, var(--surface)); color: var(--profit); font: 700 .88rem var(--font-ui); cursor: pointer; }
 .gGrp > summary em { margin-left: auto; padding-left: 10px; font: 400 .72rem var(--font-num); font-style: normal; color: var(--muted); } .gGrp .a { padding-top: 0; } .gGrp .gTerm { margin-top: 8px; }
@@ -564,12 +564,12 @@ html[data-layout] .admTabs.seg { background: color-mix(in srgb, var(--muted) 14%
 .gThree { display: grid; gap: 8px; margin: 6px 0 10px; } .gThree .gMini { margin: 0; }
 .gNext { margin: 14px 0 0; padding-top: 10px; border-top: 1px dashed var(--line); font-size: .84rem; line-height: 1.7; color: var(--muted); } .gNext b { color: var(--ink); }
 .gLink { display: inline; min-height: 0; padding: 0 2px; border: 0; background: transparent; color: var(--profit); font: 600 .84rem var(--font-ui); text-decoration: underline; cursor: pointer; }
-.gAng { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 999px; font: 600 .66rem var(--font-ui); vertical-align: 1px; border: 1px solid var(--profit); color: var(--profit); }
+.gAng { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 4px; font: 600 .66rem var(--font-ui); vertical-align: 1px; border: 1px solid var(--profit); color: var(--profit); }
 .gWG { margin: 14px 0 0; font: 700 .86rem var(--font-ui); color: var(--profit); }
 .gOne { margin: 4px 0 12px; padding: 9px 12px; border-left: 3px solid var(--profit); background: color-mix(in srgb, var(--profit) 7%, var(--surface)); border-radius: 0 8px 8px 0; font-size: .9rem; line-height: 1.7; }
 .gMapList { display: flex; flex-direction: column; } .gMapItem { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); } .gMapItem.core { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 6%, var(--surface)); }
 .gMapItem .n { font-weight: 700; font-size: .94rem; } .gMapItem .q { font-size: .82rem; color: var(--muted); line-height: 1.55; margin-top: 2px; } .gMapGo { min-height: 40px; padding: 0 14px; white-space: nowrap; }
-.gCore, .gLogin { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 999px; font: 600 .66rem var(--font-ui); vertical-align: 1px; } .gCore { background: var(--profit); color: var(--surface); } .gLogin { border: 1px solid var(--muted); color: var(--muted); }
+.gCore, .gLogin { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 4px; font: 600 .66rem var(--font-ui); vertical-align: 1px; } .gCore { background: var(--profit); color: var(--surface); } .gLogin { border: 1px solid var(--muted); color: var(--muted); }
 .gFlow { counter-reset: gf; list-style: none; padding: 0; margin: 6px 0 10px; } .gFlow li { counter-increment: gf; position: relative; padding: 7px 0 7px 36px; font-size: .88rem; line-height: 1.65; } .gFlow li::before { content: counter(gf); position: absolute; left: 0; top: 7px; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--profit); color: var(--profit); font: 700 .78rem var(--font-num); display: flex; align-items: center; justify-content: center; }
 .gDef { margin: 6px 0 10px; } .gDef dt { font: 700 .86rem var(--font-ui); margin-top: 8px; } .gDef dd { margin: 2px 0 0; font-size: .84rem; line-height: 1.7; color: var(--ink); }
 .gTip { padding: 12px 14px; margin: 8px 0; } .gTip ul { margin: 6px 0 0; padding-left: 1.2em; font-size: .86rem; line-height: 1.75; } .gTip li { margin: 3px 0; }
@@ -823,7 +823,7 @@ button:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px 
 
 .warn { background: var(--warn-bg); color: var(--warn-ink); border-radius: 8px; padding: 9px 12px; font-size: .78rem; line-height: 1.5; }
 
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 8px 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 8px 12px; }
 #chart { width: 100%; }
 #chart svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
 .readout { font-size: .78rem; color: var(--muted); padding: 6px 10px; margin: 6px 8px 0; min-height: 3.1em; line-height: 1.55; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
@@ -893,7 +893,7 @@ svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 .tcCat { font: 700 .86rem var(--font-ui); margin: 12px 0 2px; } .tcCat small { color: var(--muted); font-weight: 400; } .tcV small { opacity: .8; }
 .tcCombo { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-top: 8px; background: var(--surface); } .tcCombo.hit { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 5%, var(--surface)); }
 .tcCH { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; font-size: .86rem; } .tcParts { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
-.tcP { font: 500 .7rem var(--font-ui); padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); } .tcP.tc-bu { color: var(--bull); border-color: var(--bull); } .tcP.tc-be { color: var(--bear); border-color: var(--bear); }
+.tcP { font: 500 .7rem var(--font-ui); padding: 1px 8px; border-radius: 4px; border: 1px solid var(--line); } .tcP.tc-bu { color: var(--bull); border-color: var(--bull); } .tcP.tc-be { color: var(--bear); border-color: var(--bear); }
 .tcRead { font-size: .78rem; color: var(--muted); line-height: 1.6; margin: 2px 0; } .tcAdv { font-size: .82rem; line-height: 1.65; margin: 4px 0 0; } .tcTag.off { opacity: .55; } .tcGrpT { font: 700 .82rem var(--font-ui); margin: 8px 0 0; }
 .tcfig svg .tc-m5 { fill: none; stroke: var(--trapped); stroke-width: 1.2; }
 .tcfig svg .tc-gx { fill: var(--bull); } .tcfig svg .tc-dx { fill: var(--bear); } .tcfig svg .tc-x { stroke: var(--ink); stroke-width: 1; opacity: .55; }
@@ -915,24 +915,24 @@ svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 .tgCard { padding: 12px 14px; margin-top: 8px; } .tgCard .what { margin: 4px 0; font-size: .86rem; line-height: 1.7; font-weight: 500; } .tgCard ul { margin: 4px 0; padding-left: 1.2em; font-size: .84rem; line-height: 1.7; } .tgCard li { margin: 3px 0; } .tgCard .tcWarn { margin: 8px 0 0; padding: 7px 10px; border-radius: 8px; background: var(--warn-bg); color: var(--warn-ink); font-size: .8rem; line-height: 1.6; } .tgCard .tgCalc { margin: 8px 0 0; font-size: .76rem; color: var(--muted); line-height: 1.6; } .tgH { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 @keyframes tgFlash { 0%, 60% { box-shadow: 0 0 0 3px var(--profit); } 100% { box-shadow: 0 0 0 0 transparent; } } .tgFlash { animation: tgFlash 1.8s ease-out; border-radius: 10px; }
 .tcChips { display: flex; flex-wrap: wrap; gap: 6px; }
-.tcChips button[data-l] { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font: 500 .78rem var(--font-ui); cursor: pointer; }
+.tcChips button[data-l] { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--muted); font: 500 .78rem var(--font-ui); cursor: pointer; }
 .tcChips button[data-l] i { width: 14px; height: 4px; border-radius: 2px; display: inline-block; border: 1px solid var(--line); }
 .tcChips button[data-l][aria-pressed="true"] { color: var(--ink); border-color: var(--profit); background: color-mix(in srgb, var(--profit) 9%, var(--surface)); box-shadow: inset 0 0 0 1px var(--profit); }
 .tcChips button[data-l]:disabled { opacity: .4; cursor: not-allowed; }
 .tcPres { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: .74rem; color: var(--muted); } .tcPres button { min-height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: 500 .76rem var(--font-ui); cursor: pointer; } .tcPres button[aria-pressed="true"] { background: var(--profit); border-color: var(--profit); color: var(--surface); }
 .tcRd { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin: 6px 0; background: var(--surface); min-height: 112px; }
 .tcR1 { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: .86rem; flex-wrap: wrap; } .tcR1 .up { color: var(--bull); } .tcR1 .dn { color: var(--bear); } .tcR2 { font: 400 .72rem var(--font-num); color: var(--muted); margin-top: 2px; }
-.tcR3 { margin-top: 6px; font-size: .78rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; } .tcPs { display: inline-flex; gap: 4px; flex-wrap: wrap; } .tcPs i { font: normal 500 .68rem var(--font-ui); padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); } .tcPs i.tc-bu { color: var(--bull); border-color: var(--bull); } .tcPs i.tc-be { color: var(--bear); border-color: var(--bear); }
+.tcR3 { margin-top: 6px; font-size: .78rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; } .tcPs { display: inline-flex; gap: 4px; flex-wrap: wrap; } .tcPs i { font: normal 500 .68rem var(--font-ui); padding: 1px 7px; border-radius: 4px; border: 1px solid var(--line); } .tcPs i.tc-bu { color: var(--bull); border-color: var(--bull); } .tcPs i.tc-be { color: var(--bear); border-color: var(--bear); }
 .tcHow p { font-size: .8rem; line-height: 1.7; margin: 6px 0; }
 .flowBox { margin-top: 10px; padding: 0; } .flowBox > summary { cursor: pointer; list-style: none; padding: 14px 16px; font: 700 .95rem var(--font-ui); min-height: 48px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px; } .flowBox > summary::-webkit-details-marker { display: none; } .flowBox > summary::before { content: "＋"; color: var(--profit); margin-right: 8px; } .flowBox[open] > summary::before { content: "－"; } .flowBox > summary small { font: 400 .74rem var(--font-ui); color: var(--muted); }
 #flowBody { padding: 0 14px 14px; } .flowAsof { font-size: .74rem; color: var(--muted); margin-bottom: 8px; line-height: 1.6; } .flowTiles { margin-bottom: 8px; } .flowTiles .stat .v { font-size: 1.05rem; }
 .flowOne { grid-template-columns: 1fr; } .flowUp { color: var(--bull); } .flowDn { color: var(--bear); } .flowSeg { margin: 6px 0; } .flowSeg button { flex: 1; min-height: 36px; padding: 0 4px; }
 .flowSvg { width: 100%; height: auto; display: block; } .flowSvg .tc-up { fill: var(--bull); opacity: .85; } .flowSvg .tc-dn { fill: var(--bear); opacity: .85; }
 .flowSvg .flowLn1 { fill: none; stroke: var(--profit); stroke-width: 1.8; } .flowSvg .flowLn1d { fill: var(--profit); } .flowSvg .flowLn2 { fill: none; stroke: var(--trapped); stroke-width: 1.8; } .flowSvg .flowLn2d { fill: var(--trapped); }
-.flowVd { display: grid; gap: 8px; margin-bottom: 8px; } .flowV { display: grid; grid-template-columns: auto auto 1fr; gap: 4px 8px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; } .flowV .k { font: 700 .86rem var(--font-ui); } .flowV .s { grid-column: 1 / -1; font-size: .8rem; line-height: 1.65; color: var(--muted); } .flowV .s b { color: var(--ink); }
-.flowCmp { padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; } .flowCmpT { font: 700 .82rem var(--font-ui); margin-bottom: 6px; } .flowChips { display: flex; flex-wrap: wrap; gap: 6px; } .flowChip { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); } .flowChip i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; } .flowChip i.tc-bu { background: var(--bull); } .flowChip i.tc-be { background: var(--bear); } .flowSum { font-size: .84rem; line-height: 1.7; margin: 8px 0 0; }
-.flowHow { font-size: .82rem; line-height: 1.7; padding: 10px 12px; border-radius: 12px; background: var(--surface-2, rgba(127,127,127,.08)); margin: 8px 0; } .flowHow ol { margin: 4px 0 0; padding-left: 1.3em; } .flowMore { margin-top: 8px; } .flowSvg .flowLn3 { fill: none; stroke: var(--profit); stroke-width: 1.8; } .flowSvg .flowLn3d { fill: var(--profit); } .flowSvg .flowPx { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 3; opacity: .8; }
-.flowMoreBtn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; margin: 12px 0 4px; border: 1.5px solid var(--profit); border-radius: 12px; background: color-mix(in srgb, var(--profit) 8%, var(--surface)); color: var(--profit); font: 700 .92rem var(--font-ui); cursor: pointer; list-style: none; } .flowMoreBtn::-webkit-details-marker { display: none; } .flowMoreBtn::after { content: "▾"; font-size: 1rem; transition: transform .2s; } .flowMore[open] > .flowMoreBtn::after { transform: rotate(180deg); } .flowMore[open] > .flowMoreBtn .t1, .flowMore:not([open]) > .flowMoreBtn .t2 { display: none; } .flowMore[open] > .flowMoreBtn { margin-bottom: 10px; }
+.flowVd { display: grid; gap: 8px; margin-bottom: 8px; } .flowV { display: grid; grid-template-columns: auto auto 1fr; gap: 4px 8px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; } .flowV .k { font: 700 .86rem var(--font-ui); } .flowV .s { grid-column: 1 / -1; font-size: .8rem; line-height: 1.65; color: var(--muted); } .flowV .s b { color: var(--ink); }
+.flowCmp { padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; } .flowCmpT { font: 700 .82rem var(--font-ui); margin-bottom: 6px; } .flowChips { display: flex; flex-wrap: wrap; gap: 6px; } .flowChip { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 3px 10px; border-radius: 4px; border: 1px solid var(--line); } .flowChip i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; } .flowChip i.tc-bu { background: var(--bull); } .flowChip i.tc-be { background: var(--bear); } .flowSum { font-size: .84rem; line-height: 1.7; margin: 8px 0 0; }
+.flowHow { font-size: .82rem; line-height: 1.7; padding: 10px 12px; border-radius: 8px; background: var(--surface-2, rgba(127,127,127,.08)); margin: 8px 0; } .flowHow ol { margin: 4px 0 0; padding-left: 1.3em; } .flowMore { margin-top: 8px; } .flowSvg .flowLn3 { fill: none; stroke: var(--profit); stroke-width: 1.8; } .flowSvg .flowLn3d { fill: var(--profit); } .flowSvg .flowPx { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 3; opacity: .8; }
+.flowMoreBtn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; margin: 12px 0 4px; border: 1.5px solid var(--profit); border-radius: 8px; background: color-mix(in srgb, var(--profit) 8%, var(--surface)); color: var(--profit); font: 700 .92rem var(--font-ui); cursor: pointer; list-style: none; } .flowMoreBtn::-webkit-details-marker { display: none; } .flowMoreBtn::after { content: "▾"; font-size: 1rem; transition: transform .2s; } .flowMore[open] > .flowMoreBtn::after { transform: rotate(180deg); } .flowMore[open] > .flowMoreBtn .t1, .flowMore:not([open]) > .flowMoreBtn .t2 { display: none; } .flowMore[open] > .flowMoreBtn { margin-bottom: 10px; }
 .flowFoot { margin: 8px 2px 0; font-size: .74rem; color: var(--muted); }
 .fcSec { margin-top: 14px; } .fcHd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; } .fcHd b { font-size: .9rem; } .fcTi { font-size: .72rem; color: var(--muted); }
 .fcRd { font-size: .78rem; line-height: 1.55; min-height: 3.1em; padding: 6px 10px; margin: 6px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--muted); } .fcRd small { color: var(--muted); } .fcRd span.flowUp, .fcRd span.flowDn { font-weight: 600; } .fcRd b { color: var(--ink); font-family: var(--font-num); font-weight: 500; }
@@ -959,7 +959,7 @@ svg .cap { fill: var(--muted); font: 400 10px var(--font-ui); }
 .tcSeg { margin: 6px 0 8px; } .tcSeg button { min-height: 36px; flex: 1; }
 .tcList { display: flex; flex-direction: column; margin-top: 8px; } .tcRow { padding: 9px 2px; border-top: 1px solid var(--line); }
 .tcH { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: .86rem; } .tcV { font: 400 .76rem var(--font-num); color: var(--muted); margin-top: 2px; } .tcT { font-size: .8rem; line-height: 1.6; margin-top: 3px; }
-.tcTag { font: 600 .72rem var(--font-ui); padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+.tcTag { font: 600 .72rem var(--font-ui); padding: 2px 9px; border-radius: 4px; border: 1px solid var(--line); white-space: nowrap; }
 .tcTag.tc-bu { background: var(--bull); border-color: var(--bull); color: var(--surface); } .tcTag.tc-be { background: var(--bear); border-color: var(--bear); color: var(--surface); }
 
 .zones { display: flex; flex-direction: column; gap: 8px; }
@@ -1034,13 +1034,9 @@ html[data-layout="desktop"] .app { max-width: 1360px; padding-inline: 24px; }
 }
 
 /* --- iOS --- */
-html[data-layout="ios"] { --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Noto Sans TC", system-ui, sans-serif; --navH: 52px; --bg: #f2f2f7; --surface: #ffffff; --ink: #000000; --muted: #6c6c70; --grid: #efeff4; --line: #e3e3e8; --profit: #007aff; --trapped: #ff9500; --bull: #e5362d; --bear: #1e9e4f; }
-
-html[data-layout="ios"][data-theme="dark"] { --bg: #000000; --surface: #1c1c1e; --ink: #ffffff; --muted: #a9a9b1; --grid: #2f2f33; --line: #48484a; --profit: #4d9dff; --trapped: #ffa63d; --bull: #ff6b61; --bear: #43e068; color-scheme: dark; }
+html[data-layout="ios"] { --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Noto Sans TC", system-ui, sans-serif; --navH: 52px; }
 /* --- Android（Material 3）--- */
-html[data-layout="android"] { --font-ui: Roboto, "Noto Sans TC", "Google Sans", system-ui, sans-serif; --navH: 68px; --bg: #f4f6fb; --surface: #ffffff; --ink: #1a1c20; --muted: #5d6169; --grid: #e9ecf3; --line: #dde1ea; --profit: #0b57d0; --trapped: #b95f00; --bull: #c62828; --bear: #0b7a55; }
-
-html[data-layout="android"][data-theme="dark"] { --bg: #0e1116; --surface: #1d222b; --ink: #eaecf2; --muted: #b4b8c2; --grid: #2a303b; --line: #464c58; --profit: #9bbcff; --trapped: #ffbf80; --bull: #ff8f86; --bear: #6fe0b6; color-scheme: dark; }
+html[data-layout="android"] { --font-ui: Roboto, "Noto Sans TC", "Google Sans", system-ui, sans-serif; --navH: 60px; }
 
 html[data-layout="ios"] #tabs, html[data-layout="android"] #tabs, html[data-layout="ios"] header .zoomBar, html[data-layout="android"] header .zoomBar, html[data-layout="ios"] #layoutBtn, html[data-layout="android"] #layoutBtn { display: none !important; }
 html[data-layout="ios"] .botNav, html[data-layout="android"] .botNav { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding-bottom: env(safe-area-inset-bottom); }
@@ -1048,18 +1044,16 @@ html[data-layout="ios"] .app, html[data-layout="android"] .app { padding-bottom:
 html[data-layout="ios"] .toTop, html[data-layout="android"] .toTop { bottom: calc(var(--navH) + env(safe-area-inset-bottom) + 12px); }
 html[data-layout="ios"] .rotSheet, html[data-layout="android"] .rotSheet { bottom: calc(var(--navH) + env(safe-area-inset-bottom)); border-radius: 14px 14px 0 0; }
 .botNav button { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--muted); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; font-family: var(--font-ui); } .botNav i { display: flex; align-items: center; justify-content: center; font-style: normal; }
-/* iOS：半透明底部標籤列、灰底分段控制、圓角卡片 */
-html[data-layout="ios"] .botNav { height: calc(var(--navH) + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--surface) 84%, transparent); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-top: .5px solid var(--line); }
-html[data-layout="ios"] .botNav button { font-size: .625rem; font-weight: 500; } html[data-layout="ios"] .botNav button[aria-selected="true"] { color: var(--profit); }
-html[data-layout="ios"] .card, html[data-layout="ios"] .stats, html[data-layout="ios"] .gAcc, html[data-layout="ios"] .flowV, html[data-layout="ios"] .flowCmp, html[data-layout="ios"] .wfCard, html[data-layout="ios"] .wcard, html[data-layout="ios"] .wrow { border-radius: 12px; border-color: transparent; }
-html[data-layout="ios"] .seg { background: color-mix(in srgb, var(--muted) 16%, transparent); border: 0; border-radius: 9px; padding: 2px; gap: 0; overflow: visible; } html[data-layout="ios"] .seg button { border: 0; border-radius: 7px; min-height: 32px; font-weight: 600; color: var(--ink); } html[data-layout="ios"] .seg button + button { border-left: 0; } html[data-layout="ios"] .seg button[aria-pressed="true"], html[data-layout="ios"] .seg button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.2); }
-html[data-layout="ios"] .btn, html[data-layout="ios"] .search input, html[data-layout="ios"] .search button { border-radius: 10px; } html[data-layout="ios"] .brand h1 { font-size: 1.3rem; font-weight: 700; }
-/* Android：Material 3，底部導覽有圓角膠囊指示、藥丸按鈕、無邊框的陰影卡片 */
-html[data-layout="android"] .botNav { height: calc(var(--navH) + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--profit) 6%, var(--surface)); box-shadow: 0 -1px 0 var(--line); }
-html[data-layout="android"] .botNav button { font-size: .75rem; font-weight: 500; gap: 4px; } html[data-layout="android"] .botNav i { width: 56px; height: 28px; border-radius: 14px; transition: background .2s; } html[data-layout="android"] .botNav button[aria-selected="true"] { color: var(--ink); font-weight: 700; } html[data-layout="android"] .botNav button[aria-selected="true"] i { background: color-mix(in srgb, var(--profit) 22%, transparent); }
-html[data-layout="android"] .card, html[data-layout="android"] .stats, html[data-layout="android"] .gAcc, html[data-layout="android"] .flowV, html[data-layout="android"] .flowCmp, html[data-layout="android"] .wfCard, html[data-layout="android"] .wcard, html[data-layout="android"] .wrow { border-radius: 16px; border-color: transparent; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08); }
-html[data-layout="android"] .seg { border-radius: 999px; overflow: hidden; } html[data-layout="android"] .seg button { min-height: 38px; font-weight: 500; } html[data-layout="android"] .seg button[aria-pressed="true"], html[data-layout="android"] .seg button[aria-selected="true"] { background: color-mix(in srgb, var(--profit) 22%, transparent); color: var(--ink); font-weight: 700; }
-html[data-layout="android"] .btn, html[data-layout="android"] .search button { border-radius: 999px; } html[data-layout="android"] .search input { border-radius: 14px; } html[data-layout="android"] .brand h1 { font-size: 1.2rem; font-weight: 600; }
+/* 手機版底部導覽：扁平、細分隔線，選中的頁籤用藍色（TradingView 行動版的樣子） */
+html[data-layout="ios"] .botNav, html[data-layout="android"] .botNav { height: calc(var(--navH) + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--surface) 92%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid var(--line); }
+html[data-layout="ios"] .botNav button, html[data-layout="android"] .botNav button { font-size: .66rem; font-weight: 500; gap: 3px; } html[data-layout="ios"] .botNav button[aria-selected="true"], html[data-layout="android"] .botNav button[aria-selected="true"] { color: var(--profit); font-weight: 700; }
+html[data-layout="ios"] .brand h1, html[data-layout="android"] .brand h1 { font-size: 1.1rem; font-weight: 700; }
+/* 圖示公式：三個色塊加起來＝結果，用來取代整段文字說明 */
+.fx { display: flex; align-items: stretch; gap: 4px; } .fx > i { flex: var(--w) 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 8px 4px; border-radius: 6px; font-style: normal; font-size: .72rem; color: #fff; text-align: center; line-height: 1.25; } .fx > i b { font: 700 .9rem var(--font-num); }
+.fx > i:nth-of-type(1) { background: var(--profit); } .fx > i:nth-of-type(2) { background: var(--bb); } .fx > i:nth-of-type(3) { background: var(--trapped); } .fx > i small { font-size: .62rem; opacity: .85; } .fx > em { flex: none; align-self: center; font-style: normal; color: var(--muted); font-weight: 700; }
+.fxEq { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; font-size: .8rem; color: var(--muted); } .fxEq b { color: var(--ink); font-size: .92rem; }
+.pgLead { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: -6px 0 0; } .pgLead span { display: inline-flex; align-items: center; gap: 4px; font-size: .74rem; color: var(--muted); } .pgLead svg { width: 14px; height: 14px; color: var(--profit); flex: none; }
+.fml { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 10px; margin-bottom: 8px; border-radius: 6px; background: color-mix(in srgb, var(--muted) 9%, transparent); font-size: .78rem; } .fml b { padding: 2px 8px; border-radius: 4px; background: var(--surface); border: 1px solid var(--line); font-weight: 600; } .fml em { font-style: normal; color: var(--muted); }
 /* ---- 使用指南：流程圖、組成圖、對照表（少一點文字，多一點圖） ---- */
 .fcF { display: flex; flex-direction: column; } .fcN { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); } .fcN.core { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 7%, var(--surface)); }
 .fcN .ic { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--profit) 15%, transparent); color: var(--profit); font: 700 .92rem var(--font-num); font-style: normal; } .fcN .tt { font: 700 .92rem var(--font-ui); } .fcN .ss { margin-top: 1px; font-size: .78rem; color: var(--muted); line-height: 1.55; }
@@ -1142,8 +1136,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="card gHero">
       <div class="gKicker">使用指南</div>
       <h2 class="gH1">看懂股票「現在好不好」</h2>
-      <p>這套系統用<b>三個角度</b>檢查一檔股票：<b>環境</b>（大盤強不強）、<b>位置</b>（大家的成本在哪、離支撐和壓力多遠）、<b>狀態</b>（趨勢和力道如何）。再把位置和狀態合起來，整理成<b>觀察清單</b>，並用回測和模擬交易檢驗、練習。</p>
-      <p>最核心的觀念只有一個：<b>股價會「卡」在很多人買進的價位</b>，那裡就是支撐和壓力。</p>
+      <div class="fcRow gHeroRow"><div class="fcB"><div class="n">環境</div><div class="tt">大盤</div></div><div class="fcB"><div class="n">位置</div><div class="tt">籌碼</div></div><div class="fcB"><div class="n">狀態</div><div class="tt">技術</div></div></div>
+      <p>核心觀念：<b>股價會「卡」在很多人買進的價位</b>＝支撐與壓力。</p>
       <div class="gPath"><button type="button" class="btn" data-gt="g-what">系統在做什麼</button><button type="button" class="btn ghost" data-gt="g-map">快速上手</button><button type="button" class="btn ghost" data-gt="g-concept">先懂原理</button><button type="button" class="btn ghost" data-gt="g-words">名詞速查</button></div>
     </div>
 
@@ -1165,21 +1159,20 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div class="gBar"><div class="bl">技術評分<small>技術面，0～100 分</small></div><div class="bs"><i style="--w:30"><b>30</b>趨勢</i><i style="--w:30"><b>30</b>動能</i><i style="--w:20"><b>20</b>量價</i><i style="--w:20"><b>20</b>位置波動</i></div></div>
         <div class="gBar"><div class="bl">綜合評分<small>篩選器排名用</small></div><div class="bs"><i style="--w:40"><b>40%</b>位置評分</i><i style="--w:40"><b>40%</b>技術評分</i><i style="--w:20"><b>20%</b>起漲徵兆</i></div></div>
       </div>
-      <div class="card gWarn"><div class="gName">先說清楚</div><ul><li>只「整理資料、描述現在」，<b>不預測，也不保證會漲</b>；分數高不代表之後一定會漲。</li></ul></div>
       <p class="gNext">↓ 知道三個角度之後，每個角度對應哪個頁籤？看下一段的地圖。</p>
     </div>
 
     <div class="gSec" id="g-map">
       <h3>整套系統怎麼用？先看這張地圖</h3>
-      <p class="gOne">七個頁籤，各回答<b>一個問題</b>，也各自對應上面的一個角度。不用全部學會，從你最想知道的那個開始。</p>
+      <p class="gOne">每個頁籤回答<b>一個問題</b>，從最想知道的開始。</p>
       <h4 class="odH">建議的使用順序</h4>
       <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">大盤指數<span class="gAng">環境</span></div><div class="ss">現在整體市場是強還是弱？</div></div><button type="button" class="btn ghost gMapGo" data-go="market">去看看</button></div><div class="fcA"></div><div class="fcN core"><i class="ic">2</i><div class="tx"><div class="tt">籌碼分析<span class="gCore">核心</span><span class="gAng">位置</span></div><div class="ss">大家的成本在哪？離支撐、壓力多遠？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div><div class="fcSide"><b>不知道看哪一檔？</b>→ <b>篩選器</b>依條件整理觀察清單，再回到這一步細看　<button type="button" class="gLink" data-go="screen">去篩選器</button></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">技術分析<span class="gAng">狀態</span></div><div class="ss">趨勢和力道如何？和籌碼同一個方向嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="tech">去看看</button></div><div class="fcA">三個角度同向嗎？同向再往下；不同向就先觀望</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">回測<span class="gAng">驗證</span></div><div class="ss">「靠近支撐買、到壓力賣」過去有效嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="backtest">去看看</button></div><div class="fcA"></div><div class="fcN"><i class="ic">5</i><div class="tx"><div class="tt">模擬交易<span class="gAng">練習</span></div><div class="ss">用虛擬資金練習，和大家比報酬率（要登入）</div></div><button type="button" class="btn ghost gMapGo" data-go="sim">去看看</button></div><div class="fcSide"><b>常看的股票</b>→ <b>自選股</b>：存起來天天追蹤（要登入）　<button type="button" class="gLink" data-go="watch">去看看</button></div></div>
-      <p class="gLead"><b>要登入的只有「自選股」和「模擬交易」</b>（Google 登入，只用來辨識帳號），其他頁籤都不用。</p>
+      <p class="gLead">只有<b>自選股</b>、<b>模擬交易</b>要 Google 登入。</p>
       <p class="gNext">↓ 每個頁籤都建立在同一個基礎上：籌碼、支撐、壓力。下面先把這個觀念講清楚。</p>
     </div>
 
     <div class="gPart" id="g-concept"><span>A</span>先懂觀念：籌碼、支撐、壓力</div>
-    <p class="gPartLead">先從「位置」這個角度開始，因為它是整個系統的基礎。看完下面 5 段，後面每個頁面你都看得懂。</p>
+    <p class="gPartLead">「位置」是整個系統的基礎，看完這 5 段就夠了。</p>
 
     <div class="gSec">
       <details class="gAcc"><summary><h3>什麼是支撐？什麼是壓力？</h3><span class="gSum">支撐＝跌下來容易停住的地方；壓力＝漲上去容易漲不動的地方。</span></summary><div class="gBody">
@@ -1267,25 +1260,24 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     </div>
 
     <div class="gPart" id="g-pages"><span>B</span>每個頁籤怎麼用</div>
-    <p class="gPartLead">照頁籤的順序說明。每一段都先講「它回答什麼問題」，再講怎麼用，最後告訴你下一步去哪。</p>
+    <p class="gPartLead">照頁籤順序，每段：回答什麼問題 → 怎麼用 → 下一步。</p>
 
     <div class="gSec" id="g-market">
       <details class="gAcc"><summary><h3>大盤指數：先看大環境</h3><span class="gSum">現在整體市場是強還是弱？今天是誰在帶動大盤？錢正在往哪裡跑？</span></summary><div class="gBody">
       <p class="gOne">回答：<b>現在整體市場是強還是弱？今天是誰在帶動大盤？錢正在往哪裡跑？</b></p>
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>看加權指數</b><p>最新收盤、漲跌點數和走勢（可選 1 個月、3 個月、半年，也可以兩指捏合縮放、在圖上滑動看每一天），先知道大盤現在偏強還是偏弱。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>日盤收盤後，夜盤是最即時的市場情緒。圖上灰線連每天的日盤收盤，藍點是夜盤收盤，下方長條是夜盤漲跌點數（可選 1 個月、3 個月、半年，可兩指捏合縮放，在圖上滑動看每個時段）。系統會用夜盤的漲跌點數，粗估隔天大盤的開盤位置。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>算算這檔占大盤多少</b><p>輸入個股，系統會自動取得「上市股票總市值」，算出它的權重，以及它漲跌 1% 會讓大盤動幾點。</p></div></div>
-        <div class="gStep"><i>4</i><div><b>看權重熱力圖：今天是誰在帶動大盤</b><p>方塊越大，這檔占大盤越重；顏色是今天的漲跌（紅漲綠跌）。再切到「貢獻點數」，直接看每一檔讓大盤漲跌了幾點。</p></div></div>
-        <div class="gStep"><i>5</i><div><b>看資金輪動：錢正在往哪裡跑</b><p>按播放，看各類股的泡泡這 10 個交易日怎麼移動。往右代表資金越來越集中，往上代表累計漲幅越大。可複選類別聚焦，點泡泡會列出該類股的股票，再點股票就進入「籌碼分析」。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>看加權指數</b><p>先知道大盤偏強還是偏弱。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>灰線＝日盤收盤、藍點＝夜盤收盤；用夜盤漲跌粗估明天開盤。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>算算這檔占大盤多少</b><p>個股漲跌 1%，大盤動幾點。</p></div></div>
+        <div class="gStep"><i>4</i><div><b>看權重熱力圖：今天是誰在帶動大盤</b><p>面積＝權重，顏色＝漲跌；可切換「貢獻點數」。</p></div></div>
+        <div class="gStep"><i>5</i><div><b>看資金輪動：錢正在往哪裡跑</b><p>往右＝資金集中，往上＝漲幅大；點泡泡看成分股。</p></div></div>
       </div>
       <div class="gTwo">
-        <div class="card gMini"><div class="gName">熱力圖怎麼讀</div><p class="odS">面積看誰重，顏色看誰動。</p><p>大方塊（例如台積電）一動，大盤就跟著動；小方塊再紅，也推不動指數。想知道「今天大盤為什麼跌」，先看<b>大又綠</b>的方塊。</p></div>
+        <div class="card gMini"><div class="gName">熱力圖怎麼讀</div><p class="odS">面積看誰重，顏色看誰動。</p><p>大盤為什麼跌？先找<b>大又綠</b>的方塊。</p></div>
         <div class="card gMini"><div class="gName">資金輪動怎麼讀</div><p class="odS">右看錢，上看價</p>
           <div class="gQuad"><div class="q"><b>左上</b>漲，但沒新錢</div><div class="q tr"><b>右上</b>錢進來、價格漲（主流）</div><div class="q"><b>左下</b>被冷落</div><div class="q br"><b>右下</b>錢進來，價格卻跌</div><span class="ax x">資金越集中 →</span><span class="ax y">漲幅越大 →</span></div>
-          <p>可複選類別，其他會淡化，只看它們的軌跡。</p></div>
+</div>
       </div>
-      <p class="gLead"><b>大盤只是背景</b>：夜盤是期貨、推估開盤只是粗估，熱力圖和輪動圖只說明「現在錢在哪」，不預測。可以先從這裡找到強勢類股，再到「籌碼分析」看個股。</p>
       <button type="button" class="info-link" data-term="rotation">資金輪動泡泡圖的詳細說明</button>
       <button type="button" class="btn" data-go="market">去大盤指數</button>
       <p class="gNext">下一步：環境看完了，挑一檔股票去 <button type="button" class="gLink" data-go="analyze">籌碼分析</button> 看位置。</p>
@@ -1325,8 +1317,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
         <button type="button" class="btn ghost" data-go="backtest">去回測</button>
       </div>
-      <p class="gLead">往下還有「法人與融資」區塊（點開才載入），說明在下一段。</p>
-      <div class="card gTip"><div class="gName">圖表怎麼操作</div><ul><li><b>手機：</b>單指點一下，看那一天的數字；單指左右拖動，圖會往前後移動（上下拖動仍然是捲動頁面）；兩指捏合縮放，兩指一起移動平移。</li><li><b>電腦：</b>滑鼠移上去看數字；按住拖曳平移；直接滾動滾輪縮放（Shift＋滾輪或左右捲動＝平移，觸控板捏合也能縮放）；雙擊還原。</li><li>籌碼分析、技術分析、大盤指數、夜盤、法人與融資，以及管理後台的走勢圖，操作方式都一樣。</li></ul></div>
+      <div class="card gTip"><div class="gName">圖表操作（全站一樣）</div><table class="gTbl"><thead><tr><th></th><th>手機</th><th>電腦</th></tr></thead><tbody><tr><td>看數字</td><td>點一下</td><td>滑鼠移上去</td></tr><tr><td>平移</td><td>單指左右拖</td><td>按住拖曳</td></tr><tr><td>縮放</td><td>兩指捏合</td><td>滾輪</td></tr><tr><td>還原</td><td>—</td><td>雙擊</td></tr></tbody></table></div>
       <p class="gNext">下一步：位置看完了，去 <button type="button" class="gLink" data-go="tech">技術分析</button> 看狀態，確認兩者同不同向。</p>
       </div></details>
     </div>
@@ -1340,9 +1331,9 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div class="card gMini"><div class="gName">融券</div><p class="odS">借股票賣出</p><p>放空。融券餘額是借了股票、還沒回補的量。</p></div>
       </div>
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>先看兩個標籤</b><p><b>法人動向</b>：偏買、中性、偏賣（近 20 日法人買賣超占成交量超過 ±2% 才算偏買或偏賣）。<b>融資籌碼</b>：看股價和融資餘額一起怎麼動，並提醒「套牢槓桿增加」這類風險。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>看「三個角度對照」</b><p><b>位置</b>、<b>資金</b>、<b>狀態</b>三個小圓點並排，再用一句話說明是否一致。三個同向才比較有把握。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>需要時，按「展開詳細數字與圖表」</b><p>有各法人的買賣超、融資融券數字，和可縮放的圖表（兩指捏合縮放、左右滑動看每天）。法人圖可選「累計」或「每日」。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>先看兩個標籤</b><p><b>法人動向</b>：偏買／中性／偏賣。<b>融資籌碼</b>：股價和融資一起怎麼動。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>看「三個角度對照」</b><p>位置・資金・狀態三個圓點，同向較有把握。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>需要時，按「展開詳細數字與圖表」</b><p>各法人買賣超、融資融券數字與圖表。</p></div></div>
       </div>
       <h4 class="odH">常見的解讀</h4>
       <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th>看到</th><th>通常代表</th></tr></thead><tbody>
@@ -1354,8 +1345,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       </tbody></table></div>
       <div class="card gTip"><div class="gName">怎麼用、要小心什麼</div><ul>
         <li><b>先看位置，再把資金面當加分或扣分</b>：法人偏買是加分；法人偏賣、或股價跌了融資還在增加，是扣分。最後用技術面確認趨勢，進場一樣要設停損。</li>
-        <li>資料是<b>收盤後</b>才公布，所以有落後；這些是「現在的狀態」，不是預測。</li>
-        <li>目前只顯示和解讀，沒有納入位置評分或篩選器。</li></ul></div>
+        <li>資料<b>收盤後</b>才公布，會晚一天。</li></ul></div>
       <p class="gNext">下一步：確認趨勢和力道，去 <button type="button" class="gLink" data-go="tech">技術分析</button>。</p>
       </div></details>
     </div>
@@ -1364,12 +1354,11 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <details class="gAcc"><summary><h3>技術分析：看趨勢和力道，和籌碼對照</h3><span class="gSum">趨勢、動能、波動、量價現在怎麼樣？和籌碼的支撐壓力是同一個方向嗎？</span></summary><div class="gBody">
       <p class="gOne">回答：<b>這檔現在的趨勢和力道如何？和籌碼是不是同一個方向？</b></p>
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>查股票（和「籌碼分析」共用）</b><p>在這個頁籤查，或在籌碼分析查，換一邊兩邊一起換。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>先看最上面的總結</b><p>「技術面偏多／偏空／中性」，下面四張卡片分別是趨勢、動能、波動、量價，一眼看出哪裡強、哪裡弱。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>再看圖和搭配組合</b><p>手指點一下圖（電腦：滑鼠移過去），上方讀數列會顯示那一天所有的數字；圖下方的色帶看這段時間是強還是弱；「搭配組合」會告訴你目前有沒有特別的型態。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>查股票（和「籌碼分析」共用）</b><p>兩個頁籤同步。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>先看最上面的總結</b><p>偏多／偏空／中性＋趨勢、動能、波動、量價四張卡。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>再看圖和搭配組合</b><p>點圖看當天數字；色帶看強弱；「搭配組合」看型態。</p></div></div>
       </div>
-      <p class="gLead"><b>先記得：</b>技術指標都是用同一份價量算出來的，彼此高度相關，偏多的項目多不代表一定會漲。它是幫你「讀現在的狀態」，不是預測工具。</p>
-      <p class="gLead">下面是這個頁籤所有圖、指標和名詞的詳細說明：</p>
+
       <div class="tgNav"><a href="#tg-chart" data-gt="tg-chart">怎麼讀這張圖</a><a href="#tg-combo" data-gt="tg-combo">搭配組合</a><a href="#tg-ind" data-gt="tg-ind">每個指標</a><a href="#tg-dict" data-gt="tg-dict">名詞小辭典</a></div>
       <div id="gTechBody"></div>
       <button type="button" class="btn" data-go="tech">去技術分析</button>
@@ -1381,27 +1370,22 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <details class="gAcc"><summary><h3>自選股：存下常看的股票</h3><span class="gSum">我常看的那幾檔，現在的走勢和位置如何？（需要 Google 登入）</span></summary><div class="gBody">
       <p class="gOne">回答：<b>我常看的那幾檔，現在的走勢和位置如何？</b>需要用 Google 登入，換手機也看得到。</p>
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>搜尋、加入</b><p>用頁面上方的搜尋欄查股票，會看到走勢、位置評分、技術評分和最近的支撐壓力，覺得可以再按「加入自選股」（最多 50 檔）。在「籌碼分析」按股價旁邊的<b>星號</b>也能加入。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>兩種看法：清單、格狀</b><p><b>清單</b>一行一檔：代碼名稱、近 60 個交易日的走勢圖、價格漲跌，和位置評分。<b>格狀</b>是卡片版，走勢圖比較大。評語要載入歷史資料，查詢次數用完時會顯示「稍後再試」。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>調整順序、移除</b><p>按「調整順序」後，<b>長按股票約半秒</b>，它會浮起來，再拖到想要的位置放開（格狀可以往任何方向拖）。按「完成」結束。要移除，按「移除」，再按一次確認。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>搜尋、加入</b><p>搜尋後按「加入自選股」，或在籌碼分析按<b>★</b>（最多 50 檔）。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>兩種看法：清單、格狀</b><p><b>清單</b>一行一檔；<b>格狀</b>走勢圖較大。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>調整順序、移除</b><p>「調整順序」→ 長按半秒拖曳 →「完成」。</p></div></div>
       </div>
-      <p class="gLead">登入只會存你的自選股代碼和名稱，不會存其他個人資料。想刪除，到右上角「我的帳號」。</p>
       <button type="button" class="btn" data-go="watch">去自選股</button>
       <p class="gNext">下一步：想從更多股票裡找，用 <button type="button" class="gLink" data-go="screen">篩選器</button>。</p>
       </div></details>
     </div>
 
     <div class="gSec" id="g-screen">
-      <details class="gAcc"><summary><h3>篩選器：結合籌碼面和技術面，整理觀察清單</h3><span class="gSum">依條件整理觀察清單，描述現在的狀態，不是預測。</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>從一批股票裡，哪幾檔「位置舒服、而且技術面剛轉強」？</b>（這是依條件整理，<b>不是預測</b>。）候選範圍是系統內建的 45 檔大型股（不是全市場）、你的自選股，或最近查過的股票。</p>
+      <details class="gAcc"><summary><h3>篩選器：結合籌碼面和技術面，整理觀察清單</h3><span class="gSum">位置＋技術＋起漲徵兆，找出前 3 檔。</span></summary><div class="gBody">
+      <p class="gOne">回答：<b>哪幾檔「位置舒服、技術面剛轉強」？</b>範圍：45 檔大型股、自選股或最近查過。</p>
       <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選一個範圍</div><div class="ss">內建大型股（45 檔）、我的自選股、最近查過；不用登入</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">點一個風格</div><div class="ss">起漲・穩健・低接・順勢・先看看；條件自動設好，可再用滑桿微調</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看綜合評分最高的前 3 檔</div><div class="ss">沒人完全符合時，改列「最接近的 3 檔」</div></div></div><div class="fcA">再確認</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">籌碼分析、技術分析、回測</div><div class="ss">入選只是起點，請看完整畫面再判斷</div></div></div></div>
       <h4 class="odH">起漲徵兆（7 項，符合越多越像剛起漲）</h4>
       <div class="gChk"><div><i>1</i><div><b>站上月線</b><span>收盤在 20 日線之上，而且 20 日線沒有往下</span></div></div><div><i>2</i><div><b>剛轉強</b><span>10 天內 MA20 剛上穿 MA60，或股價剛站回 20 日線</span></div></div><div><i>3</i><div><b>動能轉強</b><span>5 天內 MACD 柱狀剛由負轉正，或 K 剛上穿 D</span></div></div><div><i>4</i><div><b>量能放大</b><span>近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲</span></div></div><div><i>5</i><div><b>尚未過熱</b><span>RSI 低於 70，而且離 60 天低點漲幅不到 30%</span></div></div><div><i>6</i><div><b>籌碼位置舒服</b><span>位置評分 60 分以上</span></div></div><div><i>7</i><div><b>上方有空間</b><span>最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力</span></div></div></div>
       <p class="gLead">綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%（組成圖在「這套系統在做什麼」）。</p>
-      <div class="card gTip"><div class="gName">看篩選結果，要小心這三件事</div><ul>
-        <li><b>它描述的是「現在的狀態」，不是預測。</b>所以結果是「整理過的觀察清單」，不是買進訊號。</li>
-        <li><b>名單不是全市場</b>，而且預先算好的資料每天凌晨更新一次，技術面資料也一樣；剛上線時，要等到下次更新才會有技術面。</li>
-        <li><b>入選後，請到「籌碼分析」和「技術分析」看完整畫面</b>，再用「回測」驗證，不要只看分數。</li></ul></div>
       <p class="gNext">下一步：覺得有興趣的那幾檔，去 <button type="button" class="gLink" data-go="backtest">回測</button> 驗證這類想法過去有沒有效。</p>
       <button type="button" class="btn" data-go="screen">去篩選器</button>
       </div></details>
@@ -1412,10 +1396,9 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <p class="gOne">回答：<b>如果過去照「靠近支撐買、到壓力賣」做，結果會怎樣？</b>用歷史資料驗證，比憑感覺可靠。</p>
       <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選股票和期間</div><div class="ss">起始日之前的資料用來「暖機」，所以能選的最早日期會比資料起點晚一些</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">買進</div><div class="ss">股價回到支撐區附近，隔天開盤買進</div></div></div><div class="fcA">出場，三種情況擇一</div><div class="fcOr"><div class="win"><b>漲到壓力區</b>停利賣出</div><div class="lose"><b>跌破支撐</b>停損賣出</div><div><b>放太久</b>時間到就賣</div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看結果</div><div class="ss">和單純買進持有比較；再看賺錢的機率、平均每次、過程最多回吐、平均持有</div></div></div></div>
       <p class="gLead">每天只用「當天以前」的資料，不偷看未來，已扣手續費和稅。</p>
-      <div class="card gTip"><div class="gName">看回測結果，要小心這三件事</div><ul>
-        <li><b>次數太少</b>：買賣不到 10 次的結果，參考價值有限。</li>
-        <li><b>過去有效不代表未來</b>，也不是買賣建議。</li>
-        <li><b>不要為了好看一直調參數</b>：調到「完美」常常只是在背答案（過度配適），換一段期間就失靈。</li></ul></div>
+      <div class="card gTip"><div class="gName">看結果的兩個重點</div><ul>
+        <li>買賣<b>不到 10 次</b>，參考價值有限。</li>
+        <li>參數別調到「完美」，那常常只是背答案。</li></ul></div>
       <button type="button" class="btn" data-go="backtest">去回測</button>
       <p class="gNext">下一步：想真的練習下單，去 <button type="button" class="gLink" data-go="sim">模擬交易</button>（要登入）。</p>
       </div></details>
@@ -1425,11 +1408,11 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <details class="gAcc"><summary><h3>想實際練習？玩模擬交易</h3><span class="gSum">不冒真錢的風險，練習照支撐壓力買賣。（需要 Google 登入）</span></summary><div class="gBody">
       <p class="gOne">回答：<b>想不冒真錢的風險，練習照支撐壓力買賣？</b>需要用 Google 登入。</p>
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>每週領 100 萬虛擬資金</b><p>用 Google 登入後，每週可以領一次，領到的錢和持股會一直累積。這裡沒有真的錢。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>下預約單，用真實股價成交</b><p>09:00 以前下的單，當天生效；之後下的單，下一個交易日生效。收盤資料出來後，下次打開網頁就會自動成交。下單方式有三種，往下看。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>拿支撐與壓力去驗證，和大家比報酬率</b><p>先在「籌碼分析」頁找支撐壓力，也可以先去「回測」看看過去有沒有效，再到排行榜和其他會員比賽。排名只供同樂。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>每週領 100 萬虛擬資金</b><p>每週領一次，資金和持股會累積。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>下預約單，用真實股價成交</b><p>09:00 前下單當天生效；收盤後自動成交。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>拿支撐與壓力去驗證，和大家比報酬率</b><p>用支撐壓力下單，上排行榜比賽。</p></div></div>
       </div>
-      <p class="gLead"><b>每一季結算一次成績：</b>以季度報酬率排名（新增投入的資金會扣掉），上一季的冠軍會固定顯示在模擬交易頁的最上方。排名只供同樂。</p>
+      <p class="gLead"><b>每季結算</b>，依季報酬率排名，冠軍掛在頁面最上方。</p>
       <h4 class="odH">下單方式有三種</h4>
       <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th>方式</th><th>意思</th><th>要注意</th></tr></thead><tbody>
         <tr><td>市價單</td><td>下一個交易日開盤價成交</td><td>下單時不知道會成交在哪</td></tr>
@@ -1438,7 +1421,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       </tbody></table></div>
       <div class="card shMnemo"><div class="mn">口訣</div>
         <p class="big">市價求成交，限價求價格，觸價求保護。</p>
-        <p class="sm"><b>當日有效</b>：只掛一天，沒成交就作廢；<b>長效單</b>：最多掛 5、10 或 20 個營業日，碰到價格就成交。<b>價格規則</b>：要符合升降單位、不能超出前一日收盤的 ±10%（漲跌停）；零股只能用限價單。可以先用「停損」的想法搭配支撐位：跌破支撐就認賠，這也是回測頁用的規則。</p></div>
+        <p class="sm"><b>當日有效</b>只掛一天；<b>長效單</b>最多 5／10／20 個營業日。價格限 ±10%，零股只能限價。</p></div>
       <button type="button" class="info-link" data-term="orderTypes">委託方式的詳細說明</button>
       <button type="button" class="btn" data-go="sim">去模擬交易</button>
       </div></details>
@@ -1449,7 +1432,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
     <div class="gSec" id="g-words">
       <details class="gAcc"><summary><h3>名詞速查：看不懂的詞都在這裡</h3><span class="gSum">看不懂的詞都在這裡，依角度分組，也可以直接搜尋。</span></summary><div class="gBody">
-      <p class="gOne">依「角度」分組，也可以直接搜尋。每個詞一句話；想看圖解和更詳細的說明，點頁面上的「i」，或回到前面對應的段落。</p>
+      <p class="gOne">每個詞一句話；想看圖解，點頁面上的「i」。</p>
       <div class="gWG">籌碼面（位置）</div><dl class="gDef"><dt>籌碼</dt><dd>股票的持有狀態。在這裡指「每個價位，有多少人持有、成本是多少」。</dd><dt>成本</dt><dd>一個人買進這檔股票的價格。</dd><dt>支撐／壓力</dt><dd>支撐＝股價下跌時比較容易停住的價位（地板）；壓力＝股價上漲時比較容易漲不動的價位（天花板）。成本集中的地方，常變成支撐或壓力。</dd><dt>套牢／解套</dt><dd>成本比現價高、帳面虧損，叫套牢；股價漲回成本附近，叫解套，這時常有人想賣出。</dd><dt>籌碼占比</dt><dd>還抱著股票、成本落在某個價位的人，占全部持有人的比例（還在才算）。</dd><dt>成交量占比</dt><dd>這段期間，有多少比例的成交量發生在某個價位（來過就算，不管現在走了沒）。</dd><dt>平均成本／獲利比例</dt><dd>平均成本是所有持有人成本的重心；獲利比例是成本低於現價（帳面賺錢）的人占多少。</dd><dt>90% 籌碼區間／集中度</dt><dd>90% 的籌碼成本落在哪個價格範圍；集中度是成本擠不擠在一起，越小越集中，支撐壓力越明確。</dd><dt>累計換手／模型涵蓋率</dt><dd>這段期間整體換手了幾輪；涵蓋率是模型描繪得完不完整，是「可不可信」的指標，建議 90% 以上。</dd></dl>
       <div class="gWG">法人與融資</div><dl class="gDef"><dt>三大法人</dt><dd>外資、投信、自營商，大額專業資金的買賣紀錄。</dd><dt>買賣超</dt><dd>一天買進減賣出的張數（1 張＝1000 股）。紅色買超、綠色賣超。</dd><dt>連續買超／賣超</dt><dd>從最後一天往回數，連續幾天同方向。</dd><dt>外資持股比率</dt><dd>外資持有的股數，占發行股數的比例。</dd><dt>土洋對作</dt><dd>外資（洋）和投信（土）方向相反，一買一賣。</dd><dt>融資／融券</dt><dd>融資＝借錢買股票（看多槓桿）；融券＝借股票賣出（放空）。</dd><dt>融資使用率</dt><dd>融資餘額 ÷ 融資額度，越高代表槓桿越滿。</dd><dt>券資比</dt><dd>融券餘額 ÷ 融資餘額，越高代表空方相對多。</dd><dt>累計買賣超</dt><dd>把每天的買賣超一路加起來，看一段期間「淨買」還是「淨賣」。線往上＝一路買、往下＝一路賣。</dd><dt>三個角度對照</dt><dd>位置、資金、狀態三個面向並排，看是否同方向。</dd><dt>軋空</dt><dd>放空的人被迫回補（買回股票），反而推升股價。</dd><dt>追繳</dt><dd>融資的擔保品價值跌太多，券商要求補錢；補不出來就會被強制賣出（斷頭）。</dd></dl>
       <div class="gWG">技術面（狀態）</div><dl class="gDef"><dt>多頭／空頭</dt><dd>多頭＝整體在往上走；空頭＝整體在往下走。台股的顏色：紅色代表多、綠色代表空。</dd><dt>偏多／偏空</dt><dd>某個指標「現在的傾向」，不是預測。</dd><dt>均線（MA）</dt><dd>最近 N 天收盤價的平均。MA5＝一週、MA20＝一個月、MA60＝一季，可以想成這段時間買進的人平均成本。</dd><dt>多頭排列／空頭排列</dt><dd>收盤 ＞ MA20 ＞ MA60 叫多頭排列（上漲趨勢）；收盤 ＜ MA20 ＜ MA60 叫空頭排列。</dd><dt>黃金交叉／死亡交叉</dt><dd>MA20 往上穿過 MA60 叫黃金交叉（轉強）；往下穿過叫死亡交叉（轉弱）。</dd><dt>RSI</dt><dd>最近 14 天，上漲的力氣和下跌的力氣誰比較大，0～100，50 是分界。</dd><dt>KD</dt><dd>今天收盤在最近 9 天高低區間的哪個位置。K 是快線、D 是慢線，K 在 D 之上偏多。</dd><dt>MACD</dt><dd>短期平均價減長期平均價，看趨勢的力道在增強還是減弱；柱狀在 0 以上偏多。</dd><dt>布林通道</dt><dd>以 20 日線為中線，上下各 2 倍標準差，股價大約 95% 的時間待在裡面；通道變窄代表波動收斂。</dd><dt>量比</dt><dd>最近 5 天均量 ÷ 20 天均量。1 倍＝和平常一樣，超過 1.3 倍算量增。</dd><dt>過熱／超賣／鈍化</dt><dd>漲太急叫過熱，跌太深叫超賣；指標卡在極端值很久、股價卻還繼續走，叫鈍化，所以不能一看到過熱就賣。</dd><dt>SuperTrend</dt><dd>一條會跟著股價走的保護線，股價在線上面是多頭，這條線也常被當成停損參考。</dd></dl>
@@ -1461,28 +1444,24 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div class="gSec" id="g-faq">
       <details class="gAcc"><summary><h3>常見問題</h3><span class="gSum">位置評分、技術評分、綜合評分的差別，起漲徵兆、資料更新等常見疑問。</span></summary><div class="gBody">
       <details class="gFaq"><summary>資料從哪裡來？多久更新？</summary><div class="a"><p>股價和成交量來自 FinMind（公開的台股資料服務），大盤和上市總市值等來自證交所公開資料。</p><p>都是<b>收盤後的日資料</b>，所以看到的是最近一個交易日的收盤，不是盤中即時價。</p></div></details>
-      <details class="gFaq"><summary>為什麼載入很慢，或顯示查詢次數用完？</summary><div class="a"><p>第一次查一檔股票，要下載約 6 年的歷史資料。FinMind 的免費額度有限（沒填 token 約每小時 300 次），用完會暫停約 1 小時，網頁會顯示預計恢復的時間。</p><p>查過的資料會存在這支手機裡，同一天再查同一檔，不會再消耗額度。想要更多額度，可以到「籌碼分析」頁最下面的「進階參數」，填入自己的 FinMind token（免費註冊）。</p><p>「篩選器」的大型股，系統每天凌晨已經先算好，大家共用，不耗你的額度。</p></div></details>
+      <details class="gFaq"><summary>為什麼載入很慢，或顯示查詢次數用完？</summary><div class="a"><p>第一次查要下載約 6 年資料。FinMind 免費額度約每小時 300 次，用完暫停約 1 小時。</p><p>查過的當天不再耗額度；在「進階參數」填 token 可提高上限。篩選器的大型股每天凌晨先算好，不耗額度。</p></div></details>
       <details class="gFaq"><summary>一定要登入嗎？登入會存什麼？</summary><div class="a"><p><b>不用</b>。看大盤、查股票、技術分析、篩選器、回測，都不用登入。只有「自選股」和「模擬交易」需要用 Google 登入。</p><p>登入只用來辨識你的帳號，只存自選股的代碼和名稱，以及模擬交易的帳戶資料。想刪除，到右上角「我的帳號」。</p></div></details>
       <details class="gFaq"><summary>查不到某檔股票，或要我輸入流通股數？</summary><div class="a"><p>系統支援上市櫃的股票。ETF 或剛上市的股票，有時查不到流通股數，網頁會請你手動輸入，輸入後才算得出籌碼分布。</p></div></details>
       <details class="gFaq"><summary>為什麼同一檔股票，不同時間打開，支撐壓力會有一點不一樣？</summary><div class="a"><p>每天都有新的成交資料進來，成本分布會跟著更新；你調整分析區間、年數或進階參數，結果也會不同。這是正常的。</p></div></details>
       <details class="gFaq"><summary>紅色和綠色是什麼意思？</summary><div class="a"><p>台股的習慣：<b>紅色代表漲、偏多，綠色代表跌、偏空</b>，和美股相反。</p><p>但「支撐／壓力」用的是<b>藍色（支撐）和橘色（壓力）</b>，不要和漲跌的紅綠搞混。</p></div></details>
-      <details class="gFaq"><summary>位置評分高，是不是代表會漲？</summary><div class="a"><p><b>不是。</b>位置評分只評估「現在的位置舒不舒服」：下方有沒有支撐、上方壓力輕不輕。它不預測漲跌。想看這種想法過去有沒有效，可以去回測驗證。</p></div></details>
-      <details class="gFaq"><summary>這是買賣建議嗎？</summary><div class="a"><p><b>不是。</b>系統只是把資料整理成容易閱讀的樣子，所有結果都是依歷史資料推算的統計傾向，過去不代表未來。投資請自己判斷。</p></div></details>
-      <details class="gFaq"><summary>位置評分、技術評分、綜合評分有什麼不同？</summary><div class="a"><p><b>位置評分</b>看籌碼面（下方有沒有支撐、上方壓力輕不輕）；<b>技術評分</b>看技術面（趨勢、動能、量價）；<b>綜合評分</b>把兩者再加上「起漲徵兆」合成一個分數，篩選器用它排名。三個分數都是描述現在的狀態，不是預測。</p></div></details>
+      <details class="gFaq"><summary>位置評分高，是不是代表會漲？</summary><div class="a"><p><b>不是。</b>位置評分只評估「現在的位置舒不舒服」：下方有沒有支撐、上方壓力輕不輕。想看過去有沒有效，可以去回測驗證。</p></div></details>
+      <details class="gFaq"><summary>位置評分、技術評分、綜合評分有什麼不同？</summary><div class="a"><p><b>位置評分</b>看籌碼面（下方有沒有支撐、上方壓力輕不輕）；<b>技術評分</b>看技術面（趨勢、動能、量價）；<b>綜合評分</b>把兩者再加上「起漲徵兆」合成一個分數，篩選器用它排名。</p></div></details>
       <details class="gFaq"><summary>篩選器顯示「技術面還沒更新」是什麼意思？</summary><div class="a"><p>大型股的分析結果，是系統每天凌晨先算好、大家共用的。技術面是新增的項目，要等下一次夜間更新之後才有；在那之前，這些股票只用籌碼評分排名，技術條件先不通過。自選股和最近查過的股票，則是即時計算，一定有技術面。</p></div></details>
       <details class="gFaq"><summary>「起漲徵兆」符合很多項，就是要漲了嗎？</summary><div class="a"><p><b>不是。</b>起漲徵兆只是把「現在像不像剛起漲」逐項列出來，符合很多項不代表會漲。建議再看籌碼分析、技術分析，並用回測檢驗。</p></div></details>
       <details class="gFaq"><summary>法人與融資的資料，為什麼有時候少一天？</summary><div class="a"><p>三大法人和融資融券都是收盤之後，交易所才公布。FinMind 整理好再提供，所以晚上看到的可能還是前一個交易日的數字。展開「法人與融資」的詳細數字後，會寫「資料到哪一天」。</p></div></details>
       </div></details>
     </div>
 
-    <div class="card gWarn">
-      <div class="gName">先記得這幾件事</div>
+    <div class="card gTip">
+      <div class="gName">兩個看圖重點</div>
       <ul>
-        <li>支撐和壓力是<b>依成交資料推算的統計傾向</b>，不是預測。股價不一定會在支撐止跌、在壓力受阻。</li>
-        <li>先看<b>模型涵蓋率</b>。太低（例如 50% 以下）時，離現價很遠的支撐壓力只當參考。</li>
-        <li>常見的觀察是：壓力被<b>有效突破</b>後，有時會變成新的支撐。這是常見現象，不是保證。</li>
-        <li>技術指標、位置評分、篩選器的結果，都是「描述現在的狀態」，<b>不保證未來</b>；回測看的是過去。</li>
-        <li>這個系統只是幫你讀資料，<b>不是買賣建議</b>。</li>
+        <li>先看<b>模型涵蓋率</b>：太低時，離現價很遠的支撐壓力只當參考。</li>
+        <li>壓力被<b>有效突破</b>後，常會變成新的支撐。</li>
       </ul>
     </div>
   </section>
@@ -1534,15 +1513,15 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </section>
 
   <section class="zones">
-    <h2>壓力區（現價以上，由近到遠）<button type="button" class="info" data-term="resistance" aria-label="壓力區的說明">i</button></h2>
+    <h2>壓力區 <small>由近到遠</small><button type="button" class="info" data-term="resistance" aria-label="壓力區的說明">i</button></h2>
     <div id="res" class="zones"></div>
-    <h2>支撐區（現價以下，由近到遠）<button type="button" class="info" data-term="support" aria-label="支撐區的說明">i</button></h2>
+    <h2>支撐區 <small>由近到遠</small><button type="button" class="info" data-term="support" aria-label="支撐區的說明">i</button></h2>
     <div id="sup" class="zones"></div>
     <button type="button" class="info-link" data-term="combo">兩個占比怎麼組合判讀？</button>
   </section>
 
   <details id="flowBox" class="card flowBox">
-    <summary>法人與融資　<small>大戶在買還是賣？一句話看懂（點開才載入）</small></summary>
+    <summary>法人與融資　<small>大戶買賣・融資動向</small></summary>
     <div id="flowBody"></div>
   </details>
 
@@ -1550,25 +1529,25 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <summary>進階參數</summary>
     <label class="ctl" for="decay"><span>衰減係數<button type="button" class="info" data-term="decay" aria-label="衰減係數的說明">i</button></span><input id="decay" type="range" min="0.5" max="2" step="0.1" value="1"><output id="decayV" class="num">1.0</output></label>
     <label class="ctl" for="gap"><span>最小間距 %<button type="button" class="info" data-term="gap" aria-label="最小間距的說明">i</button></span><input id="gap" type="range" min="2" max="8" step="1" value="3"><output id="gapV" class="num">3</output></label>
-    <p class="advnote">衰減係數越大，舊籌碼消失得越快，分布更偏向近期成交。最小間距是兩個支撐或壓力之間至少相隔的百分比。</p>
+    <p class="advnote">衰減越大越偏重近期；間距＝支撐壓力之間至少相隔幾 %。</p>
     <label class="ctl" for="stOn"><span>SuperTrend<button type="button" class="info" data-term="supertrend" aria-label="SuperTrend 的說明">i</button></span><input id="stOn" type="checkbox" checked style="width:1.4rem;height:1.4rem"><output class="num"></output></label>
     <label class="ctl" for="stN"><span>ATR 週期<button type="button" class="info" data-term="atrN" aria-label="ATR 週期的說明">i</button></span><input id="stN" type="range" min="5" max="30" step="1" value="10"><output id="stNV" class="num">10</output></label>
     <label class="ctl" for="stM"><span>ATR 倍數<button type="button" class="info" data-term="atrM" aria-label="ATR 倍數的說明">i</button></span><input id="stM" type="range" min="1" max="5" step="0.5" value="3"><output id="stMV" class="num">3</output></label>
-    <p class="advnote">SuperTrend 以 ATR 畫出停損線：收盤價在線上為多頭，跌破線轉空頭。週期越短、倍數越小，線越貼近價格，翻轉越頻繁。紅色是多頭、綠色是空頭（台股慣例）。</p>
+    <p class="advnote">週期短、倍數小＝線更貼近價格、翻轉更頻繁。紅多綠空。</p>
     <div id="tokBox" class="tokrow" hidden>
       <label for="tok">FinMind token（選填）<button type="button" class="info" data-term="token" aria-label="FinMind token 的說明">i</button></label>
       <input id="tok" type="password" autocomplete="off" placeholder="未填也能用，每小時約可查 300 次">
-      <p class="advnote">到 <a href="https://finmindtrade.com/" target="_blank" rel="noopener">FinMind 官網</a>註冊並驗證信箱後取得，可把每小時的查詢上限提高（未填約 300 次，填了約 600 次，實際數字以 FinMind 為準）。只存在這支手機的瀏覽器裡。</p>
+      <p class="advnote">到 <a href="https://finmindtrade.com/" target="_blank" rel="noopener">FinMind 官網</a>免費註冊取得，每小時上限約 300 → 600 次。只存在這台裝置。</p>
       <div class="fmUsage fmBox"></div>
       <button type="button" id="fmReset" class="info-link">重設用量記錄</button>
-      <p class="advnote">用量是這支手機自己記的估計值。如果你確定已經等夠久，或畫面上的數字不準，可以按「重設用量記錄」。</p>
+      <p class="advnote">用量是本機估計值，不準時可重設。</p>
     </div>
   </details>
   </div>
 
   <section id="pgTech" class="page" hidden>
     <h2>技術分析</h2>
-    <p class="advnote" style="padding:0 0 8px">一眼看懂趨勢、動能、波動、量價，再看指標的搭配組合，並和籌碼的支撐壓力對照。時間軸可以自己拉，手機可在圖上兩指捏合縮放；股票和「籌碼分析」共用，換一邊兩邊一起換。</p>
+    <div class="pgLead"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>趨勢</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>動能</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12c3-6 6 6 9 0s6 6 9 0"/></svg>波動</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20v-6M10 20V9M15 20v-9M20 20V5"/></svg>量價</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M4 10h16M4 14h12M4 18h7"/></svg>對照籌碼</span></div>
     <div id="techSearchBox" class="searchBox">
       <form id="techForm" class="search" autocomplete="off">
         <input id="techQ" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入股票代碼或名稱，例如 2330、台積電" aria-label="股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -1579,7 +1558,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <nav id="techStocks" class="stocks" aria-label="股票"></nav>
     <div id="techStatus" class="status" role="status" hidden></div>
     <section class="top"><div><div id="techName" class="sname"></div><div class="priceRow"><div id="techPrice" class="sprice"></div></div></div></section>
-    <div id="techEmpty" class="empty">先輸入股票代碼或名稱，就會顯示這檔股票的技術面分析。</div>
+    <div id="techEmpty" class="empty">輸入代碼或名稱開始分析。</div>
     <section id="techPanel" class="card tcfig" hidden></section>
   </section>
 
@@ -1597,11 +1576,11 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </section>
 
   <section id="pgMarket" class="page" hidden>
-    <h2>大盤指數：加權指數與台指期夜盤</h2>
+    <h2>大盤指數</h2>
     <div id="mktBody"></div>
     <h2>個股占大盤計算器</h2>
     <div class="card btForm mktCalc">
-      <p class="advnote" style="padding:0 2px 8px">加權指數是「發行量加權」：每檔股票的權重 = 它的市值 ÷ 上市股票總市值。算出權重後，就知道這檔漲跌 1% 會讓大盤動幾點。</p>
+      <div class="fml"><b>權重</b><em>＝</em><b>個股市值</b><em>÷</em><b>上市總市值</b><em>→ 漲跌 1% 影響大盤幾點</em></div>
       <div class="searchBox">
         <form id="mcForm" class="search" autocomplete="off">
           <input id="mcQ" type="search" inputmode="search" enterkeyhint="search" placeholder="輸入代碼或名稱，例如 2330、台積電" aria-label="要計算的股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -1633,14 +1612,14 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </section>
 
   <section id="pgScreen" class="page" hidden>
-    <h2>篩選器：結合籌碼面和技術面，整理觀察清單</h2>
+    <h2>篩選器</h2>
     <div class="card scrIntro">
-      <p><b>它在做什麼？</b>每一檔股票打三種分數：<b>位置評分</b>（籌碼面：下方有支撐嗎、上方壓力輕嗎）、<b>技術評分</b>（技術面：趨勢、動能、量價），再看「<b>起漲徵兆</b>」七項（現在像不像剛起漲），合成一個<b>綜合評分</b>。你只要<b>選範圍、選風格、按開始</b>，不用懂任何術語。</p>
-      <p class="advnote" style="padding:6px 0 0">它只描述「現在的狀態」，不預測漲跌，也不是買賣建議。<button type="button" class="info" data-term="screenRules" aria-label="篩選器的說明">i</button></p>
+      <div class="fx" role="img" aria-label="綜合評分＝位置評分 40%＋技術評分 40%＋起漲徵兆 20%"><i style="--w:40"><b>40%</b>位置評分<small>籌碼</small></i><em>+</em><i style="--w:40"><b>40%</b>技術評分<small>趨勢・動能</small></i><em>+</em><i style="--w:22"><b>20%</b>起漲徵兆<small>7 項</small></i></div>
+      <div class="fxEq"><span>＝ <b>綜合評分</b>，取前 3 檔</span><button type="button" class="info" data-term="screenRules" aria-label="篩選器的說明">i</button></div>
     </div>
     <div class="card btForm">
       <div class="fld">
-        <span class="step"><i>1</i>想從哪一批股票找？</span>
+        <span class="step"><i>1</i>選範圍</span>
         <div id="scrPool" class="seg fill" role="group" aria-label="候選範圍">
           <button type="button" data-p="big" aria-pressed="true">大型股</button>
           <button type="button" data-p="watch" aria-pressed="false">我的自選股</button>
@@ -1651,7 +1630,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div class="fmUsage fmBox"></div>
       </div>
       <div class="fld">
-        <span class="step"><i>2</i>你想找哪一種？（點一個，條件就自動設好）</span>
+        <span class="step"><i>2</i>選風格</span>
         <div id="scrPreset" class="scrPre" role="group" aria-label="篩選風格">
           <button type="button" data-k="rise" aria-pressed="true"><b>起漲</b><small>剛轉強、還沒過熱、位置舒服、上方有空間</small></button>
           <button type="button" data-k="steady" aria-pressed="false"><b>穩健</b><small>位置分數高，離支撐近，趨勢偏多</small></button>
@@ -1663,7 +1642,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <label class="fld" for="scrTech"><span>技術評分至少 <b id="scrTechV">55</b> 分（技術面）<button type="button" class="info" data-term="techScoreT" aria-label="技術評分的說明">i</button></span><input id="scrTech" type="range" min="0" max="90" step="5" value="55"></label>
         <label class="fld" for="scrSig"><span>起漲徵兆至少 <b id="scrSigV">4</b> 項（共 7 項）<button type="button" class="info" data-term="riseSigs" aria-label="起漲徵兆的說明">i</button></span><input id="scrSig" type="range" min="0" max="7" step="1" value="4"></label>
         <p id="scrSum" class="scrSum"></p>
-        <details class="scrAdv"><summary>自訂進階條件（熟手用，不改也可以）</summary>
+        <details class="scrAdv"><summary>進階條件</summary>
           <div class="two">
             <label class="fld" for="scrNear"><span>離支撐不超過 %<button type="button" class="info" data-term="btNear" aria-label="靠近支撐的說明">i</button></span><input id="scrNear" type="number" inputmode="decimal" min="0.5" max="30" step="0.5" value="30"><small class="hint">支撐像地板。越小，只留貼近地板的股票。</small></label>
             <label class="fld" for="scrStr"><span>支撐籌碼占比至少 %<button type="button" class="info" data-term="chipShare" aria-label="籌碼占比的說明">i</button></span><input id="scrStr" type="number" inputmode="decimal" min="0" max="50" step="1" value="0"><small class="hint">地板有多厚。越大，只留有很多人成本在那的。</small></label>
@@ -1681,7 +1660,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   </section>
 
   <section id="pgSim" class="page" hidden>
-    <h2>模擬交易：每週領 100 萬，用真實開盤價成交</h2>
+    <h2>模擬交易</h2>
     <div id="simGate"></div>
     <div id="simMain" class="page" hidden>
       <div id="simChamp"></div>
@@ -2213,8 +2192,7 @@ const GLOSS = {
       "籌碼占比：目前仍持有的籌碼中，成本落在這個區間的比例。越高，代表現在有越多人的成本在這裡。",
       "成交量占比：所選時間區間的總成交量中，有多少比例是在這個價格區間成交的。越高，代表這裡曾是主要的換手區，有較多的歷史成交量支持。",
       "兩個數字一起看：兩者都高，支撐的強度較有依據；成交量占比高但籌碼占比低，表示當時在這裡買進的人，多半已經賣出了。",
-      "兩個數字怎麼搭配判讀，請看列表下方的「兩個占比怎麼組合判讀？」。",
-      "這是依成本推算的統計結果，不保證股價一定會在此止跌。"],
+      "兩個數字怎麼搭配判讀，請看列表下方的「兩個占比怎麼組合判讀？」。"],
     calc: "先把籌碼分布平滑，找出局部高峰，相鄰高峰至少相隔「最小間距」，再取籌碼占比最大的前三個。成交量占比是把每天的成交量依三角分布分到各價位後加總（不衰減），再除以期間總成交量。",
     live: R => R.a.sup.length ? `目前最近的支撐是 <b>${fmt(R.a.sup[0].peak)}</b>（距現價 ${spct(R.a.sup[0].dist)}）：籌碼占比 <b>${pct(R.a.sup[0].strength)}</b>，成交量占比 <b>${pct(R.a.sup[0].volShare)}</b>（期間 ${R.rows.length} 個交易日）。` : "目前現價下方沒有明顯的籌碼堆積。" },
   resistance: { t: "壓力區",
@@ -2229,7 +2207,7 @@ const GLOSS = {
       "<b>量大籌少</b>：當時很熱鬧，但買進的人多半已經賣出，人去樓空，強度要打折。",
       "<b>量少籌多</b>：成交不算大，但持有人抱得久或是近期才成交，籌碼還在，可以再觀察。",
       "<b>量籌雙低</b>：沒什麼量，也沒什麼人的成本在這裡，可有可無。",
-      "「高」「低」沒有固定門檻，建議拿同一檔股票的三個區域互相比較，或換不同年數看是否一致。這只是讀資料的方法，不是買賣建議。"],
+      "「高」「低」沒有固定門檻，建議拿同一檔股票的三個區域互相比較，或換不同年數看是否一致。"],
     calc: "籌碼占比會隨換手逐日衰減舊成本；成交量占比不衰減，把期間內每天成交量依三角分布分到各價位後加總。",
     live: R => {
       const z = R.a.sup[0] || R.a.res[0];
@@ -2243,7 +2221,7 @@ const GLOSS = {
       "<b>隔天開盤買進</b>：收盤後才算得出訊號，所以用隔天的開盤價成交。",
       "報酬已扣除「來回成本」，價格使用還原權息後的價格，所以股利也算在內。",
       "這個模擬沒有考慮滑價、成交量不足買不到、融資融券等實際狀況。",
-      "過去的結果不代表未來，也不是買賣建議。參數調到「剛好」賺錢的組合，常常只是過度配合歷史。"] },
+      "參數調到「剛好」賺錢的組合，常常只是過度配合歷史。"] },
   btNear: { t: "靠近支撐",
     def: "收盤價距離最近支撐峰值的上限（百分比）。價格落在支撐區內，或在支撐峰值上方不超過這個距離，才算進場訊號。",
     read: ["調小：只在非常貼近支撐時進場，次數少，但停損距離短。", "調大：容易進場，但可能離支撐已經有一段距離，停損距離變長。"] },
@@ -2288,15 +2266,15 @@ const GLOSS = {
     calc: "風險報酬比 = (目標價 ÷ 現價 − 1) ÷ (1 − 停損價 ÷ 現價)。算法和回測頁一致。" },
   screenRules: { t: "篩選器怎麼運作",
     def: "從你選的候選範圍裡，逐檔算出三種分數：位置評分（籌碼面）、技術評分（技術面）、起漲徵兆（七項檢查），合成綜合評分。留下同時符合你條件的股票，預設依綜合評分由高到低，取前 3 檔。",
-    read: ["<b>為什麼不叫推薦</b>：沒有人能預測哪一檔會漲，這裡只是把「籌碼面和技術面現在的狀態」整理出來，所以結果只是觀察清單，不是買進訊號。", "<b>五種風格</b>：起漲（剛轉強、還沒過熱、位置舒服）、穩健、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是系統內建的 45 檔大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "<b>大型股不耗你的額度</b>：系統每天凌晨（約 3 點）會先把內建大型股分析好存起來，所有會員共用。自選股和最近查過的股票如果不在這份名單內，才需要自己查詢。"],
+    read: ["<b>五種風格</b>：起漲（剛轉強、還沒過熱、位置舒服）、穩健、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是系統內建的 45 檔大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "<b>大型股不耗你的額度</b>：系統每天凌晨（約 3 點）會先把內建大型股分析好存起來，所有會員共用。自選股和最近查過的股票如果不在這份名單內，才需要自己查詢。"],
     calc: "綜合評分 ＝ 位置評分 × 40% ＋ 技術評分 × 40% ＋ 起漲徵兆（符合項數 ÷ 7 × 100）× 20%。位置評分和「籌碼分析」頁是同一套（成本面 30、下方支撐 35、上方空間 35）。" },
   techScoreT: { t: "技術評分",
     def: "把這檔股票現在的技術面狀態，換算成 0～100 分：分數越高，代表趨勢、動能、量價整體越偏強。",
-    read: ["<b>趨勢 30 分</b>：收盤、MA20、MA60 的排列（多頭排列最高），加上 20 日線是往上還是往下。", "<b>動能 30 分</b>：MACD 柱狀（紅且擴大最高）、RSI（50～70 最高，超過 70 過熱略扣）、KD（K 在 D 之上且未過熱最高）。", "<b>量價 20 分</b>：量增價漲最高，量增價跌最低。", "<b>位置與波動 20 分</b>：布林通道的位置（中線之上、未衝出上軌最高），通道特別窄（蓄勢）加分。", "這是「描述現在的狀態」，不是預測：技術指標彼此高度相關，單靠它們沒有穩定的預測力。"],
+    read: ["<b>趨勢 30 分</b>：收盤、MA20、MA60 的排列（多頭排列最高），加上 20 日線是往上還是往下。", "<b>動能 30 分</b>：MACD 柱狀（紅且擴大最高）、RSI（50～70 最高，超過 70 過熱略扣）、KD（K 在 D 之上且未過熱最高）。", "<b>量價 20 分</b>：量增價漲最高，量增價跌最低。", "<b>位置與波動 20 分</b>：布林通道的位置（中線之上、未衝出上軌最高），通道特別窄（蓄勢）加分。"],
     calc: "趨勢 + 動能 + 量價 + 位置與波動，滿分 100。" },
   riseSigs: { t: "起漲徵兆",
     def: "用七項檢查，看這檔股票現在「像不像剛開始起漲」。符合越多項，越像剛轉強、還沒漲過頭的狀態。",
-    read: ["<b>站上月線</b>：收盤在 20 日線之上，而且 20 日線沒有往下。", "<b>剛轉強</b>：最近 10 天內，MA20 剛上穿 MA60（黃金交叉），或股價剛站回 20 日線。", "<b>動能轉強</b>：最近 5 天內，MACD 柱狀剛由負轉正，或 K 剛上穿 D。", "<b>量能放大</b>：最近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲。", "<b>尚未過熱</b>：RSI 低於 70，而且離 60 天低點漲幅不到 30%（沒有漲太多）。", "<b>籌碼位置舒服</b>：位置評分 60 分以上。", "<b>上方有空間</b>：最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力。", "這是把「現在的狀態」逐項列出來，不是預測，符合 7 項也不保證會漲。"] },
+    read: ["<b>站上月線</b>：收盤在 20 日線之上，而且 20 日線沒有往下。", "<b>剛轉強</b>：最近 10 天內，MA20 剛上穿 MA60（黃金交叉），或股價剛站回 20 日線。", "<b>動能轉強</b>：最近 5 天內，MACD 柱狀剛由負轉正，或 K 剛上穿 D。", "<b>量能放大</b>：最近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲。", "<b>尚未過熱</b>：RSI 低於 70，而且離 60 天低點漲幅不到 30%（沒有漲太多）。", "<b>籌碼位置舒服</b>：位置評分 60 分以上。", "<b>上方有空間</b>：最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力。"] },
   orderTypes: { t: "委託方式：市價、限價、觸價單",
     def: "和真實下單一樣，你可以決定「用什麼價格、什麼條件」成交。這裡有三種方式，都可以搭配當日有效或長效單。",
     read: ["<b>市價單</b>：不指定價格，下一個交易日的開盤價成交。最簡單，但你下單時不知道會成交在哪。",
@@ -2328,7 +2306,7 @@ const GLOSS = {
       "<b>泡泡大小</b>：最近 3 日平均的成交金額占比，越大代表越多錢在這裡交易。<b>顏色</b>：紅漲綠跌。",
       "<b>聚焦</b>：用上方的「聚焦類別」選單（可複選）、重點按鈕或直接點泡泡，會淡化其他類別，只留被選的，並畫出它們這 10 天走過的路。點泡泡還會列出該類股的股票。再點一次就取消。",
       "<b>四個象限</b>：右上「資金湧入・上漲」是市場正在追的主流；右下「資金湧入・下跌」是錢進來但價格下跌，可能在承接也可能在出貨，要搭配個股看；左上「價漲量縮」是漲勢缺乏新資金跟進；左下「資金退潮」是被市場冷落。",
-      "<b>怎麼用</b>：資金輪動通常是「一個類股退潮、另一個類股湧入」。可以先看哪個類股在右上方，再到「籌碼分析」頁看裡面的個股。這是整理資訊的工具，不是買賣建議。"],
+      "<b>怎麼用</b>：資金輪動通常是「一個類股退潮、另一個類股湧入」。可以先看哪個類股在右上方，再到「籌碼分析」頁看裡面的個股。"],
     calc: "資金占比 = 類股成交金額 ÷ 所有類股成交金額（只含上市，上層分類如「電子」不重複計算）。橫軸 =（最近 3 日平均占比 ÷ 最前面 3 日平均占比 − 1）。縱軸 = 從起點日收盤算起的累計漲跌幅（每天的指數水準由「起點指數 + 逐日漲跌點數」還原）。資料來自證交所，每個交易日只查一次並存在手機裡。" },
   verdict: { t: "位置評分",
     def: "把「平均成本、下方支撐、上方壓力」放在一起，替現價所在的位置打一個 0～100 的分數，讓你查股票時先有個快速的參考。",
@@ -2405,7 +2383,7 @@ const GLOSS = {
     calc: "MA(N) = 最近 N 個交易日收盤價的平均。" },
   rsi: { t: "RSI 相對強弱指標",
     def: "衡量最近 14 天「漲的力道」和「跌的力道」誰比較大，數值在 0～100 之間。",
-    read: ["高於 50：多方略占上風；低於 50：空方略占上風。", "高於 70 常被稱為過熱，低於 30 常被稱為超賣，但強勢股可以長時間停在 70 以上，弱勢股也會一直低於 30，這不是買賣訊號。"],
+    read: ["高於 50：多方略占上風；低於 50：空方略占上風。", "高於 70 常被稱為過熱，低於 30 常被稱為超賣，但強勢股可以長時間停在 70 以上，弱勢股也會一直低於 30。"],
     calc: "RSI = 100 − 100 ÷ (1 + 平均漲幅 ÷ 平均跌幅)，用 Wilder 平滑法，期間 14 天。" },
   kd: { t: "KD 隨機指標",
     def: "看今天的收盤價，落在最近 9 天最高價與最低價之間的哪個位置，再做平滑。K 是快線，D 是慢線，台股很常用。",
@@ -2425,23 +2403,23 @@ const GLOSS = {
     calc: "量比 = 5 日平均成交量 ÷ 20 日平均成交量；量比超過 1.3 算「量增」，低於 0.7 算「量縮」。" },
   techCombo: { t: "技術面和籌碼面怎麼搭配",
     def: "籌碼面回答「價位在哪裡」：支撐、壓力、套牢的人多不多。技術面回答「現在的狀態」：趨勢、動能、有沒有發動。",
-    read: ["<b>同向偏多</b>：趨勢向上，位置也舒服，是比較理想的組合。", "<b>技術面偏多、籌碼偏弱</b>：趨勢雖好，但上方壓力重或下方沒支撐，追高要小心。", "<b>籌碼不差、技術面偏空</b>：位置還行但趨勢在走弱，可以等轉強再看。", "<b>同向偏弱</b>：趨勢和位置都不理想。", "這是判讀輔助。技術指標都是用同一份價量算的，彼此高度相關，偏多的項目多不代表一定會漲；我們自己的回測也發現，單靠這些指標沒有穩定的預測力。"] },
+    read: ["<b>同向偏多</b>：趨勢向上，位置也舒服，是比較理想的組合。", "<b>技術面偏多、籌碼偏弱</b>：趨勢雖好，但上方壓力重或下方沒支撐，追高要小心。", "<b>籌碼不差、技術面偏空</b>：位置還行但趨勢在走弱，可以等轉強再看。", "<b>同向偏弱</b>：趨勢和位置都不理想。"] },
   tcCross: { t: "均線交叉點（黃金交叉／死亡交叉）",
     def: "MA20（最近 20 天的平均成本，短線）和 MA60（最近 60 天的平均成本，長線）兩條線互相穿過的那一天，圖上用三角形標出來。",
-    read: ["<b>黃金交叉（紅色 ▲）</b>：MA20 從下往上穿過 MA60。意思是最近買進的人，成本已經超過長期平均，願意出更高的價，<b>代表轉強</b>。", "<b>死亡交叉（綠色 ▼）</b>：MA20 從上往下穿過 MA60，<b>代表轉弱</b>。", "它只是「趨勢可能轉向」的提醒：均線比股價慢，交叉出現時股價通常已經走了一段；盤整時還會來回交叉很多次，所以不是買賣訊號。"],
+    read: ["<b>黃金交叉（紅色 ▲）</b>：MA20 從下往上穿過 MA60。意思是最近買進的人，成本已經超過長期平均，願意出更高的價，<b>代表轉強</b>。", "<b>死亡交叉（綠色 ▼）</b>：MA20 從上往下穿過 MA60，<b>代表轉弱</b>。", "它只是「趨勢可能轉向」的提醒：均線比股價慢，交叉出現時股價通常已經走了一段；盤整時還會來回交叉很多次。"],
     calc: "比較每天的「MA20 − MA60」，由負變正是黃金交叉，由正變負是死亡交叉。" },
   tcStrip: { t: "強弱色帶",
     def: "K 線下方那條彩色帶，每一天一格，把當天四個問題的答案加起來，用顏色表示整體偏強還是偏弱。",
-    read: ["<b>四個問題</b>（偏多 +1、偏空 −1）：① 收盤 ＞ MA20 ＞ MA60 嗎？② MACD 柱狀在 0 以上嗎？③ RSI 在 50 以上嗎？④ KD 的 K 在 D 之上嗎？", "加總 −4～+4：<b>深紅（+3～+4）強多、淺紅（+1～+2）偏多、灰色（0）中性、淺綠（−1～−2）偏空、深綠（−3～−4）強空</b>。", "整條帶子紅色多，代表這段時間偏強；綠色多就偏弱；由綠轉紅的地方是轉強。手指點一下圖（電腦：滑鼠移過去），上方會顯示那天四個問題各答了什麼。", "這四項都是用同一份價量算的，不是四個獨立的證據；它只是把現在的狀態用顏色整理起來，不是預測。"] },
+    read: ["<b>四個問題</b>（偏多 +1、偏空 −1）：① 收盤 ＞ MA20 ＞ MA60 嗎？② MACD 柱狀在 0 以上嗎？③ RSI 在 50 以上嗎？④ KD 的 K 在 D 之上嗎？", "加總 −4～+4：<b>深紅（+3～+4）強多、淺紅（+1～+2）偏多、灰色（0）中性、淺綠（−1～−2）偏空、深綠（−3～−4）強空</b>。", "整條帶子紅色多，代表這段時間偏強；綠色多就偏弱；由綠轉紅的地方是轉強。手指點一下圖（電腦：滑鼠移過去），上方會顯示那天四個問題各答了什麼。"] },
   techCombos: { t: "指標的搭配組合",
     def: "把不同「類型」的技術指標放在一起看，互相確認。類型有：趨勢（均線、SuperTrend）、動能（MACD、RSI、KD）、波動（布林通道）、量價，以及籌碼。",
-    read: ["<b>順勢三步驟</b>：先用均線看方向，再用 MACD 確認力道，最後用量能確認有沒有人跟。三層同向，訊號比較一致。", "<b>多頭回檔／過熱</b>：用均線判斷多頭或空頭，再用 KD、RSI 看位置。多頭中的低檔是回檔，高檔是過熱；空頭中的低檔常只是鈍化。", "<b>波動與量能</b>：布林通道很窄又量縮，是蓄勢；放量突破上軌比較可靠，量縮的突破要小心假突破。", "<b>動能一致性</b>：MACD、RSI、KD 都是看力道，彼此很像，同向只代表「力道方向明確」，不是「三倍可靠」。", "<b>技術＋籌碼</b>：技術面看趨勢，籌碼面看價位和賣壓；兩者同向訊號比較完整。", "這些是市場上常見的判讀方式，<b>不是我們驗證過有預測力的規則</b>。我們自己的回測發現，單靠這些指標沒有穩定的預測力，所以請當成讀盤的輔助。"] },
+    read: ["<b>順勢三步驟</b>：先用均線看方向，再用 MACD 確認力道，最後用量能確認有沒有人跟。三層同向，訊號比較一致。", "<b>多頭回檔／過熱</b>：用均線判斷多頭或空頭，再用 KD、RSI 看位置。多頭中的低檔是回檔，高檔是過熱；空頭中的低檔常只是鈍化。", "<b>波動與量能</b>：布林通道很窄又量縮，是蓄勢；放量突破上軌比較可靠，量縮的突破要小心假突破。", "<b>動能一致性</b>：MACD、RSI、KD 都是看力道，彼此很像，同向只代表「力道方向明確」，不是「三倍可靠」。", "<b>技術＋籌碼</b>：技術面看趨勢，籌碼面看價位和賣壓；兩者同向訊號比較完整。"] },
   tcBull: { t: "多頭、空頭、偏多、偏空",
     def: "多頭＝整體在往上走（看多），空頭＝整體在往下走（看空）。偏多、偏空是每個指標「現在的傾向」。",
-    read: ["<b>台股的顏色習慣：紅色代表多、綠色代表空</b>，和美股相反。", "偏多＝這個指標看起來支持上漲；偏空＝支持下跌；中性＝沒有明顯傾向。", "這只是描述現在的狀態，不是預測。"] },
+    read: ["<b>台股的顏色習慣：紅色代表多、綠色代表空</b>，和美股相反。", "偏多＝這個指標看起來支持上漲；偏空＝支持下跌；中性＝沒有明顯傾向。"] },
   flowInst: { t: "法人與融資怎麼看",
     def: "三大法人（外資、投信、自營商）和融資融券，都是交易所公布的「真實持有與資金資料」，屬於籌碼面。和我們用價量「推估」的成本分布互補。",
-    read: ["<b>買賣超</b>：一天買進減賣出的張數（1 張 ＝ 1000 股）。紅色買超、綠色賣超。買超不等於一定會漲。", "<b>外資</b>主導大型權值股；<b>投信</b>在中小型股影響明顯，有季底、年底作帳的特色；<b>自營商</b>含避險部位，雜訊多。", "<b>融資</b>是借錢買股票（看多的槓桿，多半是散戶）；<b>融券</b>是借股票賣出（放空）。", "<b>股價漲＋融資增加</b>＝散戶跟進；<b>股價漲＋融資減少</b>＝籌碼轉手；<b>股價跌＋融資增加</b>＝套牢的槓桿變多，留意追繳賣壓。", "<b>券資比</b>高，常被拿來觀察軋空，但不代表一定發生。", "資料都是收盤後才公布，所以有落後；而且這些都是描述現在的狀態，不是預測。"] },
+    read: ["<b>買賣超</b>：一天買進減賣出的張數（1 張 ＝ 1000 股）。紅色買超、綠色賣超。買超不等於一定會漲。", "<b>外資</b>主導大型權值股；<b>投信</b>在中小型股影響明顯，有季底、年底作帳的特色；<b>自營商</b>含避險部位，雜訊多。", "<b>融資</b>是借錢買股票（看多的槓桿，多半是散戶）；<b>融券</b>是借股票賣出（放空）。", "<b>股價漲＋融資增加</b>＝散戶跟進；<b>股價漲＋融資減少</b>＝籌碼轉手；<b>股價跌＋融資增加</b>＝套牢的槓桿變多，留意追繳賣壓。", "<b>券資比</b>高，常被拿來觀察軋空，但不代表一定發生。", "資料都是收盤後才公布，會晚一天。"] },
   flowBuy: { t: "買賣超",
     def: "一天買進的張數減去賣出的張數。正數是買超（買得比賣得多），負數是賣超。1 張＝1000 股。台股習慣用紅色代表買超、綠色代表賣超。",
     read: ["<b>連買／連賣</b>：從最新一天往回數，連續幾天同一個方向。連續越久，代表買盤（或賣壓）越持續。", "<b>占成交量</b>：買賣超除以同期成交量，用來比較不同股票。例如 −5% 代表淨賣出的量約是成交量的 5%。", "<b>土洋對作</b>：外資（洋）和投信（土）方向相反，一買一賣，看法分歧。", "買超不等於會漲，賣超也不等於會跌；這只是描述資金現在的動向。"] },
@@ -2453,7 +2431,7 @@ const GLOSS = {
     read: ["<b>融資餘額</b>：借錢買進、還沒賣掉的張數。多半是散戶，越高代表槓桿越多。", "<b>融券餘額</b>：借了股票賣出、還沒買回的張數。", "<b>套牢槓桿增加</b>：股價跌、融資卻增加，代表借錢買的人被套住還在加碼。再跌可能觸發「追繳」（擔保品價值不夠，券商要求補錢，補不出來就會被強制賣出），形成賣壓。"] },
   flowUse: { t: "融資使用率",
     def: "融資餘額 ÷ 融資額度（這檔股票最多能融資多少）。數字越高，代表可用的融資額度被用掉越多。",
-    read: ["超過 40% 算偏高，代表槓桿比較滿。", "額度由交易所和券商訂定，每檔股票不同，所以這個比例比單看融資張數更容易比較。", "它描述現在的槓桿程度，不是買賣訊號。"] },
+    read: ["超過 40% 算偏高，代表槓桿比較滿。", "額度由交易所和券商訂定，每檔股票不同，所以這個比例比單看融資張數更容易比較。"] },
   flowRatio: { t: "券資比",
     def: "融券餘額 ÷ 融資餘額。看放空的量，相對於借錢買進的量有多少。",
     read: ["比例高（例如 30% 以上），代表空方相對多。常被拿來觀察「軋空」：放空的人被迫買回股票，反而推升股價。", "融資、融券都很少的股票，這個比例會很不穩定。"] },
@@ -2887,7 +2865,7 @@ function renderVerdict(R) {
     <div class="vdMini">${v.parts.map(x => `<span><i style="width:${(x.pts / x.max * 100).toFixed(0)}%"></i><b>${x.k}</b> ${x.pts.toFixed(0)}/${x.max}</span>`).join("")}</div>
     <details class="vdMore"${vdOpen ? " open" : ""}><summary>看評分細節</summary>
       <div class="vdRows">${v.parts.map(x => `<div class="vdRow"><div class="t"><b>${x.k}</b><span>${x.pts.toFixed(0)} / ${x.max}</span></div><div class="vdBar"><i style="width:${(x.pts / x.max * 100).toFixed(0)}%"></i></div><p>${x.txt}</p></div>`).join("")}</div>
-      <p class="vdNote">位置評分只評估「現價的位置」：把平均成本、支撐、壓力放在一起看，不預測漲跌，也不是買賣建議。${R.m.coverage < 0.9 ? "<b>目前模型涵蓋率偏低，分數僅供參考，建議拉長時間區間。</b>" : ""}</p></details>`;
+      <p class="vdNote">位置評分只評估「現價的位置」：把平均成本、支撐、壓力放在一起看。${R.m.coverage < 0.9 ? "<b>目前模型涵蓋率偏低，分數僅供參考，建議拉長時間區間。</b>" : ""}</p></details>`;
   el.querySelector("details").addEventListener("toggle", e => { vdOpen = e.target.open; });
 }
 let vdOpen = false;                                                   // 評分細節預設收合，圖表才不會被擠到太下面；使用者展開後，換區間或換股票也維持展開
@@ -3210,9 +3188,9 @@ function renderWatch() {
   const vt = editing ? "" : `<div class="seg wvt" role="group" aria-label="顯示方式">${[["list", "清單"], ["grid", "格狀"]].map(([k, t]) => `<button type="button" data-act="wview" data-v="${k}" aria-pressed="${watchView === k}">${t}</button>`).join("")}</div>`;
   const tool = `<div class="wtool"><span>${editing ? "長按股票，浮起來後拖曳即可換位置" : `共 ${list.length} 檔`}</span>${vt}${list.length > 1 ? `<button type="button" class="wbtn${editing ? " on" : ""}" data-act="wedit">${editing ? "完成" : "調整順序"}</button>` : ""}</div>`;
   const body = grid ? `<div class="wgrid">${list.map(w => watchCard(w, editing)).join("")}</div>` : `<div class="wlist">${rows.join("")}</div>`;
-  const note = editing ? "長按任一檔股票約半秒，它會浮起來，再上下拖曳到想要的位置放開。順序會存在雲端，換手機也一樣；新加入的股票會出現在最上面。"
-    : grid ? `走勢圖是近 ${WSPARK} 個交易日的收盤價；位置評分和分析頁是同一套算法（只評估現價的位置，不預測漲跌，也不是買賣建議）。${wLimit ? "<b>資料查詢次數暫時用完，沒載入的評分請稍後再試。</b>" : ""}`
-    : `報價為最新收盤價與漲跌幅（紅漲綠跌），圖是近 ${WSPARK} 個交易日走勢；位置評分與分析頁是同一套算法，只評估現價位置，不是買賣建議。${wLimit ? "<b>資料查詢次數暫時用完，沒載入的評分請稍後再試。</b>" : ""}點股票會進入分析。`;
+  const note = editing ? "長按半秒，拖曳排序。"
+    : grid ? `近 ${WSPARK} 日走勢・位置評分${wLimit ? "　<b>查詢次數用完，稍後再試</b>" : ""}`
+    : `近 ${WSPARK} 日走勢・紅漲綠跌・點股票看分析${wLimit ? "　<b>查詢次數用完，稍後再試</b>" : ""}`;
   el.innerHTML = `${watchMsg ? `<div class="status err" style="margin-bottom:8px">${esc(watchMsg)}</div>` : ""}${tool}${body}<p class="advnote" style="padding-top:10px">${note}</p>`;
 }
 /* ---------- 自選股頁的搜尋：先看一眼簡易資訊，再決定要不要加入 ----------
@@ -3244,7 +3222,7 @@ function wfRender() {
       <div><span class="k">最近支撐</span><b>${pr(d.s1)}</b></div>
       <div><span class="k">最近壓力</span><b>${pr(d.r1)}</b></div></div>
     <div class="wfAct"><button type="button" class="btn${has ? " ghost" : ""}" data-act="wf-add">${has ? "已在自選股・按一下移除" : "加入自選股"}</button><button type="button" class="btn ghost" data-act="wf-open">看完整分析</button></div>
-    <p class="advnote" style="padding:6px 0 0">近 ${d.spark.length} 個交易日走勢；評分只描述現在的狀態，不預測漲跌，也不是買賣建議。</p></div><div id="wfMsg"></div>`;
+    <p class="advnote" style="padding:6px 0 0">近 ${d.spark.length} 日走勢</p></div><div id="wfMsg"></div>`;
 }
 function wfInit() {
   const q = $("wQ"), sugg = $("wSugg");
@@ -3623,7 +3601,7 @@ function admTraffic(D) {
     <h2>功能使用（${n} 天，和前 ${P.length} 天比）</h2><div class="card" style="padding:6px 14px 10px">${admUsage(S, P)}</div>
     <h2>每日明細（最近 14 天）</h2><div class="card" style="padding:4px 12px"><div class="dr hd"><span>日期</span><b>造訪</b><b>不重複</b><b>登入</b><b>下單</b></div>${rows}</div>
     <button type="button" class="info-link" data-act="admCsv" data-k="stats">下載每日流量（CSV）</button>
-    <p class="advnote">「不重複訪客」是同一支手機每天只算一次；跨日的人會重複計算。流量只計算已設定 Firebase 的版本，管理員自己的使用不計入。數字僅供參考，因為任何人都能對計數器寫入。</p>`;
+    <p class="advnote">不重複訪客＝每台裝置每天算一次；不含管理員。</p>`;
 }
 function admMemberRows(D) {
   const vOf = x => { const b = D.bCur.get(x.uid); return b ? b.value : x.cashHold; };
@@ -3660,7 +3638,7 @@ function admMembers(D) {
     <div class="seg mchips" id="admFilt" role="group" aria-label="篩選">${[["all", "全部"], ["act", "活躍"], ["sleep", "沉睡"], ["off", "沒上榜"], ["nocash", "未領資金"]].map(([k, t]) => `<button type="button" data-f="${k}" aria-pressed="${adm.filt === k}">${t}<i>${cnt[k]}</i></button>`).join("")}</div>
     <div class="card" style="padding:0;overflow:hidden">${list || `<div class="empty" style="border:0">沒有符合的會員。</div>`}</div>
     <button type="button" class="info-link" data-act="admCsv" data-k="members">下載會員名單（CSV）</button>
-    <p class="advnote">「帳戶」是會員 Google 帳戶的顯示名稱（沒有名稱時才用 Email），在會員開啟模擬交易時自動更新；舊會員要再開啟一次才會出現。「資產(估)」是現金加上持股成本，因為沒上榜的人沒有即時報價；上榜的人用排行榜上的總資產。「最近動作」是最近一次下單或成交（沒有就用加入日）。</p>`;
+    <p class="advnote">資產(估)＝現金＋持股成本（上榜者用排行榜總資產）。</p>`;
 }
 function admTrades(D) {
   const A = D.accs, all = A.flatMap(x => (x.trades || []).map(t => ({ ...t, uid: x.uid })));
@@ -3687,7 +3665,7 @@ function admTrades(D) {
     <h2>委託方式</h2><div class="card" style="padding:8px 14px"><div class="gGroupT" style="padding:2px 0">已成交</div>${share(mix, ok.length)}<div class="gGroupT" style="padding:8px 0 2px">預約中</div>${share(pm, pend.length)}</div>
     <h2>未成交的原因</h2><div class="card" style="padding:8px 14px">${share(why, fail.length)}</div>
     <h2>每日成交筆數（最近 14 天）</h2><div class="card" style="padding:8px 14px">${byDay.map(x => bar(x.d.slice(5).replace("-", "/"), x.v, dmx)).join("")}</div>
-    <p class="advnote">每位會員只保留最近 200 筆成交，所以這裡是「還留在帳戶裡的紀錄」，不是歷史全部。資料來自所有人的模擬交易帳戶。</p>`;
+    <p class="advnote">每人只保留最近 200 筆成交。</p>`;
 }
 async function admLoadWatch() {
   adm.watchBusy = true; admRender();
@@ -3713,10 +3691,10 @@ function admCheck(D) {
     <div class="stat"><div class="k">有領資金卻沒上榜</div><div class="v ${missing.length ? "dn" : ""}">${missing.length} 位</div><div class="h">需要追蹤</div></div>
     <div class="stat"><div class="k">榜上無對應帳戶</div><div class="v">${orphan} 筆</div><div class="h">帳戶已刪除的舊成績</div></div></section>
     ${missing.length ? `<div class="card" style="padding:6px 12px">${missing.map(a => `<div class="adm-miss"><div class="nm">${esc(a.nick || "（沒有暱稱）")}　<span class="sb">領取 ${a.claimedCount || 0} 週・現金 ${money(a.cash || 0)}・持股 ${Object.keys(a.holdings || {}).length} 檔</span></div><div class="sb">${why(a)}</div></div>`).join("")}</div>` : `<div class="empty">所有有領資金的帳戶都已經在排行榜上。</div>`}
-    <h2>賽季結算（${D.prev}）</h2><div class="card" style="padding:10px 14px;font-size:.84rem;line-height:1.7">已結算 <b>${finals}</b> 位；還沒結算 <b>${pending.length}</b> 位${pending.length ? "：" + pending.slice(0, 12).map(a => esc(a.nick || "?")).join("、") + (pending.length > 12 ? "…" : "") : ""}。<br><span style="color:var(--muted);font-size:.76rem">還沒結算的人要等到他們新的一季第一次打開網頁；冠軍名單會隨著大家結算而更新。</span></div>
-    <h2>帳戶資料大小</h2><div class="card" style="padding:8px 14px">${sizes.map(([a, n]) => `<div class="usage"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.nick || "?")}</span><span class="ub"><i style="width:${Math.min(100, n / 1048576 * 100 * 4).toFixed(1)}%"></i></span><b>${(n / 1024).toFixed(0)} KB</b></div>`).join("") || `<div class="empty" style="border:0">沒有資料。</div>`}<p class="advnote" style="padding:4px 0 0">Firestore 單一文件上限 1 MB。成交紀錄最多 200 筆、頭像最多 16 KB，一般遠低於上限；柱子拉長 4 倍放大，快滿代表要處理。</p></div>
+    <h2>賽季結算（${D.prev}）</h2><div class="card" style="padding:10px 14px;font-size:.84rem;line-height:1.7">已結算 <b>${finals}</b> 位；還沒結算 <b>${pending.length}</b> 位${pending.length ? "：" + pending.slice(0, 12).map(a => esc(a.nick || "?")).join("、") + (pending.length > 12 ? "…" : "") : ""}。</div>
+    <h2>帳戶資料大小</h2><div class="card" style="padding:8px 14px">${sizes.map(([a, n]) => `<div class="usage"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.nick || "?")}</span><span class="ub"><i style="width:${Math.min(100, n / 1048576 * 100 * 4).toFixed(1)}%"></i></span><b>${(n / 1024).toFixed(0)} KB</b></div>`).join("") || `<div class="empty" style="border:0">沒有資料。</div>`}<p class="advnote" style="padding:4px 0 0">上限 1 MB（長條放大 4 倍）。</p></div>
     <h2>熱門自選股</h2><div class="card" style="padding:12px 14px">${wHtml}</div>
-    <p class="advnote">這份檢查會讀取所有模擬交易帳戶，只顯示暱稱與統計，不顯示持股內容。成績要等本人打開「模擬交易」頁才會送出。</p>`;
+    `;
 }
 /* ───── 公告：管理員在後台發布，所有使用者（不用登入）打開網站時，最上方會看到 ─────
    存在 config/announcement（任何人可以讀、只有管理員可以寫）。使用者按 × 之後，同一則公告不會再出現（改內容重新發布就會再出現）。 */
@@ -3751,7 +3729,7 @@ function admAnnouncement() {
         <label class="fld" for="annDays"><span>顯示多久</span><select id="annDays">${[["1", "1 天"], ["3", "3 天"], ["7", "7 天"], ["14", "14 天"], ["30", "30 天"], ["0", "不設期限"]].map(([k, t]) => `<option value="${k}"${annForm.days === k ? " selected" : ""}>${t}</option>`).join("")}</select></label></div>
       <div class="gGroupT" style="padding:2px 0">預覽</div><div id="annPrev">${prev}</div>
       <button type="button" class="btn" data-act="annPub">發布公告</button><div id="annMsg" class="status" hidden></div></div>
-    <p class="advnote">公告會顯示在網站最上方，包含沒有登入的訪客。使用者按 × 之後同一則不會再出現；改內容重新發布，所有人會再看到一次。公告存在 Firestore，需要已經發佈新版規則（有 config 的規則）。</p>`;
+    <p class="advnote">顯示在網站最上方；按 × 後不再出現，改內容重新發布會再顯示。</p>`;
 }
 async function admAnnPublish() {
   const msg = $("annMsg"), say = (t, err) => { msg.hidden = false; msg.className = "status" + (err ? " err" : ""); msg.textContent = t; };
@@ -3842,7 +3820,7 @@ function admReports(D) {
   const trend = list.slice(0, 8).reverse(), mx = Math.max(1, ...trend.map(r => r.traffic.sessions)), mm = Math.max(1, ...trend.map(r => r.members.total));
   return `<div class="seg" id="repKind" role="group" aria-label="報表種類"><button type="button" data-k="week" aria-pressed="${rep.kind === "week"}">週報</button><button type="button" data-k="month" aria-pressed="${rep.kind === "month"}">月報</button></div>
     ${rep.msg ? `<div class="status">${esc(rep.msg)}</div>` : ""}${rep.err ? `<div class="status err">${esc(rep.err)}</div>` : ""}
-    <div class="card" style="padding:12px 14px;font-size:.82rem;line-height:1.65">每次打開後台，系統會自動補產生「上一個完整的${rep.kind === "week" ? "週（週一到週日）" : "月"}」的報表並存起來。沒有伺服器能定時執行，所以最晚在你下次打開後台時補上。</div>
+    <div class="card" style="padding:12px 14px;font-size:.82rem;line-height:1.65">打開後台時自動補上「上一個完整的${rep.kind === "week" ? "週（週一到週日）" : "月"}」的報表。</div>
     <div class="two" style="gap:8px"><button type="button" class="btn ghost" data-act="repLive">看${rep.kind === "week" ? "本週" : "本月"}到目前為止</button><button type="button" class="btn ghost" data-act="repRegen">重新產生上一${rep.kind === "week" ? "週" : "月"}</button></div>
     ${trend.length > 1 ? `<h2>最近 ${trend.length} 期趨勢</h2><div class="card" style="padding:8px 14px">${trend.map(r => `<div class="usage2" style="grid-template-columns:6.4em minmax(0,1fr) 3.4em 3.6em"><span>${esc(r.label.replace(/ 年 /, "/").replace(" 月", ""))}</span><span class="ub"><i style="width:${(r.traffic.sessions / mx * 100).toFixed(1)}%"></i></span><b>${n0(r.traffic.sessions)}</b><em>${r.members.total} 位</em></div>`).join("")}<p class="advnote" style="padding:4px 0 0">條：造訪次數；右邊：當期快照的會員數。</p></div>` : ""}
     <h2>報表列表</h2><div class="card" style="padding:0;overflow:hidden">${list.map(r => `<div class="mrow rrw${cur && cur.id === r.id && !rep.live ? " open" : ""}" role="button" tabindex="0" data-act="repOpen" data-id="${esc(r.id)}" style="grid-template-columns:minmax(0,1.3fr) 1fr 1fr"><div class="m1"><b>${esc(r.label)}</b></div><div class="m2">${n0(r.traffic.sessions)}<small>造訪</small></div><div class="m3">${r.members.joined}<small>新會員</small></div></div>`).join("") || `<div class="empty" style="border:0">還沒有報表。打開後台後會自動補產生。</div>`}</div>
@@ -4308,7 +4286,7 @@ function mktNightChart(sess) {
   if ((sess || []).length < 4) return "";
   return `${mktPre("n", NIGHT_RNG)}<div class="mktRead" id="mktNRead"></div><div class="mktBox chBox" id="mktNBox" data-k="n"></div>
     <div class="mktLg"><span><i class="ln day"></i>日盤收盤（連線）</span><span><i class="dot nd"></i>夜盤收盤（藍線＝夜盤相對前一個日盤的漲跌）</span><span><i class="bar"></i>下方長條＝夜盤漲跌點數</span><span><i class="ln roll"></i>換月</span><span class="rg" id="mktNRg"></span><span class="chHint">拖曳平移・滾輪縮放・雙擊還原</span></div>
-    <div class="nt" style="margin-top:2px"><b>怎麼讀：</b>每個交易日有兩段：<b>日盤</b>（08:45～13:45）和<b>夜盤</b>（前一晚 15:00 到當天清晨 05:00）。灰線只連每天的日盤收盤；藍點是夜盤收盤，離灰線多遠、往上或往下，就是<b>夜盤相對前一個日盤收盤</b>的漲跌，下方長條把它量化。夜盤收盤是當天日盤開盤前最後的價位，所以常被拿來推估開盤。</div>`;
+    <div class="nt" style="margin-top:2px"><b>灰線</b>＝日盤收盤　<b style="color:var(--profit)">藍點</b>＝夜盤收盤　<b>長條</b>＝夜盤漲跌，用來推估開盤</div>`;
 }
 function mktNightDraw() {
   const box = $("mktNBox"), F = mkt.fut; if (!box || !F) return;
@@ -4769,7 +4747,7 @@ function rotFrame(t) {
     $("rotPick").innerHTML = `<b>${esc(s.n)}</b>　${esc(d8)}：累計漲跌 <b class="${signCls(s.y[k])}">${sg(s.y[k], 2)}</b>　資金占比 <b>${(s.sh3[k] * 100).toFixed(1)}%</b>（起始 ${(s.base * 100).toFixed(1)}%，<span class="${signCls(s.x[k])}">${sg(s.x[k])}</span>）<br>當日成交金額 <b>${fmt(s.amt[k] / 1e8, 0)} 億</b>`;
   } else if (picked.length > 1) {
     $("rotPick").innerHTML = `<div class="rotMulti">${picked.map(({ s }) => `<div><b>${esc(s.n)}</b><span class="${signCls(s.y[k])}">累計 ${sg(s.y[k], 1)}</span><span>占比 ${(s.sh3[k] * 100).toFixed(1)}%（<i class="${signCls(s.x[k])}">${sg(s.x[k])}</i>）</span></div>`).join("")}</div>`;
-  } else $("rotPick").innerHTML = `沒有聚焦時顯示整體：按<b>播放</b>看資金怎麼流動，或點上方的重點、選單、泡泡聚焦類別（可複選）；點泡泡會列出該類別的股票。`;
+  } else $("rotPick").innerHTML = `▶ 播放看資金流向・點泡泡看成分股`;
 }
 /* 股票 → 類股：用 FinMind 的產業別，對上證交所類股名稱（和成分股面板用同一套比對）。找到就聚焦那個泡泡、標出位置 */
 function rotSectorOf(code) {
@@ -4795,13 +4773,13 @@ function rotFindDraw() {
   if (q && document.activeElement !== q && !q.value) q.value = `${f.code} ${f.name}`;
   const nm = `<b>${esc(f.name)}</b><small>${esc(f.code)}</small>`;
   if (!f.ind) { out.innerHTML = `<div class="rfHit rfNo">${nm}查不到產業別（可能是 ETF、存託憑證或剛上市），所以不在類股泡泡圖裡。</div>`; return; }
-  if (!f.sec && ROT_SKIP.has(f.ind) || !f.sec && ROT_SKIP.has(rotKey(f.ind))) { out.innerHTML = `<div class="rfHit rfNo">${nm}在資料來源只被歸到上層分類「${esc(f.ind)}」，沒有細分的類股，所以圖上找不到它自己的泡泡。電子股通常落在「半導體、電腦及週邊設備、其他電子、光電、通信網路…」這幾顆，可以用上方「聚焦類別」自己選。</div>`; return; }
+  if (!f.sec && ROT_SKIP.has(f.ind) || !f.sec && ROT_SKIP.has(rotKey(f.ind))) { out.innerHTML = `<div class="rfHit rfNo">${nm}屬於「${esc(f.ind)}」，沒有細分類股，圖上沒有它的泡泡。</div>`; return; }
   if (!f.sec) { out.innerHTML = `<div class="rfHit rfNo">${nm}屬於「${esc(f.ind)}」，不在這張圖上。泡泡圖只畫上市的類股指數，上櫃股票和 ETF 沒有放進來。</div>`; return; }
   const s = rot.data.secs.find(x => x.n === f.sec), k = rot.data.days.length - 1, x = s.x[k], y = s.y[k], sg = (v, d = 0) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(d)}%`;
   const quad = x >= 0 ? (y >= 0 ? "右上（資金湧入・上漲）" : "右下（資金湧入・下跌）") : (y >= 0 ? "左上（價漲量縮）" : "左下（資金退潮）");
   out.innerHTML = `<div class="rfHit">${nm}屬於 <span class="rfSec">${esc(f.sec)}</span> 類股</div>
     ${f.mk === "O" ? `<div class="rfPos">注意：這檔是<b>上櫃</b>股票。泡泡圖只畫上市類股，圖上這顆泡泡代表「上市的${esc(f.sec)}公司」，僅供對照這個族群的資金動向。</div>` : ""}
-    <div class="rfPos">最新一天，這個類股在泡泡圖的<b>${quad}</b>：累計 <span class="${signCls(y)}">${sg(y, 1)}</span>，資金占比變化 <span class="${signCls(x)}">${sg(x)}</span>。圖上已經聚焦這個類股，用<b>藍色虛線圈</b>和「${esc(f.name)} 在這裡」標出位置。</div>
+    <div class="rfPos"><b>${quad}</b>　累計 <span class="${signCls(y)}">${sg(y, 1)}</span>　資金 <span class="${signCls(x)}">${sg(x)}</span></div>
     <div class="rfAct"><button type="button" data-rf="list">看同類股的股票</button><button type="button" data-rf="clear">清除</button></div>`;
 }
 function rotSyncSel() {
@@ -5240,7 +5218,7 @@ function renderBt(R, o, st) {
   /* 1. 結論：先用白話說結果 */
   let h = "";
   if (S.n === 0) {
-    h += `<div class="card verdict"><div class="vh">結論</div><p class="vt"><b>這段期間沒有買賣。</b>${who} 在 ${o.start} 到 ${o.end} 之間，沒有出現符合條件的買點。可以放寬「靠近支撐」、拉長期間，或換一檔股票試試。</p></div>`;
+    h += `<div class="card verdict"><div class="vh">結論</div><p class="vt"><b>這段期間沒有買賣。</b>可以放寬「靠近支撐」、拉長期間或換一檔試試。</p></div>`;
   } else {
     const headline = S.cum > S.bhRet ? "照規則買賣，報酬比單純持有高。"
       : S.cum > 0 ? "照規則買賣有賺錢，但沒有比單純持有多。"
@@ -5251,7 +5229,7 @@ function renderBt(R, o, st) {
       <p class="vt"><b>${headline}</b></p>
       <div class="cmp">${row("照規則買賣", S.cum)}${row("單純買進持有", S.bhRet)}</div>
       <p class="vs">${who}，${o.start} 到 ${o.end}。共買賣 <b>${S.n}</b> 次，<b>${S.wins}</b> 次賺、<b>${S.n - S.wins}</b> 次賠。
-      規則只有 <b>${pct(exposure, 0)}</b> 的時間持有股票，其餘時間空手，所以和單純持有比的時候，要一起看下面的「過程最多回吐」。</p></div>`;
+      持股時間 <b>${pct(exposure, 0)}</b>，其餘空手；和單純持有比要一起看「過程最多回吐」。</p></div>`;
 
     /* 2. 四個最重要的數字，用白話標題 */
     h += `<section class="stats">`
@@ -5271,7 +5249,7 @@ function renderBt(R, o, st) {
   if (S.n > 0 && S.n < 10) notes.push(`只有 ${S.n} 次買賣，次數太少，賺錢機率和平均數字的參考價值有限。`);
   if (S.avgCov != null && S.avgCov < 0.8) notes.push(`起始日離資料起點太近，買進當時籌碼分布還沒累積夠（涵蓋率約 ${pct(S.avgCov, 0)}），結果比較不可靠。可以把起始日往後挪。`);
   if (S.openAtEnd) notes.push("期間最後一天還持有股票，已用結束日的收盤價結算。");
-  notes.push("以還原權息後的價格計算，沒有計入滑價。過去的結果不代表未來，也不是買賣建議。");
+  notes.push("以還原權息價格計算，未計滑價。");
   h += `<div class="btNote">${notes.map(esc).join("<br>")}</div>`;
 
   /* 4. 圖 */
@@ -5357,16 +5335,16 @@ const GUIDE_TERMS = [
     ["coverage", "模型涵蓋率", "模型有多完整地描繪出目前的持有結構。", "越接近 100% 越可靠；低於 90%，離現價很遠的支撐壓力<b>只當參考</b>。把時間區間拉長可以提高。"],
   ] },
   { g: "另一個角度", items: [
-    ["supertrend", "SuperTrend", "判斷目前偏多還是偏空的趨勢線。", "它不參與支撐壓力的計算。常見的看法是：多頭時，下方支撐的參考性較高；空頭時，上方壓力比較值得留意。<b>這是輔助，不是定論</b>。"],
+    ["supertrend", "SuperTrend", "判斷目前偏多還是偏空的趨勢線。", "它不參與支撐壓力的計算。常見的看法是：多頭時，下方支撐的參考性較高；空頭時，上方壓力比較值得留意。"],
   ] },
   { g: "技術分析（「技術分析」頁籤）", items: [
     ["ma", "均線", "最近 N 天收盤價的平均連成的線。", "股價在均線之上、20 日線在 60 日線之上，叫多頭排列。均線會落後股價，<b>盤整時容易出現假訊號</b>。"],
-    ["rsi", "RSI", "最近 14 天漲的力道和跌的力道誰大。", "50 以上偏多、50 以下偏空；70 以上叫過熱、30 以下叫超賣，但<b>強勢股可以一直過熱</b>，不是買賣訊號。"],
+    ["rsi", "RSI", "最近 14 天漲的力道和跌的力道誰大。", "50 以上偏多、50 以下偏空；70 以上叫過熱、30 以下叫超賣，但<b>強勢股可以一直過熱</b>。"],
     ["kd", "KD", "今天收盤落在最近 9 天高低區間的哪個位置。", "K 在 D 之上偏多、之下偏空；80 以上高檔、20 以下低檔，趨勢強的時候會鈍化。"],
     ["macd", "MACD", "短期和長期平均價差的變化，看力道有沒有增強。", "柱狀變長是動能增強、變短是減弱，<b>可以比價格早一點看到力道變化</b>，但也是落後指標。"],
     ["boll", "布林通道", "20 日線上下各 2 倍標準差畫出的通道。", "通道變窄是波動收斂，之後常出現方向性行情，但<b>不知道往哪邊</b>。"],
     ["volPrice", "量價", "最近 5 天和 20 天平均成交量的比較，搭配股價漲跌。", "量增價漲買盤積極、量增價跌賣壓重、量縮是觀望。"],
-    ["techCombo", "技術面和籌碼面搭配", "技術面看趨勢和動能，籌碼面看價位和賣壓。", "兩者同向偏多比較理想；技術面偏多但籌碼壓力重，<b>追高要小心</b>。這是輔助判讀，不是預測。"],
+    ["techCombo", "技術面和籌碼面搭配", "技術面看趨勢和動能，籌碼面看價位和賣壓。", "兩者同向偏多比較理想；技術面偏多但籌碼壓力重，<b>追高要小心</b>。"],
     ["techCombos", "指標的搭配組合", "把不同類型的指標放在一起互相確認：趨勢、動能、波動、量價、籌碼。", "<b>同類型的指標疊在一起沒有新資訊</b>（RSI 和 KD 都是看力道）；趨勢 ＋ 動能 ＋ 量能 ＋ 籌碼，才是不同角度的搭配。"],
   ] },
 ];
@@ -6047,7 +6025,7 @@ function renderSim() {
   if (!sim.loaded) return showGate(`<div class="status">載入帳戶中…</div>`);
   if (!sim.acc) return showGate(`<div class="card simAcct">
     <div class="rtitle">加入模擬交易</div>
-    <p class="gLead">每週第一個交易日前可以領 <b>NT$ 1,000,000</b> 模擬資金，用真實的開盤價下預約單，和其他會員比報酬率。先取一個要顯示在排行榜上的暱稱（請<b>不要用真實姓名</b>）。</p>
+    <p class="gLead">每週領 <b>NT$ 1,000,000</b>・真實開盤價成交・和會員比報酬率。先取個暱稱（別用真名）。</p>
     <label class="fld" for="simNick"><span>暱稱（1～12 字）</span><input id="simNick" maxlength="12" autocomplete="off" placeholder="例如：股海小舟"></label>
     <button type="button" class="btn" data-act="join">加入並領取本週資金</button>
     <div id="simJoinMsg" class="status" hidden></div></div>`);
@@ -6104,7 +6082,7 @@ function renderSimChamp() {
         <div style="min-width:0"><div class="nm">${esc(w.nick)}${user && w.uid === user.uid ? "（你）" : ""}</div><div class="sb">季末總資產 ${money(w.value)}　領取 ${w.weeks} 週</div></div>
         <div class="rt ${signCls(w.ret)}">${spct(w.ret, 2)}<div class="sb" style="font-weight:400">季報酬</div></div></div>
       ${c.top.length > 1 ? `<div class="runners">${c.top.slice(1).map((r, i) => `<div>${i === 0 ? "亞軍" : "季軍"}　<b>${esc(r.nick)}</b>　${pt(r)}</div>`).join("")}</div>` : ""}
-      <p class="tip">已結算 ${c.n} 位。有些人要等到新的一季第一次打開網頁才會結算，名單會陸續補齊，名次可能還會變動。現在是 ${seasonName(S)}，${mmdd(end)} 結算。</p></div>`;
+      <p class="tip">已結算 ${c.n} 位，名次可能再變動。${seasonName(S)}・${mmdd(end)} 結算。</p></div>`;
   } else {
     el.innerHTML = `<div class="card champ"><div class="ch">${trophy}<span>${seasonName(S)}　賽季進行中</span>${tip("simSeason")}</div>
       <p class="tip" style="margin-top:6px;font-size:.84rem;color:var(--ink)">每一季（${mmdd(seasonStart(S))}～${mmdd(end)}）結算一次成績，<b>上一季的冠軍會放在這裡</b>。距離本季結算還有 <b>${left}</b> 天。</p>
@@ -6516,7 +6494,7 @@ function renderScreen() {
     rr: (x, y) => rr0(y) - rr0(x) || y.ev.comb - x.ev.comb };
   const pass = all.filter(x => x.ev.pass).sort(sorters[c.sort] || sorters.comb), rankBy = { comb: "綜合評分", score: "位置評分", tech: "技術評分", rr: "風險報酬比" }[c.sort] || "綜合評分";
   const left = codes.length - all.length - scr.failed, noTech = all.filter(x => x.ev.X.noTech).length;
-  let h = `<div class="status">已分析 ${all.length} / ${codes.length} 檔${scr.failed ? `，${scr.failed} 檔略過（查不到資料或股數）` : ""}。${scr.limited ? "查詢次數已用完，先顯示已分析的部分。" : ""}${left > 0 && !scr.running ? `還有 ${left} 檔還沒分析：${scr.limitMsg || "等額度恢復，或在「進階參數」填入 FinMind token，再按一次「開始篩選」就會接著做（已分析的不會重複查詢）。"}` : ""}${noTech ? `<br><b>有 ${noTech} 檔的技術面資料還沒更新</b>（預先算好的資料要等下次夜間更新才有技術面），這些股票先只用籌碼評分排名，技術條件先不通過。` : ""}</div>`;
+  let h = `<div class="status">已分析 ${all.length} / ${codes.length} 檔${scr.failed ? `，${scr.failed} 檔略過（查不到資料或股數）` : ""}。${scr.limited ? "查詢次數已用完，先顯示已分析的部分。" : ""}${left > 0 && !scr.running ? `還有 ${left} 檔還沒分析：${scr.limitMsg || "等額度恢復，或在「進階參數」填入 FinMind token，再按一次「開始篩選」就會接著做（已分析的不會重複查詢）。"}` : ""}${noTech ? `<br><b>${noTech} 檔技術面待夜間更新</b>，先只用籌碼排名。` : ""}</div>`;
   if (!pass.length) {
     const cnt = {}; all.forEach(x => x.ev.checks.forEach(k => { if (!k.ok) cnt[k.key] = (cnt[k.key] || 0) + 1; }));
     const NAME = { score: "位置評分不夠高", tech: "技術評分不夠高", sig: "起漲徵兆不夠多", near: "離支撐太遠或沒有支撐", str: "支撐太弱", bull: "趨勢不是多頭", cov: "涵蓋率不夠", rr: "風險報酬比不夠" };
@@ -6527,7 +6505,7 @@ function renderScreen() {
     h += `<h2>${rankBy}最高的前 ${Math.min(3, pass.length)} 檔（共 ${pass.length} 檔符合）</h2>` + pass.slice(0, 3).map((x, i) => scrCard(x, i + 1)).join("");
     if (pass.length > 3) h += `<h2>其他符合條件的</h2>` + pass.slice(3, 10).map((x, i) => `<div class="orow" style="grid-template-columns:2em minmax(0,1fr) auto"><span class="rkS">${i + 4}</span><div><div class="t">${esc(x.m.code)} ${esc(x.m.name)}　<span class="vdTag ${x.m.v.tone}" style="font-size:.66rem;padding:0 7px">綜合 ${x.ev.comb}</span></div><div class="s">${fmt(x.m.price)}　位置 ${x.ev.score}・技術 ${x.ev.tscore == null ? "—" : x.ev.tscore}・起漲徵兆 ${x.ev.X.n}/7</div></div><button type="button" class="x" data-act="scr-analyze" data-code="${esc(x.m.code)}" data-name="${esc(x.m.name)}">看分析</button></div>`).join("");
   }
-  h += `<p class="advnote" style="padding-top:8px">綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%，只描述<b>現在的狀態</b>，不是預測，也不是買賣建議。入選後請再看「籌碼分析」「技術分析」和「回測」。</p>`;
+
   el.innerHTML = h;
 }
 function scrCard(x, rank) {
@@ -6800,7 +6778,7 @@ function flowDraw() {
   }
   const noteHtml = note.length ? `<ul class="flowRead">${note.map(x => `<li>${x}</li>`).join("")}</ul>` : "";
   el.innerHTML = head + `<details class="flowMore"${FLOW.more ? " open" : ""}><summary class="flowMoreBtn"><span class="t1">展開詳細數字與圖表</span><span class="t2">收合詳細數字與圖表</span></summary>${noteHtml}${parts.join("")}<p class="advnote" style="padding:8px 0 0">圖表可兩指捏合縮放、左右滑動看每一天；短、中、長期方向一致比較可靠。</p></details>
-    <p class="flowFoot">這是現在的狀態，不是預測。<a href="#g-flow" data-gt="g-flow" class="tcMore">怎麼看？</a></p>`;
+    <p class="flowFoot"><a href="#g-flow" data-gt="g-flow" class="tcMore">怎麼看？</a></p>`;
   const dt = el.querySelector(".flowMore"); if (dt) dt.addEventListener("toggle", () => { FLOW.more = dt.open; if (dt.open) { flowChart("i"); flowChart("m"); } });
   if (FLOW.more) { flowChart("i"); flowChart("m"); }
 }
@@ -7147,13 +7125,13 @@ function techHowHtml() {
     <p><b>MA20</b> ＝ 最近 20 天的平均成本（短線），<b>MA60</b> ＝ 最近 60 天的平均成本（長線）。</p>
     <p><b>黃金交叉（紅 ▲）</b>：短線從下往上穿過長線。意思是最近買進的人，成本已經超過長期平均，願意出更高的價，<b>代表轉強</b>。</p>
     <p><b>死亡交叉（綠 ▼）</b>：短線從上往下穿過長線，<b>代表轉弱</b>。</p>
-    <p class="tcNote">注意：均線比股價慢，交叉出現時股價通常已經走了一段；盤整時還會來回交叉很多次，所以只是「提醒」，不是買賣訊號。</p></div>
+    <p class="tcNote">均線較慢，交叉時股價常已走一段；盤整時會反覆交叉。</p></div>
     <div class="tcHowItem"><h4>③ 強弱色帶：一眼看出這段時間是強還是弱</h4>
     <div class="tcSwBig"><span><i class="a2"></i>深紅<br><small>+3～+4　強多</small></span><span><i class="a1"></i>淺紅<br><small>+1～+2　偏多</small></span><span><i class="a0"></i>灰色<br><small>0　中性</small></span><span><i class="b1"></i>淺綠<br><small>−1～−2　偏空</small></span><span><i class="b2"></i>深綠<br><small>−3～−4　強空</small></span></div>
     <p>圖下方那條彩色帶，<b>每一天一格</b>。每天問四個問題，答「偏多」加 1 分，答「偏空」扣 1 分：</p>
     <ol><li>收盤價 ＞ MA20 ＞ MA60 嗎？（均線排列）</li><li>MACD 的柱狀在 0 以上嗎？（力道）</li><li>RSI 在 50 以上嗎？（多空力氣）</li><li>KD 的 K 在 D 之上嗎？（短線方向）</li></ol>
     <p>四個加起來是 −4～+4，再換成顏色。<b>整條帶子紅色多＝這段時間偏強，綠色多＝偏弱，由綠轉紅的地方就是轉強。</b>手指點一下圖（電腦：滑鼠移過去），上方會告訴你那一天四個問題各答了什麼。</p>
-    <p class="tcNote">注意：這四項都是用同一份價量算出來的，不是四個獨立的證據；它只是把目前的狀態用顏色整理起來，不是預測。</p></div>
+</div>
     <div class="tcHowItem"><h4>④ 其他線條</h4><p><b>MA5</b> 最近一週的平均成本，反應最快；<b>布林通道</b>是股價平常活動的範圍；<b>籌碼支撐／壓力</b>（藍、橘虛線）來自「籌碼分析」，是成本集中的價位。技術面轉強、又接近壓力時，要留意能不能突破。</p></div>`;
 }
 // 名詞小辭典
@@ -7168,7 +7146,7 @@ function techDictHtml() {
       ["突破／跌破", "股價漲過原本擋住它的價位叫「突破」；跌穿原本撐住它的價位叫「跌破」。"]]) +
     G("判斷方向", [
       ["多頭／空頭", "多頭＝整體在往上走（看多），空頭＝整體在往下走（看空）。<b>台股的顏色習慣：紅色代表多、綠色代表空</b>，和美股相反。"],
-      ["偏多／偏空／中性", "每個指標「現在的傾向」。偏多＝這個指標看起來在支持上漲，偏空＝支持下跌，中性＝沒有明顯傾向。只是描述現在，<b>不是預測</b>。"],
+      ["偏多／偏空／中性", "每個指標「現在的傾向」。偏多＝這個指標看起來在支持上漲，偏空＝支持下跌，中性＝沒有明顯傾向。"],
       ["技術面偏多／偏空", "把 8 項指標算一算：偏多的項目比偏空的多 3 項以上，叫「技術面偏多」；偏空的多 3 項以上叫「偏空」；其餘叫「中性」。"],
       ["均線（MA）", "最近 N 天收盤價的平均。MA5 ＝ 一週、MA20 ＝ 一個月、MA60 ＝ 一季。可以想成「這段時間買進的人，平均成本是多少」。"],
       ["多頭排列／空頭排列／糾結", "收盤 ＞ MA20 ＞ MA60 叫多頭排列（短期成本比長期高，上漲趨勢）；收盤 ＜ MA20 ＜ MA60 叫空頭排列；順序亂掉叫糾結，通常是盤整。"],
@@ -7189,7 +7167,7 @@ function techDictHtml() {
       ["量比", "最近 5 天的平均成交量 ÷ 最近 20 天的平均成交量。1 倍 ＝ 和平常一樣，超過 1.3 倍算量增，低於 0.7 倍算量縮。"],
       ["量增價漲／量增價跌／量縮", "量變多又漲＝買盤積極；量變多卻跌＝賣壓重；量變少＝大家觀望。"]]) +
     G("來自籌碼分析", [
-      ["籌碼支撐／壓力", "根據成交資料推算，很多人成本集中的價位。股價下跌到支撐附近，常有人願意買；上漲到壓力附近，常有人想賣出解套。是統計傾向，不是保證。"],
+      ["籌碼支撐／壓力", "根據成交資料推算，很多人成本集中的價位。股價下跌到支撐附近，常有人願意買；上漲到壓力附近，常有人想賣出解套。"],
       ["位置評分", "籌碼分析的位置評分（0～100）：現價附近下方有沒有支撐、上方壓力輕不輕、成本面舒不舒服。分數高代表位置舒服，不代表一定會漲。"]]);
 }
 // 頁面骨架只建一次（滑桿要留著，不然拖到一半會被重建）；之後只更新各個區塊
@@ -7214,7 +7192,7 @@ function techSkeleton() {
     <div class="tcG1" style="margin-top:10px"><span>副圖</span><div class="seg tcSeg" id="techSubSeg" role="group" aria-label="副圖">${[["macd", "MACD"], ["rsi", "RSI"], ["kd", "KD"], ["vol", "量能"], ["none", "關閉"]].map(([k, tt]) => `<button type="button" data-s="${k}" aria-pressed="${TECH.sub === k}">${tt}</button>`).join("")}</div></div>
     <div id="techCombos"></div>
     <div id="techList"></div>
-    <p class="advnote" style="padding:8px 0 0">技術指標都是用同一份價量算的，彼此高度相關，偏多的項目多不代表一定會漲。這裡只描述現在的狀態，不是買賣建議。</p>`;
+`;
   const ch = $("techChart");
   ch.addEventListener("pointermove", ev => techScrub(ev));
   ch.addEventListener("pointerdown", ev => techScrub(ev));
