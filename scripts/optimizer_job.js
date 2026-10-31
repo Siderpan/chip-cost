@@ -253,13 +253,13 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   if (reco.cfg) { if (reco.items.length) addRecs("main", reco.cfg, reco.items); else if (reco.alt) addRecs("main", reco.alt.cfg, reco.alt.items); }
   reco.tiers.forEach((T, ti) => { if (T.cfg) addRecs("t" + ti, T.cfg, T.items); });
   const gIdx = new Map(dates.map((d, g) => [d, g])), liveFromD = recs.length ? recs[0].d : asOf, gLive = gIdx.get(liveFromD);
-  const trades = [], pend = []; let unfilled = 0;
+  const trades = [], pend = [], miss = []; let unfilled = 0;
   for (const rc of recs) {
     const g = gIdx.get(rc.d), a = A[rc.c]; if (g == null || !a) continue;
     const par = { e: rc.e, H: rc.H, tp: rc.tp, sl: rc.sl, tr: rc.tr, x: rc.x || 0 };
     if (sim(a, g, par, last, rc.c, rc.s)) trades.push({ gr: rc.gr, c: rc.c, d: rc.d, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, par, live: true });
     else if (g === last || (rc.e === 1 && g + 3 > last)) pend.push({ gr: rc.gr, c: rc.c, d: rc.d, par });
-    else unfilled++;
+    else { unfilled++; miss.push({ gr: rc.gr, c: rc.c, d: rc.d }); }
   }
   for (const l of wf[Lstar].lots) if (l.g < gLive && l.g >= last - 130) trades.push({ gr: "main", c: l.c, d: dates[l.g], j: l.j, p0: l.p0, x: l.x, px: l.px, why: l.why, par: l.par, live: false });
   const pst = ts => {
@@ -281,7 +281,10 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
     curve: { all: curveOf(trades), live: curveOf(liveT) },
     open: trades.filter(t => t.x < 0).sort((a, b) => b.j - a.j).slice(0, 60).map(rowOf),
     recent: trades.filter(t => t.x >= 0).sort((a, b) => b.x - a.x).slice(0, 30).map(rowOf),
-    pending: pend.map(pendRow)
+    pending: pend.map(pendRow),
+    // 歷史建議追蹤：每一筆推薦（含回補）的結果，最新的在前面。st：open 持有中／sold 已賣出／pend 待買／miss 沒買到
+    hist: [...trades.map(t => { const o = rowOf(t); return { ...o, st: t.x >= 0 ? "sold" : "open" }; }), ...pend.map(q => ({ gr: q.gr, c: q.c, n: names.get(q.c) || "", d: q.d, st: "pend", live: true })), ...miss.map(q => ({ gr: q.gr, c: q.c, n: names.get(q.c) || "", d: q.d, st: "miss", live: true }))]
+      .sort((a, b) => a.d < b.d ? 1 : a.d > b.d ? -1 : 0).slice(0, 600)
   };
   // 8) 點股票看簡易資訊要畫的走勢：推薦股、持有中、待買的最近 80 個交易日收盤價（畫 60 天，多的 20 天用來算月線）
   const NPX = 80, pxCodes = new Set();
