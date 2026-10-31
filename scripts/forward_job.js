@@ -92,21 +92,23 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, prevExt, ext
       const m = metricsAt(metricsOf, stocks.get(c), i, names.get(c) || "");
       if (m) evs.push({ c, m });
     }
-    const rec = {};
+    const rec = {}, lvOf = m => [m.r1 ? r2(m.r1.peak / m.price * 100) / 100 : null, m.s1 ? r2(m.s1.low / m.price * 100) / 100 : null], lv = {};
     for (const k of Object.keys(STRATS)) {
       const pass = evs.map(x => ({ c: x.c, m: x.m, ev: scrEval(x.m, conds[k]) })).filter(x => x.ev.pass).sort((a, b) => b.ev.comb - a.ev.comb || b.ev.score - a.ev.score);
-      rec[k] = { pass: pass.map(x => x.c), top: pass.slice(0, NEED).map(x => ({ c: x.c, rr: x.m.r1 ? r2(x.m.r1.peak / x.m.price * 100) / 100 : null, ss: x.m.s1 ? r2(x.m.s1.low / x.m.price * 100) / 100 : null, k: x.ev.comb })) };
+      rec[k] = { pass: pass.map(x => x.c), top: pass.slice(0, NEED).map(x => { const v = lvOf(x.m); return { c: x.c, rr: v[0], ss: v[1], k: x.ev.comb }; }) };
+      for (const x of pass) lv[x.c] = lvOf(x.m);          // 達標股票的壓力／支撐（相對收盤的比例），給最佳策略的「支撐壓力」賣法用
     }
+    rec.lv = lv;
     return rec;
   };
   for (const d of todo) {
     days[d] = recOf(d);
     if (todo.indexOf(d) % 20 === 0) log(`選股驗證：回補／追加 ${d}（${todo.indexOf(d) + 1} / ${todo.length}）`);
   }
-  // 更早的歷史名單（只存各策略達標的代碼，給「最佳策略」訓練用；不影響上面的驗證統計）。每次最多補 extMax 天，從最近的往前補。
+  // 更早的歷史名單（各策略達標的代碼＋支撐壓力比例，給「最佳策略」訓練用；不影響上面的驗證統計）。每次最多補 extMax 天，從最近的往前補；舊格式（沒有支撐壓力）會重算一次。
   const ext = prevExt || {}, firstDay = Object.keys(days).sort()[0];
-  const before = dates.filter(d => d < firstDay && !ext[d] && codes.some(c => (IX[c].get(d) ?? -1) >= MIN_ROWS)).slice(-extMax);
-  before.forEach((d, n) => { const rec = recOf(d); ext[d] = Object.fromEntries(Object.keys(STRATS).map(k => [k, rec[k].pass])); if (n % 50 === 0) log(`最佳策略：補歷史名單 ${d}（${n + 1} / ${before.length}）`); });
+  const before = dates.filter(d => d < firstDay && !(ext[d] && ext[d].lv) && codes.some(c => (IX[c].get(d) ?? -1) >= MIN_ROWS)).slice(-extMax);
+  before.forEach((d, n) => { const rec = recOf(d); ext[d] = { ...Object.fromEntries(Object.keys(STRATS).map(k => [k, rec[k].pass])), lv: rec.lv }; if (n % 50 === 0) log(`最佳策略：補歷史名單 ${d}（${n + 1} / ${before.length}）`); });
   const liveFrom = prev && prev.liveFrom ? prev.liveFrom : (dates[dates.length - 1]);
   const gOf = new Map(dates.map((d, g) => [d, g])), last = dates.length - 1, dayList = Object.keys(days).sort();
   const accounts = {};
@@ -145,7 +147,10 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, prevExt, ext
   const todayPicks = Object.fromEntries(Object.keys(STRATS).map(k => [k, { n: (lastRec[k] || { pass: [] }).pass.length, top: ((lastRec[k] || { top: [] }).top || []).map(x => ({ c: x.c, n: names.get(x.c) || "", k: x.k })) }]));
   const out = { v: 1, updated: new Date().toISOString(), asOf: dates[last], liveFrom, startDay: dayList[0], strategies: STRATS, policies: POLS, need: NEED, cost: { fee: FEE, tax: TAX }, days, accounts, bench, today: todayPicks };
   const lists = {}; for (const d of Object.keys(ext)) lists[d] = ext[d];
-  for (const d of dayList) lists[d] = Object.fromEntries(Object.keys(STRATS).map(k => [k, days[d][k].pass]));
+  for (const d of dayList) {         // 舊的日子沒有存全部的支撐壓力，就用各策略前三名的
+    const lv = days[d].lv || {}; if (!days[d].lv) for (const k of Object.keys(STRATS)) for (const x of days[d][k].top) lv[x.c] = [x.rr, x.ss];
+    lists[d] = { ...Object.fromEntries(Object.keys(STRATS).map(k => [k, days[d][k].pass])), lv };
+  }
   Object.defineProperty(out, "ctx", { value: { dates, A, lists, names, ext, top: days }, enumerable: false });   // 給最佳策略用，不會寫進 forward.json
   return out;
 }

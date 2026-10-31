@@ -142,7 +142,9 @@ async function main() {
       console.log(`已寫入 forward.json：資料到 ${fw.asOf}，追蹤起點 ${fw.liveFrom}，${Object.keys(fw.days).length} 個交易日。`);
       fs.writeFileSync(extPath, JSON.stringify(fw.ctx.ext));
       try {   // 自動最佳策略：失敗也不影響其他資料
-        const t0 = Date.now(), st = require("./optimizer_job.js").run({ ...fw.ctx, prev: prevSt, prevPaper });
+        let mkt = [];
+        try { mkt = (await getJson("TaiwanStockPrice", { data_id: "TAIEX", start_date: fw.startDay })).map(r => [r.date, r.close]); } catch (e) { console.log("加權指數讀取失敗（對照組先不畫大盤）：" + e.message); }
+        const t0 = Date.now(), st = require("./optimizer_job.js").run({ ...fw.ctx, prev: prevSt, prevPaper, opts: { cmpFrom: fw.startDay, mkt } });
         fs.writeFileSync(stPath, JSON.stringify(st));
         fs.writeFileSync(paperPath, JSON.stringify({ recs: st.paperRecs }));
         console.log(`已寫入 strategy.json：${st.config ? st.config.label : "目前建議空手"}（過去 ${st.lookback} 日，${((Date.now() - t0) / 1000).toFixed(0)} 秒）。`);

@@ -4,6 +4,7 @@
      ‧ 買進時間：隔日開盤買／回檔 1.5% 掛單（3 日內沒成交就取消）／隔日收盤確認不比今天弱才買
      ‧ 賣出時間：最長持有 5、10、20、40、60 個交易日
      ‧ 停利、停損、移動停損（從最高價回落多少就賣）；停損和移動停損至少要設一個，這樣每一檔都有明確的「跌到哪裡就賣」
+     ‧ 另外三種賣法（和「策略驗證」的固定規則一樣）：到壓力價停利／跌破支撐停損、收盤跌破月線、掉出該策略名單
      ‧ 過去時間：用最近 60、120、250、500 個交易日的表現來挑參數，哪一種回頭看最準，就用哪一種
    怎麼避免「事後諸葛」：
      ‧ 走前一步驗證（walk-forward）：每 5 個交易日，只用「當時已經結束的交易」挑出最好的參數，再拿它去做接下來 5 天的新訊號，這些成績才算數。
@@ -17,19 +18,35 @@ const SKEYS = Object.keys(STR);
 const ENTRY = ["隔日開盤買", "回檔 1.5% 掛單", "隔日收盤確認"];
 const KS = [1, 2, 3], HOLDS = [5, 10, 20, 40, 60], TPS = [0, 5, 8, 12, 18, 25], SLS = [0, 3, 5, 7, 10, 15], TRS = [0, 8];
 const LOOKS = [60, 120, 250, 500];
+const RULES = ["", "壓力停利・支撐停損", "跌破月線賣", "掉出名單賣"];
 let NMIN = 20, Z = 2, HYST = 1.3;
-const BLK = 5, NP = 3 * HOLDS.length * TPS.length * SLS.length * TRS.length, NK = KS.length, NS = SKEYS.length, ST = 5;
 const r2 = x => Math.round(x * 100) / 100;
 const netRet = (p0, px) => px * (1 - FEE - TAX) / (p0 * (1 + FEE)) - 1;
 
-// 參數編號 ↔ (買進方式, 最長持有, 停利, 停損, 移動停損)
-const decode = p => { const tr = p % TRS.length; p = (p - tr) / TRS.length; const sl = p % SLS.length; p = (p - sl) / SLS.length; const tp = p % TPS.length; p = (p - tp) / TPS.length; const h = p % HOLDS.length; const e = (p - h) / HOLDS.length; return { e, H: HOLDS[h], tp: TPS[tp], sl: SLS[sl], tr: TRS[tr], h }; };
-const PAR = Array.from({ length: NP }, (_, p) => decode(p));
+// 參數表：(買進方式, 最長持有, 停利, 停損, 移動停損, 賣法 x)
+//   x=0 固定百分比停利停損；x=1 壓力價停利、跌破支撐停損；x=2 收盤跌破月線（可加停利）；x=3 掉出名單（要加停損）
+const PAR = [];
+for (let e = 0; e < 3; e++) for (let h = 0; h < HOLDS.length; h++) {
+  const H = HOLDS[h];
+  for (const tp of TPS) for (const sl of SLS) for (const tr of TRS) PAR.push({ e, H, h, tp, sl, tr, x: 0 });
+  PAR.push({ e, H, h, tp: 0, sl: 0, tr: 0, x: 1 });
+  for (const tp of TPS) PAR.push({ e, H, h, tp, sl: 0, tr: 0, x: 2 });
+  for (const sl of SLS) if (sl) PAR.push({ e, H, h, tp: 0, sl, tr: 0, x: 3 });
+}
+const BLK = 5, NP = PAR.length, NK = KS.length, NS = SKEYS.length, ST = 5;
+const hasStop = par => !!(par.sl || par.tr || par.x === 1 || par.x === 2);   // 每一檔都要有「跌到哪裡（或什麼情況）就賣」
+
+// 每天的名單與支撐壓力（run 開始時設定）：LISTG[g] 那天各策略達標的代碼，LVG[g] 代碼 → [壓力/收盤, 支撐/收盤]
+let LISTG = [], LVG = [];
+const MEMC = new Map();
+const inList = (g, s, code) => { const L = LISTG[g]; if (!L) return true; const k = g + "|" + s; let m = MEMC.get(k); if (!m) { m = new Set(listOf(L, s)); MEMC.set(k, m); } return m.has(code); };
+// 支撐壓力賣法的兩個價：用買進前一天（選股那天）的收盤乘上比例；沒有壓力就 +10%、沒有支撐就 −8%（和策略驗證一樣）
+const srPx = (g, code, cg) => { const lv = LVG[g] && LVG[g][code]; return { tp: cg * (lv && lv[0] >= 1.02 ? lv[0] : 1.10), sl: lv && lv[1] ? cg * lv[1] * 0.99 : cg * 0.92 }; };
 
 // 一張的買賣。成功回傳 true，結果放在 S：j 買進日、p0 買進價、x 賣出日（-1 還沒賣）、px 賣出價（沒賣就是最後收盤）、why 原因
 const S = { j: 0, p0: 0, x: -1, px: 0, why: "" };
-function sim(a, g, par, last) {
-  const o = a.o, c = a.c, hi = a.hi, lo = a.lo, re = a.real;
+function sim(a, g, par, last, code, strat) {
+  const o = a.o, c = a.c, hi = a.hi, lo = a.lo, re = a.real, ma = a.ma, x = par.x || 0;
   let j, p0, t0;
   if (par.e === 0) { j = g + 1; if (j > last || o[j] == null || !re[j]) return false; p0 = o[j]; t0 = j; }
   else if (par.e === 1) {
@@ -37,21 +54,28 @@ function sim(a, g, par, last) {
     for (let k = g + 1; k <= g + 3 && k <= last; k++) { if (o[k] == null || !re[k]) continue; if (o[k] <= lim) { f = k; p0 = o[k]; break; } if (lo[k] <= lim) { f = k; p0 = lim; break; } }
     if (f < 0) return false; j = f; t0 = j;
   } else { j = g + 1; if (j > last || c[j] == null || !re[j] || c[g] == null || c[j] < c[g]) return false; p0 = c[j]; t0 = j + 1; }
-  const tpP = par.tp ? p0 * (1 + par.tp / 100) : 0, slP = par.sl ? p0 * (1 - par.sl / 100) : 0, tk = par.tr ? 1 - par.tr / 100 : 0, end = j + par.H;
+  let tpP = par.tp ? p0 * (1 + par.tp / 100) : 0, slP = par.sl ? p0 * (1 - par.sl / 100) : 0;
+  if (x === 1) { const v = srPx(g, code, c[g]); tpP = v.tp; slP = v.sl; }
+  const tk = par.tr ? 1 - par.tr / 100 : 0, end = j + par.H;
   let peak = p0;
   S.j = j; S.p0 = p0;
   for (let t = t0; t <= last && t <= end; t++) {
     if (t === end) { S.x = t; S.px = o[t]; S.why = "時間到"; return true; }
     let stop = slP; if (tk) { const ts = peak * tk; if (ts > stop) stop = ts; }
     if (stop > 0) {
-      if (o[t] <= stop) { S.x = t; S.px = o[t]; S.why = slP && stop === slP ? "停損" : "移動停損"; return true; }
-      if (lo[t] <= stop) { S.x = t; S.px = stop; S.why = slP && stop === slP ? "停損" : "移動停損"; return true; }
+      if (o[t] <= stop) { S.x = t; S.px = o[t]; S.why = slP && stop === slP ? (x === 1 ? "跌破支撐" : "停損") : "移動停損"; return true; }
+      if (lo[t] <= stop) { S.x = t; S.px = stop; S.why = slP && stop === slP ? (x === 1 ? "跌破支撐" : "停損") : "移動停損"; return true; }
     }
     if (tpP) {
-      if (o[t] >= tpP) { S.x = t; S.px = o[t]; S.why = "停利"; return true; }
-      if (hi[t] >= tpP) { S.x = t; S.px = tpP; S.why = "停利"; return true; }
+      if (o[t] >= tpP) { S.x = t; S.px = o[t]; S.why = x === 1 ? "到壓力停利" : "停利"; return true; }
+      if (hi[t] >= tpP) { S.x = t; S.px = tpP; S.why = x === 1 ? "到壓力停利" : "停利"; return true; }
     }
     if (hi[t] > peak) peak = hi[t];
+    // 收盤後才判斷的賣法：隔天開盤賣
+    if (t + 1 <= last && t > j && o[t + 1] != null) {
+      if (x === 2 && ma && ma[t] != null && c[t] < ma[t]) { S.x = t + 1; S.px = o[t + 1]; S.why = "跌破月線"; return true; }
+      if (x === 3 && !inList(t, strat, code)) { S.x = t + 1; S.px = o[t + 1]; S.why = "掉出名單"; return true; }
+    }
   }
   S.x = -1; S.px = c[last]; S.why = "";
   return true;
@@ -71,11 +95,18 @@ function consOf(L) {
 const listOf = (L, s) => s === "cons" ? consOf(L) : (L[s] || []);
 
 const comboOf = (s, k, p) => (s * NK + k) * NP + p;
-const label = cf => `${STR[cf.strat]}前 ${cf.K} 名・${ENTRY[cf.e]}・停利 ${cf.tp ? cf.tp + "%" : "不設"}・停損 ${cf.sl ? cf.sl + "%" : "不設"}・移動停損 ${cf.tr ? cf.tr + "%" : "不設"}・最長持有 ${cf.H} 日`;
+const label = cf => {
+  const head = `${STR[cf.strat]}前 ${cf.K} 名・${ENTRY[cf.e]}`, tail = `最長持有 ${cf.H} 日`;
+  if (cf.x === 1) return `${head}・到壓力價停利・跌破支撐停損・${tail}`;
+  if (cf.x === 2) return `${head}・停利 ${cf.tp ? cf.tp + "%" : "不設"}・收盤跌破月線賣・${tail}`;
+  if (cf.x === 3) return `${head}・停損 ${cf.sl}%・掉出名單賣・${tail}`;
+  return `${head}・停利 ${cf.tp ? cf.tp + "%" : "不設"}・停損 ${cf.sl ? cf.sl + "%" : "不設"}・移動停損 ${cf.tr ? cf.tr + "%" : "不設"}・${tail}`;
+};
 
 function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   NMIN = opts.nmin || 20; Z = opts.z == null ? 2 : opts.z; HYST = opts.hyst == null ? 1.3 : opts.hyst;
   const last = dates.length - 1, nb = Math.floor(last / BLK) + 2, stride = nb * ST;
+  LISTG = dates.map(d => lists[d] || null); LVG = LISTG.map(L => (L && L.lv) || null); MEMC.clear();
   const pickDays = dates.map((d, g) => lists[d] ? g : -1).filter(g => g >= 0);
   if (pickDays.length < 200) throw new Error("可用的選股紀錄不到 200 天，先不做最佳化（需要先補足歷史名單）。");
   const firstG = pickDays[0];
@@ -88,7 +119,7 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
     for (let r = 0; r < cs.length; r++) {
       const a = A[cs[r]]; if (!a) continue;
       for (let p = 0; p < NP; p++) {
-        if (!sim(a, g, PAR[p], last) || S.x < 0) continue;
+        if (!sim(a, g, PAR[p], last, cs[r], SKEYS[si]) || S.x < 0) continue;
         const rr = netRet(S.p0, S.px), hold = Math.max(1, S.x - S.j), w = rr > 0 ? 1 : 0;
         for (let k = r; k < NK; k++) { const i = comboOf(si, k, p) * stride + b * ST; cum[i] += 1; cum[i + 1] += rr; cum[i + 2] += rr * rr; cum[i + 3] += hold; cum[i + 4] += w; }
       }
@@ -103,7 +134,7 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
     for (let h = 0; h < HOLDS.length; h++) {
       const ub = Math.min(nb - 1, Math.floor((t - (HOLDS[h] + 4) + 1) / BLK)); if (ub <= lb) continue;
       for (let p = 0; p < NP; p++) {
-        if (PAR[p].h !== h || !(PAR[p].sl || PAR[p].tr)) continue;   // 一定要有停損價（停損或移動停損），才給得出「跌到哪裡賣」
+        if (PAR[p].h !== h || !hasStop(PAR[p])) continue;   // 一定要有停損條件，才給得出「跌到哪裡賣」
         for (let si = 0; si < NS; si++) for (let k = 0; k < NK; k++) {
           const st = statOf(comboOf(si, k, p), lb, ub); if (!st || st.n < NMIN) continue;
           const mean = st.sum / st.n; if (mean <= 0) continue;
@@ -118,7 +149,7 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   };
   // 指定某一組參數，算它在 t 這天的分數（用來判斷「現有的參數要不要換」）
   const scoreOne = (c, t, L) => {
-    if (!(PAR[c.p].sl || PAR[c.p].tr)) return null;
+    if (!hasStop(PAR[c.p])) return null;
     const lb = Math.max(0, Math.ceil((t - L) / BLK)), h = PAR[c.p].h, ub = Math.min(nb - 1, Math.floor((t - (HOLDS[h] + 4) + 1) / BLK)); if (ub <= lb) return null;
     const st = statOf(comboOf(c.si, c.k, c.p), lb, ub); if (!st || st.n < NMIN) return null;
     const mean = st.sum / st.n; if (mean <= 0) return null;
@@ -139,7 +170,7 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
       for (let g = t; g < t + BLK && g <= last; g++) {
         if (!lotsBy[g]) continue;
         const cs = lotsBy[g][cf.strat].slice(0, cf.K);
-        for (const c of cs) { const a = A[c]; if (!a || !sim(a, g, par, last)) continue; wf[L].lots.push({ c, g, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, train: best.mean, par }); }
+        for (const c of cs) { const a = A[c]; if (!a || !sim(a, g, par, last, c, cf.strat)) continue; wf[L].lots.push({ c, g, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, train: best.mean, par }); }
       }
     }
   }
@@ -176,7 +207,7 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   for (const x of hist) { if (!x.best) { mix.strat["空手"] = (mix.strat["空手"] || 0) + 1; continue; } const cf = cfOf(x.best); mix.strat[STR[cf.strat]] = (mix.strat[STR[cf.strat]] || 0) + 1; mix.H[cf.H] = (mix.H[cf.H] || 0) + 1; mix.e[ENTRY[cf.e]] = (mix.e[ENTRY[cf.e]] || 0) + 1; }
   const history = []; let prevLab = null;       // 只記「換了參數」的那幾次
   for (const x of hist) { const lab = x.best ? label(cfOf(x.best)) : ""; if (lab !== prevLab) history.push({ d: dates[Math.min(last, x.t)], cf: lab, idle: !x.best }); prevLab = lab; }
-  const cfOut = c => { const cf = cfOf(c); return { ...cf, strat: cf.strat, stratName: STR[cf.strat], eName: ENTRY[cf.e], label: label(cf), n: c.n, avg: r2(c.mean * 100), win: r2(c.win * 100), hold: r2(c.hold), day: r2(c.mean / Math.max(c.hold, 2) * 100 * 100) / 100, score: r2(c.score * 10000) / 100 }; };
+  const cfOut = c => { const cf = cfOf(c); return { ...cf, strat: cf.strat, stratName: STR[cf.strat], eName: ENTRY[cf.e], xName: RULES[cf.x || 0], label: label(cf), n: c.n, avg: r2(c.mean * 100), win: r2(c.win * 100), hold: r2(c.hold), day: r2(c.mean / Math.max(c.hold, 2) * 100 * 100) / 100, score: r2(c.score * 10000) / 100 }; };
   // 5) 今日建議
   const lastL = lists[dates[last]] || null, asOf = dates[last];
   const planFor = (c, pred, maxN) => {
@@ -188,7 +219,11 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
       const base = par.e === 1 ? rt(close * 0.985, -1) : close;
       const buy = par.e === 0 ? { kind: "隔日開盤買", text: `明天開盤市價買進（參考價約 ${close}）`, price: close } : par.e === 1 ? { kind: "掛單", text: `掛限價 ${base} 買進，3 個交易日內沒成交就取消`, price: base } : { kind: "收盤確認", text: `明天收盤前確認價格不低於 ${close} 再買進`, price: close };
       const votes = ["rise", "steady", "dip", "trend"].filter(s => lastL && (lastL[s] || []).includes(code)).length;   // 同時被幾種策略選中
-      items.push({ c: code, n: names.get(code) || "", close, rank: all.indexOf(code) + 1, of: all.length, votes, buy, tp: par.tp ? { pct: par.tp, price: rt(base * (1 + par.tp / 100), 1) } : null, sl: par.sl ? { pct: par.sl, price: rt(base * (1 - par.sl / 100), -1) } : null, tr: par.tr ? { pct: par.tr, price: rt(base * (1 - par.tr / 100), -1) } : null, exitBy: addBiz(asOf, par.H + (par.e === 1 ? 3 : 1)), H: par.H, rr: tp && tp.rr ? r2(close * tp.rr) : null, ss: tp && tp.ss ? r2(close * tp.ss) : null });
+      let tpI = par.tp ? { pct: par.tp, price: rt(base * (1 + par.tp / 100), 1) } : null, slI = par.sl ? { pct: par.sl, price: rt(base * (1 - par.sl / 100), -1) } : null, rule = null;
+      if (par.x === 1) { const v = srPx(last, code, close); tpI = { pct: r2((v.tp / base - 1) * 100), price: rt(v.tp, 1), kind: "壓力" }; slI = { pct: r2((1 - v.sl / base) * 100), price: rt(v.sl, -1), kind: "支撐" }; }
+      if (par.x === 2) rule = { kind: "ma20", text: `收盤跌破月線${a.ma && a.ma[last] != null ? `（目前約 ${r2(a.ma[last])}）` : ""}，隔天開盤賣` };
+      if (par.x === 3) rule = { kind: "drop", text: `掉出「${STR[cf.strat]}」名單，隔天開盤賣` };
+      items.push({ c: code, n: names.get(code) || "", close, rank: all.indexOf(code) + 1, of: all.length, votes, buy, tp: tpI, sl: slI, rule, tr: par.tr ? { pct: par.tr, price: rt(base * (1 - par.tr / 100), -1) } : null, exitBy: addBiz(asOf, par.H + (par.e === 1 ? 3 : 1)), H: par.H, rr: tp && tp.rr ? r2(close * tp.rr) : null, ss: tp && tp.ss ? r2(close * tp.ss) : null });
     }
     return items;
   };
@@ -214,15 +249,15 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   //    實際追蹤之前的部分，用「走前一步驗證」那些主推薦的單子回補近半年，讓一開始就有樣本可以看。
   const GR = { main: "主推薦", t0: "100 元以下", t1: "300 元以下", t2: "600 元以下", t3: "600 元以上" }, PER = 100000;
   const recs = (prevPaper || []).slice(), have = new Set(recs.filter(x => x.d === asOf).map(x => x.gr + "|" + x.c));
-  const addRecs = (gr, cfg, items) => { for (const it of items) { const k = gr + "|" + it.c; if (have.has(k)) continue; have.add(k); recs.push({ d: asOf, gr, c: it.c, e: cfg.e, H: cfg.H, tp: cfg.tp, sl: cfg.sl, tr: cfg.tr }); } };
+  const addRecs = (gr, cfg, items) => { for (const it of items) { const k = gr + "|" + it.c; if (have.has(k)) continue; have.add(k); recs.push({ d: asOf, gr, c: it.c, e: cfg.e, H: cfg.H, tp: cfg.tp, sl: cfg.sl, tr: cfg.tr, x: cfg.x || 0, s: cfg.strat }); } };
   if (reco.cfg) { if (reco.items.length) addRecs("main", reco.cfg, reco.items); else if (reco.alt) addRecs("main", reco.alt.cfg, reco.alt.items); }
   reco.tiers.forEach((T, ti) => { if (T.cfg) addRecs("t" + ti, T.cfg, T.items); });
   const gIdx = new Map(dates.map((d, g) => [d, g])), liveFromD = recs.length ? recs[0].d : asOf, gLive = gIdx.get(liveFromD);
   const trades = [], pend = []; let unfilled = 0;
   for (const rc of recs) {
     const g = gIdx.get(rc.d), a = A[rc.c]; if (g == null || !a) continue;
-    const par = { e: rc.e, H: rc.H, tp: rc.tp, sl: rc.sl, tr: rc.tr };
-    if (sim(a, g, par, last)) trades.push({ gr: rc.gr, c: rc.c, d: rc.d, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, par, live: true });
+    const par = { e: rc.e, H: rc.H, tp: rc.tp, sl: rc.sl, tr: rc.tr, x: rc.x || 0 };
+    if (sim(a, g, par, last, rc.c, rc.s)) trades.push({ gr: rc.gr, c: rc.c, d: rc.d, j: S.j, p0: S.p0, x: S.x, px: S.px, why: S.why, par, live: true });
     else if (g === last || (rc.e === 1 && g + 3 > last)) pend.push({ gr: rc.gr, c: rc.c, d: rc.d, par });
     else unfilled++;
   }
@@ -236,8 +271,10 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   const grStats = ts => Object.fromEntries(Object.keys(GR).map(k => [k, pst(ts.filter(t => t.gr === k))]));
   const liveT = trades.filter(t => t.live);
   const curveOf = ts => { const o = []; if (!ts.length) return o; const g0 = Math.min(...ts.map(t => t.j)); for (let g = g0; g <= last; g++) { let s = 0, n = 0; for (const t of ts) { if (t.j > g) continue; n++; s += netRet(t.p0, t.x >= 0 && t.x <= g ? t.px : A[t.c].c[g]); } if (n >= 3) o.push([dates[g], r2(s / n * 100)]); } return o; };
-  const rowOf = t => { const close = A[t.c].c[last], px = t.x >= 0 ? t.px : close; return { gr: t.gr, c: t.c, n: names.get(t.c) || "", d: t.d, b: dates[t.j], p0: r2(t.p0), x: t.x >= 0 ? dates[t.x] : "", px: r2(px), r: r2(netRet(t.p0, px) * 100), w: t.why || "", live: t.live, tp: t.par.tp ? rt(t.p0 * (1 + t.par.tp / 100), 1) : null, sl: t.par.sl ? rt(t.p0 * (1 - t.par.sl / 100), -1) : null, by: t.x < 0 ? addBiz(dates[t.j], t.par.H) : "", days: (t.x >= 0 ? t.x : last) - t.j }; };
-  const pendRow = p => { const close = A[p.c].c[last], base = p.par.e === 1 ? rt(close * 0.985, -1) : close; return { gr: p.gr, c: p.c, n: names.get(p.c) || "", d: p.d, close, kind: p.par.e === 0 ? "開盤買" : p.par.e === 1 ? "掛單買" : "收盤確認買", buy: base, tp: p.par.tp ? rt(base * (1 + p.par.tp / 100), 1) : null, sl: p.par.sl ? rt(base * (1 - p.par.sl / 100), -1) : null, H: p.par.H }; };
+  const exitOf = (par, code, d, base) => { if (par.x === 1) { const g = gIdx.get(d), v = srPx(g, code, A[code].c[g]); return { tp: rt(v.tp, 1), sl: rt(v.sl, -1) }; } return { tp: par.tp ? rt(base * (1 + par.tp / 100), 1) : null, sl: par.sl ? rt(base * (1 - par.sl / 100), -1) : null }; };
+  const ruleTxt = par => par.x === 2 ? "跌破月線賣" : par.x === 3 ? "掉出名單賣" : "";
+  const rowOf = t => { const close = A[t.c].c[last], px = t.x >= 0 ? t.px : close, ex = exitOf(t.par, t.c, t.d, t.p0); return { gr: t.gr, c: t.c, n: names.get(t.c) || "", d: t.d, b: dates[t.j], p0: r2(t.p0), x: t.x >= 0 ? dates[t.x] : "", px: r2(px), r: r2(netRet(t.p0, px) * 100), w: t.why || "", live: t.live, tp: ex.tp, sl: ex.sl, rule: ruleTxt(t.par), by: t.x < 0 ? addBiz(dates[t.j], t.par.H) : "", days: (t.x >= 0 ? t.x : last) - t.j }; };
+  const pendRow = p => { const close = A[p.c].c[last], base = p.par.e === 1 ? rt(close * 0.985, -1) : close, ex = exitOf(p.par, p.c, p.d, base); return { gr: p.gr, c: p.c, n: names.get(p.c) || "", d: p.d, close, kind: p.par.e === 0 ? "開盤買" : p.par.e === 1 ? "掛單買" : "收盤確認買", buy: base, tp: ex.tp, sl: ex.sl, rule: ruleTxt(p.par), H: p.par.H }; };
   const paper = {
     from: liveFromD, per: PER, groups: GR, unfilled,
     stat: { all: { total: pst(trades), groups: grStats(trades) }, live: { total: pst(liveT), groups: grStats(liveT) } },
@@ -251,6 +288,22 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
   for (const it of [...reco.items, ...(reco.alt ? reco.alt.items : []), ...reco.tiers.flatMap(T => T.items)]) pxCodes.add(it.c);
   for (const x of [...paper.open, ...paper.pending]) pxCodes.add(x.c);
   const px = {}; for (const c of pxCodes) if (A[c]) px[c] = A[c].c.slice(-NPX).map(v => v == null ? null : r2(v));
+  // 9) 對照組：從「策略驗證」的起點開始，最佳策略實戰單子的累積報酬（總損益 ÷ 總投入，和策略驗證同一種算法），以及加權指數
+  let cmp = null;
+  if (opts.cmpFrom) {
+    const gF = dates.findIndex(d => d >= opts.cmpFrom);
+    if (gF >= 0) {
+      const ls = wf[Lstar].lots.filter(l => l.g >= gF), oc = [];
+      for (let g = gF; g <= last; g++) {
+        let cost = 0, pnl = 0;
+        for (const l of ls) { if (l.j > g) continue; const c0 = l.p0 * (1 + FEE), p = l.x >= 0 && l.x <= g ? l.px : A[l.c].c[g]; cost += c0; pnl += p * (1 - FEE - TAX) - c0; }
+        if (cost) oc.push([dates[g], r2(pnl / cost * 100)]);
+      }
+      const mk = new Map(opts.mkt || []), mc = []; let b0 = null;
+      for (let g = gF; g <= last; g++) { const v = mk.get(dates[g]); if (v == null) continue; if (b0 == null) b0 = v; mc.push([dates[g], r2((v / b0 - 1) * 100)]); }
+      cmp = { from: dates[gF], oos: oc, oosStat: summ(ls), mkt: mc };
+    }
+  }
   // 6) 紀錄參數有沒有換（每天整份重算，但換了就留一筆）
   const log = prev && prev.log ? prev.log.slice() : [];
   const curLabel = now ? label(cfOf(now)) : "空手";
@@ -259,11 +312,11 @@ function run({ dates, A, lists, names, prev, prevPaper, top, opts = {} }) {
     v: 1, updated: new Date().toISOString(), asOf, range: { from: dates[firstG], to: asOf, days: pickDays.length }, lookback: Lstar,
     config: reco.cfg, reco, top: topCfg, byL,
     oos: { ...byL[Lstar], curve, from: dates[tStart], mix, history: history.slice(-10) },
-    log: log.slice(-40), grid: { combos: NS * NK * NP, strategies: SKEYS.map(s => STR[s]) }, paper, pxDates: dates.slice(-NPX), px
+    log: log.slice(-40), grid: { combos: NS * NK * NP, strategies: SKEYS.map(s => STR[s]), rules: RULES.slice(1) }, paper, cmp, pxDates: dates.slice(-NPX), px
   };
   Object.defineProperty(out, "paperRecs", { value: recs, enumerable: false });   // 給下次夜間排程接著用，存成 paper.json
   return out;
 }
 
-if (typeof module !== "undefined") module.exports = { run, STR, ENTRY };
-else if (typeof window !== "undefined") window.OPTIMIZER = { run, STR, ENTRY };
+if (typeof module !== "undefined") module.exports = { run, STR, ENTRY, RULES };
+else if (typeof window !== "undefined") window.OPTIMIZER = { run, STR, ENTRY, RULES };
