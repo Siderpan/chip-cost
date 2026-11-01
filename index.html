@@ -1085,6 +1085,13 @@ html[data-layout="ios"] .brand h1, html[data-layout="android"] .brand h1 { font-
 .hsRow .nm { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; min-width: 0; } .hsRow .nm b { font-size: .9rem; } .hsRow .nm code { font: 400 .7rem var(--font-num); color: var(--muted); } .hsRow .nm small { flex-basis: 100%; font-size: .66rem; color: var(--muted); }
 .hsSt { padding: 2px 7px; border-radius: 4px; font-size: .68rem; font-weight: 600; white-space: nowrap; background: color-mix(in srgb, var(--muted) 14%, transparent); color: var(--muted); } .hsSt.op { background: color-mix(in srgb, var(--profit) 14%, transparent); color: var(--profit); } .hsSt.pd { border: 1px dashed var(--profit); background: none; color: var(--profit); } .hsSt.wn { background: color-mix(in srgb, var(--bull) 13%, transparent); color: var(--bull); } .hsSt.ls { background: color-mix(in srgb, var(--bear) 13%, transparent); color: var(--bear); }
 .hsR { display: flex; align-items: center; justify-content: flex-end; gap: 6px; } .hsR .bar { width: 40px; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; } .hsR .bar i { display: block; height: 100%; } .hsR .bar i.u { background: var(--bull); } .hsR .bar i.d { background: var(--bear); } .hsR b { font: 700 .86rem var(--font-num); min-width: 4.2em; text-align: right; } .hsR b.up { color: var(--bull); } .hsR b.dn { color: var(--bear); } .hsR b.mu { color: var(--muted); }
+.tkStr { padding: 0 6px; border-radius: 3px; font: 600 .64rem var(--font-ui); color: var(--bull); border: 1px solid color-mix(in srgb, var(--bull) 50%, transparent); white-space: nowrap; }
+.tkSz { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; margin-top: 8px; font-size: .78rem; color: var(--muted); } .tkSz b { font: 700 .9rem var(--font-num); color: var(--ink); } .tkSz span { margin-left: auto; padding: 0 6px; border-radius: 3px; font-size: .66rem; background: color-mix(in srgb, var(--muted) 14%, transparent); } .tkSz span.up { color: var(--bull); background: color-mix(in srgb, var(--bull) 12%, transparent); } .tkSz span.dn { color: var(--bear); background: color-mix(in srgb, var(--bear) 12%, transparent); }
+.secBox { padding: 10px 14px; } .secBox .t { font-size: .84rem; font-weight: 700; } .secBox .t small { margin-left: 8px; font-size: .68rem; font-weight: 400; color: var(--muted); } .secBox .ch { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; } .secBox .ch span { display: inline-flex; gap: 6px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--line); font-size: .74rem; color: var(--muted); } .secBox .ch span.s { color: var(--ink); border-color: color-mix(in srgb, var(--bull) 45%, var(--line)); background: color-mix(in srgb, var(--bull) 7%, transparent); } .secBox .ch b { font-family: var(--font-num); } .secBox .ch b.up { color: var(--bull); } .secBox .ch b.dn { color: var(--bear); }
+.mkBox { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 14px; border-left: 4px solid var(--muted); } .mkBox.bull { border-left-color: var(--bull); } .mkBox.bear { border-left-color: var(--bear); }
+.mkL { display: flex; align-items: baseline; gap: 8px; } .mkL small { font-size: .7rem; color: var(--muted); } .mkL b { font: 700 1.2rem var(--font-num); } .mkL em { font-style: normal; font-weight: 700; padding: 1px 8px; border-radius: 4px; font-size: .78rem; background: color-mix(in srgb, var(--muted) 15%, transparent); } .mkBox.bull .mkL em { color: var(--bull); background: color-mix(in srgb, var(--bull) 12%, transparent); } .mkBox.bear .mkL em { color: var(--bear); background: color-mix(in srgb, var(--bear) 12%, transparent); }
+.mkC { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: .76rem; } .mkC span { display: inline-flex; align-items: center; gap: 4px; } .mkC i { font-style: normal; font-weight: 700; } .mkC .ok i { color: var(--bull); } .mkC .no { color: var(--muted); } .mkC .no i { color: var(--bear); }
+.trCfg .ch span.mk { border-color: var(--profit); color: var(--profit); } .mkOff { padding: 12px 14px; border-left: 4px solid var(--bear); } .mkOff b { font-size: .95rem; } .mkOff p { margin: 4px 0 0; font-size: .8rem; color: var(--muted); }
 .rlCard { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; } .rlSum { font-size: .9rem; } .rlSum b { font: 700 1.05rem var(--font-num); color: var(--profit); }
 .rlG { padding: 10px 12px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--trapped) 45%, var(--line)); background: color-mix(in srgb, var(--trapped) 7%, var(--surface)); } .rlG.solo { border-color: color-mix(in srgb, var(--bear) 40%, var(--line)); background: color-mix(in srgb, var(--bear) 6%, var(--surface)); }
 .rlTop { display: flex; align-items: center; gap: 10px; } .rlIc { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--trapped); color: #fff; font-weight: 700; } .rlIc.ok { background: var(--bear); }
@@ -1424,8 +1431,8 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
     <div class="gSec" id="g-screen">
       <details class="gAcc"><summary><h3>篩選器：結合籌碼面和技術面，整理觀察清單</h3><span class="gSum">位置＋技術＋起漲徵兆，找出前 3 檔。</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>哪幾檔「位置舒服、技術面剛轉強」？</b>範圍：45 檔大型股、自選股或最近查過。</p>
-      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選一個範圍</div><div class="ss">內建大型股（45 檔）、我的自選股、最近查過；不用登入</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">點一個風格</div><div class="ss">起漲・穩健・低接・順勢・先看看；條件自動設好，可再用滑桿微調</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看綜合評分最高的前 3 檔</div><div class="ss">沒人完全符合時，改列「最接近的 3 檔」</div></div></div><div class="fcA">再確認</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">籌碼分析、技術分析、回測</div><div class="ss">入選只是起點，請看完整畫面再判斷</div></div></div></div>
+      <p class="gOne">回答：<b>哪幾檔「位置舒服、技術面剛轉強」？</b>範圍：內建約 145 檔大型股、自選股或最近查過。</p>
+      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選一個範圍</div><div class="ss">內建大型股（約 145 檔）、我的自選股、最近查過；不用登入</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">點一個風格</div><div class="ss">起漲・穩健・低接・順勢・先看看；條件自動設好，可再用滑桿微調</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看綜合評分最高的前 3 檔</div><div class="ss">沒人完全符合時，改列「最接近的 3 檔」</div></div></div><div class="fcA">再確認</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">籌碼分析、技術分析、回測</div><div class="ss">入選只是起點，請看完整畫面再判斷</div></div></div></div>
       <h4 class="odH">起漲徵兆（7 項，符合越多越像剛起漲）</h4>
       <div class="gChk"><div><i>1</i><div><b>站上月線</b><span>收盤在 20 日線之上，而且 20 日線沒有往下</span></div></div><div><i>2</i><div><b>剛轉強</b><span>10 天內 MA20 剛上穿 MA60，或股價剛站回 20 日線</span></div></div><div><i>3</i><div><b>動能轉強</b><span>5 天內 MACD 柱狀剛由負轉正，或 K 剛上穿 D</span></div></div><div><i>4</i><div><b>量能放大</b><span>近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲</span></div></div><div><i>5</i><div><b>尚未過熱</b><span>RSI 低於 70，而且離 60 天低點漲幅不到 30%</span></div></div><div><i>6</i><div><b>籌碼位置舒服</b><span>位置評分 60 分以上</span></div></div><div><i>7</i><div><b>上方有空間</b><span>最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力</span></div></div></div>
       <p class="gLead">綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%（組成圖在「這套系統在做什麼」）。</p>
@@ -2309,7 +2316,7 @@ const GLOSS = {
     calc: "風險報酬比 = (目標價 ÷ 現價 − 1) ÷ (1 − 停損價 ÷ 現價)。算法和回測頁一致。" },
   screenRules: { t: "篩選器怎麼運作",
     def: "從你選的候選範圍裡，逐檔算出三種分數：位置評分（籌碼面）、技術評分（技術面）、起漲徵兆（七項檢查），合成綜合評分。留下同時符合你條件的股票，預設依綜合評分由高到低，取前 3 檔。",
-    read: ["<b>五種風格</b>：起漲（剛轉強、還沒過熱、位置舒服）、穩健、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是系統內建的 45 檔大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "<b>大型股不耗你的額度</b>：系統每天凌晨（約 3 點）會先把內建大型股分析好存起來，所有會員共用。自選股和最近查過的股票如果不在這份名單內，才需要自己查詢。"],
+    read: ["<b>五種風格</b>：起漲（剛轉強、還沒過熱、位置舒服）、穩健、低接（貼近支撐）、順勢（多頭趨勢）、先看看（幾乎不設限）。點下去會自動設好條件，也可以再微調。", "<b>沒有任何一檔符合時</b>，會改列「最接近的 3 檔」，並標出各自哪幾個條件沒過。", "候選範圍是系統內建約 145 檔大型股、你的自選股，或最近查過的股票；不是全市場，因為免費資料源的查詢次數有限。", "<b>大型股不耗你的額度</b>：系統每天凌晨（約 3 點）會先把內建大型股分析好存起來，所有會員共用。自選股和最近查過的股票如果不在這份名單內，才需要自己查詢。"],
     calc: "綜合評分 ＝ 位置評分 × 40% ＋ 技術評分 × 40% ＋ 起漲徵兆（符合項數 ÷ 7 × 100）× 20%。位置評分和「籌碼分析」頁是同一套（成本面 30、下方支撐 35、上方空間 35）。" },
   techScoreT: { t: "技術評分",
     def: "把這檔股票現在的技術面狀態，換算成 0～100 分：分數越高，代表趨勢、動能、量價整體越偏強。",
@@ -4003,21 +4010,28 @@ function admOpt() {
     const lo = Math.min(sl || b * 0.9, it.close, b), hi = Math.max(tp || b * 1.1, it.close, b), pos = v => ((v - lo) / (hi - lo || 1) * 100).toFixed(1);
     const slLab = it.sl ? (it.sl.kind ? "跌破支撐" : "停損") : it.tr ? "移動停損" : it.rule ? (it.rule.kind === "ma20" ? "跌破月線" : "掉出名單") : "停損";
     return `<div class="tk${big ? " big" : ""}" data-stk="${k}" role="button" tabindex="0">
-      <div class="tkH"><b>${esc(it.n)}</b><code>${esc(it.c)}</code>${indTag(it.c)}<span class="sp"></span>${rkTag(it)}${it.votes > 1 ? `<em class="vt2" title="${it.votes} 種策略同時選中">${it.votes} 策略同選</em>` : ""}</div>
+      <div class="tkH"><b>${esc(it.n)}</b><code>${esc(it.c)}</code>${indTag(it.c)}${it.strong ? `<span class="tkStr">強勢類股</span>` : ""}<span class="sp"></span>${rkTag(it)}${it.votes > 1 ? `<em class="vt2" title="${it.votes} 種策略同時選中">${it.votes} 策略同選</em>` : ""}</div>
       ${big ? `<div class="tkAct"><i>買</i>${esc(it.buy.text)}</div>` : ""}
+      ${it.size ? `<div class="tkSz">建議買 <b>${it.size.shares.toLocaleString("en-US")}</b> 股・約 <b>${(it.size.amt / 1e4).toFixed(1)}</b> 萬<span class="${it.size.f > 1.15 ? "up" : it.size.f < 0.85 ? "dn" : ""}">${it.size.f > 1.15 ? "波動小・多買" : it.size.f < 0.85 ? "波動大・少買" : "標準部位"}</span></div>` : ""}
       <div class="tkBar"><span class="seg dn" style="left:${sl ? pos(sl) : 0}%;right:${(100 - pos(b)).toFixed(1)}%"></span><span class="seg up" style="left:${pos(b)}%;right:${tp ? (100 - pos(tp)).toFixed(1) : 0}%"></span>${sl ? `<span class="pt dn" style="left:${pos(sl)}%"></span>` : ""}<span class="pt by" style="left:${pos(b)}%"></span>${tp ? `<span class="pt up" style="left:${pos(tp)}%"></span>` : ""}<span class="cur" style="left:${pos(it.close)}%" title="收盤 ${px(it.close)}"></span></div>
-      <div class="tkV"><div class="dn"><small>${slLab}</small><b>${sl ? px(sl) : it.rule ? "隔日賣" : "—"}</b><em>${it.sl ? "−" + it.sl.pct + "%" : ""}</em></div><div class="by"><small>${buyTxt(it)}</small><b>${px(b)}</b><em>收盤 ${px(it.close)}</em></div><div class="up"><small>${it.tp ? (it.tp.kind ? "到壓力停利" : "停利") : "參考目標"}</small><b>${tp ? px(tp) : "—"}</b><em>${it.tp ? "+" + it.tp.pct + "%" : ""}</em></div></div>
-      <div class="tkF">最晚 ${md(it.exitBy)} 開盤賣${it.rule ? "・" + esc(it.rule.text) : ""}</div></div>`;
+      <div class="tkV"><div class="dn"><small>${slLab}</small><b>${sl ? px(sl) : it.rule ? "隔日賣" : "—"}</b><em>${it.sl ? "−" + it.sl.pct + "%" : ""}</em></div><div class="by"><small>${buyTxt(it)}</small><b>${px(b)}</b><em>收盤 ${px(it.close)}</em></div><div class="up"><small>${it.tp ? (it.tp.kind ? "到壓力停利" : "停利") : it.rule && it.rule.kind === "run" ? "不設停利" : "參考目標"}</small><b>${tp ? px(tp) : it.rule && it.rule.kind === "run" ? "讓它跑" : "—"}</b><em>${it.tp ? "+" + it.tp.pct + "%" : ""}</em></div></div>
+      <div class="tkF">最晚 ${md(it.exitBy)} 開盤賣${it.rule ? "・" + esc(it.rule.text) : it.tr ? `・從最高價回落 ${it.tr.pct}% 就賣` : ""}</div></div>`;
   };
-  const x = C ? C.x || 0 : 0;
+  const x = C ? C.x || 0 : 0, MK = O.mkt, mkOn = C && C.m > 0;
+  const mkHtml = MK ? (() => {
+    const s60 = MK.close > MK.ma60, s20 = MK.close > MK.ma20, bull = s60 && s20 && MK.up20, bear = !s60 && !s20;
+    const chk = (ok, t) => `<span class="${ok ? "ok" : "no"}"><i>${ok ? "✓" : "✕"}</i>${t}</span>`;
+    return `<div class="card mkBox ${bull ? "bull" : bear ? "bear" : "mid"}"><div class="mkL"><small>大盤（加權指數）${md(MK.d)}</small><b>${px(MK.close)}</b><em>${bull ? "偏多" : bear ? "偏空" : "整理"}</em></div>
+      <div class="mkC">${chk(s60, `在季線上（${px(Math.round(MK.ma60))}）`)}${chk(s20, `在月線上（${px(Math.round(MK.ma20))}）`)}${chk(MK.up20, "月線上揚")}</div></div>`;
+  })() : "";
   const strip = !C ? `<div class="fwV"><b>目前沒有期望報酬為正的組合</b><p>建議空手，每晚會重新計算。</p></div>`
-    : `<div class="card trCfg"><div class="t">目前策略<small>用過去 ${O.lookback} 日自動選出</small></div><div class="ch"><span><b>${esc(C.stratName)}</b> 前 ${C.K} 名</span><span>${esc(C.eName)}</span><span class="up">停利 ${x === 1 ? "到壓力價" : C.tp ? "+" + C.tp + "%" : "不設"}</span><span class="dn">停損 ${x === 1 ? "跌破支撐" : x === 2 ? "跌破月線" : C.sl ? "−" + C.sl + "%" : "不設"}</span>${C.tr ? `<span>移動停損 ${C.tr}%</span>` : ""}${x === 3 ? `<span>掉出名單就賣</span>` : ""}<span>最長 ${C.H} 日</span></div>
+    : `<div class="card trCfg"><div class="t">目前策略<small>用過去 ${O.lookback} 日自動選出</small></div><div class="ch"><span><b>${esc(C.stratName)}</b> 前 ${C.K} 名</span><span>${esc(C.eName)}</span>${C.rt ? `<span class="mk">只買強勢類股</span>` : ""}<span class="up">停利 ${x === 1 ? "到壓力價" : x === 4 ? `偏多不設（偏弱 +${C.tp}%）` : C.tp ? "+" + C.tp + "%" : "不設"}</span><span class="dn">停損 ${x === 1 ? "跌破支撐" : x === 2 ? "跌破月線" : C.sl ? "−" + C.sl + "%" : "不設"}</span>${C.tr ? `<span>移動停損 ${C.tr}%</span>` : ""}${x === 3 ? `<span>掉出名單就賣</span>` : ""}<span>最長 ${C.H} 日</span><span class="${mkOn ? "mk" : ""}">${esc(C.mkName || "不看大盤")}</span>${C.rt != null && C.K > 1 ? `<span>走勢太像不重複買</span>` : ""}${C.rt != null ? `<span>波動大少買、小多買</span>` : ""}</div>
       ${OS.n ? `<div class="kp"><span>實戰勝率 <b>${OS.win.toFixed(0)}%</b></span><span>平均每筆 <b class="${cl(OS.avg)}">${sg(OS.avg)}%</b></span><span>最差 <b class="dn">${sg(OS.worst)}%</b></span><span><b>${OS.n}</b> 筆</span></div>` : ""}</div>`;
-  const main = !C ? "" : R.items.length ? `<h2>明天買這${R.items.length > 1 ? " " + R.items.length + " 檔" : "一檔"}<small class="fwHint">主推薦・點卡片看走勢</small></h2><div class="tkGrid">${R.items.map(it => card(it, "main", "主推薦", true)).join("")}</div>`
+  const main = !C ? "" : R.mkOff ? `<h2>主推薦</h2><div class="card mkOff"><b>大盤條件不符合，今天空手</b><p>目前策略規定「${esc(C.mkName)}」，大盤轉好後才會出現買進建議。</p></div>` : R.items.length ? `<h2>明天買這${R.items.length > 1 ? " " + R.items.length + " 檔" : "一檔"}<small class="fwHint">主推薦・點卡片看走勢</small></h2><div class="tkGrid">${R.items.map(it => card(it, "main", "主推薦", true)).join("")}</div>`
     : `<h2>主推薦</h2><div class="trNone card">今天沒有達標的股票，建議空手。</div>${R.alt ? `<h2>備選<small class="fwHint">${esc(R.alt.cfg.stratName)}</small></h2><div class="tkGrid">${R.alt.items.map(it => card(it, "alt", "備選", true)).join("")}</div>` : ""}`;
   const RNG = ["<b>100</b> 元以下", "<b>100</b>～<b>300</b> 元", "<b>300</b>～<b>600</b> 元", "<b>600</b> 元以上"];
   const tierHtml = tiers.length ? `<h2>依股價分級<small class="fwHint">每個價位 1～3 檔</small></h2>${tiers.map((T, ti) => `<section class="tkTier t${ti}"><div class="tkTierH"><span class="rg">${RNG[ti] || esc(T.name)}</span>${T.cfg ? `<span class="tg${T.fallback ? " fb" : ""}">${esc(T.cfg.stratName)}${T.fallback ? "・備選策略" : ""}</span>` : ""}${T.hist && T.hist.n ? `<span class="hs">歷史勝率 <b>${T.hist.win.toFixed(0)}%</b>・平均 <b class="${cl(T.hist.avg)}">${sg(T.hist.avg)}%</b></span>` : ""}</div>
-      ${T.items.length ? `<div class="tkGrid">${T.items.map(it => card(it, "t" + ti, T.name, false)).join("")}</div>` : `<div class="trNone">這個價位今天沒有達標的股票</div>`}</section>`).join("")}` : "";
+      ${T.items.length ? `<div class="tkGrid">${T.items.map(it => card(it, "t" + ti, T.name, false)).join("")}</div>` : `<div class="trNone">${R.mkOff ? "大盤條件不符，今天空手" : "這個價位今天沒有達標的股票"}</div>`}</section>`).join("")}` : "";
   // ---------- 推薦股票的關聯：把走勢很像的分成一組，白話說明要不要一起買 ----------
   const codes = [...all.keys()];
   const N = 60, rets = c => { const a = O.px && O.px[c]; if (!a) return null; const v = a.slice(-N - 1), o = []; for (let q = 1; q < v.length; q++) o.push(v[q] != null && v[q - 1] ? v[q] / v[q - 1] - 1 : null); return o; };
@@ -4066,7 +4080,8 @@ function admOpt() {
       <div class="hsTop">${segH("data-hf", hf, [["all", "全部"], ["open", "持有中／待買"], ["sold", "已賣出"]])}</div>
       ${shown.length ? shown.map(g => `<div class="hsDay"><div class="hsD"><b>${md(g.d)}</b><small>${g.rs.length} 筆建議</small></div>${g.rs.map(h => hRow(h, ri++)).join("")}</div>`).join("") : `<div class="trNone">這個條件下沒有紀錄。</div>`}
       ${days.length > showN ? `<button type="button" class="info-link" data-act="hsMore">再顯示 12 天（還有 ${days.length - showN} 天）</button>` : ""}</div>`;
-  return `<div class="fwAsof">資料到 ${esc(O.asOf)} 收盤・明天執行・每晚自動更新</div>${strip}${main}${tierHtml}${rel}${histHtml}`;
+  const secHtml = O.sec && O.sec.length ? `<div class="card secBox"><div class="t">近 20 日類股強弱<small>選股範圍內同產業平均漲幅</small></div><div class="ch">${O.sec.slice(0, 8).map(s => `<span class="${s.strong ? "s" : ""}">${esc(s.k.replace(/(工業|事業|業)$/, ""))}<b class="${cl(s.avg)}">${sg(s.avg)}%</b></span>`).join("")}</div></div>` : "";
+  return `<div class="fwAsof">資料到 ${esc(O.asOf)} 收盤・明天執行・每晚自動更新${O.grid && O.grid.pool ? `・選股範圍 ${O.grid.pool} 檔` : ""}</div>${mkHtml}${secHtml}${strip}${main}${tierHtml}${rel}${histHtml}`;
 }
 function admRender() {
   const el = $("admBody"); if (!el) return;
@@ -6251,7 +6266,7 @@ function simInit() {
 
 /* ---------- 條件篩選器：不預測，只依你設的條件排序 ---------- */
 // 內建的大型股候選名單（代碼）。名稱由 FinMind 股票清單帶入；查不到資料的會自動略過
-const BIG_POOL = ["2330", "2317", "2454", "2308", "2881", "2882", "2891", "2412", "2303", "2886", "1301", "1303", "2002", "2884", "2892", "3711", "2382", "3034", "2357", "2603", "2609", "5871", "2885", "2880", "2883", "2890", "5880", "1216", "2207", "1101", "2327", "3008", "2379", "3037", "2345", "6505", "4938", "2301", "2395", "1326", "2912", "3045", "4904", "2801", "2887"];
+const BIG_POOL = ["2330", "2317", "2454", "2308", "2881", "2882", "2891", "2412", "2303", "2886", "1301", "1303", "2002", "2884", "2892", "3711", "2382", "3034", "2357", "2603", "2609", "5871", "2885", "2880", "2883", "2890", "5880", "1216", "2207", "1101", "2327", "3008", "2379", "3037", "2345", "6505", "4938", "2301", "2395", "1326", "2912", "3045", "4904", "2801", "2887", "2383", "2408", "3017", "6669", "3653", "2059", "7769", "8046", "2360", "2344", "4958", "2368", "6446", "3189", "2615", "2449", "3665", "6770", "3661", "3036", "3044", "5876", "6213", "2313", "2409", "2618", "2376", "1590", "2356", "3533", "2404", "6415", "6239", "1519", "3702", "2337", "2834", "2492", "1802", "6515", "2347", "1504", "6805", "1605", "2324", "1402", "6139", "2633", "7750", "3532", "1102", "8996", "2377", "6789", "1560", "2027", "6526", "6531", "2610", "3406", "2812", "6196", "3026", "2049", "3706", "5269", "5434", "2474", "6919", "6285", "6257", "2105", "6442", "1503", "2353", "8210", "1476", "2855", "6691", "2542", "3167", "2354", "2455", "9945", "3006", "6409", "1717", "1513", "3005", "9904", "2385", "6005", "6781", "2637", "6944", "6278", "2467", "9910", "7799", "2006"];
 const scr = { pool: "big", running: false, stop: false, metrics: new Map(), failed: 0, limited: false };
 // 五種風格：點一下就把底下的條件一次設好（score = 位置評分門檻，tech = 技術評分門檻，sig = 起漲徵兆至少幾項）
 const SCR_PRESETS = {
@@ -6347,7 +6362,7 @@ function scrSharedNote() {
 function scrCodes() {
   if (scr.pool === "watch") return [...watch.keys()];
   if (scr.pool === "recent") return state.recent.map(r => r.code);
-  return BIG_POOL;
+  return scr.shared ? BIG_POOL.filter(c => scr.metrics.has(c)) : BIG_POOL;
 }
 function scrCond() {
   const n = (id, d) => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : d; };

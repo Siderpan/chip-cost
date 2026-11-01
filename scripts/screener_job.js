@@ -42,24 +42,33 @@ function loadModel(html) {
 
 const dateBack = years => { const d = new Date(); d.setFullYear(d.getFullYear() - years); return d.toISOString().slice(0, 10); };
 
-// 和網站的 fetchStock 一樣：抓價量、除權息還原、股本
-async function fetchStock(getJson, code) {
+// 和網站的 fetchStock 一樣：抓價量、除權息還原、股本。
+// 股本和除權息很少變，存在 screener.json 的 cache 裡，每檔大約 7 天才重抓一次（每晚只抓一次價量），省下查詢額度給更多股票。
+// spend()：還有沒有額度可以重抓；沒有快取又沒額度的股票，這次先跳過，下次再補。
+const TODAY = () => new Date().toISOString().slice(0, 10);
+const daysSince = d => d ? (Date.parse(TODAY()) - Date.parse(d)) / 864e5 : Infinity;
+async function fetchStock(getJson, code, cache = {}, spend = () => true) {
+  const c = cache[code] || (cache[code] = {});
+  const needDv = !c.dvAt || daysSince(c.dvAt) >= 7, needSh = !c.sh || daysSince(c.shAt) >= 7;
+  if ((!c.dvAt || !c.sh) && !spend((!c.dvAt ? 1 : 0) + (!c.sh ? 1 : 0), true)) throw new Error("這次額度不夠，股本／除權息下次再補");
+  const doDv = needDv && (!c.dvAt || spend(1)), doSh = needSh && (!c.sh || spend(1));
   const [px, dv, sh] = await Promise.all([
     getJson("TaiwanStockPrice", { data_id: code, start_date: dateBack(6) }),
-    getJson("TaiwanStockDividendResult", { data_id: code, start_date: dateBack(12) }).catch(() => []),
-    getJson("TaiwanStockShareholding", { data_id: code, start_date: new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10) }).catch(() => [])
+    doDv ? getJson("TaiwanStockDividendResult", { data_id: code, start_date: dateBack(12) }).catch(() => null) : null,
+    doSh ? getJson("TaiwanStockShareholding", { data_id: code, start_date: new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10) }).catch(() => null) : null
   ]);
+  if (dv) { c.dv = dv.filter(e => e.before_price > 0 && e.reference_price > 0).map(e => [e.date, e.reference_price / e.before_price]).filter(e => e[1] > 0 && e[1] <= 2); c.dvAt = TODAY(); }
+  if (sh && sh.length) { const n = +sh[sh.length - 1].NumberOfSharesIssued; if (n > 0) { c.sh = n; c.shAt = TODAY(); } }
   const rows = px.filter(r => r.Trading_Volume > 0 && r.max > 0 && r.min > 0 && r.close > 0).sort((a, b) => a.date < b.date ? -1 : 1);
   if (rows.length < 60) throw new Error(`${code} 只有 ${rows.length} 天資料`);
-  const ev = dv.filter(e => e.before_price > 0 && e.reference_price > 0)
-    .map(e => ({ d: e.date, f: e.reference_price / e.before_price })).filter(e => e.f > 0 && e.f <= 2);
+  const ev = (c.dv || []).map(e => ({ d: e[0], f: e[1] }));
   const st = { code, shares: null, d: [], o: [], h: [], l: [], c: [], v: [] };
   for (const r of rows) {
     let f = 1;
     for (const e of ev) if (e.d > r.date) f *= e.f;
     st.d.push(r.date); st.o.push(r.open * f); st.h.push(r.max * f); st.l.push(r.min * f); st.c.push(r.close * f); st.v.push(r.Trading_Volume / 1000);
   }
-  if (sh.length) { const n = +sh[sh.length - 1].NumberOfSharesIssued; if (n > 0) st.shares = n; }
+  if (c.sh) st.shares = c.sh;
   return st;
 }
 
@@ -80,10 +89,13 @@ async function buildData({ html, getJson, log = () => {}, old = null, limit = 0,
   const pool = limit ? M.pool.slice(0, limit) : M.pool;
   let names = new Map();
   try { names = new Map((await getJson("TaiwanStockInfo", {})).map(r => [r.stock_id, r.stock_name])); } catch (e) { log("股票名稱清單讀取失敗：" + e.message); }
-  const metrics = {}, failed = [], stocks = new Map();
+  const metrics = {}, failed = [], stocks = new Map(), cache = (old && old.cache) || {};
+  // 重抓股本／除權息的額度：有 token 寬鬆；沒有 token 時，價量每檔 1 次＋這裡的上限，總數壓在每小時 300 次以內
+  let budget = +process.env.CACHE_BUDGET || (process.env.FINMIND_TOKEN ? 400 : Math.max(20, 290 - pool.length - 4));
+  const spend = (n, must) => { if (budget >= n) { budget -= n; return true; } return false; };
   for (const code of pool) {
     try {
-      const st = await fetchStock(getJson, code);
+      const st = await fetchStock(getJson, code, cache, spend);
       stocks.set(code, st);
       const m = metricsOf(M, st, names.get(code) || (old && old.metrics[code] && old.metrics[code].name) || "");
       if (m) { metrics[code] = m;  log(`${code} ${m.name} 位置評分 ${m.v.score}`); } else throw new Error("沒有股本資料");
@@ -95,7 +107,7 @@ async function buildData({ html, getJson, log = () => {}, old = null, limit = 0,
     if (gap) await sleep(gap);
   }
   const asOf = Object.values(metrics).reduce((mx, m) => m.date > mx ? m.date : mx, "");
-  const out = { v: 1, updated: new Date().toISOString(), asOf, pool: M.pool, failed, metrics };
+  const out = { v: 1, updated: new Date().toISOString(), asOf, pool: M.pool, failed, metrics, cache };
   Object.defineProperty(out, "ctx", { value: { M, stocks, names }, enumerable: false });      // 不會寫進 screener.json
   return out;
 }
@@ -143,8 +155,10 @@ async function main() {
       fs.writeFileSync(extPath, JSON.stringify(fw.ctx.ext));
       try {   // 自動最佳策略：失敗也不影響其他資料
         let mkt = [];
-        try { mkt = (await getJson("TaiwanStockPrice", { data_id: "TAIEX", start_date: fw.startDay })).map(r => [r.date, r.close]); } catch (e) { console.log("加權指數讀取失敗（對照組先不畫大盤）：" + e.message); }
-        const t0 = Date.now(), st = require("./optimizer_job.js").run({ ...fw.ctx, prev: prevSt, prevPaper, opts: { cmpFrom: fw.startDay, mkt } });
+        try { mkt = (await getJson("TaiwanStockPrice", { data_id: "TAIEX", start_date: dateBack(6) })).map(r => [r.date, r.close]); } catch (e) { console.log("加權指數讀取失敗（這次不用大盤濾網）：" + e.message); }
+        let ind = {};                       // 股票 → 產業（類股輪動用）：用上一次存的 industry.json
+        try { ind = Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(root, "industry.json"), "utf8")).m).map(([c, v]) => [c, v[0]])); } catch (e) { console.log("讀不到 industry.json，這次不做類股輪動"); }
+        const t0 = Date.now(), st = require("./optimizer_job.js").run({ ...fw.ctx, prev: prevSt, prevPaper, opts: { cmpFrom: fw.startDay, mkt, ind } });
         fs.writeFileSync(stPath, JSON.stringify(st));
         fs.writeFileSync(paperPath, JSON.stringify({ recs: st.paperRecs }));
         console.log(`已寫入 strategy.json：${st.config ? st.config.label : "目前建議空手"}（過去 ${st.lookback} 日，${((Date.now() - t0) / 1000).toFixed(0)} 秒）。`);
@@ -157,7 +171,7 @@ async function main() {
     else console.log(`產業別對照表只抓到 ${n} 檔，不更新。`);
   } catch (e) { console.error("產業別對照表更新失敗（不影響其他資料）：", e.message); }
   const round = (k, v) => typeof v === "number" ? Math.round(v * 1e6) / 1e6 : v;
-  const same = old && JSON.stringify(old.metrics) === JSON.stringify(JSON.parse(JSON.stringify(data.metrics, round)));
+  const same = old && JSON.stringify(old.metrics) === JSON.stringify(JSON.parse(JSON.stringify(data.metrics, round))) && JSON.stringify(old.cache || {}) === JSON.stringify(data.cache);
   if (same) { console.log("資料和上次相同（可能是休市日），不更新。"); return; }
   fs.writeFileSync(out, JSON.stringify(data, round));
   console.log(`已寫入 screener.json：${Object.keys(data.metrics).length} 檔，資料到 ${data.asOf}，失敗 ${data.failed.length} 檔。`);

@@ -79,7 +79,10 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, prevExt, ext
   if (dates.length < 400) throw new Error("歷史資料不夠");
   const A = {}, IX = {};
   for (const c of codes) { A[c] = align(stocks.get(c), dates); IX[c] = new Map(stocks.get(c).d.map((d, i) => [d, i])); }
-  const days = prev && prev.days ? prev.days : {};
+  // 股票範圍有新加入的股票：舊的每日名單沒有算到它們，整份重算一次（追蹤起點 liveFrom 不變）
+  const prevPool = prev && prev.pool ? new Set(prev.pool) : null, grown = !!prev && (!prevPool || codes.some(c => !prevPool.has(c)));
+  if (grown) log(`選股驗證：股票範圍變成 ${codes.length} 檔，每日名單整份重算`);
+  const days = prev && prev.days && !grown ? prev.days : {};
   const lastDay = Object.keys(days).sort().pop() || "";
   const first = !lastDay;
   let todo = dates.filter(d => d > lastDay);
@@ -106,7 +109,7 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, prevExt, ext
     if (todo.indexOf(d) % 20 === 0) log(`選股驗證：回補／追加 ${d}（${todo.indexOf(d) + 1} / ${todo.length}）`);
   }
   // 更早的歷史名單（各策略達標的代碼＋支撐壓力比例，給「最佳策略」訓練用；不影響上面的驗證統計）。每次最多補 extMax 天，從最近的往前補；舊格式（沒有支撐壓力）會重算一次。
-  const ext = prevExt || {}, firstDay = Object.keys(days).sort()[0];
+  const ext = prevExt && !grown ? prevExt : {}, firstDay = Object.keys(days).sort()[0];
   const before = dates.filter(d => d < firstDay && !(ext[d] && ext[d].lv) && codes.some(c => (IX[c].get(d) ?? -1) >= MIN_ROWS)).slice(-extMax);
   before.forEach((d, n) => { const rec = recOf(d); ext[d] = { ...Object.fromEntries(Object.keys(STRATS).map(k => [k, rec[k].pass])), lv: rec.lv }; if (n % 50 === 0) log(`最佳策略：補歷史名單 ${d}（${n + 1} / ${before.length}）`); });
   const liveFrom = prev && prev.liveFrom ? prev.liveFrom : (dates[dates.length - 1]);
@@ -145,7 +148,8 @@ function update({ metricsOf, scrEval, presets, stocks, names, prev, prevExt, ext
   for (const k of Object.keys(bench)) for (const p of ["all", "live"]) { const [s, n] = bench[k][p]; bench[k][p] = n ? { avg: r2(s / n * 100), n } : null; }
   const lastRec = days[dayList[dayList.length - 1]] || {};
   const todayPicks = Object.fromEntries(Object.keys(STRATS).map(k => [k, { n: (lastRec[k] || { pass: [] }).pass.length, top: ((lastRec[k] || { top: [] }).top || []).map(x => ({ c: x.c, n: names.get(x.c) || "", k: x.k })) }]));
-  const out = { v: 1, updated: new Date().toISOString(), asOf: dates[last], liveFrom, startDay: dayList[0], strategies: STRATS, policies: POLS, need: NEED, cost: { fee: FEE, tax: TAX }, days, accounts, bench, today: todayPicks };
+  const pool = [...new Set([...(prevPool && !grown ? prevPool : []), ...codes])].sort();
+  const out = { v: 1, updated: new Date().toISOString(), asOf: dates[last], liveFrom, startDay: dayList[0], pool, strategies: STRATS, policies: POLS, need: NEED, cost: { fee: FEE, tax: TAX }, days, accounts, bench, today: todayPicks };
   const lists = {}; for (const d of Object.keys(ext)) lists[d] = ext[d];
   for (const d of dayList) {         // 舊的日子沒有存全部的支撐壓力，就用各策略前三名的
     const lv = days[d].lv || {}; if (!days[d].lv) for (const k of Object.keys(STRATS)) for (const x of days[d][k].top) lv[x.c] = [x.rr, x.ss];
