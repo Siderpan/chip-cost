@@ -1101,6 +1101,7 @@ html[data-layout="ios"] .brand h1, html[data-layout="android"] .brand h1 { font-
 .hkCard { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; } .hkHd b { font-size: 1rem; } .hkHd small { margin-left: 8px; font-size: .72rem; color: var(--muted); }
 .hkPriv { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 6px; font-size: .72rem; color: var(--bear); background: color-mix(in srgb, var(--bear) 9%, transparent); }
 .hkRow { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr) 30px; gap: 6px; align-items: center; } .hkRow.hd { font-size: .66rem; color: var(--muted); } .hkRow + .hkRow { margin-top: 6px; }
+.hkQ { position: relative; min-width: 0; } .hkQ .sugg { top: 44px; z-index: 20; }
 .hkRow input { width: 100%; min-width: 0; min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: 400 .9rem var(--font-ui); } .hkRow input[type="number"] { font-family: var(--font-num); }
 .hkDel { width: 30px; height: 30px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); font-size: 1.1rem; cursor: pointer; } .hkDel:hover { background: color-mix(in srgb, var(--muted) 14%, transparent); }
 .hkBtns { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; } .hkBtns .btn { min-height: 42px; }
@@ -1135,6 +1136,7 @@ html[data-layout="ios"] .brand h1, html[data-layout="android"] .brand h1 { font-
 .gFlow4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 10px 0 12px; } .gFlow4 > div { position: relative; padding: 10px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); text-align: center; } .gFlow4 i { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--profit); color: #fff; font: 700 .74rem var(--font-num); font-style: normal; } .gFlow4 b { display: block; margin-top: 4px; font-size: .86rem; } .gFlow4 small { display: block; font-size: .66rem; color: var(--muted); line-height: 1.35; } .gFlow4 > div:not(:last-child)::after { content: "›"; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); color: var(--profit); font-weight: 700; }
 @media (max-width: 480px) { .gFlow4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gFlow4 > div:nth-child(2)::after { display: none; } }
 .gChain { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-size: .78rem; } .gChain span { padding: 4px 8px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); } .gChain span b { font-family: var(--font-num); margin-right: 2px; color: var(--profit); } .gChain span.hl { background: var(--profit); border-color: var(--profit); color: #fff; font-weight: 700; } .gChain i { font-style: normal; color: var(--muted); }
+.gHk { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; } .gHk > div { padding: 8px 10px; border-radius: 6px; border-left: 4px solid var(--profit); background: color-mix(in srgb, var(--muted) 8%, transparent); } .gHk b { display: block; font-size: .86rem; } .gHk span { font-size: .72rem; color: var(--muted); line-height: 1.45; } .gHk .s { border-left-color: var(--bear); } .gHk .t { border-left-color: var(--trapped); }
 /* ---- 使用指南：流程圖、組成圖、對照表（少一點文字，多一點圖） ---- */
 .fcF { display: flex; flex-direction: column; } .fcN { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); } .fcN.core { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 7%, var(--surface)); }
 .fcN .ic { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--profit) 15%, transparent); color: var(--profit); font: 700 .92rem var(--font-num); font-style: normal; } .fcN .tt { font: 700 .92rem var(--font-ui); } .fcN .ss { margin-top: 1px; font-size: .78rem; color: var(--muted); line-height: 1.55; }
@@ -1269,9 +1271,32 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div><b>要不要一起買</b><span>走勢很像的一組擇一就好；各走各的可以分散</span></div>
         <div><b>怎麼空手</b><span>大盤轉弱時：不買新股、哪些持股明天賣、等什麼條件再買</span></div>
         <div><b>歷史建議追蹤</b><span>每天的建議照計畫買賣，看勝率與報酬</span></div>
-        <div><b>庫存健檢</b><span>輸入持股的代碼、均價、股數，得到停損停利建議；不會儲存</span></div>
+        <div><b>庫存健檢</b><span>輸入持股，得到停損停利建議；說明在下一段</span></div>
       </div>
       <button type="button" class="btn" data-go="trade">去交易建議</button>
+      </div></details>
+    </div>
+
+    <div class="gSec" id="g-health">
+      <details class="gAcc"><summary><h3>庫存健檢：手上的股票該賣還是續抱</h3><span class="gSum">輸入持股，用交易建議的同一套邏輯，給停損、停利建議；不會儲存。</span></summary><div class="gBody">
+      <div class="card gSteps">
+        <div class="gStep"><i>1</i><div><b>輸入持股</b><p>打代碼或名稱（下拉選單點選），填買進均價和股數；可加到 20 檔。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>按「開始健檢」</b><p>每檔得到一個建議、停損價、停利價和六項檢查。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>照建議處理</b><p>停損出場、停利出場、獲利了結，或續抱並把停損設好。</p></div></div>
+      </div>
+      <h4 class="odH">四種建議</h4>
+      <div class="gHk"><div class="s"><b>停損出場</b><span>跌破所有停損線，或虧損又破月線</span></div><div class="t"><b>停利出場</b><span>已到停利價，可先賣一半</span></div><div class="t"><b>獲利了結</b><span>有賺但跌破月線</span></div><div class="h"><b>續抱</b><span>守住停損；賺 3% 以上停損拉到成本</span></div></div>
+      <h4 class="odH">停損、停利怎麼算</h4>
+      <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th></th><th>候選線</th><th>取哪一條</th></tr></thead><tbody>
+        <tr><td>停損</td><td>策略停損 %、籌碼支撐、月線、保本價、移動停損</td><td>現價下方<b>最保護</b>的</td></tr>
+        <tr><td>停利</td><td>策略停利 %、籌碼壓力</td><td>現價上方<b>最近</b>的</td></tr>
+      </tbody></table></div>
+      <div class="gTiles">
+        <div><b>六項檢查</b><span>月線、季線、SuperTrend、位置評分、大盤條件、是否在今天的建議裡</span></div>
+        <div><b>提醒</b><span>大盤條件不符時不加碼；單一股票超過總市值 40% 會提醒分散</span></div>
+      </div>
+      <div class="card gTip"><div class="gName">隱私</div><ul><li>均價、股數只在這個畫面計算，<b>不儲存、不上傳、不統計</b>，重新整理就清空。</li><li>內建 145 檔以外的股票，只會把<b>股票代碼</b>送去查股價。</li></ul></div>
+      <button type="button" class="btn" data-go="trade">去庫存健檢</button>
       </div></details>
     </div>
 
@@ -4095,7 +4120,7 @@ function admCsv(kind) {
    隱私：輸入的內容只放在這個頁面的記憶體裡，不存 localStorage／IndexedDB／雲端，也不送流量統計；查不在預先資料裡的股票時，價量也不寫進快取。 */
 const hk = { rows: [{ q: "", cost: "", qty: "" }], busy: false };
 function hkRowsDraw() {
-  $("hkRows").innerHTML = hk.rows.map((x, i) => `<div class="hkRow"><input data-i="${i}" data-f="q" value="${esc(x.q)}" placeholder="例如 2330 或 台積電" aria-label="股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false"><input data-i="${i}" data-f="cost" value="${esc(x.cost)}" type="number" inputmode="decimal" min="0" step="any" placeholder="元" aria-label="買進均價" autocomplete="off"><input data-i="${i}" data-f="qty" value="${esc(x.qty)}" type="number" inputmode="numeric" min="0" step="1" placeholder="股" aria-label="股數" autocomplete="off"><button type="button" class="hkDel" data-del="${i}" aria-label="刪除這一列"${hk.rows.length < 2 ? " hidden" : ""}>×</button></div>`).join("");
+  $("hkRows").innerHTML = hk.rows.map((x, i) => `<div class="hkRow"><div class="hkQ"><input data-i="${i}" data-f="q" value="${esc(x.q)}" placeholder="例如 2330 或 台積電" aria-label="股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false"><ul class="sugg hkSg" hidden></ul></div><input data-i="${i}" data-f="cost" value="${esc(x.cost)}" type="number" inputmode="decimal" min="0" step="any" placeholder="元" aria-label="買進均價" autocomplete="off"><input data-i="${i}" data-f="qty" value="${esc(x.qty)}" type="number" inputmode="numeric" min="0" step="1" placeholder="股" aria-label="股數" autocomplete="off"><button type="button" class="hkDel" data-del="${i}" aria-label="刪除這一列"${hk.rows.length < 2 ? " hidden" : ""}>×</button></div>`).join("");
 }
 async function hkMetric(code) {
   const m0 = scr.metrics.get(code); if (m0 && m0.tech) return m0;              // 預先算好的大型股（或剛剛篩選過的），不耗額度
@@ -4137,7 +4162,7 @@ async function hkRun() {
     if (!scr.shared) await scrLoadShared();
     const O = fw.opt, res = [];
     for (const x of rows) {
-      const hit = /^\d{4,6}[A-Z]?$/.test(x.q) ? [x.q, (info.find(s => s[0] === x.q) || [])[1] || ""] : searchStocks(x.q)[0];
+      const cm = x.q.match(/^(\d{4,6}[A-Z]?)(?:\s+(.+))?$/), hit = cm ? [cm[1], cm[2] || (info.find(s => s[0] === cm[1]) || [])[1] || ""] : searchStocks(x.q)[0];
       if (!hit) { res.push({ x, err: "找不到這檔股票" }); continue; }
       x.code = hit[0]; x.name = hit[1] || x.q;
       try { const m = await hkMetric(x.code); if (!m) { res.push({ x, err: "資料不足（可能是 ETF 或剛上市）" }); continue; } x.name = m.name || x.name; res.push({ x, m, a: hkAdvice(x, m, O) }); }
@@ -4168,9 +4193,28 @@ function hkHtml(res, O) {
 }
 function hkInit() {
   hkRowsDraw();
-  $("hkRows").addEventListener("input", e => { const el = e.target.closest("[data-f]"); if (el) hk.rows[+el.dataset.i][el.dataset.f] = el.value; });
-  $("hkRows").addEventListener("click", e => { const b = e.target.closest("[data-del]"); if (!b) return; hk.rows.splice(+b.dataset.del, 1); hkRowsDraw(); });
-  $("hkRows").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); hkRun(); } });
+  const sgOf = el => el.parentElement.querySelector(".hkSg");
+  const pick = (el, code, name) => { const i = +el.dataset.i; el.value = hk.rows[i].q = `${code} ${name}`; sgOf(el).hidden = true; const c = el.closest(".hkRow").querySelector('[data-f="cost"]'); if (c) c.focus(); };
+  $("hkRows").addEventListener("input", e => {
+    const el = e.target.closest("[data-f]"); if (!el) return;
+    hk.rows[+el.dataset.i][el.dataset.f] = el.value;
+    if (el.dataset.f !== "q") return;
+    const ul = sgOf(el), shown = el.value.trim() && !/^\d{4,6}[A-Z]?\s+\S/.test(el.value) ? searchStocks(el.value).slice(0, 8) : [];
+    ul.hidden = !shown.length;
+    ul.innerHTML = shown.map(s => `<li><button type="button" data-pick="${esc(s[0])}" data-name="${esc(s[1])}"><span class="c">${esc(s[0])}</span><span>${esc(s[1])}</span></button></li>`).join("");
+  });
+  $("hkRows").addEventListener("click", e => {
+    const pk = e.target.closest("[data-pick]"); if (pk) { pick(pk.closest(".hkQ").querySelector("input"), pk.dataset.pick, pk.dataset.name); return; }
+    const b = e.target.closest("[data-del]"); if (!b) return; hk.rows.splice(+b.dataset.del, 1); hkRowsDraw();
+  });
+  $("hkRows").addEventListener("keydown", e => {
+    if (e.key !== "Enter" || e.isComposing || e.keyCode === 229) return;          // 中文輸入法按 Enter 是在選字，不要攔
+    e.preventDefault();
+    const el = e.target.closest('[data-f="q"]'), ul = el && sgOf(el), first = ul && !ul.hidden && ul.querySelector("[data-pick]");
+    if (first) { pick(el, first.dataset.pick, first.dataset.name); return; }
+    hkRun();
+  });
+  document.addEventListener("click", e => { if (!e.target.closest(".hkQ")) document.querySelectorAll(".hkSg").forEach(u => u.hidden = true); });
   $("hkAdd").addEventListener("click", () => { if (hk.rows.length >= 20) return; hk.rows.push({ q: "", cost: "", qty: "" }); hkRowsDraw(); const ins = $("hkRows").querySelectorAll('[data-f="q"]'); ins[ins.length - 1].focus(); });
   $("hkRun").addEventListener("click", hkRun);
 }
@@ -5485,7 +5529,7 @@ function hScroller(el, left, right) {
 }
 // 使用指南很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
 function guideToc() {
-  const labels = [["系統地圖", "系統地圖"], ["交易建議：", "交易建議"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞影響"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["法人與融資：", "法人與融資"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["模擬交易：", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
+  const labels = [["系統地圖", "系統地圖"], ["交易建議：", "交易建議"], ["庫存健檢：", "庫存健檢"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞影響"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["法人與融資：", "法人與融資"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["模擬交易：", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
   const secs = [...document.querySelectorAll("#pgGuide .gSec")].filter(s => s.querySelector("h3")).map((s, i) => { s.id = s.id || `gs${i}`; const h = s.querySelector("h3").textContent; const m = labels.find(l => h.includes(l[0])); return m ? { s, label: m[1] } : null; }).filter(Boolean);
   const host = $("guideToc");
   host.innerHTML = secs.map((x, i) => `<button type="button" data-i="${i}">${x.label}</button>`).join("");
