@@ -1098,6 +1098,24 @@ html[data-layout="ios"] .brand h1, html[data-layout="android"] .brand h1 { font-
 .flR .ac span { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: .72rem; font-weight: 700; } .flR.sell .ac span { background: var(--bear); color: #fff; } .flR.take .ac span { background: var(--trapped); color: #fff; } .flR.hold .ac span { background: color-mix(in srgb, var(--profit) 15%, transparent); color: var(--profit); } .flR .ac small { display: block; margin-top: 2px; font-size: .66rem; color: var(--muted); line-height: 1.35; }
 .flRule { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: .72rem; color: var(--muted); } .flRule b { color: var(--ink); } .flRule i { font-style: normal; margin-right: 3px; padding: 0 5px; border-radius: 3px; } .flRule i.s { background: color-mix(in srgb, var(--bear) 15%, transparent); color: var(--bear); } .flRule i.t { background: color-mix(in srgb, var(--trapped) 15%, transparent); color: var(--trapped); } .flRule i.h { background: color-mix(in srgb, var(--profit) 15%, transparent); color: var(--profit); }
 .flBack { padding: 8px 10px; border-radius: 6px; font-size: .76rem; background: color-mix(in srgb, var(--profit) 8%, transparent); }
+.hkCard { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; } .hkHd b { font-size: 1rem; } .hkHd small { margin-left: 8px; font-size: .72rem; color: var(--muted); }
+.hkPriv { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 6px; font-size: .72rem; color: var(--bear); background: color-mix(in srgb, var(--bear) 9%, transparent); }
+.hkRow { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr) 30px; gap: 6px; align-items: center; } .hkRow.hd { font-size: .66rem; color: var(--muted); } .hkRow + .hkRow { margin-top: 6px; }
+.hkRow input { width: 100%; min-width: 0; min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: 400 .9rem var(--font-ui); } .hkRow input[type="number"] { font-family: var(--font-num); }
+.hkDel { width: 30px; height: 30px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); font-size: 1.1rem; cursor: pointer; } .hkDel:hover { background: color-mix(in srgb, var(--muted) 14%, transparent); }
+.hkBtns { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; } .hkBtns .btn { min-height: 42px; }
+.hkSum { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 6px; } .hkSum > div { padding: 8px 10px; border-radius: 6px; background: color-mix(in srgb, var(--muted) 9%, transparent); } .hkSum small { display: block; font-size: .66rem; color: var(--muted); } .hkSum b { font: 700 .98rem var(--font-num); } .hkSum b.up { color: var(--bull); } .hkSum b.dn { color: var(--bear); } .hkSum b.wn { color: var(--trapped); }
+@media (max-width: 480px) { .hkSum, .hkNum { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hkNum { row-gap: 6px; } }
+.hkWarn { padding: 7px 10px; border-radius: 6px; font-size: .78rem; border-left: 3px solid var(--trapped); background: color-mix(in srgb, var(--trapped) 9%, transparent); }
+.hkList { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.hkRes { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; border-left: 4px solid var(--profit); background: var(--surface); } .hkRes.sell { border-left-color: var(--bear); } .hkRes.take { border-left-color: var(--trapped); } .hkRes.err { display: flex; gap: 10px; align-items: baseline; border-left-color: var(--muted); font-size: .84rem; } .hkRes.err span { color: var(--muted); }
+.hkTop { display: flex; align-items: center; justify-content: space-between; gap: 8px; } .hkTop .nm b { font-size: 1.05rem; } .hkTop .nm code { margin-left: 6px; font: 400 .76rem var(--font-num); color: var(--muted); }
+.hkV { padding: 2px 9px; border-radius: 4px; font-size: .78rem; font-weight: 700; color: #fff; background: var(--profit); white-space: nowrap; } .hkRes.sell .hkV { background: var(--bear); } .hkRes.take .hkV { background: var(--trapped); }
+.hkWhy { margin-top: 4px; font-size: .78rem; color: var(--muted); }
+.hkNum { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin-top: 8px; } .hkNum small { display: block; font-size: .64rem; color: var(--muted); } .hkNum b { font: 700 .88rem var(--font-num); } .hkNum b.up { color: var(--bull); } .hkNum b.dn { color: var(--bear); }
+.hkRes .tkBar .cost { position: absolute; top: 18px; width: 0; height: 0; margin-left: -5px; border: 5px solid transparent; border-bottom: 6px solid var(--muted); }
+.hkChk { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 8px; padding-top: 7px; border-top: 1px dashed var(--line); font-size: .7rem; } .hkChk i { font-style: normal; font-weight: 700; margin-right: 3px; } .hkChk .y i { color: var(--bull); } .hkChk .n { color: var(--muted); } .hkChk .n i { color: var(--bear); }
+.hkNote { font-size: .68rem; color: var(--muted); }
 .mkBox { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 14px; border-left: 4px solid var(--muted); } .mkBox.bull { border-left-color: var(--bull); } .mkBox.bear { border-left-color: var(--bear); }
 .mkL { display: flex; align-items: baseline; gap: 8px; } .mkL small { font-size: .7rem; color: var(--muted); } .mkL b { font: 700 1.2rem var(--font-num); } .mkL em { font-style: normal; font-weight: 700; padding: 1px 8px; border-radius: 4px; font-size: .78rem; background: color-mix(in srgb, var(--muted) 15%, transparent); } .mkBox.bull .mkL em { color: var(--bull); background: color-mix(in srgb, var(--bull) 12%, transparent); } .mkBox.bear .mkL em { color: var(--bear); background: color-mix(in srgb, var(--bear) 12%, transparent); }
 .mkC { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: .76rem; } .mkC span { display: inline-flex; align-items: center; gap: 4px; } .mkC i { font-style: normal; font-weight: 700; } .mkC .ok i { color: var(--bull); } .mkC .no { color: var(--muted); } .mkC .no i { color: var(--bear); }
@@ -1251,6 +1269,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
         <div><b>要不要一起買</b><span>走勢很像的一組擇一就好；各走各的可以分散</span></div>
         <div><b>怎麼空手</b><span>大盤轉弱時：不買新股、哪些持股明天賣、等什麼條件再買</span></div>
         <div><b>歷史建議追蹤</b><span>每天的建議照計畫買賣，看勝率與報酬</span></div>
+        <div><b>庫存健檢</b><span>輸入持股的代碼、均價、股數，得到停損停利建議；不會儲存</span></div>
       </div>
       <button type="button" class="btn" data-go="trade">去交易建議</button>
       </div></details>
@@ -1435,6 +1454,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
       <details class="gAcc"><summary><h3>常見問題</h3><span class="gSum">資料、額度、登入、交易建議的常見疑問。</span></summary><div class="gBody">
       <details class="gFaq"><summary>交易建議多久更新？會自己變聰明嗎？</summary><div class="a"><p>每晚約 3～4 點用最新收盤資料重算。它只在設定好的選項裡找最好的組合，新組合要明顯更好才會換。</p></div></details>
       <details class="gFaq"><summary>交易建議叫我空手，手上的股票怎麼辦？</summary><div class="a"><p>看「怎麼空手」：賠錢又跌破月線先賣、賺錢但破月線落袋、賺錢且在月線上把停損拉到成本續抱。</p></div></details>
+      <details class="gFaq"><summary>庫存健檢會記錄我的持股嗎？</summary><div class="a"><p>不會。輸入的內容只在這個畫面計算，不存在手機、不上傳、也不計入統計；重新整理就清空。</p></div></details>
       <details class="gFaq"><summary>資料從哪裡來？</summary><div class="a"><p>股價來自 FinMind，大盤與產業別來自證交所、櫃買中心。都是收盤後的日資料。</p></div></details>
       <details class="gFaq"><summary>為什麼顯示查詢次數用完？</summary><div class="a"><p>FinMind 免費額度約每小時 300 次，同一個網路共用，用完約 1 小時恢復。在「進階參數」填 token 可提高上限。</p></div></details>
       <details class="gFaq"><summary>一定要登入嗎？</summary><div class="a"><p>不用。只有自選股和模擬交易要 Google 登入，只存代碼和模擬帳戶。</p></div></details>
@@ -1599,6 +1619,14 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
 
   <section id="pgTrade" class="page" hidden>
     <h2>交易建議</h2>
+    <div class="card hkCard" id="hkCard">
+      <div class="hkHd"><b>庫存健檢</b><small>輸入持股，用交易建議的邏輯給停損、停利建議</small></div>
+      <div class="hkPriv"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>只在這個畫面計算，不會儲存或上傳；重新整理就清空</div>
+      <div class="hkRow hd"><span>股票代碼或名稱</span><span>買進均價</span><span>股數</span><span></span></div>
+      <div id="hkRows"></div>
+      <div class="hkBtns"><button type="button" class="btn ghost" id="hkAdd">＋ 再加一檔</button><button type="button" class="btn" id="hkRun">開始健檢</button></div>
+      <div id="hkOut" aria-live="polite"></div>
+    </div>
     <div id="tradeBody"></div>
   </section>
 
@@ -4063,7 +4091,91 @@ function admCsv(kind) {
   const blob = new Blob(["﻿" + rows.map(r => r.map(esc2).join(",")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `chip-${kind}-${twDate(Date.now())}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
+/* ---------- 庫存健檢：輸入持股（代碼、均價、股數），用交易建議的同一套邏輯（大盤濾網、停損停利參數、籌碼支撐壓力、月線）給出處理建議。
+   隱私：輸入的內容只放在這個頁面的記憶體裡，不存 localStorage／IndexedDB／雲端，也不送流量統計；查不在預先資料裡的股票時，價量也不寫進快取。 */
+const hk = { rows: [{ q: "", cost: "", qty: "" }], busy: false };
+function hkRowsDraw() {
+  $("hkRows").innerHTML = hk.rows.map((x, i) => `<div class="hkRow"><input data-i="${i}" data-f="q" value="${esc(x.q)}" placeholder="例如 2330 或 台積電" aria-label="股票代碼或名稱" autocomplete="off" autocapitalize="off" spellcheck="false"><input data-i="${i}" data-f="cost" value="${esc(x.cost)}" type="number" inputmode="decimal" min="0" step="any" placeholder="元" aria-label="買進均價" autocomplete="off"><input data-i="${i}" data-f="qty" value="${esc(x.qty)}" type="number" inputmode="numeric" min="0" step="1" placeholder="股" aria-label="股數" autocomplete="off"><button type="button" class="hkDel" data-del="${i}" aria-label="刪除這一列"${hk.rows.length < 2 ? " hidden" : ""}>×</button></div>`).join("");
+}
+async function hkMetric(code) {
+  const m0 = scr.metrics.get(code); if (m0 && m0.tech) return m0;              // 預先算好的大型股（或剛剛篩選過的），不耗額度
+  let st = stockCache.get(`${code}:6`); if (!st) { const sv = await idbGet(`${code}:6`); if (sv && sv.st && sv.st.d) st = sv.st; }
+  if (!st) st = await fetchStock(code, 6);                                     // 只放在這次計算裡，不寫進快取
+  return metricsOfSt(st, code);
+}
+function hkAdvice(x, m, O) {
+  const C = (O && O.config) || {}, R = (O && O.reco) || {}, T = m.tech || {}, P = m.price;
+  const FEE = 0.001425, TAX = 0.003, pnl = x.qty * (P * (1 - FEE - TAX) - x.cost * (1 + FEE)), r = (P / x.cost - 1) * 100;
+  const slPct = C.sl || 10, tpPct = C.tp || 15, trPct = C.tr || 10, hh = T.nearHigh != null ? P / (1 + T.nearHigh) : null;
+  const below20 = T.ma20 ? P < T.ma20 : false, below60 = T.ma60 ? P < T.ma60 : false, bullMkt = !!(O && O.mkt && O.mkt.ok && O.mkt.ok[1]);
+  // 停損候選：取「在現價下方、最高（最保護）」的那個
+  const sc = [["策略停損 −" + slPct + "%", x.cost * (1 - slPct / 100)], m.s1 ? ["籌碼支撐", m.s1.low * 0.99] : null, T.ma20 ? ["月線", T.ma20] : null, r >= 3 ? ["保本（成本價）", x.cost * (1 + FEE + TAX)] : null, hh && r >= 5 ? [`移動停損（60 日高點 −${trPct}%）`, hh * (1 - trPct / 100)] : null].filter(Boolean);
+  const stopC = sc.filter(c => c[1] < P).sort((a, b) => b[1] - a[1])[0] || null;
+  // 停利候選：現價上方最近的那個；大盤偏多又是「讓獲利奔跑」策略就不設
+  const run = C.x === 4 && bullMkt;
+  const tc = run ? [] : [["策略停利 +" + tpPct + "%", x.cost * (1 + tpPct / 100)], m.r1 ? ["籌碼壓力", m.r1.peak] : null].filter(Boolean);
+  const tgtUp = tc.filter(c => c[1] > P).sort((a, b) => a[1] - b[1])[0] || null, tgtHit = tc.filter(c => c[1] <= P).sort((a, b) => b[1] - a[1])[0] || null;
+  let v;
+  if (!stopC || (r < 0 && below20 && below60)) v = ["sell", "停損出場", !stopC ? "現價已經在所有停損線下方" : "虧損，又跌破月線和季線"];
+  else if (r < 0 && below20) v = ["sell", "停損出場", "虧損又跌破月線，趨勢轉弱"];
+  else if (tgtHit && r > 0) v = ["take", "停利出場", `已經到「${tgtHit[0]}」${tgtHit[1] ? " " + fmt(tgtHit[1]) : ""}，可先賣一半鎖住獲利`];
+  else if (r > 0 && below20) v = ["take", "獲利了結", "還有獲利，但已跌破月線"];
+  else if (r >= 3) v = ["hold", "續抱・停損上移", `停損拉到 ${fmt(stopC[1])}（${stopC[0]}）`];
+  else v = ["hold", "續抱・守住停損", `跌破 ${fmt(stopC[1])}（${stopC[0]}）就賣`];
+  const inReco = [...(R.items || []), ...((R.tiers || []).flatMap(T2 => T2.items || []))].some(it => it.c === x.code);
+  const checks = [[!below20, "在月線上"], [!below60, "在季線上"], [m.bull, "SuperTrend 多頭"], [m.v && m.v.score >= 60, `位置評分 ${m.v ? m.v.score : "—"}`], [!(O && O.reco && O.reco.mkOff), "大盤條件符合"], [inReco, "今天也在交易建議裡"]];
+  return { P, r, pnl, value: x.qty * P, stop: stopC, tgt: tgtUp, run, v, checks, mkOff: !!R.mkOff };
+}
+async function hkRun() {
+  if (hk.busy) return;
+  const out = $("hkOut"), rows = hk.rows.map(x => ({ q: String(x.q).trim(), cost: parseFloat(x.cost), qty: parseFloat(x.qty) })).filter(x => x.q);
+  if (!rows.length) { out.innerHTML = `<div class="status err">請先輸入至少一檔股票。</div>`; return; }
+  const bad = rows.find(x => !(x.cost > 0) || !(x.qty > 0)); if (bad) { out.innerHTML = `<div class="status err">「${esc(bad.q)}」的均價和股數要填大於 0 的數字。</div>`; return; }
+  hk.busy = true; $("hkRun").disabled = true; out.innerHTML = `<div class="status">健檢中…</div>`;
+  try {
+    if (!fw.opt) { try { const res = await fetch("strategy.json?d=" + todayTW(), { cache: "no-cache" }); if (res.ok) fw.opt = await res.json(); } catch (e) {} }
+    if (!scr.shared) await scrLoadShared();
+    const O = fw.opt, res = [];
+    for (const x of rows) {
+      const hit = /^\d{4,6}[A-Z]?$/.test(x.q) ? [x.q, (info.find(s => s[0] === x.q) || [])[1] || ""] : searchStocks(x.q)[0];
+      if (!hit) { res.push({ x, err: "找不到這檔股票" }); continue; }
+      x.code = hit[0]; x.name = hit[1] || x.q;
+      try { const m = await hkMetric(x.code); if (!m) { res.push({ x, err: "資料不足（可能是 ETF 或剛上市）" }); continue; } x.name = m.name || x.name; res.push({ x, m, a: hkAdvice(x, m, O) }); }
+      catch (e) { res.push({ x, err: e.limit ? "查詢次數暫時用完，約 1 小時後再試" : "這檔資料讀取失敗" }); }
+    }
+    out.innerHTML = hkHtml(res, O);
+  } finally { hk.busy = false; $("hkRun").disabled = false; }
+}
+function hkHtml(res, O) {
+  const sg = (v, d = 1) => (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(d), cl = v => v > 0 ? "up" : v < 0 ? "dn" : "", ok = res.filter(z => z.a);
+  const tot = ok.reduce((s, z) => s + z.a.value, 0), cost = ok.reduce((s, z) => s + z.x.cost * z.x.qty, 0), pnl = ok.reduce((s, z) => s + z.a.pnl, 0), act = ok.filter(z => z.a.v[0] !== "hold").length;
+  const big = ok.filter(z => tot && z.a.value / tot > 0.4);
+  const card = z => {
+    if (z.err) return `<div class="hkRes err"><b>${esc(z.x.q)}</b><span>${esc(z.err)}</span></div>`;
+    const { x, a, m } = z, lo = Math.min(a.stop ? a.stop[1] : a.P * 0.9, x.cost, a.P), hi = Math.max(a.tgt ? a.tgt[1] : a.P * 1.1, x.cost, a.P), pos = v => ((v - lo) / (hi - lo || 1) * 100).toFixed(1);
+    return `<div class="hkRes ${a.v[0]}"><div class="hkTop"><div class="nm"><b>${esc(x.name)}</b><code>${esc(x.code)}</code></div><span class="hkV">${a.v[1]}</span></div>
+      <div class="hkWhy">${esc(a.v[2])}</div>
+      <div class="hkNum"><div><small>現價</small><b>${fmt(a.P)}</b></div><div><small>成本</small><b>${fmt(x.cost)}</b></div><div><small>報酬</small><b class="${cl(a.r)}">${sg(a.r)}%</b></div><div><small>損益（估）</small><b class="${cl(a.pnl)}">${a.pnl >= 0 ? "+" : "−"}${Math.round(Math.abs(a.pnl)).toLocaleString("en-US")}</b></div></div>
+      <div class="tkBar">${a.stop ? `<span class="seg dn" style="left:${pos(a.stop[1])}%;right:${(100 - pos(a.P)).toFixed(1)}%"></span><span class="pt dn" style="left:${pos(a.stop[1])}%"></span>` : ""}${a.tgt ? `<span class="seg up" style="left:${pos(a.P)}%;right:${(100 - pos(a.tgt[1])).toFixed(1)}%"></span><span class="pt up" style="left:${pos(a.tgt[1])}%"></span>` : ""}<span class="pt by" style="left:${pos(a.P)}%" title="現價"></span><span class="cost" style="left:${pos(x.cost)}%" title="成本"></span></div>
+      <div class="tkV"><div class="dn"><small>${a.stop ? esc(a.stop[0]) : "停損"}</small><b>${a.stop ? fmt(a.stop[1]) : "已跌破"}</b></div><div class="by"><small>現價（▲ 成本）</small><b>${fmt(a.P)}</b></div><div class="up"><small>${a.run ? "讓獲利奔跑" : a.tgt ? esc(a.tgt[0]) : "停利"}</small><b>${a.run ? "不設" : a.tgt ? fmt(a.tgt[1]) : "已達標"}</b></div></div>
+      <div class="hkChk">${a.checks.map(([y, tx]) => `<span class="${y ? "y" : "n"}"><i>${y ? "✓" : "✕"}</i>${esc(tx)}</span>`).join("")}</div></div>`;
+  };
+  return `<div class="hkSum"><div><small>市值</small><b>${Math.round(tot).toLocaleString("en-US")}</b></div><div><small>成本</small><b>${Math.round(cost).toLocaleString("en-US")}</b></div><div><small>損益（估）</small><b class="${cl(pnl)}">${pnl >= 0 ? "+" : "−"}${Math.round(Math.abs(pnl)).toLocaleString("en-US")}</b></div><div><small>需要處理</small><b class="${act ? "wn" : ""}">${act} 檔</b></div></div>
+    ${O && O.reco && O.reco.mkOff ? `<div class="hkWarn">大盤條件不符（${esc((O.config && O.config.mkName) || "")}）：先不要加碼，停損從嚴。</div>` : ""}
+    ${big.length ? `<div class="hkWarn">${big.map(z => esc(z.x.name)).join("、")} 占總市值超過 40%，太集中，建議分散。</div>` : ""}
+    <div class="hkList">${res.map(card).join("")}</div>
+    <div class="hkNote">損益已估入手續費 0.1425% 與證交稅 0.3%。停損取「現價下方最保護的一條」，停利取「現價上方最近的一條」。</div>`;
+}
+function hkInit() {
+  hkRowsDraw();
+  $("hkRows").addEventListener("input", e => { const el = e.target.closest("[data-f]"); if (el) hk.rows[+el.dataset.i][el.dataset.f] = el.value; });
+  $("hkRows").addEventListener("click", e => { const b = e.target.closest("[data-del]"); if (!b) return; hk.rows.splice(+b.dataset.del, 1); hkRowsDraw(); });
+  $("hkRows").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); hkRun(); } });
+  $("hkAdd").addEventListener("click", () => { if (hk.rows.length >= 20) return; hk.rows.push({ q: "", cost: "", qty: "" }); hkRowsDraw(); const ins = $("hkRows").querySelectorAll('[data-f="q"]'); ins[ins.length - 1].focus(); });
+  $("hkRun").addEventListener("click", hkRun);
+}
 function tradeInit() {
+  hkInit();
   const el = $("tradeBody");
   el.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-stk]")) { e.preventDefault(); fwStockOpen(e.target.dataset.stk); } });
   el.addEventListener("click", e => {
@@ -6335,9 +6447,9 @@ function scrCond() {
   return { score: n("scrScore", 0), tech: n("scrTech", 0), sig: n("scrSig", 0), sort: $("scrSort").value, near: n("scrNear", 5), str: n("scrStr", 5) / 100, rr: n("scrRR", 1.5), cov: n("scrCov", 60) / 100, bull: $("scrBull").checked, stopBuf: 1, tp: 10 };   // 停損緩衝與無壓力停利和回測預設相同
 }
 // 每檔股票只需要算一次（用載入的全部歷史資料），之後調整條件不用再連網
-async function scrMetrics(code) {
-  const st = await loadStock(code, 6);
-  if (!st.shares) return null;
+async function scrMetrics(code) { return metricsOfSt(await loadStock(code, 6), code); }
+function metricsOfSt(st, code) {
+  if (!st || !st.shares) return null;
   const rows = allRowsOf(st), price = rows[rows.length - 1].c;
   let lo = price, hi = price;
   for (const r of rows) { if (r.l < lo) lo = r.l; if (r.h > hi) hi = r.h; }
