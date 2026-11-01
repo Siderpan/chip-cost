@@ -1017,7 +1017,7 @@ html[data-layout="desktop"] .app { max-width: 1360px; padding-inline: 24px; }
   html[data-layout="desktop"] #heatHead { grid-column: 1; grid-row: 3; } html[data-layout="desktop"] #heatBody { grid-column: 1; grid-row: 4; } html[data-layout="desktop"] #rotHead { grid-column: 2; grid-row: 3; } html[data-layout="desktop"] #rotBody { grid-column: 2; grid-row: 4; }
   html[data-layout="desktop"] #pgMarket > h2:nth-of-type(2) { grid-column: 1 / -1; grid-row: 5; margin: 8px 0 0; } html[data-layout="desktop"] #pgMarket > .mktCalc { grid-column: 1 / -1; grid-row: 6; }
   html[data-layout="desktop"] .app > footer { grid-column: 1 / -1; grid-row: 4; }
-  html[data-layout="desktop"] #pgScreen, html[data-layout="desktop"] #pgBt, html[data-layout="desktop"] #pgSim, html[data-layout="desktop"] #pgGuide, html[data-layout="desktop"] #pgAdmin { max-width: 920px; }
+  html[data-layout="desktop"] #pgScreen, html[data-layout="desktop"] #pgTrade, html[data-layout="desktop"] #pgBt, html[data-layout="desktop"] #pgSim, html[data-layout="desktop"] #pgGuide, html[data-layout="desktop"] #pgAdmin { max-width: 920px; }
   html[data-layout="desktop"] .lcols { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; align-items: start; }
   html[data-layout="desktop"] .lcL, html[data-layout="desktop"] .lcR { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   html[data-layout="desktop"] .wgrid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
@@ -1114,6 +1114,9 @@ html[data-layout="ios"] .brand h1, html[data-layout="android"] .brand h1 { font-
 .fxEq { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; font-size: .8rem; color: var(--muted); } .fxEq b { color: var(--ink); font-size: .92rem; }
 .pgLead { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: -6px 0 0; } .pgLead span { display: inline-flex; align-items: center; gap: 4px; font-size: .74rem; color: var(--muted); } .pgLead svg { width: 14px; height: 14px; color: var(--profit); flex: none; }
 .fml { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 10px; margin-bottom: 8px; border-radius: 6px; background: color-mix(in srgb, var(--muted) 9%, transparent); font-size: .78rem; } .fml b { padding: 2px 8px; border-radius: 4px; background: var(--surface); border: 1px solid var(--line); font-weight: 600; } .fml em { font-style: normal; color: var(--muted); }
+.gFlow4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 10px 0 12px; } .gFlow4 > div { position: relative; padding: 10px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); text-align: center; } .gFlow4 i { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--profit); color: #fff; font: 700 .74rem var(--font-num); font-style: normal; } .gFlow4 b { display: block; margin-top: 4px; font-size: .86rem; } .gFlow4 small { display: block; font-size: .66rem; color: var(--muted); line-height: 1.35; } .gFlow4 > div:not(:last-child)::after { content: "›"; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); color: var(--profit); font-weight: 700; }
+@media (max-width: 480px) { .gFlow4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gFlow4 > div:nth-child(2)::after { display: none; } }
+.gChain { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-size: .78rem; } .gChain span { padding: 4px 8px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); } .gChain span b { font-family: var(--font-num); margin-right: 2px; color: var(--profit); } .gChain span.hl { background: var(--profit); border-color: var(--profit); color: #fff; font-weight: 700; } .gChain i { font-style: normal; color: var(--muted); }
 /* ---- 使用指南：流程圖、組成圖、對照表（少一點文字，多一點圖） ---- */
 .fcF { display: flex; flex-direction: column; } .fcN { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); } .fcN.core { border-color: var(--profit); background: color-mix(in srgb, var(--profit) 7%, var(--surface)); }
 .fcN .ic { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--profit) 15%, transparent); color: var(--profit); font: 700 .92rem var(--font-num); font-style: normal; } .fcN .tt { font: 700 .92rem var(--font-ui); } .fcN .ss { margin-top: 1px; font-size: .78rem; color: var(--muted); line-height: 1.55; }
@@ -1187,6 +1190,7 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <button type="button" role="tab" data-tab="analyze" aria-selected="true">籌碼分析</button>
     <button type="button" role="tab" data-tab="tech" aria-selected="false">技術分析</button>
     <button type="button" role="tab" data-tab="watch" aria-selected="false" hidden>自選股<span id="watchCount" class="cnt"></span></button>
+    <button type="button" role="tab" data-tab="trade" aria-selected="false">交易建議</button>
     <button type="button" role="tab" data-tab="screen" aria-selected="false">篩選器</button>
     <button type="button" role="tab" data-tab="backtest" aria-selected="false">回測</button>
     <button type="button" role="tab" data-tab="sim" aria-selected="false" hidden>模擬交易</button>
@@ -1195,332 +1199,254 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
   <section id="pgGuide" class="page guide" hidden>
     <div class="card gHero">
       <div class="gKicker">使用指南</div>
-      <h2 class="gH1">看懂股票「現在好不好」</h2>
-      <div class="fcRow gHeroRow"><div class="fcB"><div class="n">環境</div><div class="tt">大盤</div></div><div class="fcB"><div class="n">位置</div><div class="tt">籌碼</div></div><div class="fcB"><div class="n">狀態</div><div class="tt">技術</div></div></div>
-      <p>核心觀念：<b>股價會「卡」在很多人買進的價位</b>＝支撐與壓力。</p>
-      <div class="gPath"><button type="button" class="btn" data-gt="g-what">系統在做什麼</button><button type="button" class="btn ghost" data-gt="g-map">快速上手</button><button type="button" class="btn ghost" data-gt="g-concept">先懂原理</button><button type="button" class="btn ghost" data-gt="g-words">名詞速查</button></div>
+      <h2 class="gH1">四步驟，從大盤到買點</h2>
+      <div class="gFlow4"><div><i>1</i><b>看大盤</b><small>環境好不好</small></div><div><i>2</i><b>找股票</b><small>交易建議・篩選器</small></div><div><i>3</i><b>看位置與狀態</b><small>籌碼・技術</small></div><div><i>4</i><b>驗證與練習</b><small>回測・模擬交易</small></div></div>
+      <p>核心觀念只有一個：<b>股價會「卡」在很多人買進的價位</b>，那裡就是支撐和壓力。</p>
+      <div class="gPath"><button type="button" class="btn" data-gt="g-map">快速上手</button><button type="button" class="btn ghost" data-gt="g-trade">交易建議</button><button type="button" class="btn ghost" data-gt="g-concept">先懂原理</button><button type="button" class="btn ghost" data-gt="g-words">名詞速查</button></div>
     </div>
 
     <div class="toc-h">快速跳到</div>
     <div class="tocWrap"><button type="button" class="tocArr l" id="tocL" aria-label="往左看更多" hidden>‹</button><nav id="guideToc" class="toc" aria-label="使用指南目錄（可左右滑動）"></nav><button type="button" class="tocArr r" id="tocR" aria-label="往右看更多" hidden>›</button></div>
 
-    <div class="gSec" id="g-what">
-      <h3>這套系統在做什麼？</h3>
-      <p class="gOne">把一檔股票放在<b>三個角度</b>下檢查，合成一個判斷，再用歷史資料和模擬交易檢驗、練習。</p>
-      <div class="fcRow">
-        <div class="fcB"><div class="n">① 環境</div><div class="tt">大盤強不強</div><div class="ss">大環境差，個股也容易被拖累</div><div class="pg">大盤指數</div></div>
-        <div class="fcB"><div class="n">② 位置</div><div class="tt">有地板嗎</div><div class="ss">成本集中處＝支撐與壓力</div><div class="pg">籌碼分析</div></div>
-        <div class="fcB"><div class="n">③ 狀態</div><div class="tt">趨勢力道</div><div class="ss">均線、RSI、KD、MACD、量價</div><div class="pg">技術分析</div></div>
-      </div>
-      <div class="fcF" style="margin-top:2px"><div class="fcA">合成：篩選器依條件整理觀察名單</div><div class="fcN"><i class="ic">★</i><div class="tx"><div class="tt">篩選器</div><div class="ss">位置評分 ＋ 技術評分 ＋ 起漲徵兆 → 綜合評分</div></div></div><div class="fcA">檢驗與練習</div><div class="fcN"><i class="ic">✓</i><div class="tx"><div class="tt">回測、模擬交易</div><div class="ss">過去有沒有效？用虛擬資金練習</div></div></div></div>
-      <h4 class="odH">三個分數怎麼組成</h4>
-      <div class="card gBars">
-        <div class="gBar"><div class="bl">位置評分<small>籌碼面，0～100 分</small></div><div class="bs"><i style="--w:30"><b>30</b>成本面</i><i style="--w:35"><b>35</b>下方支撐</i><i style="--w:35"><b>35</b>上方空間</i></div></div>
-        <div class="gBar"><div class="bl">技術評分<small>技術面，0～100 分</small></div><div class="bs"><i style="--w:30"><b>30</b>趨勢</i><i style="--w:30"><b>30</b>動能</i><i style="--w:20"><b>20</b>量價</i><i style="--w:20"><b>20</b>位置波動</i></div></div>
-        <div class="gBar"><div class="bl">綜合評分<small>篩選器排名用</small></div><div class="bs"><i style="--w:40"><b>40%</b>位置評分</i><i style="--w:40"><b>40%</b>技術評分</i><i style="--w:20"><b>20%</b>起漲徵兆</i></div></div>
-      </div>
-      <p class="gNext">↓ 知道三個角度之後，每個角度對應哪個頁籤？看下一段的地圖。</p>
-    </div>
+    <div class="gPart" id="g-start"><span>A</span>快速上手</div>
 
     <div class="gSec" id="g-map">
-      <h3>整套系統怎麼用？先看這張地圖</h3>
-      <p class="gOne">每個頁籤回答<b>一個問題</b>，從最想知道的開始。</p>
-      <h4 class="odH">建議的使用順序</h4>
-      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">大盤指數<span class="gAng">環境</span></div><div class="ss">現在整體市場是強還是弱？</div></div><button type="button" class="btn ghost gMapGo" data-go="market">去看看</button></div><div class="fcA"></div><div class="fcN core"><i class="ic">2</i><div class="tx"><div class="tt">籌碼分析<span class="gCore">核心</span><span class="gAng">位置</span></div><div class="ss">大家的成本在哪？離支撐、壓力多遠？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div><div class="fcSide"><b>不知道看哪一檔？</b>→ <b>篩選器</b>依條件整理觀察清單，再回到這一步細看　<button type="button" class="gLink" data-go="screen">去篩選器</button></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">技術分析<span class="gAng">狀態</span></div><div class="ss">趨勢和力道如何？和籌碼同一個方向嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="tech">去看看</button></div><div class="fcA">三個角度同向嗎？同向再往下；不同向就先觀望</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">回測<span class="gAng">驗證</span></div><div class="ss">「靠近支撐買、到壓力賣」過去有效嗎？</div></div><button type="button" class="btn ghost gMapGo" data-go="backtest">去看看</button></div><div class="fcA"></div><div class="fcN"><i class="ic">5</i><div class="tx"><div class="tt">模擬交易<span class="gAng">練習</span></div><div class="ss">用虛擬資金練習，和大家比報酬率（要登入）</div></div><button type="button" class="btn ghost gMapGo" data-go="sim">去看看</button></div><div class="fcSide"><b>常看的股票</b>→ <b>自選股</b>：存起來天天追蹤（要登入）　<button type="button" class="gLink" data-go="watch">去看看</button></div></div>
+      <h3>系統地圖：每個頁籤做什麼</h3>
+      <p class="gOne">照順序用；不知道買什麼，直接看<b>交易建議</b>。</p>
+      <div class="fcF">
+        <div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">大盤指數<span class="gAng">環境</span></div><div class="ss">市場強還是弱？錢往哪個類股跑？</div></div><button type="button" class="btn ghost gMapGo" data-go="market">去看看</button></div>
+        <div class="fcA"></div>
+        <div class="fcN core"><i class="ic">2</i><div class="tx"><div class="tt">交易建議<span class="gCore">每天更新</span></div><div class="ss">系統自動挑好：明天買哪檔、買幾股、哪裡賣</div></div><button type="button" class="btn ghost gMapGo" data-go="trade">去看看</button></div>
+        <div class="fcSide"><b>想自己設條件？</b>→ <b>篩選器</b>：選範圍、選風格，排出觀察清單　<button type="button" class="gLink" data-go="screen">去篩選器</button></div>
+        <div class="fcA"></div>
+        <div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">籌碼分析＋技術分析<span class="gAng">位置・狀態</span></div><div class="ss">支撐壓力在哪？趨勢和力道如何？</div></div><button type="button" class="btn ghost gMapGo" data-go="analyze">去看看</button></div>
+        <div class="fcA"></div>
+        <div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">回測＋模擬交易<span class="gAng">驗證・練習</span></div><div class="ss">過去有效嗎？用虛擬資金練習</div></div><button type="button" class="btn ghost gMapGo" data-go="backtest">去看看</button></div>
+        <div class="fcSide"><b>常看的股票</b>→ <b>自選股</b>存起來天天追蹤（要登入）　<button type="button" class="gLink" data-go="watch">去看看</button></div>
+      </div>
       <p class="gLead">只有<b>自選股</b>、<b>模擬交易</b>要 Google 登入。</p>
-      <p class="gNext">↓ 每個頁籤都建立在同一個基礎上：籌碼、支撐、壓力。下面先把這個觀念講清楚。</p>
     </div>
 
-    <div class="gPart" id="g-concept"><span>A</span>先懂觀念：籌碼、支撐、壓力</div>
-    <p class="gPartLead">「位置」是整個系統的基礎，看完這 5 段就夠了。</p>
+    <div class="gSec" id="g-trade">
+      <details class="gAcc"><summary><h3>交易建議：明天買什麼、怎麼賣</h3><span class="gSum">系統每晚自己找最好的策略，直接給買進價、停利、停損和部位大小。</span></summary><div class="gBody">
+      <h4 class="odH">系統每晚怎麼挑</h4>
+      <div class="gChain"><span><b>145</b>檔大型股</span><i>→</i><span><b>5</b>種選股風格</span><i>→</i><span><b>85,860</b>組參數回測</span><i>→</i><span>只看<b>沒看過</b>的資料打分</span><i>→</i><span class="hl">明天的建議</span></div>
+      <p class="gLead">參數包含：買法、持有天數、停利停損、<b>大盤濾網</b>（大盤弱就空手）、<b>強勢類股</b>、<b>讓獲利奔跑</b>。每晚重算，好很多才會換。</p>
+      <h4 class="odH">畫面由上到下</h4>
+      <div class="card gShot"><svg viewBox="0 0 320 196" role="img" aria-label="交易建議股票卡示意圖">
+          <rect x="6" y="4" width="308" height="28" rx="6" style="fill:var(--surface);stroke:var(--line)"/><rect x="6" y="4" width="4" height="28" style="fill:var(--bull)"/><text x="18" y="22" font-size="10" style="fill:var(--muted)">大盤</text><text x="44" y="23" font-size="12" font-weight="700" style="fill:var(--ink)">45,211</text><text x="100" y="22" font-size="9.5" style="fill:var(--bull)">✓ 季線　✓ 月線　✓ 上揚</text>
+          <rect x="6" y="40" width="308" height="150" rx="8" style="fill:var(--surface);stroke:var(--profit)"/>
+          <text x="18" y="62" font-size="14" font-weight="700" style="fill:var(--ink)">陽明</text><text x="54" y="62" font-size="9" style="fill:var(--muted)">2609</text><rect x="80" y="52" width="26" height="13" rx="3" style="fill:color-mix(in srgb,var(--profit) 20%,transparent)"/><text x="93" y="62" font-size="8" text-anchor="middle" style="fill:var(--ink)">航運</text><rect x="252" y="51" width="50" height="15" rx="3" style="fill:var(--ink)"/><text x="277" y="62" font-size="8.5" text-anchor="middle" style="fill:var(--surface)">第 1 名</text>
+          <text x="18" y="84" font-size="9.5" style="fill:var(--muted)">建議買</text><text x="52" y="84" font-size="10.5" font-weight="700" style="fill:var(--ink)">1,500 股・約 10 萬</text>
+          <line x1="24" y1="108" x2="296" y2="108" stroke-width="2" style="stroke:var(--line)"/><rect x="24" y="105" width="84" height="6" rx="3" style="fill:color-mix(in srgb,var(--bear) 45%,transparent)"/><rect x="108" y="105" width="188" height="6" rx="3" style="fill:color-mix(in srgb,var(--bull) 45%,transparent)"/>
+          <circle cx="24" cy="108" r="6" style="fill:var(--bear)"/><circle cx="108" cy="108" r="7" style="fill:var(--ink)"/><circle cx="296" cy="108" r="6" style="fill:var(--bull)"/>
+          <text x="20" y="134" font-size="8.5" style="fill:var(--muted)">停損</text><text x="20" y="148" font-size="12" font-weight="700" style="fill:var(--bear)">53.1</text><text x="108" y="134" font-size="8.5" text-anchor="middle" style="fill:var(--muted)">掛單買</text><text x="108" y="148" font-size="12" font-weight="700" text-anchor="middle" style="fill:var(--ink)">62.5</text><text x="300" y="134" font-size="8.5" text-anchor="end" style="fill:var(--muted)">停利</text><text x="300" y="148" font-size="12" font-weight="700" text-anchor="end" style="fill:var(--bull)">78.2</text>
+          <line x1="18" y1="162" x2="302" y2="162" stroke-dasharray="3 3" style="stroke:var(--line)"/><text x="18" y="178" font-size="9" style="fill:var(--muted)">最晚 12/30 開盤賣</text>
+          <g style="fill:var(--profit)"><circle cx="306" cy="18" r="8"/><circle cx="240" cy="58" r="8"/><circle cx="196" cy="81" r="8"/><circle cx="160" cy="96" r="8"/><circle cx="140" cy="175" r="8"/></g>
+          <g font-size="9" font-weight="700" text-anchor="middle" style="fill:var(--surface)"><text x="306" y="21">1</text><text x="240" y="61">2</text><text x="196" y="84">3</text><text x="160" y="99">4</text><text x="140" y="178">5</text></g>
+        </svg>
+        <div class="lg"><div><i>1</i><span><b>大盤狀態</b>：三項打勾才偏多；策略要求的條件不符就<b>空手</b></span></div><div><i>2</i><span><b>排名</b>：在今天所有達標股票中的名次</span></div><div><i>3</i><span><b>部位大小</b>：波動大少買、波動小多買</span></div><div><i>4</i><span><b>價格尺</b>：綠段＝最多賠多少，紅段＝最多賺多少</span></div><div><i>5</i><span><b>最晚賣出日</b>：沒碰到停利停損，時間到就賣</span></div></div></div>
+      <div class="gTiles">
+        <div><b>依股價分級</b><span>100、300、600 元以下與以上，各 1～3 檔</span></div>
+        <div><b>要不要一起買</b><span>走勢很像的一組擇一就好；各走各的可以分散</span></div>
+        <div><b>怎麼空手</b><span>大盤轉弱時：不買新股、哪些持股明天賣、等什麼條件再買</span></div>
+        <div><b>歷史建議追蹤</b><span>每天的建議照計畫買賣，看勝率與報酬</span></div>
+      </div>
+      <button type="button" class="btn" data-go="trade">去交易建議</button>
+      </div></details>
+    </div>
+
+    <div class="gPart" id="g-concept"><span>B</span>先懂原理：支撐與壓力</div>
+    <p class="gPartLead">看完這 5 段，每個頁面都看得懂。</p>
 
     <div class="gSec">
-      <details class="gAcc"><summary><h3>什麼是支撐？什麼是壓力？</h3><span class="gSum">支撐＝跌下來容易停住的地方；壓力＝漲上去容易漲不動的地方。</span></summary><div class="gBody">
-      <p class="gOne"><b>支撐</b>＝股價下跌時，比較容易停住的地方；<b>壓力</b>＝股價上漲時，比較容易漲不動的地方。</p>
+      <details class="gAcc"><summary><h3>什麼是支撐？什麼是壓力？</h3><span class="gSum">支撐＝跌下來容易停住；壓力＝漲上去容易漲不動。</span></summary><div class="gBody">
       <div class="card gFig">
         <div id="gFigSvg" role="img" aria-label="示意圖：K 線在壓力區受阻、在支撐區反彈，右側長條顯示各價位的成本分布"></div>
         <ol class="gFigNote">
-          <li><span class="bd">1</span><span>股價跌到成本集中的<b class="s">支撐區</b>，原本買在這裡的人不想賣、想再買，買盤進來，股價<b>反彈</b>。</span></li>
-          <li><span class="bd">2</span><span>股價漲到成本集中的<b class="r">壓力區</b>，被套的人終於回本、趕快賣，賣壓出現，股價<b>漲不動</b>。</span></li>
+          <li><span class="bd">1</span><span>跌到成本密集的<b class="s">支撐區</b>：有人想再買，股價<b>反彈</b>。</span></li>
+          <li><span class="bd">2</span><span>漲到成本密集的<b class="r">壓力區</b>：被套的人想解套，股價<b>漲不動</b>。</span></li>
         </ol>
-        <p class="gFigCap">右側的橫向長條，是「每個價位有多少人的成本」。<b>越長的地方，越容易變成支撐或壓力。</b></p>
+        <p class="gFigCap">右側長條＝每個價位有多少人的成本。<b>越長越容易變成支撐或壓力。</b></p>
       </div>
-      <div class="gTwo">
-        <div class="card gMini"><div class="gName s">支撐（地板）</div><p>股價往下跌，到這個價位附近，比較容易<b>停住、反彈</b>。</p></div>
-        <div class="card gMini"><div class="gName r">壓力（天花板）</div><p>股價往上漲，到這個價位附近，比較容易遇到<b>賣壓、漲不動</b>。</p></div>
-      </div>
-      <p class="gNext">↓ 接著：為什麼成本的位置，會變成地板和天花板？</p>
       </div></details>
     </div>
 
     <div class="gSec">
-      <details class="gAcc"><summary><h3>為什麼成本的位置會變成地板和天花板？</h3><span class="gSum">因為很多人的成本集中在那裡，股價回到那裡時，買的人和賣的人都會有反應。</span></summary><div class="gBody">
-      <p class="gOne">因為<b>很多人的成本集中在那裡</b>，股價回到那裡時，買的人和賣的人都會有反應。</p>
+      <details class="gAcc"><summary><h3>為什麼成本會變成地板和天花板？</h3><span class="gSum">同一堆成本，股價在上面時是地板，在下面時是天花板。</span></summary><div class="gBody">
       <div class="card gFig"><span class="gTag s">變成支撐</span>
         <div id="gStoryA" role="img" aria-label="示意圖：股價漲上去之後跌回成本 100 元附近，在這裡反彈"></div>
-        <ol class="gFigNote">
-          <li><span class="bd">1</span><span>很多人<b>買在 100 元附近</b>，大家的成本都集中在這裡（右側最長的長條）。</span></li>
-          <li><span class="bd">2</span><span>股價漲上去，這些人都賺錢，不急著賣。</span></li>
-          <li><span class="bd">3</span><span>股價<b>跌回 100 元附近</b>：他們想「還沒虧，先不賣」，甚至「這個價錢我願意再買一點」。<b>賣的人變少、買的人變多</b>，股價比較容易撐住，所以這裡是<b class="s">支撐</b>。</span></li>
-        </ol>
+        <ol class="gFigNote"><li><span class="bd">1</span><span>很多人<b>買在 100 元</b>。</span></li><li><span class="bd">2</span><span>漲上去，大家都賺錢。</span></li><li><span class="bd">3</span><span>跌回 100 元：沒人想賠著賣，還有人加碼 → <b class="s">支撐</b>。</span></li></ol>
       </div>
       <div class="card gFig"><span class="gTag r">變成壓力</span>
         <div id="gStoryB" role="img" aria-label="示意圖：股價從 100 元跌到 80 元後反彈回 100 元附近，在這裡漲不動"></div>
-        <ol class="gFigNote">
-          <li><span class="bd">1</span><span>很多人<b>買在 100 元附近</b>，成本集中在這裡。</span></li>
-          <li><span class="bd">2</span><span>股價一路跌到 80 元，這些人被套，很痛苦。</span></li>
-          <li><span class="bd">3</span><span>股價<b>反彈回 100 元附近</b>：他們想「終於回本了，趕快賣！」<b>賣壓一次湧出</b>，股價就容易漲不動，所以這裡是<b class="r">壓力</b>。</span></li>
-        </ol>
+        <ol class="gFigNote"><li><span class="bd">1</span><span>很多人<b>買在 100 元</b>。</span></li><li><span class="bd">2</span><span>跌到 80 元，大家被套。</span></li><li><span class="bd">3</span><span>彈回 100 元：終於回本，趕快賣 → <b class="r">壓力</b>。</span></li></ol>
       </div>
-      <p class="gLead">所以<b>同一堆成本，會因為現在的股價在它的上面還是下面，而換角色</b>。下面讓你親手試試。</p>
-      <p class="gNext">↓ 接著：自己拖動股價，親眼看看。</p>
       </div></details>
     </div>
 
     <div class="gSec">
-      <details class="gAcc"><summary><h3>動手試試：拖動股價</h3><span class="gSum">拖動滑桿，看同一堆成本怎麼在「支撐」和「壓力」之間換角色。</span></summary><div class="gBody">
-      <p class="gOne">拖動下面的滑桿，親眼看看<b>同一堆成本，怎麼在「支撐」和「壓力」之間換角色</b>。</p>
+      <details class="gAcc"><summary><h3>動手試試：拖動股價</h3><span class="gSum">拖滑桿，看成本怎麼在支撐和壓力之間換角色。</span></summary><div class="gBody">
       <div class="card gDemo">
         <div id="demoChart"></div>
         <div class="gSlide"><label for="demoPrice">現在的股價</label><input id="demoPrice" type="range" min="66" max="134" step="1" value="112"><output id="demoPriceV" class="num">112</output></div>
         <div id="demoText" class="gDemoText" aria-live="polite"></div>
-        <div class="legend"><span><i style="background:var(--profit)"></i>成本低於現價（帳面賺錢）</span><span><i style="background:var(--trapped)"></i>成本高於現價（被套）</span></div>
+        <div class="legend"><span><i style="background:var(--profit)"></i>成本低於現價（賺錢）</span><span><i style="background:var(--trapped)"></i>成本高於現價（被套）</span></div>
       </div>
-      <p class="gNext">↓ 接著：查股票時會同時看到兩個「占比」，它們最容易搞混。</p>
       </div></details>
     </div>
 
     <div class="gSec">
-      <details class="gAcc"><summary><h3>最容易搞混的兩個數字：成交量占比 vs 籌碼占比</h3><span class="gSum">成交量占比＝來過；籌碼占比＝還在。來過又還在，才是真地板、真天花板。</span></summary><div class="gBody">
-      <p class="gOne">一句話：<b>成交量占比＝來過，籌碼占比＝還在</b>。查股票時兩個數字都會看到。</p>
-      <p class="gLead">想像每個價位是一間<b>房間</b>，每一位在這個價位買進的人是一個圓點：<span class="shDot on"></span> <b>還抱著股票</b>（還在房裡），<span class="shDot"></span> <b>已經賣掉</b>（已經退房）。</p>
+      <details class="gAcc"><summary><h3>最容易搞混：成交量占比 vs 籌碼占比</h3><span class="gSum">成交量占比＝來過；籌碼占比＝還在。來過又還在，才是真地板。</span></summary><div class="gBody">
       <div class="gTwo">
-        <div class="card gMini"><div class="gName">成交量占比＝簽到簿</div><p><b>來過就算</b>，不管現在走了沒。<br>數的是 <span class="shDot on"></span>＋<span class="shDot"></span>。</p></div>
-        <div class="card gMini"><div class="gName">籌碼占比＝現場點名</div><p><b>還在才算</b>，退房的不算。<br>只數 <span class="shDot on"></span>。</p></div>
+        <div class="card gMini"><div class="gName">成交量占比＝簽到簿</div><p>來過就算：<span class="shDot on"></span>＋<span class="shDot"></span></p></div>
+        <div class="card gMini"><div class="gName">籌碼占比＝現場點名</div><p>還在才算：只數 <span class="shDot on"></span></p></div>
       </div>
       <div class="card shCard"><div id="shRows"></div>
-        <p class="gFigCap">每一排是一個價位。右邊的「量」是簽到簿占比（全部圓點裡，這排占幾 %），「籌」是點名占比（所有 <span class="shDot on"></span> 裡，這排占幾 %）。</p></div>
-      <div class="card shMnemo"><div class="mn">口訣</div>
-        <p class="big">量看「來過」，籌看「還在」。</p>
-        <p class="big">來過又還在，才是真地板、真天花板。</p>
-        <p class="sm">人為什麼會走？股價漲跌之間，買的人陸續賣掉換手，舊成本就被新成本取代。所以<b>籌碼占比會變，成交量占比是歷史紀錄，不會變</b>。</p></div>
+        <p class="gFigCap">每排一個價位：<span class="shDot on"></span> 還抱著、<span class="shDot"></span> 已賣掉。</p></div>
+      <div class="card shMnemo"><div class="mn">口訣</div><p class="big">量看「來過」，籌看「還在」。</p></div>
       <button type="button" class="info-link" data-term="combo">四種組合怎麼判讀？</button>
-      <p class="gNext">↓ 接著：把常見的名詞整理一遍，看它們各自怎麼影響支撐和壓力。</p>
       </div></details>
     </div>
 
     <div class="gSec" id="g-terms">
-      <details class="gAcc"><summary><h3>各個名詞，怎麼影響支撐與壓力？</h3><span class="gSum">遇到不懂的名詞，回到這裡查它怎麼影響支撐與壓力。</span></summary><div class="gBody">
-      <p class="gOne">遇到不懂的名詞，回到這裡查。</p>
-      <p class="gLead">點名詞旁邊的 <span class="gi-demo">i</span> 還有更詳細的說明。</p>
+      <details class="gAcc"><summary><h3>各個名詞，怎麼影響支撐與壓力？</h3><span class="gSum">遇到不懂的名詞，回來查它的影響。</span></summary><div class="gBody">
       <div id="guideTerms"></div>
-      <button type="button" class="info-link" data-term="combo">兩個占比怎麼組合判讀？</button>
-      <p class="gNext">觀念到這裡就夠了。<b>下面 B 部分，一個頁籤一個頁籤說明怎麼用。</b>之後遇到不懂的詞，隨時回到「名詞速查」。</p>
       </div></details>
     </div>
 
-    <div class="gPart" id="g-pages"><span>B</span>每個頁籤怎麼用</div>
-    <p class="gPartLead">照頁籤順序，每段：回答什麼問題 → 怎麼用 → 下一步。</p>
+    <div class="gPart" id="g-pages"><span>C</span>每個頁籤怎麼用</div>
 
     <div class="gSec" id="g-market">
-      <details class="gAcc"><summary><h3>大盤指數：先看大環境</h3><span class="gSum">現在整體市場是強還是弱？今天是誰在帶動大盤？錢正在往哪裡跑？</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>現在整體市場是強還是弱？今天是誰在帶動大盤？錢正在往哪裡跑？</b></p>
+      <details class="gAcc"><summary><h3>大盤指數：先看大環境</h3><span class="gSum">強還是弱？誰在帶動大盤？錢往哪裡跑？</span></summary><div class="gBody">
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>看加權指數</b><p>先知道大盤偏強還是偏弱。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>看台指期夜盤</b><p>灰線＝日盤收盤、藍點＝夜盤收盤；用夜盤漲跌粗估明天開盤。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>算算這檔占大盤多少</b><p>個股漲跌 1%，大盤動幾點。</p></div></div>
-        <div class="gStep"><i>4</i><div><b>看權重熱力圖：今天是誰在帶動大盤</b><p>面積＝權重，顏色＝漲跌；可切換「貢獻點數」。</p></div></div>
-        <div class="gStep"><i>5</i><div><b>看資金輪動：錢正在往哪裡跑</b><p>往右＝資金集中，往上＝漲幅大；點泡泡看成分股。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>加權指數</b><p>大盤偏強還是偏弱。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>台指期夜盤</b><p>灰線＝日盤收盤、藍點＝夜盤收盤，用來粗估明天開盤。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>個股占大盤計算器</b><p>個股漲跌 1%，大盤動幾點。</p></div></div>
+        <div class="gStep"><i>4</i><div><b>權重熱力圖</b><p>面積＝權重、顏色＝漲跌；大盤為什麼跌，先找大又綠的方塊。</p></div></div>
+        <div class="gStep"><i>5</i><div><b>資金輪動</b><p>往右＝資金集中、往上＝漲幅大；可查股票屬於哪個類股。</p></div></div>
       </div>
-      <div class="gTwo">
-        <div class="card gMini"><div class="gName">熱力圖怎麼讀</div><p class="odS">面積看誰重，顏色看誰動。</p><p>大盤為什麼跌？先找<b>大又綠</b>的方塊。</p></div>
-        <div class="card gMini"><div class="gName">資金輪動怎麼讀</div><p class="odS">右看錢，上看價</p>
-          <div class="gQuad"><div class="q"><b>左上</b>漲，但沒新錢</div><div class="q tr"><b>右上</b>錢進來、價格漲（主流）</div><div class="q"><b>左下</b>被冷落</div><div class="q br"><b>右下</b>錢進來，價格卻跌</div><span class="ax x">資金越集中 →</span><span class="ax y">漲幅越大 →</span></div>
-</div>
-      </div>
-      <button type="button" class="info-link" data-term="rotation">資金輪動泡泡圖的詳細說明</button>
+      <div class="card gMini"><div class="gName">資金輪動怎麼讀</div>
+        <div class="gQuad"><div class="q"><b>左上</b>漲，但沒新錢</div><div class="q tr"><b>右上</b>主流：錢進、價漲</div><div class="q"><b>左下</b>被冷落</div><div class="q br"><b>右下</b>錢進、價跌</div><span class="ax x">資金越集中 →</span><span class="ax y">漲幅越大 →</span></div></div>
       <button type="button" class="btn" data-go="market">去大盤指數</button>
-      <p class="gNext">下一步：環境看完了，挑一檔股票去 <button type="button" class="gLink" data-go="analyze">籌碼分析</button> 看位置。</p>
       </div></details>
     </div>
 
     <div class="gSec" id="g-chip">
-      <details class="gAcc"><summary><h3>籌碼分析：查一檔股票，三步看懂</h3><span class="gSum">這檔股票，大家的成本在哪？現價離地板和天花板多遠？（整個系統的核心頁面）</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>這檔股票，大家的成本在哪？現價離「地板」和「天花板」多遠？</b>這是整個系統的核心頁面。</p>
-      <div class="card gShot"><svg viewBox="0 0 320 250" role="img" aria-label="籌碼分析頁面示意圖：查股票、位置評分、圖與清單">
-          <rect x="6" y="6" width="248" height="24" rx="6" fill="none" style="stroke:var(--line)"/><text x="16" y="22" font-size="11" style="fill:var(--muted)">2330 台積電</text><rect x="260" y="6" width="54" height="24" rx="6" style="fill:var(--profit)"/><text x="287" y="22" font-size="11" text-anchor="middle" style="fill:var(--surface)">分析</text>
-          <rect x="6" y="38" width="308" height="46" rx="8" style="fill:var(--surface);stroke:var(--line)"/><text x="18" y="70" font-size="26" font-weight="700" style="fill:var(--ink)">44</text><text x="52" y="70" font-size="10" style="fill:var(--muted)">/100</text><rect x="86" y="50" width="76" height="20" rx="10" fill="none" style="stroke:var(--trapped)"/><text x="124" y="64" font-size="10" text-anchor="middle" style="fill:var(--trapped)">位置中偏弱</text>
-          <rect x="172" y="52" width="40" height="16" rx="3" style="fill:color-mix(in srgb,var(--profit) 25%,transparent)"/><rect x="216" y="52" width="40" height="16" rx="3" style="fill:color-mix(in srgb,var(--profit) 25%,transparent)"/><rect x="260" y="52" width="46" height="16" rx="3" style="fill:color-mix(in srgb,var(--profit) 25%,transparent)"/>
-          <rect x="6" y="92" width="308" height="108" rx="8" style="fill:var(--surface);stroke:var(--line)"/>
-          <rect x="10" y="104" width="300" height="12" style="fill:var(--trapped);opacity:.2"/><text x="14" y="113" font-size="9" style="fill:var(--trapped)">R1 壓力</text>
-          <rect x="10" y="168" width="300" height="12" style="fill:var(--profit);opacity:.2"/><text x="14" y="177" font-size="9" style="fill:var(--profit)">S1 支撐</text>
-          <polyline points="14,190 50,176 80,182 110,150 140,158 170,128 200,120 226,108" fill="none" stroke-width="2" stroke-linejoin="round" style="stroke:var(--ink)"/>
-          <g style="fill:var(--profit);opacity:.75"><rect x="268" y="170" width="42" height="3"/><rect x="258" y="176" width="52" height="3"/><rect x="250" y="182" width="60" height="3"/><rect x="262" y="188" width="48" height="3"/></g><g style="fill:var(--trapped);opacity:.75"><rect x="280" y="100" width="30" height="3"/><rect x="270" y="106" width="40" height="3"/><rect x="284" y="112" width="26" height="3"/></g>
-          <rect x="6" y="208" width="150" height="36" rx="6" style="fill:var(--surface);stroke:var(--line)"/><text x="14" y="223" font-size="9" style="fill:var(--muted)">壓力區 R1～R3</text><rect x="164" y="208" width="150" height="36" rx="6" style="fill:var(--surface);stroke:var(--line)"/><text x="172" y="223" font-size="9" style="fill:var(--muted)">支撐區 S1～S3</text>
-          <g font-size="10" font-weight="700" text-anchor="middle" style="fill:var(--surface)"><circle cx="262" cy="18" r="0"/><circle cx="14" cy="1" r="0"/></g>
-          <g style="fill:var(--profit)"><circle cx="304" cy="40" r="9"/><circle cx="238" cy="98" r="9"/><circle cx="30" cy="226" r="0"/></g><g font-size="10" font-weight="700" text-anchor="middle" style="fill:var(--surface)"><text x="304" y="44">2</text><text x="238" y="102">3</text></g>
-          <circle cx="238" cy="18" r="9" style="fill:var(--profit)"/><text x="238" y="22" font-size="10" font-weight="700" text-anchor="middle" style="fill:var(--surface)">1</text>
-        </svg>
-        <div class="lg"><div><i>1</i><span><b>查股票</b>：輸入代碼或名稱，按「分析」（第一次要等幾秒）</span></div><div><i>2</i><span><b>位置評分</b>：0～100，越高位置越舒服，<b>不代表會漲</b></span></div><div><i>3</i><span><b>圖與清單</b>：藍＝支撐、橘＝壓力，右側長條＝各價位的成本</span></div></div></div>
-      <h4 class="odH">畫面上的數字</h4>
+      <details class="gAcc"><summary><h3>籌碼分析：大家的成本在哪</h3><span class="gSum">現價離地板、天花板多遠？整個系統的核心。</span></summary><div class="gBody">
       <div class="gTiles">
-        <div><b>平均成本</b><span>成本重心；現價高於它，多數人賺錢</span></div>
-        <div><b>獲利比例</b><span>成本低於現價的人占多少；很低＝多數被套，上方壓力重</span></div>
-        <div><b>90% 籌碼區間</b><span>90% 的籌碼成本落在哪個價格範圍</span></div>
+        <div><b>位置評分</b><span>0～100，越高位置越舒服</span></div>
+        <div><b>平均成本</b><span>現價高於它＝多數人賺錢</span></div>
+        <div><b>獲利比例</b><span>很低＝多數被套，上方壓力重</span></div>
         <div><b>集中度</b><span>越小越集中，支撐壓力越明確</span></div>
-        <div><b>累計換手</b><span>整體換手幾輪；越多，算出的成本越準</span></div>
-        <div><b>模型涵蓋率</b><span><b style="display:inline">可信度指標</b>：越近 100% 越可靠；低於 90%，遠處的支撐壓力只當參考，可拉長年數</span></div>
-      </div>
-      <p class="gLead">滑桿可調整分析的時間區間；「進階參數」不確定就維持預設。</p>
-      <div class="gBtns">
-        <button type="button" class="btn" data-go="demo">用 2330 看範例</button>
-        <button type="button" class="btn ghost" data-go="analyze">自己查股票</button>
-        <button type="button" class="btn ghost" data-go="backtest">去回測</button>
+        <div><b>模型涵蓋率</b><span>可信度：低於 90% 時遠處的支撐壓力只當參考</span></div>
+        <div><b>支撐區／壓力區</b><span>藍＝支撐、橘＝壓力，由近到遠</span></div>
       </div>
       <div class="card gTip"><div class="gName">圖表操作（全站一樣）</div><table class="gTbl"><thead><tr><th></th><th>手機</th><th>電腦</th></tr></thead><tbody><tr><td>看數字</td><td>點一下</td><td>滑鼠移上去</td></tr><tr><td>平移</td><td>單指左右拖</td><td>按住拖曳</td></tr><tr><td>縮放</td><td>兩指捏合</td><td>滾輪</td></tr><tr><td>還原</td><td>—</td><td>雙擊</td></tr></tbody></table></div>
-      <p class="gNext">下一步：位置看完了，去 <button type="button" class="gLink" data-go="tech">技術分析</button> 看狀態，確認兩者同不同向。</p>
+      <div class="gBtns"><button type="button" class="btn" data-go="demo">用 2330 看範例</button><button type="button" class="btn ghost" data-go="analyze">自己查股票</button></div>
       </div></details>
     </div>
 
     <div class="gSec" id="g-flow">
-      <details class="gAcc"><summary><h3>法人與融資：看真實的資金動向</h3><span class="gSum">大戶（法人）和槓桿（融資融券），現在是在買還是在賣？</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>大戶（法人）和槓桿（融資融券），現在是在買、還是在賣？</b>在「籌碼分析」頁，點開「法人與融資」才會載入。</p>
-      <div class="gThree">
-        <div class="card gMini"><div class="gName">三大法人</div><p class="odS">外資、投信、自營商</p><p><b>外資</b>主導大型股；<b>投信</b>在中小型股影響明顯，有季底作帳的特色；<b>自營商</b>含避險，雜訊多。</p></div>
-        <div class="card gMini"><div class="gName">融資</div><p class="odS">借錢買股票</p><p>看多的槓桿，多半是散戶。融資餘額越高，借錢買進、還沒賣掉的人越多。</p></div>
-        <div class="card gMini"><div class="gName">融券</div><p class="odS">借股票賣出</p><p>放空。融券餘額是借了股票、還沒回補的量。</p></div>
-      </div>
-      <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>先看兩個標籤</b><p><b>法人動向</b>：偏買／中性／偏賣。<b>融資籌碼</b>：股價和融資一起怎麼動。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>看「三個角度對照」</b><p>位置・資金・狀態三個圓點，同向較有把握。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>需要時，按「展開詳細數字與圖表」</b><p>各法人買賣超、融資融券數字與圖表。</p></div></div>
-      </div>
-      <h4 class="odH">常見的解讀</h4>
+      <details class="gAcc"><summary><h3>法人與融資：真實的資金動向</h3><span class="gSum">大戶和槓桿，現在在買還是在賣？（在籌碼分析頁點開）</span></summary><div class="gBody">
       <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th>看到</th><th>通常代表</th></tr></thead><tbody>
-        <tr><td>外資、投信同向買超</td><td>法人看法一致；一買一賣＝土洋對作，看法分歧</td></tr>
+        <tr><td>外資、投信同向買超</td><td>法人看法一致</td></tr>
         <tr><td>股價漲＋融資增加</td><td>散戶跟進</td></tr>
-        <tr><td>股價漲＋融資減少</td><td>籌碼轉手，散戶在退場</td></tr>
-        <tr><td>股價跌＋融資增加</td><td class="dn">套牢的槓桿變多，再跌可能觸發追繳，形成賣壓</td></tr>
-        <tr><td>券資比 30% 以上</td><td>空方相對多，常被觀察「軋空」，但不代表一定發生</td></tr>
+        <tr><td>股價漲＋融資減少</td><td>散戶退場、籌碼轉手</td></tr>
+        <tr><td>股價跌＋融資增加</td><td class="dn">套牢槓桿變多，小心追繳賣壓</td></tr>
+        <tr><td>券資比 30% 以上</td><td>空方多，常被觀察軋空</td></tr>
       </tbody></table></div>
-      <div class="card gTip"><div class="gName">怎麼用、要小心什麼</div><ul>
-        <li><b>先看位置，再把資金面當加分或扣分</b>：法人偏買是加分；法人偏賣、或股價跌了融資還在增加，是扣分。最後用技術面確認趨勢，進場一樣要設停損。</li>
-        <li>資料<b>收盤後</b>才公布，會晚一天。</li></ul></div>
-      <p class="gNext">下一步：確認趨勢和力道，去 <button type="button" class="gLink" data-go="tech">技術分析</button>。</p>
+      <p class="gLead">先看位置，再把法人偏買當加分、偏賣當扣分。資料收盤後才公布，會晚一天。</p>
       </div></details>
     </div>
 
     <div id="gTechSec" class="gSec">
-      <details class="gAcc"><summary><h3>技術分析：看趨勢和力道，和籌碼對照</h3><span class="gSum">趨勢、動能、波動、量價現在怎麼樣？和籌碼的支撐壓力是同一個方向嗎？</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>這檔現在的趨勢和力道如何？和籌碼是不是同一個方向？</b></p>
+      <details class="gAcc"><summary><h3>技術分析：趨勢和力道</h3><span class="gSum">趨勢、動能、波動、量價，和籌碼同不同向？</span></summary><div class="gBody">
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>查股票（和「籌碼分析」共用）</b><p>兩個頁籤同步。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>先看最上面的總結</b><p>偏多／偏空／中性＋趨勢、動能、波動、量價四張卡。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>再看圖和搭配組合</b><p>點圖看當天數字；色帶看強弱；「搭配組合」看型態。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>看總結</b><p>偏多／偏空／中性，加上四張卡片。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>看圖</b><p>點圖看當天數字；色帶看強弱。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>看搭配組合</b><p>有沒有特別的型態。</p></div></div>
       </div>
-
       <div class="tgNav"><a href="#tg-chart" data-gt="tg-chart">怎麼讀這張圖</a><a href="#tg-combo" data-gt="tg-combo">搭配組合</a><a href="#tg-ind" data-gt="tg-ind">每個指標</a><a href="#tg-dict" data-gt="tg-dict">名詞小辭典</a></div>
       <div id="gTechBody"></div>
       <button type="button" class="btn" data-go="tech">去技術分析</button>
-      <p class="gNext">下一步：想天天追蹤，存到 <button type="button" class="gLink" data-go="watch">自選股</button>；不知道看哪一檔，讓 <button type="button" class="gLink" data-go="screen">篩選器</button> 幫你挑。</p>
       </div></details>
     </div>
 
     <div class="gSec" id="g-watch">
-      <details class="gAcc"><summary><h3>自選股：存下常看的股票</h3><span class="gSum">我常看的那幾檔，現在的走勢和位置如何？（需要 Google 登入）</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>我常看的那幾檔，現在的走勢和位置如何？</b>需要用 Google 登入，換手機也看得到。</p>
+      <details class="gAcc"><summary><h3>自選股：天天追蹤常看的股票</h3><span class="gSum">走勢、位置評分一次看完。（要登入）</span></summary><div class="gBody">
       <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>搜尋、加入</b><p>搜尋後按「加入自選股」，或在籌碼分析按<b>★</b>（最多 50 檔）。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>兩種看法：清單、格狀</b><p><b>清單</b>一行一檔；<b>格狀</b>走勢圖較大。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>調整順序、移除</b><p>「調整順序」→ 長按半秒拖曳 →「完成」。</p></div></div>
+        <div class="gStep"><i>1</i><div><b>加入</b><p>搜尋後按「加入自選股」，或在籌碼分析按 ★（最多 50 檔）。</p></div></div>
+        <div class="gStep"><i>2</i><div><b>兩種看法</b><p>清單一行一檔；格狀走勢圖較大。</p></div></div>
+        <div class="gStep"><i>3</i><div><b>排序</b><p>「調整順序」→ 長按半秒拖曳 →「完成」。</p></div></div>
       </div>
       <button type="button" class="btn" data-go="watch">去自選股</button>
-      <p class="gNext">下一步：想從更多股票裡找，用 <button type="button" class="gLink" data-go="screen">篩選器</button>。</p>
       </div></details>
     </div>
 
     <div class="gSec" id="g-screen">
-      <details class="gAcc"><summary><h3>篩選器：結合籌碼面和技術面，整理觀察清單</h3><span class="gSum">位置＋技術＋起漲徵兆，找出前 3 檔。</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>哪幾檔「位置舒服、技術面剛轉強」？</b>範圍：內建約 145 檔大型股、自選股或最近查過。</p>
-      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選一個範圍</div><div class="ss">內建大型股（約 145 檔）、我的自選股、最近查過；不用登入</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">點一個風格</div><div class="ss">起漲・穩健・低接・順勢・先看看；條件自動設好，可再用滑桿微調</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看綜合評分最高的前 3 檔</div><div class="ss">沒人完全符合時，改列「最接近的 3 檔」</div></div></div><div class="fcA">再確認</div><div class="fcN"><i class="ic">4</i><div class="tx"><div class="tt">籌碼分析、技術分析、回測</div><div class="ss">入選只是起點，請看完整畫面再判斷</div></div></div></div>
-      <h4 class="odH">起漲徵兆（7 項，符合越多越像剛起漲）</h4>
-      <div class="gChk"><div><i>1</i><div><b>站上月線</b><span>收盤在 20 日線之上，而且 20 日線沒有往下</span></div></div><div><i>2</i><div><b>剛轉強</b><span>10 天內 MA20 剛上穿 MA60，或股價剛站回 20 日線</span></div></div><div><i>3</i><div><b>動能轉強</b><span>5 天內 MACD 柱狀剛由負轉正，或 K 剛上穿 D</span></div></div><div><i>4</i><div><b>量能放大</b><span>近 5 天均量是 20 日均量的 1.3 倍以上，而且股價上漲</span></div></div><div><i>5</i><div><b>尚未過熱</b><span>RSI 低於 70，而且離 60 天低點漲幅不到 30%</span></div></div><div><i>6</i><div><b>籌碼位置舒服</b><span>位置評分 60 分以上</span></div></div><div><i>7</i><div><b>上方有空間</b><span>最近的籌碼壓力離現價 5% 以上，或上方沒有明顯壓力</span></div></div></div>
-      <p class="gLead">綜合評分 ＝ 位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%（組成圖在「這套系統在做什麼」）。</p>
-      <p class="gNext">下一步：覺得有興趣的那幾檔，去 <button type="button" class="gLink" data-go="backtest">回測</button> 驗證這類想法過去有沒有效。</p>
+      <details class="gAcc"><summary><h3>篩選器：自己設條件找股票</h3><span class="gSum">位置＋技術＋起漲徵兆，排出前 3 檔。</span></summary><div class="gBody">
+      <div class="card gBars">
+        <div class="gBar"><div class="bl">綜合評分<small>篩選器排名用</small></div><div class="bs"><i style="--w:40"><b>40%</b>位置評分</i><i style="--w:40"><b>40%</b>技術評分</i><i style="--w:20"><b>20%</b>起漲徵兆</i></div></div>
+      </div>
+      <h4 class="odH">起漲徵兆（7 項）</h4>
+      <div class="gChk"><div><i>1</i><div><b>站上月線</b><span>收盤在 20 日線上，月線不往下</span></div></div><div><i>2</i><div><b>剛轉強</b><span>MA20 剛上穿 MA60，或剛站回月線</span></div></div><div><i>3</i><div><b>動能轉強</b><span>MACD 柱剛翻正，或 K 上穿 D</span></div></div><div><i>4</i><div><b>量能放大</b><span>5 日均量 ≥ 20 日的 1.3 倍且上漲</span></div></div><div><i>5</i><div><b>尚未過熱</b><span>RSI &lt; 70，離 60 天低點漲不到 30%</span></div></div><div><i>6</i><div><b>籌碼位置舒服</b><span>位置評分 ≥ 60</span></div></div><div><i>7</i><div><b>上方有空間</b><span>最近壓力離現價 5% 以上</span></div></div></div>
+      <p class="gLead">範圍：內建約 145 檔大型股（系統每晚先算好，不耗你的額度）、自選股或最近查過。</p>
       <button type="button" class="btn" data-go="screen">去篩選器</button>
       </div></details>
     </div>
 
     <div class="gSec" id="g-bt">
-      <details class="gAcc"><summary><h3>回測：這個買賣想法，過去有效嗎？</h3><span class="gSum">如果過去照「靠近支撐買、到壓力賣」做，結果會怎樣？</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>如果過去照「靠近支撐買、到壓力賣」做，結果會怎樣？</b>用歷史資料驗證，比憑感覺可靠。</p>
-      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選股票和期間</div><div class="ss">起始日之前的資料用來「暖機」，所以能選的最早日期會比資料起點晚一些</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">買進</div><div class="ss">股價回到支撐區附近，隔天開盤買進</div></div></div><div class="fcA">出場，三種情況擇一</div><div class="fcOr"><div class="win"><b>漲到壓力區</b>停利賣出</div><div class="lose"><b>跌破支撐</b>停損賣出</div><div><b>放太久</b>時間到就賣</div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">看結果</div><div class="ss">和單純買進持有比較；再看賺錢的機率、平均每次、過程最多回吐、平均持有</div></div></div></div>
-      <p class="gLead">每天只用「當天以前」的資料，不偷看未來，已扣手續費和稅。</p>
-      <div class="card gTip"><div class="gName">看結果的兩個重點</div><ul>
-        <li>買賣<b>不到 10 次</b>，參考價值有限。</li>
-        <li>參數別調到「完美」，那常常只是背答案。</li></ul></div>
+      <details class="gAcc"><summary><h3>回測：這個買法過去有效嗎</h3><span class="gSum">靠近支撐買、到壓力賣，過去結果如何？</span></summary><div class="gBody">
+      <div class="fcF"><div class="fcN"><i class="ic">1</i><div class="tx"><div class="tt">選股票和期間</div></div></div><div class="fcA"></div><div class="fcN"><i class="ic">2</i><div class="tx"><div class="tt">回到支撐區，隔天開盤買</div></div></div><div class="fcA">出場三選一</div><div class="fcOr"><div class="win"><b>到壓力區</b>停利</div><div class="lose"><b>跌破支撐</b>停損</div><div><b>放太久</b>時間到</div></div><div class="fcA"></div><div class="fcN"><i class="ic">3</i><div class="tx"><div class="tt">和買進持有比較</div></div></div></div>
+      <p class="gLead">不偷看未來、已扣手續費和稅；買賣不到 10 次參考價值有限。</p>
       <button type="button" class="btn" data-go="backtest">去回測</button>
-      <p class="gNext">下一步：想真的練習下單，去 <button type="button" class="gLink" data-go="sim">模擬交易</button>（要登入）。</p>
       </div></details>
     </div>
 
     <div id="gSimSec" class="gSec" hidden>
-      <details class="gAcc"><summary><h3>想實際練習？玩模擬交易</h3><span class="gSum">不冒真錢的風險，練習照支撐壓力買賣。（需要 Google 登入）</span></summary><div class="gBody">
-      <p class="gOne">回答：<b>想不冒真錢的風險，練習照支撐壓力買賣？</b>需要用 Google 登入。</p>
-      <div class="card gSteps">
-        <div class="gStep"><i>1</i><div><b>每週領 100 萬虛擬資金</b><p>每週領一次，資金和持股會累積。</p></div></div>
-        <div class="gStep"><i>2</i><div><b>下預約單，用真實股價成交</b><p>09:00 前下單當天生效；收盤後自動成交。</p></div></div>
-        <div class="gStep"><i>3</i><div><b>拿支撐與壓力去驗證，和大家比報酬率</b><p>用支撐壓力下單，上排行榜比賽。</p></div></div>
-      </div>
-      <p class="gLead"><b>每季結算</b>，依季報酬率排名，冠軍掛在頁面最上方。</p>
-      <h4 class="odH">下單方式有三種</h4>
-      <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th>方式</th><th>意思</th><th>要注意</th></tr></thead><tbody>
-        <tr><td>市價單</td><td>下一個交易日開盤價成交</td><td>下單時不知道會成交在哪</td></tr>
-        <tr><td>限價單</td><td>買：跌到限價以下才買；賣：漲到限價以上才賣</td><td>價格好，但可能買不到、賣不掉</td></tr>
-        <tr><td>觸價單</td><td>賣出時，跌到某價自動賣＝停損；漲到某價自動賣＝停利</td><td>碰到後用市價成交</td></tr>
+      <details class="gAcc"><summary><h3>模擬交易：用虛擬資金練習</h3><span class="gSum">每週領 100 萬，真實開盤價成交，和會員比報酬。（要登入）</span></summary><div class="gBody">
+      <div class="card" style="padding:6px 4px"><table class="gTbl"><thead><tr><th>方式</th><th>意思</th><th>注意</th></tr></thead><tbody>
+        <tr><td>市價單</td><td>下一個交易日開盤成交</td><td>不知道會成交在哪</td></tr>
+        <tr><td>限價單</td><td>到你的價格才成交</td><td>可能買不到</td></tr>
+        <tr><td>觸價單</td><td>碰到某價才用市價成交（停損、停利）</td><td>跳空會更差</td></tr>
       </tbody></table></div>
-      <div class="card shMnemo"><div class="mn">口訣</div>
-        <p class="big">市價求成交，限價求價格，觸價求保護。</p>
-        <p class="sm"><b>當日有效</b>只掛一天；<b>長效單</b>最多 5／10／20 個營業日。價格限 ±10%，零股只能限價。</p></div>
+      <div class="card shMnemo"><div class="mn">口訣</div><p class="big">市價求成交，限價求價格，觸價求保護。</p></div>
+      <p class="gLead">09:00 前下單當天生效；<b>每季結算</b>，冠軍掛在頁面最上方。</p>
       <button type="button" class="info-link" data-term="orderTypes">委託方式的詳細說明</button>
       <button type="button" class="btn" data-go="sim">去模擬交易</button>
       </div></details>
     </div>
 
-    <div class="gPart" id="g-qa"><span>C</span>名詞速查與常見問題</div>
-    <p class="gPartLead">遇到狀況先來這裡找。</p>
+    <div class="gPart" id="g-qa"><span>D</span>名詞速查與常見問題</div>
 
     <div class="gSec" id="g-words">
-      <details class="gAcc"><summary><h3>名詞速查：看不懂的詞都在這裡</h3><span class="gSum">看不懂的詞都在這裡，依角度分組，也可以直接搜尋。</span></summary><div class="gBody">
-      <p class="gOne">每個詞一句話；想看圖解，點頁面上的「i」。</p>
-      <div class="gWG">籌碼面（位置）</div><dl class="gDef"><dt>籌碼</dt><dd>股票的持有狀態。在這裡指「每個價位，有多少人持有、成本是多少」。</dd><dt>成本</dt><dd>一個人買進這檔股票的價格。</dd><dt>支撐／壓力</dt><dd>支撐＝股價下跌時比較容易停住的價位（地板）；壓力＝股價上漲時比較容易漲不動的價位（天花板）。成本集中的地方，常變成支撐或壓力。</dd><dt>套牢／解套</dt><dd>成本比現價高、帳面虧損，叫套牢；股價漲回成本附近，叫解套，這時常有人想賣出。</dd><dt>籌碼占比</dt><dd>還抱著股票、成本落在某個價位的人，占全部持有人的比例（還在才算）。</dd><dt>成交量占比</dt><dd>這段期間，有多少比例的成交量發生在某個價位（來過就算，不管現在走了沒）。</dd><dt>平均成本／獲利比例</dt><dd>平均成本是所有持有人成本的重心；獲利比例是成本低於現價（帳面賺錢）的人占多少。</dd><dt>90% 籌碼區間／集中度</dt><dd>90% 的籌碼成本落在哪個價格範圍；集中度是成本擠不擠在一起，越小越集中，支撐壓力越明確。</dd><dt>累計換手／模型涵蓋率</dt><dd>這段期間整體換手了幾輪；涵蓋率是模型描繪得完不完整，是「可不可信」的指標，建議 90% 以上。</dd></dl>
-      <div class="gWG">法人與融資</div><dl class="gDef"><dt>三大法人</dt><dd>外資、投信、自營商，大額專業資金的買賣紀錄。</dd><dt>買賣超</dt><dd>一天買進減賣出的張數（1 張＝1000 股）。紅色買超、綠色賣超。</dd><dt>連續買超／賣超</dt><dd>從最後一天往回數，連續幾天同方向。</dd><dt>外資持股比率</dt><dd>外資持有的股數，占發行股數的比例。</dd><dt>土洋對作</dt><dd>外資（洋）和投信（土）方向相反，一買一賣。</dd><dt>融資／融券</dt><dd>融資＝借錢買股票（看多槓桿）；融券＝借股票賣出（放空）。</dd><dt>融資使用率</dt><dd>融資餘額 ÷ 融資額度，越高代表槓桿越滿。</dd><dt>券資比</dt><dd>融券餘額 ÷ 融資餘額，越高代表空方相對多。</dd><dt>累計買賣超</dt><dd>把每天的買賣超一路加起來，看一段期間「淨買」還是「淨賣」。線往上＝一路買、往下＝一路賣。</dd><dt>三個角度對照</dt><dd>位置、資金、狀態三個面向並排，看是否同方向。</dd><dt>軋空</dt><dd>放空的人被迫回補（買回股票），反而推升股價。</dd><dt>追繳</dt><dd>融資的擔保品價值跌太多，券商要求補錢；補不出來就會被強制賣出（斷頭）。</dd></dl>
-      <div class="gWG">技術面（狀態）</div><dl class="gDef"><dt>多頭／空頭</dt><dd>多頭＝整體在往上走；空頭＝整體在往下走。台股的顏色：紅色代表多、綠色代表空。</dd><dt>偏多／偏空</dt><dd>某個指標「現在的傾向」，不是預測。</dd><dt>均線（MA）</dt><dd>最近 N 天收盤價的平均。MA5＝一週、MA20＝一個月、MA60＝一季，可以想成這段時間買進的人平均成本。</dd><dt>多頭排列／空頭排列</dt><dd>收盤 ＞ MA20 ＞ MA60 叫多頭排列（上漲趨勢）；收盤 ＜ MA20 ＜ MA60 叫空頭排列。</dd><dt>黃金交叉／死亡交叉</dt><dd>MA20 往上穿過 MA60 叫黃金交叉（轉強）；往下穿過叫死亡交叉（轉弱）。</dd><dt>RSI</dt><dd>最近 14 天，上漲的力氣和下跌的力氣誰比較大，0～100，50 是分界。</dd><dt>KD</dt><dd>今天收盤在最近 9 天高低區間的哪個位置。K 是快線、D 是慢線，K 在 D 之上偏多。</dd><dt>MACD</dt><dd>短期平均價減長期平均價，看趨勢的力道在增強還是減弱；柱狀在 0 以上偏多。</dd><dt>布林通道</dt><dd>以 20 日線為中線，上下各 2 倍標準差，股價大約 95% 的時間待在裡面；通道變窄代表波動收斂。</dd><dt>量比</dt><dd>最近 5 天均量 ÷ 20 天均量。1 倍＝和平常一樣，超過 1.3 倍算量增。</dd><dt>過熱／超賣／鈍化</dt><dd>漲太急叫過熱，跌太深叫超賣；指標卡在極端值很久、股價卻還繼續走，叫鈍化，所以不能一看到過熱就賣。</dd><dt>SuperTrend</dt><dd>一條會跟著股價走的保護線，股價在線上面是多頭，這條線也常被當成停損參考。</dd></dl>
-      <div class="gWG">評分（合成）</div><dl class="gDef"><dt>位置評分</dt><dd>籌碼面，0～100：成本面 30 ＋ 下方支撐 35 ＋ 上方空間 35。</dd><dt>技術評分</dt><dd>技術面，0～100：趨勢 30 ＋ 動能 30 ＋ 量價 20 ＋ 位置與波動 20。</dd><dt>起漲徵兆</dt><dd>七項檢查（站上月線、剛轉強、動能轉強、量能放大、尚未過熱、籌碼位置舒服、上方有空間），符合越多越像剛起漲。</dd><dt>綜合評分</dt><dd>位置評分 40% ＋ 技術評分 40% ＋ 起漲徵兆 20%，篩選器用它排名，只當整理用。</dd></dl>
-      <div class="gWG">回測與交易</div><dl class="gDef"><dt>回測</dt><dd>用過去的資料，模擬「如果當時照這套規則買賣，結果會怎樣」。</dd><dt>停利／停損</dt><dd>漲到目標價自動賣出獲利，叫停利；跌到某個價自動賣出防止虧更多，叫停損。</dd><dt>風險報酬比</dt><dd>往上到目標的空間，是跌破停損要承擔風險的幾倍。大於 1 代表賺的空間比賠的大。</dd><dt>過度配適</dt><dd>把參數調到「過去剛好最完美」，其實只是在背答案，換一段期間就失靈。</dd><dt>市價單／限價單／觸價單</dt><dd>市價＝照開盤價馬上成交；限價＝這個價錢以內我才要；觸價＝碰到某個價才動手（停損、停利用）。</dd></dl>
+      <details class="gAcc"><summary><h3>名詞速查</h3><span class="gSum">看不懂的詞都在這裡，可以直接搜尋。</span></summary><div class="gBody">
+      <p class="gOne">每個詞一句話。</p>
+      <div class="gWG">交易建議</div><dl class="gDef"><dt>大盤濾網</dt><dd>大盤不夠強就不買。季線＝60 日均線、月線＝20 日均線。</dd><dt>實戰成績</dt><dd>只算系統挑參數時「沒看過」的資料，比訓練成績可信。</dd><dt>移動停損</dt><dd>股價每創新高，停損價跟著往上移；從最高價回落一定 % 就賣。</dd><dt>讓獲利奔跑</dt><dd>大盤偏多時不設停利，只用移動停損，讓漲勢走完。</dd><dt>部位大小</dt><dd>波動大的少買、波動小的多買，以每筆 10 萬為基準。</dd><dt>強勢類股</dt><dd>近 20 日同產業平均漲幅高於整體中位數。</dd><dt>相似度</dt><dd>兩檔近 60 日漲跌像不像：0＝各走各的、1＝同漲同跌；0.6 以上算很像。</dd><dt>空手</dt><dd>不持有股票，等條件變好再買。</dd></dl>
+      <div class="gWG">籌碼面（位置）</div><dl class="gDef"><dt>支撐／壓力</dt><dd>跌下來容易停住的價位／漲上去容易漲不動的價位。</dd><dt>套牢／解套</dt><dd>成本高於現價叫套牢；漲回成本叫解套，常有人想賣。</dd><dt>籌碼占比</dt><dd>還抱著、成本在某價位的人占多少（還在才算）。</dd><dt>成交量占比</dt><dd>某價位的成交量占多少（來過就算）。</dd><dt>平均成本／獲利比例</dt><dd>所有持有人成本的重心／成本低於現價的人占多少。</dd><dt>集中度</dt><dd>成本擠不擠在一起，越小越集中。</dd><dt>模型涵蓋率</dt><dd>模型描繪得完不完整，建議 90% 以上。</dd></dl>
+      <div class="gWG">法人與融資</div><dl class="gDef"><dt>三大法人</dt><dd>外資、投信、自營商。</dd><dt>買賣超</dt><dd>買進減賣出的張數，紅買綠賣。</dd><dt>融資／融券</dt><dd>借錢買股票／借股票賣出。</dd><dt>券資比</dt><dd>融券 ÷ 融資，越高空方越多。</dd><dt>追繳</dt><dd>融資擔保品不夠，要補錢，不補會被強制賣出。</dd></dl>
+      <div class="gWG">技術面（狀態）</div><dl class="gDef"><dt>均線（MA）</dt><dd>最近 N 天收盤平均。MA20＝月線、MA60＝季線。</dd><dt>多頭／空頭排列</dt><dd>收盤 ＞ MA20 ＞ MA60 是多頭；反過來是空頭。</dd><dt>黃金／死亡交叉</dt><dd>MA20 上穿 MA60 轉強；下穿轉弱。</dd><dt>RSI</dt><dd>14 天漲跌力氣比，0～100，50 是分界。</dd><dt>KD</dt><dd>收盤在 9 天高低區間的位置，K 在 D 上偏多。</dd><dt>MACD</dt><dd>短均價減長均價，柱狀在 0 以上偏多。</dd><dt>布林通道</dt><dd>20 日線上下 2 倍標準差，變窄代表波動收斂。</dd><dt>SuperTrend</dt><dd>跟著股價走的保護線，在線上是多頭。</dd></dl>
+      <div class="gWG">評分與交易</div><dl class="gDef"><dt>位置評分</dt><dd>成本面 30 ＋ 下方支撐 35 ＋ 上方空間 35。</dd><dt>技術評分</dt><dd>趨勢 30 ＋ 動能 30 ＋ 量價 20 ＋ 位置波動 20。</dd><dt>綜合評分</dt><dd>位置 40% ＋ 技術 40% ＋ 起漲徵兆 20%。</dd><dt>停利／停損</dt><dd>漲到目標賣出獲利／跌到某價賣出止血。</dd><dt>過度配適</dt><dd>參數調到過去最完美，其實只是背答案。</dd></dl>
       </div></details>
     </div>
 
     <div class="gSec" id="g-faq">
-      <details class="gAcc"><summary><h3>常見問題</h3><span class="gSum">位置評分、技術評分、綜合評分的差別，起漲徵兆、資料更新等常見疑問。</span></summary><div class="gBody">
-      <details class="gFaq"><summary>資料從哪裡來？多久更新？</summary><div class="a"><p>股價和成交量來自 FinMind（公開的台股資料服務），大盤和上市總市值等來自證交所公開資料。</p><p>都是<b>收盤後的日資料</b>，所以看到的是最近一個交易日的收盤，不是盤中即時價。</p></div></details>
-      <details class="gFaq"><summary>為什麼載入很慢，或顯示查詢次數用完？</summary><div class="a"><p>第一次查要下載約 6 年資料。FinMind 免費額度約每小時 300 次，用完暫停約 1 小時。</p><p>查過的當天不再耗額度；在「進階參數」填 token 可提高上限。篩選器的大型股每天凌晨先算好，不耗額度。</p></div></details>
-      <details class="gFaq"><summary>一定要登入嗎？登入會存什麼？</summary><div class="a"><p><b>不用</b>。看大盤、查股票、技術分析、篩選器、回測，都不用登入。只有「自選股」和「模擬交易」需要用 Google 登入。</p><p>登入只用來辨識你的帳號，只存自選股的代碼和名稱，以及模擬交易的帳戶資料。想刪除，到右上角「我的帳號」。</p></div></details>
-      <details class="gFaq"><summary>查不到某檔股票，或要我輸入流通股數？</summary><div class="a"><p>系統支援上市櫃的股票。ETF 或剛上市的股票，有時查不到流通股數，網頁會請你手動輸入，輸入後才算得出籌碼分布。</p></div></details>
-      <details class="gFaq"><summary>為什麼同一檔股票，不同時間打開，支撐壓力會有一點不一樣？</summary><div class="a"><p>每天都有新的成交資料進來，成本分布會跟著更新；你調整分析區間、年數或進階參數，結果也會不同。這是正常的。</p></div></details>
-      <details class="gFaq"><summary>紅色和綠色是什麼意思？</summary><div class="a"><p>台股的習慣：<b>紅色代表漲、偏多，綠色代表跌、偏空</b>，和美股相反。</p><p>但「支撐／壓力」用的是<b>藍色（支撐）和橘色（壓力）</b>，不要和漲跌的紅綠搞混。</p></div></details>
-      <details class="gFaq"><summary>位置評分高，是不是代表會漲？</summary><div class="a"><p><b>不是。</b>位置評分只評估「現在的位置舒不舒服」：下方有沒有支撐、上方壓力輕不輕。想看過去有沒有效，可以去回測驗證。</p></div></details>
-      <details class="gFaq"><summary>位置評分、技術評分、綜合評分有什麼不同？</summary><div class="a"><p><b>位置評分</b>看籌碼面（下方有沒有支撐、上方壓力輕不輕）；<b>技術評分</b>看技術面（趨勢、動能、量價）；<b>綜合評分</b>把兩者再加上「起漲徵兆」合成一個分數，篩選器用它排名。</p></div></details>
-      <details class="gFaq"><summary>篩選器顯示「技術面還沒更新」是什麼意思？</summary><div class="a"><p>大型股的分析結果，是系統每天凌晨先算好、大家共用的。技術面是新增的項目，要等下一次夜間更新之後才有；在那之前，這些股票只用籌碼評分排名，技術條件先不通過。自選股和最近查過的股票，則是即時計算，一定有技術面。</p></div></details>
-      <details class="gFaq"><summary>「起漲徵兆」符合很多項，就是要漲了嗎？</summary><div class="a"><p><b>不是。</b>起漲徵兆只是把「現在像不像剛起漲」逐項列出來，符合很多項不代表會漲。建議再看籌碼分析、技術分析，並用回測檢驗。</p></div></details>
-      <details class="gFaq"><summary>法人與融資的資料，為什麼有時候少一天？</summary><div class="a"><p>三大法人和融資融券都是收盤之後，交易所才公布。FinMind 整理好再提供，所以晚上看到的可能還是前一個交易日的數字。展開「法人與融資」的詳細數字後，會寫「資料到哪一天」。</p></div></details>
+      <details class="gAcc"><summary><h3>常見問題</h3><span class="gSum">資料、額度、登入、交易建議的常見疑問。</span></summary><div class="gBody">
+      <details class="gFaq"><summary>交易建議多久更新？會自己變聰明嗎？</summary><div class="a"><p>每晚約 3～4 點用最新收盤資料重算。它只在設定好的選項裡找最好的組合，新組合要明顯更好才會換。</p></div></details>
+      <details class="gFaq"><summary>交易建議叫我空手，手上的股票怎麼辦？</summary><div class="a"><p>看「怎麼空手」：賠錢又跌破月線先賣、賺錢但破月線落袋、賺錢且在月線上把停損拉到成本續抱。</p></div></details>
+      <details class="gFaq"><summary>資料從哪裡來？</summary><div class="a"><p>股價來自 FinMind，大盤與產業別來自證交所、櫃買中心。都是收盤後的日資料。</p></div></details>
+      <details class="gFaq"><summary>為什麼顯示查詢次數用完？</summary><div class="a"><p>FinMind 免費額度約每小時 300 次，同一個網路共用，用完約 1 小時恢復。在「進階參數」填 token 可提高上限。</p></div></details>
+      <details class="gFaq"><summary>一定要登入嗎？</summary><div class="a"><p>不用。只有自選股和模擬交易要 Google 登入，只存代碼和模擬帳戶。</p></div></details>
+      <details class="gFaq"><summary>紅色和綠色是什麼意思？</summary><div class="a"><p>台股習慣：<b>紅漲綠跌</b>。支撐壓力用<b>藍（支撐）、橘（壓力）</b>。</p></div></details>
+      <details class="gFaq"><summary>位置評分高就會漲嗎？</summary><div class="a"><p>不一定，它評的是「位置舒不舒服」。想看過去有沒有效，去回測驗證。</p></div></details>
       </div></details>
     </div>
 
     <div class="card gTip">
       <div class="gName">兩個看圖重點</div>
       <ul>
-        <li>先看<b>模型涵蓋率</b>：太低時，離現價很遠的支撐壓力只當參考。</li>
+        <li>先看<b>模型涵蓋率</b>：太低時，遠處的支撐壓力只當參考。</li>
         <li>壓力被<b>有效突破</b>後，常會變成新的支撐。</li>
       </ul>
     </div>
@@ -1669,6 +1595,11 @@ try { var z = parseFloat(localStorage.getItem("chipZoom")); if (z >= 0.8 && z <=
     <div id="heatBody"></div>
     <div class="simBoardHead" id="rotHead"><h2>近期資金輪動</h2><button type="button" class="info" data-term="rotation" aria-label="資金輪動泡泡圖的說明">i</button></div>
     <div id="rotBody"></div>
+  </section>
+
+  <section id="pgTrade" class="page" hidden>
+    <h2>交易建議</h2>
+    <div id="tradeBody"></div>
   </section>
 
   <section id="pgScreen" class="page" hidden>
@@ -3046,7 +2977,7 @@ function buildControls() {
     { const up = $("toTop"); let tick = 0;                            // 往下捲一段之後，右下角出現「回到頂端」
       addEventListener("scroll", () => { if (tick) return; tick = requestAnimationFrame(() => { tick = 0; up.classList.toggle("on", scrollY > 700); }); }, { passive: true });
       up.addEventListener("click", () => scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" })); }
-    scrInit();
+    scrInit(); tradeInit();
     mktInit();
     wfInit();
     let seenGuide = false;
@@ -3512,7 +3443,7 @@ async function trafficFlush() {
   try { await fdb.collection("stats").doc(day).set(payload, { merge: true }); }
   catch (e) { if (e.code === "permission-denied") traffic.off = true; }   // 規則還沒發佈就先停止，免得一直失敗
 }
-const PAGE_OF = { guide: "pgGuide", analyze: "pgAnalyze", tech: "pgTech", market: "pgMarket", screen: "pgScreen", watch: "pgWatch", backtest: "pgBt", sim: "pgSim" };
+const PAGE_OF = { guide: "pgGuide", analyze: "pgAnalyze", tech: "pgTech", market: "pgMarket", trade: "pgTrade", screen: "pgScreen", watch: "pgWatch", backtest: "pgBt", sim: "pgSim" };
 function trafficStart() {
   const day = todayTW();
   let seen = null; try { seen = localStorage.getItem("chipSeenDay"); } catch (e) {}
@@ -3546,9 +3477,9 @@ function adminStatusHtml() {
 /* ---------- 管理後台（只有管理員看得到）----------
    資料來源：stats/<日期>（每日流量計數）、所有人的模擬交易帳戶（collectionGroup "sim"）、本季與上一季排行榜。
    分成五個分頁：總覽（重點數字與自動提醒）、流量、會員、交易、檢查。載入一次後在瀏覽器裡計算，切換分頁不會重新讀取資料。 */
-const ADM_LABEL = { tab_guide: "使用指南", tab_market: "大盤指數", tab_analyze: "籌碼分析", tab_tech: "技術分析", tab_watch: "自選股", tab_screen: "篩選器", tab_backtest: "回測", tab_sim: "模擬交易",
+const ADM_LABEL = { tab_guide: "使用指南", tab_market: "大盤指數", tab_analyze: "籌碼分析", tab_tech: "技術分析", tab_watch: "自選股", tab_trade: "交易建議", tab_screen: "篩選器", tab_backtest: "回測", tab_sim: "模擬交易",
   act_search: "查詢股票", act_screen: "執行篩選", act_backtest: "執行回測", act_order: "模擬下單", act_signin: "登入" };
-const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["fw", "交易建議"], ["ck", "檢查"], ["an", "公告"], ["rp", "報表"]];
+const ADM_TABS = [["ov", "總覽"], ["tr", "流量"], ["mb", "會員"], ["tx", "交易"], ["ck", "檢查"], ["an", "公告"], ["rp", "報表"]];
 const adm = { data: null, loading: false, err: "", tab: "ov", range: 30, sort: "last", q: "", filt: "all", open: "", watch: null, watchBusy: false };
 const n0 = v => Math.round(v).toLocaleString("en-US");
 const dayMs = d => Date.parse(d + "T00:00:00+08:00");
@@ -3910,9 +3841,8 @@ async function fwLoadOpt() {
   fw.optLoading = true; fw.optErr = "";
   try { const res = await fetch("strategy.json?d=" + todayTW(), { cache: "no-cache" }); if (!res.ok) throw new Error(res.status === 404 ? "還沒有資料：等夜間排程執行，或到 GitHub Actions 手動執行 nightly-screener。" : "讀取失敗（" + res.status + "）"); fw.opt = await res.json(); }
   catch (e) { fw.optErr = e.message || "讀取失敗"; }
-  fw.optLoading = false; admRender();
+  fw.optLoading = false; tradeRender();
 }
-function admForward() { return admOpt(); }
 /* ---------- 最佳策略：系統自己調整「過去時間、投資標的、買進時間、賣出時間、停利停損」，並給出今天的買賣建議（資料來自 strategy.json）---------- */
 /* 點推薦股票跳出的簡易資訊：綜合判讀、評分、支撐壓力、技術與起漲徵兆、今天的買賣計畫。資料來自預先算好的 screener.json（內建大型股）。 */
 function fwMetric(c) { return (typeof scr !== "undefined" && scr.metrics && scr.metrics.get(c)) || (fw.scrM && fw.scrM[c]) || null; }
@@ -3996,9 +3926,10 @@ function fwStockOpen(key) {
     fetch("screener.json?d=" + todayTW(), { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(j => { if (j && j.metrics) fw.scrM = j.metrics; if (!$("sheet").hidden && $("sheetT").textContent === `${s.n} ${s.c}`) draw(); }).catch(() => { if (!$("sheet").hidden) draw(); });
   }
 }
+function tradeRender() { const el = $("tradeBody"); if (el && !$("pgTrade").hidden) el.innerHTML = admOpt(); }
 function admOpt() {
   if (!fw.opt) { if (!fw.optLoading && !fw.optErr) fwLoadOpt(); return fw.optErr ? `<div class="status err">${esc(fw.optErr)}</div><button type="button" class="info-link" data-act="optReload">再試一次</button>` : `<div class="status">載入交易建議中…</div>`; }
-  if (!indMap && !fw.indTried) { fw.indTried = true; loadIndustry().then(() => { if (indMap && adm.tab === "fw") admRender(); }); }
+  if (!indMap && !fw.indTried) { fw.indTried = true; loadIndustry().then(() => { if (indMap) tradeRender(); }); }
   const O = fw.opt, C = O.config, R = O.reco || { items: [] }, OS = O.oos || {};
   const sg = (v, d = 1) => v == null ? "—" : (v >= 0 ? "+" : "−") + Math.abs(v).toFixed(d), cl = v => v > 0 ? "up" : v < 0 ? "dn" : "";
   const px = v => v == null ? "—" : Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 });
@@ -4119,7 +4050,7 @@ function admRender() {
   $("admAsof").textContent = adm.data ? "更新於 " + new Date(adm.data.at).toLocaleTimeString("zh-TW", { hour12: false }) : "";
   if (adm.loading && !adm.data) { el.innerHTML = bar + `<div class="status">載入中…</div>`; return; }
   if (adm.err && !adm.data) { el.innerHTML = bar + `<div class="status err">${esc(adm.err)}</div>`; return; }
-  const D = adm.data, body = { ov: admOverview, tr: admTraffic, mb: admMembers, tx: admTrades, fw: admForward, ck: admCheck, an: admAnnouncement, rp: admReports }[adm.tab](D);
+  const D = adm.data, body = { ov: admOverview, tr: admTraffic, mb: admMembers, tx: admTrades, ck: admCheck, an: admAnnouncement, rp: admReports }[adm.tab](D);
   const keep = document.activeElement && document.activeElement.id === "admQ" ? document.activeElement.selectionStart : null;
   el.innerHTML = bar + (adm.err ? `<div class="status err">${esc(adm.err)}</div>` : "") + `<div class="admBodyIn">${body}</div>`;
   if (keep != null) { const q = $("admQ"); q.focus(); q.setSelectionRange(keep, keep); }       // 重新畫面時，搜尋框維持游標位置
@@ -4132,18 +4063,23 @@ function admCsv(kind) {
   const blob = new Blob(["﻿" + rows.map(r => r.map(esc2).join(",")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `chip-${kind}-${twDate(Date.now())}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
+function tradeInit() {
+  const el = $("tradeBody");
+  el.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-stk]")) { e.preventDefault(); fwStockOpen(e.target.dataset.stk); } });
+  el.addEventListener("click", e => {
+    const stk = e.target.closest("[data-stk]"); if (stk) { fwStockOpen(stk.dataset.stk); return; }
+    const hfb = e.target.closest("[data-hf]"); if (hfb) { fw.hf = hfb.dataset.hf; fw.hn = 12; tradeRender(); return; }
+    if (e.target.closest('[data-act="hsMore"]')) { fw.hn = (fw.hn || 12) + 12; tradeRender(); return; }
+    if (e.target.closest('[data-act="optReload"]')) { fw.optErr = ""; fw.opt = null; tradeRender(); }
+  });
+}
 function admInit() {
   const el = $("admBody");
   el.addEventListener("pointermove", chScrub); el.addEventListener("pointerdown", chScrub); el.addEventListener("pointerout", chHide);
-  el.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-stk]")) { e.preventDefault(); fwStockOpen(e.target.dataset.stk); } });
   el.addEventListener("click", e => {
     const t = e.target.closest("#admTabs button"); if (t) { adm.tab = t.dataset.t; admRender(); window.scrollTo({ top: 0 }); return; }
     const r = e.target.closest("#admRange button"); if (r) { adm.range = +r.dataset.r; admRender(); return; }
     const f = e.target.closest("#admFilt button"); if (f) { adm.filt = f.dataset.f; adm.open = ""; admRender(); return; }
-    const stk = e.target.closest("[data-stk]"); if (stk) { fwStockOpen(stk.dataset.stk); return; }
-    const hfb = e.target.closest("[data-hf]"); if (hfb) { fw.hf = hfb.dataset.hf; fw.hn = 12; admRender(); return; }
-    if (e.target.closest('[data-act="hsMore"]')) { fw.hn = (fw.hn || 12) + 12; admRender(); return; }
-    if (e.target.closest('[data-act="optReload"]')) { fw.optErr = ""; fw.opt = null; admRender(); return; }
     const b = e.target.closest("[data-act]"); if (!b) return;
     if (b.dataset.act === "admOpen") { adm.open = adm.open === b.dataset.id ? "" : b.dataset.id; admRender(); }
     else if (b.dataset.act === "admCsv") admCsv(b.dataset.k);
@@ -4920,6 +4856,8 @@ function showTab(t) {
   $("pgBt").hidden = t !== "backtest";
   $("pgSim").hidden = t !== "sim";
   $("pgScreen").hidden = t !== "screen";
+  $("pgTrade").hidden = t !== "trade";
+  if (t === "trade") tradeRender();
   $("pgMarket").hidden = t !== "market";
   if (t === "market") mktLoad();
   if (t === "tech") renderTech(window.__R);
@@ -5435,7 +5373,7 @@ function hScroller(el, left, right) {
 }
 // 使用指南很長，最上面放一排「快速跳到」的目錄；點了就捲到那一段（分頁列固定在上方，所以會多留一點空間）
 function guideToc() {
-  const labels = [["這套系統在做什麼", "系統在做什麼"], ["整套系統怎麼用", "系統地圖"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞說明"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["法人與融資：", "法人與融資"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["想實際練習", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
+  const labels = [["系統地圖", "系統地圖"], ["交易建議：", "交易建議"], ["什麼是支撐", "支撐與壓力"], ["為什麼成本", "為什麼會卡住"], ["動手試試", "動手試試"], ["最容易搞混", "兩個占比"], ["各個名詞", "名詞影響"], ["大盤指數：", "大盤指數"], ["籌碼分析：", "籌碼分析"], ["法人與融資：", "法人與融資"], ["技術分析：", "技術分析"], ["自選股：", "自選股"], ["篩選器：", "篩選器"], ["回測：", "回測"], ["模擬交易：", "模擬交易"], ["名詞速查", "名詞速查"], ["常見問題", "常見問題"]];
   const secs = [...document.querySelectorAll("#pgGuide .gSec")].filter(s => s.querySelector("h3")).map((s, i) => { s.id = s.id || `gs${i}`; const h = s.querySelector("h3").textContent; const m = labels.find(l => h.includes(l[0])); return m ? { s, label: m[1] } : null; }).filter(Boolean);
   const host = $("guideToc");
   host.innerHTML = secs.map((x, i) => `<button type="button" data-i="${i}">${x.label}</button>`).join("");
