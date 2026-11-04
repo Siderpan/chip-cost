@@ -1,4 +1,4 @@
-/* 每日離峰預先篩選：由 GitHub Actions 在凌晨執行（見 .github/workflows/screener.yml）
+/* 每日離峰預先篩選：由 GitHub Actions 在每天晚上執行（見 .github/workflows/screener.yml）
    做的事：讀網站本身（index.html）裡的籌碼模型，替「內建大型股」逐檔算出支撐、壓力、位置評分，寫成 screener.json。
    會員打開篩選器時直接讀這份檔案，不用再各自消耗 FinMind 的免費查詢額度。
    模型的程式碼不是另外複製一份，而是直接從 index.html 擷取，所以網站和這支腳本永遠是同一套算法。
