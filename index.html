@@ -793,6 +793,14 @@ button:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px 
 .sugg li button:hover, .sugg li button:focus-visible { background: var(--bg); }
 .sugg .c { font: 600 .9rem var(--font-num); min-width: 3.6em; }
 .status { font-size: .8rem; color: var(--muted); }
+/* 彈出通知：畫面下方置中，4 秒後自動收起 */
+.toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); z-index: 60; width: min(calc(100% - 32px), 420px); display: flex; gap: 10px; align-items: flex-start; padding: 12px 12px 12px 14px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-left: 4px solid var(--profit); border-radius: 8px; box-shadow: 0 8px 28px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transform: translate(-50%, 12px); transition: opacity .2s, transform .2s; }
+.toast.on { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.toast.buy { border-left-color: var(--bull); } .toast.sell { border-left-color: var(--bear); }
+.toast .ti { flex: none; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--profit); color: #fff; font-weight: 700; font-size: .85rem; }
+.toast.buy .ti { background: var(--bull); } .toast.sell .ti { background: var(--bear); }
+.toast .tb { flex: 1; min-width: 0; } .toast .tb b { display: block; font-size: .92rem; } .toast .tb span { display: block; font-size: .78rem; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+.toast .tx { flex: none; border: 0; background: none; color: var(--muted); font-size: 1.1rem; line-height: 1; padding: 2px 4px; cursor: pointer; }
 .status.err { background: var(--warn-bg); color: var(--warn-ink); border-radius: 8px; padding: 9px 12px; line-height: 1.5; }
 .busy { opacity: .45; pointer-events: none; transition: opacity .15s; }
 .sharesForm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 4px 0; }
@@ -1041,6 +1049,7 @@ html[data-layout="android"] { --font-ui: Roboto, "Noto Sans TC", "Google Sans", 
 html[data-layout="ios"] #tabs, html[data-layout="android"] #tabs, html[data-layout="ios"] header .zoomBar, html[data-layout="android"] header .zoomBar, html[data-layout="ios"] #layoutBtn, html[data-layout="android"] #layoutBtn { display: none !important; }
 html[data-layout="ios"] .botNav, html[data-layout="android"] .botNav { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding-bottom: env(safe-area-inset-bottom); }
 html[data-layout="ios"] .app, html[data-layout="android"] .app { padding-bottom: calc(var(--navH) + env(safe-area-inset-bottom) + 28px); padding-top: max(16px, env(safe-area-inset-top)); }
+html[data-layout="ios"] .toast, html[data-layout="android"] .toast { bottom: calc(var(--navH) + env(safe-area-inset-bottom) + 12px); }
 html[data-layout="ios"] .toTop, html[data-layout="android"] .toTop { bottom: calc(var(--navH) + env(safe-area-inset-bottom) + 12px); }
 html[data-layout="ios"] .rotSheet, html[data-layout="android"] .rotSheet { bottom: calc(var(--navH) + env(safe-area-inset-bottom)); border-radius: 14px 14px 0 0; }
 .botNav button { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--muted); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; font-family: var(--font-ui); } .botNav i { display: flex; align-items: center; justify-content: center; font-style: normal; }
@@ -6108,6 +6117,19 @@ async function simAfterLoad() {
     if (sim.again) { sim.again = false; simAfterLoad(); }
   }
 }
+// 彈出通知：kind = buy / sell / 其他；lines 是標題下的說明（每行一句）
+function toast(title, lines, kind) {
+  let el = $("toast");
+  if (!el) {
+    el = document.createElement("div"); el.id = "toast"; el.className = "toast"; el.setAttribute("role", "status"); el.setAttribute("aria-live", "polite");
+    document.body.appendChild(el);
+    el.addEventListener("click", e => { if (e.target.closest(".tx")) { el.classList.remove("on"); clearTimeout(el._t); } });
+  }
+  el.className = "toast" + (kind ? " " + kind : "");
+  el.innerHTML = `<i class="ti" aria-hidden="true">✓</i><div class="tb"><b>${esc(title)}</b>${(lines || []).map(s => `<span>${esc(s)}</span>`).join("")}</div><button type="button" class="tx" aria-label="關閉通知">×</button>`;
+  void el.offsetWidth; el.classList.add("on");
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("on"), 4500);
+}
 function setSimMsg(msg, err) { const el = $("simMsg"); el.hidden = !msg; el.textContent = msg || ""; el.className = "status" + (err ? " err" : ""); }
 
 function simOpen() {
@@ -6375,7 +6397,14 @@ function simInit() {
   $("simPlace").addEventListener("click", async () => {
     if (sim.busy) return;
     setSimMsg(""); $("simPlace").disabled = true;
-    try { const after = await simPlace(); track("act_order"); setSimMsg(sim.otype === "mkt" ? `已送出預約單，預計 ${after} 起第一個交易日的開盤價成交。` : `已送出${sim.otype === "lmt" ? "限價單" : "觸價單"}，${after} 起生效。`); }
+    try {
+      const after = await simPlace(); track("act_order");
+      const how = sim.otype === "mkt" ? `預計 ${after} 起第一個交易日的開盤價成交` : `${after} 起生效`;
+      setSimMsg(sim.otype === "mkt" ? `已送出預約單，${how}。` : `已送出${sim.otype === "lmt" ? "限價單" : "觸價單"}，${how}。`);
+      const unit = +$("simUnit").value, n = +$("simQty").value, px = +$("simPrice").value;
+      const kind = sim.otype === "mkt" ? "市價" : sim.otype === "lmt" ? `限價 ${fmt(px)}` : `觸價 ${fmt(px)}`;
+      toast(`${sim.side === "buy" ? "買進" : "賣出"}預約單已送出`, [`${sim.pick.code} ${sim.pick.name || ""}・${n.toLocaleString("en-US")} ${unit === 1 ? "股" : "張"}・${kind}`, how], sim.side);
+    }
     catch (e) { setSimMsg(e.code === "permission-denied" ? "沒有寫入權限，請確認 Firestore 規則已發佈。" : (e.message || "送出失敗"), true); }
     finally { $("simPlace").disabled = false; }
   });
